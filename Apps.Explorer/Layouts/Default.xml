@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="Imagin.Common.Controls">
+  <Root xsi:type="LayoutGroup" Orientation="Horizontal">
+    <Elements>
+      <Element xsi:type="LayoutDocumentGroup" Default="true" Height="60*"/>
+      <Element xsi:type="LayoutPanelGroup" Width="340">
+        <Panels>
+          <LayoutPanel IsSelected="true" Name="PropertiesPanel"/>
+          <LayoutPanel Name="RenamePanel"/>
+          <LayoutPanel Name="OptionsPanel"/>
+        </Panels>
+      </Element>
+    </Elements>
+  </Root>
+</Layout>

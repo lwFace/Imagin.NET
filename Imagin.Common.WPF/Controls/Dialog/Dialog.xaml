@@ -1,0 +1,76 @@
+﻿<local:BaseWindow 
+    x:Class="Imagin.Common.Controls.Dialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    Width="512"
+    WindowStartupLocation="CenterScreen">
+    <local:BaseWindow.Resources>
+        <Data:Reference x:Key="Dialog" Data="{Data:Ancestor {x:Type local:Dialog}}" />
+
+        <Converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+        <Converters:UriToImageSourceConverter x:Key="UriToImageSourceConverter"/>
+    </local:BaseWindow.Resources>
+    <Grid 
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Dialog}}}"
+        Linq:GridExtensions.Rows="*,Auto">
+        <Grid 
+            Grid.Row="0"
+            Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <local:MaskedImage 
+                Grid.Column="0"
+                Margin="0,0,10,0"
+                Source="{Binding Image, Converter={StaticResource UriToImageSourceConverter}}"
+                SourceHeight="{Binding ImageHeight}" 
+                SourceWidth="{Binding ImageWidth}" 
+                Visibility="{Binding Image, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+            <Grid Grid.Column="1">
+                <StackPanel VerticalAlignment="Center">
+                    <ContentPresenter Content="{Binding Text}"/>
+                    <CheckBox 
+                        Content="Do not show again" 
+                        IsChecked="{Binding NeverShow.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,10,0,0" 
+                        Visibility="{Binding NeverShow, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Border 
+            Grid.Row="1"
+            Background="#11000000"
+            Padding="5">
+            <ItemsControl
+                HorizontalAlignment="Right"
+                ItemsSource="{Binding Actions}"
+                VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:DialogButton}">
+                        <Button 
+                            Command="{Binding Data.CloseCommand, Source={StaticResource Dialog}}"
+                            CommandParameter="{Binding}"
+                            IsCancel="{Binding IsCancel}"
+                            IsDefault="{Binding IsDefault}"
+                            Margin="3,0,0,0">
+                            <TextBlock Text="{Binding Label, Mode=OneWay}"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </Grid>
+</local:BaseWindow>

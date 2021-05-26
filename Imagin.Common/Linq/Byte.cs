@@ -2,38 +2,31 @@
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class ByteExtensions
     {
-        /// <summary>
-        /// Coerces to the specified range.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="maximum"></param>
-        /// <param name="minimum"></param>
-        /// <returns></returns>
-        public static byte Coerce(this byte value, byte maximum, byte minimum = 0) => Math.Max(Math.Min(value, maximum), minimum);
+        public static byte Coerce(this byte input, byte maximum, byte minimum = 0) => System.Math.Max(System.Math.Min(input, maximum), minimum);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static double ToDouble(this byte value)
-        {
-            return Convert.ToDouble(value);
-        }
+        public static decimal Divide(this byte a, decimal b)
+            => a.Decimal() / b;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int ToInt32(this byte value)
-        {
-            return Convert.ToInt32(value);
-        }
+        public static double Divide(this byte a, double b)
+            => a.Double() / b;
+
+        public static float Divide(this byte a, float b)
+            => a.Single() / b;
+
+        public static decimal Decimal(this byte input)
+            => Convert.ToDecimal(input);
+
+        public static double Double(this byte input)
+            => Convert.ToDouble(input);
+
+        public static int Int32(this byte input)
+            => Convert.ToInt32(input);
+
+        public static float Single(this byte input)
+            => Convert.ToSingle(input);
+
+        public static bool Within(this byte input, byte minimum, byte maximum) => input >= minimum && input <= maximum;
     }
 }

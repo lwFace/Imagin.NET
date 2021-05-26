@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="Imagin.Common.Controls">
+  <Root xsi:type="LayoutGroup" Orientation="Horizontal">
+    <Elements>
+      <Element xsi:type="LayoutDocumentGroup" Width="60*" Default="true"/>
+      <Element xsi:type="LayoutPanelGroup" Width="5*">
+        <Panels>
+          <LayoutPanel IsSelected="true" Name="ComponentPanel"/>
+        </Panels>
+      </Element>
+      <Element xsi:type="LayoutPanelGroup" Width="5*">
+        <Panels>
+          <LayoutPanel IsSelected="true" Name="AlphaPanel"/>
+        </Panels>
+      </Element>
+      <Element xsi:type="LayoutPanelGroup" Width="30*">
+        <Panels>
+          <LayoutPanel IsSelected="true" Name="PropertiesPanel"/>
+          <LayoutPanel Name="ColorsPanel"/>
+          <LayoutPanel Name="OptionsPanel"/>
+        </Panels>
+      </Element>
+    </Elements>
+  </Root>
+</Layout>

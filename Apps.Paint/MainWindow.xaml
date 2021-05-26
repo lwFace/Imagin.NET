@@ -1,0 +1,382 @@
+﻿<i:BaseWindow x:Class="Paint.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://imagin.tech/imagin/common"
+    i:LocalizeDictionary.DesignCulture="en"
+    i:ResxLocalizationProvider.DefaultAssembly="{i:AssemblyName}"
+    i:ResxLocalizationProvider.DefaultDictionary="Main"
+    xmlns:local="clr-namespace:Paint"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    Height="900" 
+    Title="{i:AssemblyProduct}" 
+    TitleIcon="{i:Image Paint, Images/Palette.png}"
+    Width="1200"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized">
+    <i:BaseWindow.Buttons>
+        <i:WindowButton
+            Command="{Binding AboutCommand}"
+            Content="{i:Image Paint, Images/Info.png}"
+            ContentSize="12,12"
+            IsCheckable="False"
+            ToolTip="About"/>
+        <i:WindowButton
+            Content="{i:Image Paint, Images/Options.png}"
+            ContentSize="12,12"
+            IsCheckable="True"
+            IsChecked="{i:PanelBinding IsVisible, {x:Type local:OptionsPanel}, Mode=TwoWay}"
+            ToolTip="Options"/>
+    </i:BaseWindow.Buttons>
+    <i:BaseWindow.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="C" Command="{Binding CopyCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding TransformCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="V" Command="{Binding PasteCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Y" Command="{Binding RedoCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Z" Command="{Binding UndoCommand}"/>
+    </i:BaseWindow.InputBindings>
+    <i:BaseWindow.Resources>
+        <i:Reference x:Key="MainViewModel" Data="{Binding .}"/>
+
+        <i:FileNameConverter x:Key="FileNameConverter"/>
+        <i:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
+        <i:ObjectIsConverter x:Key="ObjectIsConverter"/>
+        <i:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+    </i:BaseWindow.Resources>
+    <Grid i:GridExtensions.Rows="Auto,*">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="Filters" Source="{i:Options Filters}"/>
+            <CollectionViewSource x:Key="RecentFiles" Source="{i:Options RecentFiles}"/>
+
+            <i:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter"/>
+        </Grid.Resources>
+        <Menu 
+            Grid.Row="0"
+            Margin="0,5,0,0">
+            <MenuItem Header="File">
+                <MenuItem Header="New..."
+                    Command="{Binding NewCommand}"
+                    InputGestureText="Ctrl + N"/>
+                <Separator/>
+                <MenuItem Header="Open"
+                    Command="{Binding OpenCommand}"
+                    InputGestureText="Ctrl + O"/>
+                <MenuItem Header="Open Recent">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="ToolTip" Value="{Binding Mode=OneWay}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type System:String}">
+                                    <Setter Property="Command" Value="{Binding Data.OpenRecentFileCommand, Source={StaticResource MainViewModel}}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding Mode=OneWay}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource FileNameConverter}, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                    <MenuItem.ItemsSource>
+                        <CompositeCollection>
+                            <CollectionContainer Collection="{Binding Source={StaticResource RecentFiles}}"/>
+                            <MenuItem
+                                Header="(none)"
+                                IsEnabled="False"
+                                Visibility="{i:Options RecentFiles.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                            <Separator/>
+                            <MenuItem
+                                Command="{Binding ClearRecentFilesCommand}"
+                                Header="Clear"/>
+                        </CompositeCollection>
+                    </MenuItem.ItemsSource>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Save"
+                    Command="{Binding SaveCommand}"
+                    InputGestureText="Ctrl + S"/>
+                <MenuItem Header="Save as..."
+                    Command="{Binding SaveAsCommand}"
+                    InputGestureText="Ctrl + Shift + S"/>
+                <MenuItem Header="Save all"
+                    Command="{Binding SaveAllCommand}"/>
+                <Separator/>
+                <MenuItem Header="Properties..."
+                    Command="{Binding PropertiesCommand}"/>
+                <Separator/>
+                <MenuItem Header="Show in Windows Explorer"
+                    Command="{Binding ShowInWindowsExplorerCommand}"/>
+                <Separator/>
+                <MenuItem Header="Close"
+                    Command="{Binding CloseCommand}"/>
+                <MenuItem Header="Close all"
+                    Command="{Binding CloseAllCommand}"/>
+                <Separator/>
+                <MenuItem Header="Exit"
+                    Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo"
+                    Command="{Binding UndoCommand}"
+                    InputGestureText="Ctrl + Z"/>
+                <MenuItem Header="Redo"
+                    Command="{Binding RedoCommand}"
+                    InputGestureText="Ctrl + Y"/>
+                <MenuItem Header="Repeat"
+                    Command="{Binding RepeatCommand}"/>
+                <Separator/>
+                <MenuItem Header="Copy"
+                    InputGestureText="Ctrl + C" 
+                    Command="{Binding CopyCommand}"
+                    ToolTip="Copies layer to clipboard."/>
+                <MenuItem Header="Copy merged"
+                    Command="{Binding CopyMergedCommand}" 
+                    ToolTip="Copies all merged layers to clipboard."/>
+                <MenuItem Header="Paste"
+                    Command="{Binding PasteCommand}" 
+                    InputGestureText="Ctrl + V" 
+                    ToolTip="Pastes clipboard content to layer.">
+                </MenuItem>
+                <MenuItem Header="Paste new layer" 
+                    Command="{Binding PasteNewLayerCommand}" 
+                    ToolTip="Creates new layer with clipboard content."/>
+                <Separator/>
+                <MenuItem Header="Clear"
+                    Command="{Binding ClearCommand}" 
+                    InputGestureText="Delete">
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Capture">
+                <MenuItem Header="Window"
+                    Command="{Binding CaptureWindowCommand}"/>
+                <MenuItem Header="Foreground Window" 
+                    Command="{Binding CaptureForegroundWindowCommand}"/>
+                <MenuItem Header="Screen" 
+                    Command="{Binding CaptureScreenCommand}"/>
+                <Separator/>
+                <MenuItem Header="Clipboard" 
+                    IsCheckable="True"
+                    IsChecked="{i:Options CaptureClipboard, Mode=TwoWay}"
+                    StaysOpenOnClick="True" 
+                    i:MenuItemExtensions.GroupName="Capture type"/>
+                <MenuItem Header="File"
+                    IsCheckable="True"
+                    IsChecked="{i:Options CaptureFile, Mode=TwoWay}" 
+                    StaysOpenOnClick="True" 
+                    i:MenuItemExtensions.GroupName="Capture type"/>
+                <MenuItem Header="Layer"
+                    IsCheckable="True"
+                    IsChecked="{i:Options CaptureLayer, Mode=TwoWay}" 
+                    StaysOpenOnClick="True" 
+                    i:MenuItemExtensions.GroupName="Capture type"/>
+            </MenuItem>
+            <MenuItem Header="Image">
+                <MenuItem Header="Resize..."
+                    Command="{Binding ImageResizeCommand}"/>
+                <MenuItem Header="Rotate..."
+                    Command="{Binding ImageRotateCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Layer">
+                <MenuItem Header="Insert above"
+                    Command="{Binding LayersViewModel.InsertAboveCommand}"/>
+                <MenuItem Header="Insert below" 
+                    Command="{Binding LayersViewModel.InsertBelowCommand}"/>
+                <Separator/>
+                <MenuItem Header="Rasterize" 
+                    Command="{Binding LayersViewModel.RasterizeCommand}"/>
+                <MenuItem Header="Rasterize style" 
+                    Command="{Binding LayersViewModel.RasterizeStyleCommand}"/>
+                <Separator/>
+                <MenuItem Header="Clear style" 
+                    Command="{Binding LayersViewModel.ClearStyleCommand}"/>
+                <MenuItem Header="Copy style" 
+                    Command="{Binding LayersViewModel.CopyStyleCommand}"/>
+                <MenuItem Header="Paste style" 
+                    Command="{Binding LayersViewModel.PasteStyleCommand}"/>
+                <Separator/>
+                <MenuItem Header="Flatten" 
+                    Command="{Binding LayersViewModel.FlattenCommand}"/>
+                <Separator/>
+                <MenuItem Header="Merge up" 
+                    Command="{Binding LayersViewModel.MergeUpCommand}"/>
+                <MenuItem Header="Merge down" 
+                    Command="{Binding LayersViewModel.MergeDownCommand}"/>
+                <MenuItem Header="Merge visible"
+                    Command="{Binding LayersViewModel.MergeVisibleCommand}"/>
+                <Separator/>
+                <MenuItem Header="Move outside" 
+                    Command="{Binding LayersViewModel.MoveOutsideCommand}"/>
+                <Separator/>
+                <MenuItem Header="Move up" 
+                    Command="{Binding LayersViewModel.MoveUpCommand}"/>
+                <MenuItem Header="Move down"
+                    Command="{Binding LayersViewModel.MoveDownCommand}"/>
+                <Separator/>
+                <MenuItem Header="Delete" 
+                    Command="{Binding LayersViewModel.DeleteCommand}"/>
+                <MenuItem Header="Duplicate"
+                    Command="{Binding LayersViewModel.DuplicateCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Filter">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ., Converter={StaticResource ObjectIsConverter}, ConverterParameter={x:Type local:Filter}}" Value="True">
+                                <Setter Property="Command" Value="{Binding Data.ApplyFilterCommand, Source={StaticResource MainViewModel}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding .}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemsSource>
+                    <CompositeCollection>
+                        <MenuItem Header="New"
+                            Command="{Binding NewFilterCommand}"/>
+                        <Separator/>
+                        <MenuItem Header="Export all..."
+                            Command="{Binding ImportFiltersCommand}"/>
+                        <MenuItem Header="Import..."
+                            Command="{Binding ImportFiltersCommand}"/>
+                        <Separator/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource Filters}}"/>
+                    </CompositeCollection>
+                </MenuItem.ItemsSource>
+            </MenuItem>
+            <MenuItem Header="Transform">
+                <MenuItem Header="Rotate" 
+                    Command="{Binding RotateTransformCommand}"/>
+                <MenuItem Header="Scale" 
+                    Command="{Binding ScaleTransformCommand}"/>
+                <MenuItem Header="Skew" 
+                    Command="{Binding SkewTransformCommand}"/>
+                <MenuItem Header="Distort" 
+                    Command="{Binding DistortTransformCommand}"/>
+                <MenuItem Header="Perspective" 
+                    Command="{Binding PerspectiveTransformCommand}"/>
+                <MenuItem Header="Warp" 
+                    Command="{Binding WarpTransformCommand}"/>
+                <Separator/>
+                <MenuItem Header="Rotate 45° (clockwise)"
+                    Command="{Binding RotateCommand}"
+                    CommandParameter="45"/>
+                <MenuItem Header="Rotate 45° (counterclockwise)" 
+                    Command="{Binding RotateCommand}"
+                    CommandParameter="-45"/>
+                <MenuItem Header="Rotate 90° (clockwise)" 
+                    Command="{Binding RotateCommand}"
+                    CommandParameter="90"/>
+                <MenuItem Header="Rotate 90° (counterclockwise)"
+                    Command="{Binding RotateCommand}"
+                    CommandParameter="-90"/>
+                <MenuItem Header="Rotate 180°" 
+                    Command="{Binding RotateCommand}"
+                    CommandParameter="180"/>
+                <Separator/>
+                <MenuItem Header="Flip (horizontal)" 
+                    Command="{Binding FlipHorizontalCommand}"/>
+                <MenuItem Header="Flip (vertical)" 
+                    Command="{Binding FlipVerticalCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Select">
+                <MenuItem Header="All" 
+                    InputGestureText="Ctrl + A"
+                    Command="{Binding SelectAllCommand}"/>
+                <MenuItem Header="Invert"
+                    InputGestureText="Ctrl + Shift + I" 
+                    Command="{Binding InvertSelectionCommand}"/>
+                <Separator/>
+                <MenuItem Header="Load..." 
+                    Command="{Binding LoadSelectionCommand}"/>
+                <MenuItem Header="Save..." 
+                    Command="{Binding SaveSelectionCommand}"/>
+                <Separator/>
+                <MenuItem Header="Clear" 
+                    InputGestureText="Ctrl + D" 
+                    Command="{Binding ClearSelectionsCommand}"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Grid lines"
+                    IsCheckable="True"
+                    IsChecked="{i:Options ViewGridLines, Mode=TwoWay}"/>
+                <MenuItem Header="Rulers"
+                    IsCheckable="True"
+                    IsChecked="{i:Options ViewRulers, Mode=TwoWay}"/>
+            </MenuItem>
+            <MenuItem Header="Window" 
+                ItemsSource="{Binding Panels}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Icon" Value="{Binding Icon}"/>
+                        <Setter Property="StaysOpenOnClick" Value="True"/>
+                        <Setter Property="IsCheckable" Value="True"/>
+                        <Setter Property="IsChecked" Value="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title, Mode=OneWay}"/>
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
+        </Menu>
+        <i:DockView
+            Grid.Row="1"
+            ActiveContent="{Binding ActiveContent, Mode=TwoWay}"
+            Default="True"
+            DefaultLayout="{i:Uri Paint, Layouts/Default.xml}"
+            Documents="{Binding Documents}"
+            Layout="{i:Options Layout}"
+            LayoutPath="{i:ApplicationPath Layouts}"
+            Margin="5"
+            Panels="{Binding Panels}">
+            <i:DockView.DocumentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Document.xaml}"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </DataTemplate>
+            </i:DockView.DocumentTemplate>
+            <i:DockView.PanelTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Document.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Browser.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Brush.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Channels.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Character.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Color.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Colors.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Filter.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Filters.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Histogram.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/History.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Layer.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Layers.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Notes.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Paragraph.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Options.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Properties.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Tool.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Paint, Views/Tools.xaml}"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </DataTemplate>
+            </i:DockView.PanelTemplate>
+        </i:DockView>
+    </Grid>
+</i:BaseWindow>

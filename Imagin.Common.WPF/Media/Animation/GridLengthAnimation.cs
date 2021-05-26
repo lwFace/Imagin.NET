@@ -5,7 +5,7 @@ using System.Windows.Media.Animation;
 namespace Imagin.Common.Media.Animation
 {
     /// <summary>
-    /// Animates a grid length value just like the DoubleAnimation animates a double value
+    /// Animates a <see cref="GridLength"/> value just like the <see cref="DoubleAnimation"/> animates a <see cref="double"/> value.
     /// </summary>
     public class GridLengthAnimation : AnimationTimeline
     {

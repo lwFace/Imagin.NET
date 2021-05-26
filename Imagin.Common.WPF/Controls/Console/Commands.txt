@@ -1,0 +1,53 @@
+Connect 
+Connect to remote site.
+{Protocol} {Host} {Username} {Password} {Port} 
+-d => Spawn dual explorer
+-r => Spawn remote explorer
+   => Spawn dual explorer (default)
+
+List 
+List contents of directory.
+<{local/localhost/ }{host[{id}]}> {Path} 
+-d => List only directories 
+-f => List only files
+   => List directories and files (default)
+
+Make
+New
+Create
+Create one or more files and folders.
+<{local/localhost/ }{host[{id}]}> {Path1} {Path2} {...}
+
+Ren
+Rename
+Move
+Rename a file or folder.
+<{local/localhost/ }{host[{id}]}> {Path} {NewPath}
+
+Del
+Delete
+Erase
+Delete one or more files and folders.
+<{local/localhost/ }{host[{id}]}> {Path1} {Path2} {...}
+
+Recycle
+Recycle one or more files and folders.
+{local/localhost/ } {Path1} {Path2} {...}
+
+Properties
+Show properties for one or more files and folders.
+{local/localhost/ } {Path1} {Path2} {...}
+
+Upload
+Upload one or more files and folders.
+<{host[{id}]}> {Path1} {Path2} {...} {DestinationPath}
+
+Download
+Download one or more files and folders.
+<{host[{id}]}> {Path1} {Path2} {...} {DestinationPath}
+
+Transfer
+Transfer one or more files and folders.
+<{host[{id}]}> {Path1} {Path2} {...} {DestinationPath} 
+-u => Upload
+-d => Download

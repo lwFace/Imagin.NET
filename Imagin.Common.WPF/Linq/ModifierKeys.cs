@@ -2,19 +2,8 @@
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class ModifierKeysExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static bool IsPressed(this ModifierKeys Value)
-        {
-            return (Keyboard.Modifiers & Value) != 0;
-        }
+        public static bool Pressed(this ModifierKeys Value) => (Keyboard.Modifiers & Value) != 0;
     }
 }

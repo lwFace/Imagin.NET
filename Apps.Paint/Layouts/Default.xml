@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="Imagin.Common.Controls">
+  <Root xsi:type="LayoutGroup" Orientation="Vertical">
+    <Elements>
+      <Element xsi:type="LayoutPanelGroup" MinHeight="48" MaxHeight="48">
+        <Panels>
+          <LayoutPanel Name="ToolPanel"/>
+        </Panels>
+      </Element>
+      <Element xsi:type="LayoutGroup" Orientation="Horizontal">
+        <Elements>
+          <Element xsi:type="LayoutPanelGroup" MinWidth="64" MaxWidth="64" Width="64">
+            <Panels>
+              <LayoutPanel Name="ToolsPanel"/>
+            </Panels>
+          </Element>
+          <Element xsi:type="LayoutGroup" Orientation="Vertical">
+            <Elements>
+              <Element xsi:type="LayoutDocumentGroup" Height="70*"/>
+              <Element xsi:type="LayoutPanelGroup" Height="30*">
+                <Panels>
+                  <LayoutPanel IsSelected="true" Name="FiltersPanel"/>
+                  <LayoutPanel Name="BrowserPanel"/>
+                </Panels>
+              </Element>
+            </Elements>
+          </Element>
+          <Element xsi:type="LayoutGroup" Orientation="Vertical">
+            <Elements>
+              <Element xsi:type="LayoutPanelGroup" Height="30*">
+                <Panels>
+                  <LayoutPanel IsSelected="true" Name="BrushPanel"/>
+                  <LayoutPanel Name="CharacterPanel"/>
+                  <LayoutPanel Name="ParagraphPanel"/>
+                  <LayoutPanel Name="ColorPanel"/>
+                  <LayoutPanel Name="ColorsPanel"/>
+                  <LayoutPanel Name="HistogramPanel"/>
+                </Panels>
+              </Element>
+              <Element xsi:type="LayoutPanelGroup" Height="70*">
+                <Panels>
+                  <LayoutPanel IsSelected="true" Name="LayersPanel"/>
+                  <LayoutPanel Name="LayerPanel"/>
+                  <LayoutPanel Name="ChannelsPanel"/>
+                  <LayoutPanel Name="HistoryPanel"/>
+                  <LayoutPanel Name="NotesPanel"/>
+                  <LayoutPanel Name="FilterPanel"/>
+                  <LayoutPanel Name="PropertiesPanel"/>
+                  <LayoutPanel Name="OptionsPanel"/>
+                </Panels>
+              </Element>
+            </Elements>
+          </Element>
+        </Elements>
+      </Element>
+    </Elements>
+  </Root>
+</Layout>

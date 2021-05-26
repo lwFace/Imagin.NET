@@ -1,249 +1,199 @@
-﻿using System;
+﻿using Imagin.Common.Time;
+using System;
 using System.Globalization;
-using Imagin.Common.Globalization;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class DateTimeExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Maximum"></param>
-        /// <param name="Minimum"></param>
-        /// <returns></returns>
-        public static DateTime Coerce(this DateTime Value, DateTime Maximum, DateTime Minimum = default(DateTime))
-        {
-            return Value > Maximum ? Maximum : (Value < Minimum ? Minimum : Value);
-        }
+        public static DateTime Coerce(this DateTime input, DateTime maximum, DateTime minimum = default) => input > maximum ? maximum : (input < minimum ? minimum : input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int CurrentMonth
+        public static Meridiem Meridiem(this DateTime input)
         {
-            get
+            switch (input.ToString("tt", CultureInfo.InvariantCulture).ToLowerInvariant())
             {
-                return DateTime.Today.Month;
+                case "am":
+                    return Time.Meridiem.AM;
+                case "pm":
+                    return Time.Meridiem.PM;
             }
+            return default;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int CurrentDay
-        {
-            get
-            {
-                return DateTime.Today.Day;
-            }
-        }
+        public static DateTime Milliseconds(this DateTime input, int milliseconds) => new DateTime(input.Year, input.Month, input.Day, input.Hour, input.Minute, input.Second, milliseconds);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int CurrentYear
+        public static string Relative(this DateTime input)
         {
-            get
-            {
-                return DateTime.Today.Year;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Localizer"></param>
-        /// <returns></returns>
-        public static string GetRelative(this DateTime Value, ILocalizer Localizer)
-        {
-            const int Second = 1;
-            const int Minute = 60 * Second;
-            const int Hour = 60 * Minute;
-            const int Day = 24 * Hour;
-            const int Month = 30 * Day;
+            const int second
+                = 1;
+            const int minute
+                = 60 * second;
+            const int hour
+                = 60 * minute;
+            const int day
+                = 24 * hour;
+            const int month
+                = 30 * day;
 
             var span = default(TimeSpan);
             var delta = 0d;
 
-            var Now = DateTime.Now;
-
-            var Label = new Func<string, string>(i => Localizer.GetValue(i));
-
-            var Suffix = string.Empty;
+            var now = DateTime.Now;
+            var suffix = string.Empty;
 
             //It's in the future
-            if (Value > Now)
+            if (input > now)
             {
-                span = new TimeSpan(Value.Ticks - DateTime.Now.Ticks);
-                delta = Math.Abs(span.TotalSeconds);
-
-                Suffix = Label("FromNow").ToLower();
+                span = new TimeSpan(input.Ticks - DateTime.Now.Ticks);
+                delta = System.Math.Abs(span.TotalSeconds);
+                suffix = " from now";
             }
             //It's in the past
-            else if (Value < Now)
+            else if (input < now)
             {
-                span = new TimeSpan(DateTime.Now.Ticks - Value.Ticks);
-                delta = Math.Abs(span.TotalSeconds);
-
-                Suffix = Label("Ago").ToLower();
+                span = new TimeSpan(DateTime.Now.Ticks - input.Ticks);
+                delta = System.Math.Abs(span.TotalSeconds);
+                suffix = " ago";
             }
             //It's now
-            else return Label("Now");
+            else return "now";
 
-            if (delta < 1 * Minute)
+            var result = string.Empty;
+
+            if (delta < 1 * minute)
             {
                 switch (span.Seconds)
                 {
                     case 0:
-                        return Label("Now");
                     case 1:
-                        return "{0} {1}".F(Label("ASecond"), Suffix);
+                        result = $"a second";
+                        break;
                     default:
-                        return "{0} {1} {2}".F(span.Seconds, Label("Seconds").ToLower(), Suffix);
+                        result = $"{span.Seconds} seconds";
+                        break;
                 }
             }
 
-            if (delta < 2 * Minute)
-                return "{0} {1}".F(Label("AMinute"), Suffix);
+            else if (delta < 2 * minute)
+                result = $"a minute";
 
-            if (delta < 45 * Minute)
-                return "{0} {1} {2}".F(span.Minutes, Label("Minutes").ToLower(), Suffix);
+            else if (delta < 45 * minute)
+                result = $"{span.Minutes} minutes";
 
-            if (delta < 90 * Minute)
-                return "{0} {1}".F(Label("AnHour"), Suffix);
+            else if (delta < 120 * minute)
+                result = $"an hour";
 
-            if (delta < 24 * Hour)
-                return "{0} {1} {2}".F(span.Hours, Label("Hours").ToLower(), Suffix);
+            else if (delta < 24 * hour)
+                result = $"{span.Hours} hours";
 
-            if (delta < 48 * Hour)
+            else if (delta < 48 * hour)
             {
-                if (Value < Now)
+                if (input < now)
                 {
-                    return Label("Yesterday");
+                    return "yesterday";
                 }
-                else if (Value > Now)
-                    return Label("Tomorrow");
+                else if (input > now)
+                    return "tomorrow";
             }
 
-            if (delta < 30 * Day)
-                return "{0} {1} {2}".F(span.Days, Label("Days").ToLower(), Suffix);
+            else if (delta < 30 * day)
+                result = $"{span.Days} days";
 
-            if (delta < 12 * Month)
+            else if (delta < 12 * month)
             {
-                var months = Convert.ToInt32(Math.Floor((double)span.Days / 30));
+                var months = Convert.ToInt32(System.Math.Floor((double)span.Days / 30));
 
                 if (months <= 1)
                 {
-                    return "{0} {1}".F(Label("AMonth"), Suffix);
+                    result = $"a month";
                 }
-                else return "{0} {1} {2}".F(months, Label("Months").ToLower(), Suffix);
+                else result = $"{months} months";
             }
             else
             {
-                var years = Convert.ToInt32(Math.Floor((double)span.Days / 365));
+                var years = Convert.ToInt32(System.Math.Floor((double)span.Days / 365));
 
                 if (years <= 1)
                 {
-                    return "{0} {1}".F(Label("AYear"), Suffix);
+                    result = $"a year";
                 }
-                else return "{0} {1} {2}".F(years, Label("Years").ToLower(), Suffix);
+                else result = $"{years} years";
             }
+            return $"{result}{suffix}";
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Localizer"></param>
-        /// <returns></returns>
-        public static string GetRelative(this DateTime? Value, ILocalizer Localizer)
+        public static string Relative(this DateTime? input)
         {
-            if (Value == null)
-                return Localizer.GetValue("Never");
+            if (input == null)
+                return "never";
 
-            return GetRelative(Value.Value, Localizer);
+            return Relative(input.Value);
         }
 
-        /// <summary>
-        /// Checks if month, day, and year are identical to that of today (ignores time).
-        /// </summary>
-        public static bool IsToday(this DateTime Value)
+        public static string RelativeDifference(this DateTime input, int format)
         {
-            return Value.Date == DateTime.Now.Date;
-        }
+            var result = string.Empty;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static Meridiem Meridiem(this DateTime Value)
-        {
-            switch (Value.ToString("tt", CultureInfo.InvariantCulture).ToLowerInvariant())
+            var difference = input - DateTime.Now;
+            var _difference = difference.Duration();
+
+            double d = _difference.Days;
+
+            var y1 = d / 365.0;
+            var y2 = y1.Floor();
+
+            if (y2 != 0)
+                d = (y1 - y2) * 365.0;
+
+            var h = _difference.Hours;
+            var m = _difference.Minutes;
+            var s = _difference.Seconds;
+
+            switch (format)
             {
-                case "am":
-                    return Common.Meridiem.Ante;
-                case "pm":
-                    return Common.Meridiem.Post;
+                case 0:
+                    if (y2 != 0)
+                        result += "{0}Y ".F(y2);
+
+                    if (d != 0)
+                        result += "{0}D ".F(d);
+
+                    if (h != 0)
+                        result += "{0}H ".F(h);
+
+                    if (m != 0)
+                        result += "{0}M ".F(m);
+
+                    if (s != 0)
+                        result += "{0}S ".F(s);
+                    break;
+                case 1:
+                    if (y2 != 0)
+                        result += $"{y2.ToString().PadLeft(2, '0')}:";
+
+                    result += $"{d.ToString().PadLeft(3, '0')}:";
+                    result += $"{h.ToString().PadLeft(2, '0')}:";
+                    result += $"{m.ToString().PadLeft(2, '0')}:";
+                    result += $"{s.ToString().PadLeft(2, '0')}";
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
-            return Common.Meridiem.Unspecified;
+
+            if (difference.Seconds < 0)
+                result = "-{0}".F(result);
+
+            return result;
         }
 
-        /// <summary>
-        /// Gets whether or not both <see cref="Nullable{DateTime}"/> values have the same date (time is ignored).
-        /// </summary>
-        public static bool SameDate(this DateTime? First, DateTime? Second)
+        public static string RelativeDifference(this DateTime? input, int format)
         {
-            if (First != null && Second != null)
-                return First.Value.Date == Second.Value.Date;
+            if (input == null)
+                return string.Empty;
 
-            return (First.Value.Date == Second.Value.Date);
+            return RelativeDifference(input.Value, format);
         }
 
-        /// <summary>
-        /// Gets whether or not both <see cref="DateTime"/> values have the same date (time is ignored).
-        /// </summary>
-        public static bool SameDate(this DateTime First, DateTime Second)
-        {
-            return First.Date == Second.Date;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static DateTime Tomorrow
-        {
-            get
-            {
-                return DateTime.Today.AddDays(1.0);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static DateTime TrimMilliseconds(this DateTime Value)
-        {
-            return new DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second, 0);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static DateTime Yesterday
-        {
-            get
-            {
-                return DateTime.Today.AddDays(-1.0);
-            }
-        }
+        public static bool Today(this DateTime input) => input.Date == DateTime.Now.Date;
     }
 }

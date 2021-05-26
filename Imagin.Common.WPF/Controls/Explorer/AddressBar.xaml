@@ -1,0 +1,181 @@
+﻿<UserControl
+    x:Class="Imagin.Common.Controls.AddressBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    x:Name="PART_AddressBar">
+    <UserControl.Resources>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:HiddenConverter x:Key="HiddenConverter"/>
+        <Converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+        <Converters:IntToBooleanConverter x:Key="IntToBooleanConverter"/>
+        <Converters:FileNameConverter x:Key="FileNameConverter"/>
+    </UserControl.Resources>
+    <Grid 
+        DataContext="{Binding ElementName=PART_AddressBar}"
+        Linq:GridExtensions.Columns="30,30,Auto,30,*">
+        
+        <local:MaskedButton 
+            Command="{Binding BackCommand}" 
+            Padding="5,0" 
+            Source="pack://application:,,,/Imagin.Common.WPF;component/Images/ArrowW.png" 
+            ToolTip="Back"/>
+        <local:MaskedButton 
+            Grid.Column="1" 
+            Command="{Binding ForwardCommand}" 
+            Padding="5,0" 
+            Source="pack://application:,,,/Imagin.Common.WPF;component/Images/ArrowE.png" 
+            ToolTip="Forward"/>
+        <!--
+        <local:MaskedToggleButton 
+            Grid.Column="2" 
+            Source="pack://application:,,,/Imagin.Common.WPF;component/Images/ArrowDown.png" 
+            Padding="3,0"
+            IsEnabled="{Binding Crumbs.Count, Converter={StaticResource IntToBooleanConverter}, ElementName=PART_CrumbBar}"
+            Tag="{Binding Crumbs, ElementName=PART_CrumbBar}">
+            <local:MaskedToggleButton.DropDown>
+                <ContextMenu ItemsSource="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                    <ContextMenu.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="Command" Value="{Binding PlacementTarget.DataContext.ChangePathCommand, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
+                            <Setter Property="CommandParameter" Value="{Binding Mode=OneWay}" />
+                            <Setter Property="Header" Value="{Binding Mode=OneWay, Converter={StaticResource FileNameConverter}}" />
+                            <Setter Property="Icon" Value="{Binding Mode=OneWay}"/>
+                            <Setter Property="Linq:MenuItemExtensions.IconTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <local:ThumbnailImage
+                                            Height="16"
+                                            Path="{Binding Mode=OneWay}"
+                                            Width="16"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ToolTip" Value="{Binding Mode=OneWay}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Mode=OneWay}" Value="*">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContextMenu.ItemContainerStyle>
+                </ContextMenu>
+            </local:MaskedToggleButton.DropDown>
+        </local:MaskedToggleButton>
+        -->
+        <local:MaskedButton 
+            Grid.Column="3" 
+            Command="{Binding GoUpCommand}" 
+            CommandParameter="{Binding Path}"
+            Padding="5,0,0,0" 
+            Source="pack://application:,,,/Imagin.Common.WPF;component/Images/ArrowN.png"
+            ToolTip="Up"/>
+
+        <Border
+            Grid.Column="4"
+            BorderBrush="{DynamicResource Brush.Border}"
+            BorderThickness="1"
+            Padding="5,1.5">
+            <Grid
+                Linq:GridExtensions.Columns="*,Auto,Auto,Auto"
+                Linq:PanelExtensions.Spacing="0,0,5,0"
+                Linq:PanelExtensions.SpacingExcept="Last">
+                <local:ProgressBar
+                    Background="Transparent"
+                    HorizontalAlignment="Stretch"
+                    Maximum="1"
+                    Minimum="0"
+                    Value="{Binding Progress}"
+                    VerticalAlignment="Stretch"/>
+
+                <local:CrumbBar  
+                    Grid.Column="0"
+                    x:Name="PART_CrumbBar"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    IsEditable="{Binding IsEditable}"
+                    ItemsSource="{Binding History, Mode=OneWay}"
+                    Path="{Binding Path}">
+                    <local:CrumbBar.CrumbChildStyle>
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="Command" Value="{Binding Tag.SetPathCommand, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                            <Setter Property="CommandParameter" Value="{Binding Path, Mode=OneWay}"/>
+                            <Setter Property="Icon" Value="{Binding Mode=OneWay}"/>
+                            <Setter Property="Linq:MenuItemExtensions.IconTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <local:Thumbnail
+                                            Height="16"
+                                            Path="{Binding Path, Mode=OneWay}"
+                                            Width="16"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:CrumbBar.CrumbChildStyle>
+                    <local:CrumbBar.CrumbChildTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path, Converter={StaticResource FileNameConverter}}"/>
+                        </DataTemplate>
+                    </local:CrumbBar.CrumbChildTemplate>
+                    <local:CrumbBar.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <local:Thumbnail
+                                    Height="16"
+                                    Margin="0,0,7,0"
+                                    Path="{Binding .}"
+                                    Width="16"/>
+                                <TextBlock 
+                                    Grid.Column="1"
+                                    Text="{Binding Converter={StaticResource FileNameConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </local:CrumbBar.ItemTemplate>
+                    <local:CrumbBar.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                            <Setter Property="ToolTip" Value="{Binding .}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Converter={StaticResource HiddenConverter}}" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:CrumbBar.ItemContainerStyle>
+                </local:CrumbBar>
+                
+                <local:MaskedButton 
+                    Grid.Column="1"
+                    x:Name="PART_GoButton" 
+                    Command="{Binding GoCommand}"
+                    Source="pack://application:,,,/Imagin.Common.WPF;component/Images/NextArrow.png" 
+                    Visibility="{Binding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:MaskedButton 
+                    Grid.Column="2"
+                    x:Name="PART_RefreshButton" 
+                    Command="{Binding RefreshCommand}" 
+                    Source="pack://application:,,,/Imagin.Common.WPF;component/Images/Refresh.png" 
+                    ToolTip="Refresh" 
+                    Visibility="{Binding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}"/>
+                <local:MaskedToggleMenu 
+                    Grid.Column="3"
+                    CheckedToolTip="Unfavorite"
+                    IsChecked="{Binding IsPathFavorite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Source="pack://application:,,,/Imagin.Common.WPF;component/Images/Star.png" 
+                    ToolTip="Favorite"
+                    Visibility="{Binding Favorites, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

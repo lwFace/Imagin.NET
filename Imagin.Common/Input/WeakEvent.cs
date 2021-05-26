@@ -7,24 +7,12 @@ using System.Reflection;
 
 namespace Imagin.Common.Input
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TEventArgs"></typeparam>
     public class WeakEvent<TEventArgs>
     {
         readonly List<WeakDelegate> handlers;
 
-        /// <summary>
-        /// 
-        /// </summary>
         public WeakEvent() => handlers = new List<WeakDelegate>();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         public void Raise(object sender, TEventArgs e)
         {
             lock (handlers)
@@ -33,10 +21,6 @@ namespace Imagin.Common.Input
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="handler"></param>
         public void Subscribe(EventHandler<TEventArgs> handler)
         {
             var weakHandlers = handler
@@ -50,10 +34,6 @@ namespace Imagin.Common.Input
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="handler"></param>
         public void Unsubscribe(EventHandler<TEventArgs> handler)
         {
             lock (handlers)

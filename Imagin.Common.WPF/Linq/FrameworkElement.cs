@@ -1,190 +1,449 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class FrameworkElementExtensions
     {
+        #region ScrollAnimationBehavior
+
+        public static class FindVisualChildHelper
+        {
+            public static T GetFirstChildOfType<T>(DependencyObject dependencyObject) where T : DependencyObject
+            {
+                if (dependencyObject == null)
+                {
+                    return null;
+                }
+
+                for (var i = 0; i < VisualTreeHelper.GetChildrenCount(dependencyObject); i++)
+                {
+                    var child = VisualTreeHelper.GetChild(dependencyObject, i);
+
+                    var result = (child as T) ?? GetFirstChildOfType<T>(child);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public static class ScrollAnimationBehavior
+        {
+            static ScrollViewer _listBoxScroller = new ScrollViewer();
+
+            #region VerticalOffset
+
+            public static DependencyProperty VerticalOffsetProperty = DependencyProperty.RegisterAttached("VerticalOffset", typeof(double), typeof(ScrollAnimationBehavior), new UIPropertyMetadata(0.0, OnVerticalOffsetChanged));
+            public static void SetVerticalOffset(FrameworkElement target, double value)
+            {
+                target.SetValue(VerticalOffsetProperty, value);
+            }
+            public static double GetVerticalOffset(FrameworkElement target)
+            {
+                return (double)target.GetValue(VerticalOffsetProperty);
+            }
+            static void OnVerticalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+            {
+                var ScrollViewer = target as ScrollViewer;
+
+                if (ScrollViewer != null)
+                    ScrollViewer.ScrollToVerticalOffset((double)e.NewValue);
+            }
+
+            #endregion
+
+            #region TimeDuration
+
+            public static DependencyProperty TimeDurationProperty = DependencyProperty.RegisterAttached("TimeDuration", typeof(TimeSpan), typeof(ScrollAnimationBehavior), new PropertyMetadata(new TimeSpan(0, 0, 0, 0, 0)));
+            public static void SetTimeDuration(FrameworkElement target, TimeSpan value)
+            {
+                target.SetValue(TimeDurationProperty, value);
+            }
+            public static TimeSpan GetTimeDuration(FrameworkElement target)
+            {
+                return (TimeSpan)target.GetValue(TimeDurationProperty);
+            }
+
+            #endregion
+
+            #region PointsToScroll
+
+            public static DependencyProperty PointsToScrollProperty = DependencyProperty.RegisterAttached("PointsToScroll", typeof(double), typeof(ScrollAnimationBehavior), new PropertyMetadata(0.0));
+            public static void SetPointsToScroll(FrameworkElement target, double value)
+            {
+                target.SetValue(PointsToScrollProperty, value);
+            }
+            public static double GetPointsToScroll(FrameworkElement target)
+            {
+                return (double)target.GetValue(PointsToScrollProperty);
+            }
+
+            #endregion
+
+            #region IsEnabled
+
+            public static DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(ScrollAnimationBehavior), new UIPropertyMetadata(false, OnIsEnabledChanged));
+            public static void SetIsEnabled(FrameworkElement target, bool value)
+            {
+                target.SetValue(IsEnabledProperty, value);
+            }
+            public static bool GetIsEnabled(FrameworkElement target)
+            {
+                return (bool)target.GetValue(IsEnabledProperty);
+            }
+            static void OnIsEnabledChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+            {
+                var target = sender;
+
+                if (target != null && target is ScrollViewer)
+                {
+                    ScrollViewer scroller = target as ScrollViewer;
+                    scroller.Loaded += new RoutedEventHandler(scrollerLoaded);
+                }
+
+                if (target != null && target is ListBox)
+                {
+                    ListBox listbox = target as ListBox;
+                    listbox.Loaded += new RoutedEventHandler(listboxLoaded);
+                }
+            }
+
+            #endregion
+
+            #region AnimateScroll Helper
+
+            private static void AnimateScroll(ScrollViewer scrollViewer, double ToValue)
+            {
+                DoubleAnimation verticalAnimation = new DoubleAnimation();
+
+                verticalAnimation.From = scrollViewer.VerticalOffset;
+                verticalAnimation.To = ToValue;
+                verticalAnimation.Duration = new Duration(GetTimeDuration(scrollViewer));
+
+                Storyboard storyboard = new Storyboard();
+
+                storyboard.Children.Add(verticalAnimation);
+                Storyboard.SetTarget(verticalAnimation, scrollViewer);
+                Storyboard.SetTargetProperty(verticalAnimation, new PropertyPath(ScrollAnimationBehavior.VerticalOffsetProperty));
+                storyboard.Begin();
+            }
+
+            #endregion
+
+            #region NormalizeScrollPos Helper
+
+            private static double NormalizeScrollPos(ScrollViewer scroll, double scrollChange, Orientation o)
+            {
+                double returnValue = scrollChange;
+
+                if (scrollChange < 0)
+                {
+                    returnValue = 0;
+                }
+
+                if (o == Orientation.Vertical && scrollChange > scroll.ScrollableHeight)
+                {
+                    returnValue = scroll.ScrollableHeight;
+                }
+                else if (o == Orientation.Horizontal && scrollChange > scroll.ScrollableWidth)
+                {
+                    returnValue = scroll.ScrollableWidth;
+                }
+
+                return returnValue;
+            }
+
+            #endregion
+
+            #region UpdateScrollPosition Helper
+
+            private static void UpdateScrollPosition(object sender)
+            {
+                ListBox listbox = sender as ListBox;
+
+                if (listbox != null)
+                {
+                    double scrollTo = 0;
+
+                    for (int i = 0; i < (listbox.SelectedIndex); i++)
+                    {
+                        ListBoxItem tempItem = listbox.ItemContainerGenerator.ContainerFromItem(listbox.Items[i]) as ListBoxItem;
+
+                        if (tempItem != null)
+                        {
+                            scrollTo += tempItem.ActualHeight;
+                        }
+                    }
+
+                    AnimateScroll(_listBoxScroller, scrollTo);
+                }
+            }
+
+            #endregion
+
+            #region SetEventHandlersForScrollViewer Helper
+
+            private static void SetEventHandlersForScrollViewer(ScrollViewer scroller)
+            {
+                scroller.PreviewMouseWheel += new MouseWheelEventHandler(ScrollViewerPreviewMouseWheel);
+                scroller.PreviewKeyDown += new KeyEventHandler(ScrollViewerPreviewKeyDown);
+            }
+
+            #endregion
+
+            #region scrollerLoaded Event Handler
+
+            private static void scrollerLoaded(object sender, RoutedEventArgs e)
+            {
+                ScrollViewer scroller = sender as ScrollViewer;
+
+                SetEventHandlersForScrollViewer(scroller);
+            }
+
+            #endregion
+
+            #region listboxLoaded Event Handler
+
+            private static void listboxLoaded(object sender, RoutedEventArgs e)
+            {
+                ListBox listbox = sender as ListBox;
+
+                _listBoxScroller = FindVisualChildHelper.GetFirstChildOfType<ScrollViewer>(listbox);
+                SetEventHandlersForScrollViewer(_listBoxScroller);
+
+                SetTimeDuration(_listBoxScroller, new TimeSpan(0, 0, 0, 0, 200));
+                SetPointsToScroll(_listBoxScroller, 16.0);
+
+                listbox.SelectionChanged += new SelectionChangedEventHandler(ListBoxSelectionChanged);
+                listbox.Loaded += new RoutedEventHandler(ListBoxLoaded);
+                listbox.LayoutUpdated += new EventHandler(ListBoxLayoutUpdated);
+            }
+
+            #endregion
+
+            #region ScrollViewerPreviewMouseWheel Event Handler
+
+            private static void ScrollViewerPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+            {
+                double mouseWheelChange = (double)e.Delta;
+                ScrollViewer scroller = (ScrollViewer)sender;
+                double newVOffset = GetVerticalOffset(scroller) - (mouseWheelChange / 3);
+
+                if (newVOffset < 0)
+                {
+                    AnimateScroll(scroller, 0);
+                }
+                else if (newVOffset > scroller.ScrollableHeight)
+                {
+                    AnimateScroll(scroller, scroller.ScrollableHeight);
+                }
+                else
+                {
+                    AnimateScroll(scroller, newVOffset);
+                }
+
+                e.Handled = true;
+            }
+
+            #endregion
+
+            #region ScrollViewerPreviewKeyDown Handler
+
+            private static void ScrollViewerPreviewKeyDown(object sender, KeyEventArgs e)
+            {
+                ScrollViewer scroller = (ScrollViewer)sender;
+
+                Key keyPressed = e.Key;
+                double newVerticalPos = GetVerticalOffset(scroller);
+                bool isKeyHandled = false;
+
+                if (keyPressed == Key.Down)
+                {
+                    newVerticalPos = NormalizeScrollPos(scroller, (newVerticalPos + GetPointsToScroll(scroller)), Orientation.Vertical);
+                    isKeyHandled = true;
+                }
+                else if (keyPressed == Key.PageDown)
+                {
+                    newVerticalPos = NormalizeScrollPos(scroller, (newVerticalPos + scroller.ViewportHeight), Orientation.Vertical);
+                    isKeyHandled = true;
+                }
+                else if (keyPressed == Key.Up)
+                {
+                    newVerticalPos = NormalizeScrollPos(scroller, (newVerticalPos - GetPointsToScroll(scroller)), Orientation.Vertical);
+                    isKeyHandled = true;
+                }
+                else if (keyPressed == Key.PageUp)
+                {
+                    newVerticalPos = NormalizeScrollPos(scroller, (newVerticalPos - scroller.ViewportHeight), Orientation.Vertical);
+                    isKeyHandled = true;
+                }
+
+                if (newVerticalPos != GetVerticalOffset(scroller))
+                {
+                    AnimateScroll(scroller, newVerticalPos);
+                }
+
+                e.Handled = isKeyHandled;
+            }
+
+            #endregion
+
+            #region ListBox Event Handlers
+
+            static void ListBoxLayoutUpdated(object sender, EventArgs e)
+            {
+                UpdateScrollPosition(sender);
+            }
+
+            static void ListBoxLoaded(object sender, RoutedEventArgs e)
+            {
+                UpdateScrollPosition(sender);
+            }
+
+            static void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
+                UpdateScrollPosition(sender);
+            }
+
+            #endregion
+        }
+
+        #endregion
+
         #region Properties
 
-        #region _ContextMenu
+        #region Extends
 
-        /// <summary>
-        /// 
-        /// </summary>
-        static readonly DependencyProperty _ContextMenuProperty = DependencyProperty.RegisterAttached("_ContextMenu", typeof(ContextMenu), typeof(FrameworkElementExtensions), new PropertyMetadata(default(ContextMenu)));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        static ContextMenu Get_ContextMenu(FrameworkElement d)
+        public static readonly DependencyProperty ExtendsProperty = DependencyProperty.RegisterAttached("Extends", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnExtendsChanged));
+        public static bool GetExtends(FrameworkElement d)
+            => (bool)d.GetValue(ExtendsProperty);
+        public static void SetExtends(FrameworkElement d, bool value)
+            => d.SetValue(ExtendsProperty, value);
+        static void OnExtendsChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            return (ContextMenu)d.GetValue(_ContextMenuProperty);
+            var frameworkElement = sender as FrameworkElement;
+            frameworkElement.SizeChanged -= Extends_OnSizeChanged;
+
+            if ((bool)e.NewValue)
+                frameworkElement.SizeChanged += Extends_OnSizeChanged;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        static void Set_ContextMenu(FrameworkElement d, ContextMenu value)
+
+        static void Extends_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            d.SetValue(_ContextMenuProperty, value);
+            var frameworkElement = sender as FrameworkElement;
+            SetActualHeight(frameworkElement, frameworkElement.ActualHeight);
+            SetActualWidth(frameworkElement, frameworkElement.ActualWidth);
         }
 
         #endregion
 
-        #region Background
+        #region ActualHeight
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty BackgroundProperty = DependencyProperty.RegisterAttached("Background", typeof(Brush), typeof(FrameworkElementExtensions), new PropertyMetadata(default(Brush)));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static Brush GetBackground(FrameworkElement d)
-        {
-            return (Brush)d.GetValue(BackgroundProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetBackground(FrameworkElement d, Brush value)
-        {
-            d.SetValue(BackgroundProperty, value);
-        }
+        public static readonly DependencyProperty ActualHeightProperty = DependencyProperty.RegisterAttached("ActualHeight", typeof(double), typeof(FrameworkElementExtensions), new PropertyMetadata(0.0));
+        public static double GetActualHeight(FrameworkElement d)
+            => (double)d.GetValue(ActualHeightProperty);
+        public static void SetActualHeight(FrameworkElement d, double value)
+            => d.SetValue(ActualHeightProperty, value);
 
         #endregion
 
-        #region BorderBrush
+        #region ActualWidth
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty BorderBrushProperty = DependencyProperty.RegisterAttached("BorderBrush", typeof(Brush), typeof(FrameworkElementExtensions), new PropertyMetadata(default(Brush)));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static Brush GetBorderBrush(FrameworkElement d)
-        {
-            return (Brush)d.GetValue(BorderBrushProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetBorderBrush(FrameworkElement d, Brush value)
-        {
-            d.SetValue(BorderBrushProperty, value);
-        }
+        public static readonly DependencyProperty ActualWidthProperty = DependencyProperty.RegisterAttached("ActualWidth", typeof(double), typeof(FrameworkElementExtensions), new PropertyMetadata(0.0));
+        public static double GetActualWidth(FrameworkElement d)
+            => (double)d.GetValue(ActualWidthProperty);
+        public static void SetActualWidth(FrameworkElement d, double value)
+            => d.SetValue(ActualWidthProperty, value);
 
         #endregion
 
-        #region BorderThickness
+        #region Content
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.RegisterAttached("BorderThickness", typeof(Thickness), typeof(FrameworkElementExtensions), new PropertyMetadata(default(Thickness)));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static Thickness GetBorderThickness(FrameworkElement d)
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached("Content", typeof(object), typeof(FrameworkElementExtensions), new PropertyMetadata(null, OnContentChanged));
+        public static object GetContent(FrameworkElement i) => i.GetValue(ContentProperty);
+        public static void SetContent(FrameworkElement i, object value) => i.SetValue(ContentProperty, value);
+        static void OnContentChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            return (Thickness)d.GetValue(BorderThicknessProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetBorderThickness(FrameworkElement d, Thickness value)
-        {
-            d.SetValue(BorderThicknessProperty, value);
+            if (sender is FrameworkElement i)
+            {
+                if (e.NewValue is FrameworkElement j)
+                    j.DataContext = i.DataContext;
+            }
         }
 
         #endregion
 
         #region CornerRadius
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached("CornerRadius", typeof(CornerRadius), typeof(FrameworkElementExtensions), new PropertyMetadata(default(CornerRadius)));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static CornerRadius GetCornerRadius(FrameworkElement d)
-        {
-            return (CornerRadius)d.GetValue(CornerRadiusProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
+            => (CornerRadius)d.GetValue(CornerRadiusProperty);
         public static void SetCornerRadius(FrameworkElement d, CornerRadius value)
+            => d.SetValue(CornerRadiusProperty, value);
+
+        #endregion
+
+        #region DragMoveWindow
+
+        public static readonly DependencyProperty DragMoveWindowProperty = DependencyProperty.RegisterAttached("DragMoveWindow", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnDragMoveWindowChanged));
+        public static bool GetDragMoveWindow(FrameworkElement d)
+            => (bool)d.GetValue(DragMoveWindowProperty);
+        public static void SetDragMoveWindow(FrameworkElement d, bool value)
+            => d.SetValue(DragMoveWindowProperty, value);
+        static void OnDragMoveWindowChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(CornerRadiusProperty, value);
+            (sender as FrameworkElement).MouseDown -= DragMoveWindow_MouseDown;
+
+            if ((bool)e.NewValue)
+                (sender as FrameworkElement).MouseDown += DragMoveWindow_MouseDown;
+        }
+
+        static void DragMoveWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                sender.As<FrameworkElement>().GetParent<Window>()?.DragMove();
         }
 
         #endregion
 
         #region EnableContextMenu
 
-        /// <summary>
-        /// 
-        /// </summary>
+        static readonly DependencyProperty contextMenuProperty = DependencyProperty.RegisterAttached("contextMenu", typeof(ContextMenu), typeof(FrameworkElementExtensions), new PropertyMetadata(default(ContextMenu)));
+        static ContextMenu GetContextMenu(FrameworkElement d)
+            => (ContextMenu)d.GetValue(contextMenuProperty);
+        static void SetContextMenu(FrameworkElement d, ContextMenu value)
+            => d.SetValue(contextMenuProperty, value);
+
         public static readonly DependencyProperty EnableContextMenuProperty = DependencyProperty.RegisterAttached("EnableContextMenu", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(true, OnEnableContextMenuChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static bool GetEnableContextMenu(FrameworkElement d)
-        {
-            return (bool)d.GetValue(EnableContextMenuProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
+            => (bool)d.GetValue(EnableContextMenuProperty);
         public static void SetEnableContextMenu(FrameworkElement d, bool value)
-        {
-            d.SetValue(EnableContextMenuProperty, value);
-        }
+            => d.SetValue(EnableContextMenuProperty, value);
         static void OnEnableContextMenuChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var Element = sender as FrameworkElement;
-            if (Element != null)
+            var frameworkElement = sender as FrameworkElement;
+            if (frameworkElement != null)
             {
                 if ((bool)e.NewValue)
                 {
-                    Element.ContextMenu = Get_ContextMenu(Element);
-                    Set_ContextMenu(Element, default(ContextMenu));
+                    frameworkElement.ContextMenu = frameworkElement.ContextMenu ?? GetContextMenu(frameworkElement);
+                    SetContextMenu(frameworkElement, null);
                 }
                 else
                 {
-                    Set_ContextMenu(Element, Element.ContextMenu);
-                    Element.ContextMenu = null;
+                    SetContextMenu(frameworkElement, frameworkElement.ContextMenu);
+                    frameworkElement.ContextMenu = null;
                 }
             }
         }
@@ -193,136 +452,69 @@ namespace Imagin.Common.Linq
 
         #region HorizontalAlignment
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty HorizontalAlignmentProperty = DependencyProperty.RegisterAttached("HorizontalAlignment", typeof(HorizontalAlignment?), typeof(FrameworkElementExtensions), new FrameworkPropertyMetadata(null, OnHorizontalAlignmentChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetHorizontalAlignment(FrameworkElement d, HorizontalAlignment? value)
-        {
-            d.SetValue(HorizontalAlignmentProperty, value);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
+        public static readonly DependencyProperty HorizontalAlignmentProperty = DependencyProperty.RegisterAttached("HorizontalAlignment", typeof(HorizontalAlignment?), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
         public static HorizontalAlignment? GetHorizontalAlignment(FrameworkElement d)
-        {
-            return (HorizontalAlignment?)d.GetValue(HorizontalAlignmentProperty);
-        }
-        static void OnHorizontalAlignmentChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue != null)
-                (sender as FrameworkElement).SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, e.NewValue);
-        }
+            => (HorizontalAlignment?)d.GetValue(HorizontalAlignmentProperty);
+        public static void SetHorizontalAlignment(FrameworkElement d, HorizontalAlignment? value)
+            => d.SetValue(HorizontalAlignmentProperty, value);
 
         #endregion
 
         #region Margin
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty MarginProperty = DependencyProperty.RegisterAttached("Margin", typeof(Thickness?), typeof(FrameworkElementExtensions), new FrameworkPropertyMetadata(null, OnMarginChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetMargin(FrameworkElement d, Thickness? value)
-        {
-            d.SetValue(MarginProperty, value);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
+        public static readonly DependencyProperty MarginProperty = DependencyProperty.RegisterAttached("Margin", typeof(Thickness?), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
         public static Thickness? GetMargin(FrameworkElement d)
+            => (Thickness?)d.GetValue(MarginProperty);
+        public static void SetMargin(FrameworkElement d, Thickness? value)
+            => d.SetValue(MarginProperty, value);
+
+        #endregion
+
+        #region ShellContextMenu
+
+        public static readonly DependencyProperty ShellContextMenuProperty = DependencyProperty.RegisterAttached("ShellContextMenu", typeof(string), typeof(FrameworkElementExtensions), new PropertyMetadata(null, OnShellContextMenuChanged));
+        public static string GetShellContextMenu(FrameworkElement d)
+            => (string)d.GetValue(ShellContextMenuProperty);
+        public static void SetShellContextMenu(FrameworkElement d, string value)
+            => d.SetValue(ShellContextMenuProperty, value);
+        static void OnShellContextMenuChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            return (Thickness?)d.GetValue(MarginProperty);
+            var frameworkElement = sender as FrameworkElement;
+            frameworkElement.PreviewMouseRightButtonUp -= ShellContextMenu_PreviewMouseRightButtonUp;
+            if (e.NewValue?.ToString().NullOrEmpty() == false)
+                frameworkElement.PreviewMouseRightButtonUp += ShellContextMenu_PreviewMouseRightButtonUp;
         }
-        static void OnMarginChanged(object sender, DependencyPropertyChangedEventArgs e)
+
+        static void ShellContextMenu_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.NewValue != null)
-                (sender as FrameworkElement).SetCurrentValue(FrameworkElement.MarginProperty, e.NewValue);
+            var frameworkElement = sender as FrameworkElement;
+
+            var path = GetShellContextMenu(frameworkElement);
+            FileSystemInfo result = null;
+
+            Try.Invoke(() =>
+            {
+                result = Storage.File.Long.Exists(path)
+                ? (FileSystemInfo)new FileInfo(path)
+                : new DirectoryInfo(path);
+            });
+
+            result.If(i => i != null, i =>
+            {
+                var point = frameworkElement.PointToScreen(e.GetPosition(frameworkElement));
+                Storage.ShellContextMenu.Show(point.Int32(), i);
+            });
         }
 
         #endregion
 
         #region VerticalAlignment
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty VerticalAlignmentProperty = DependencyProperty.RegisterAttached("VerticalAlignment", typeof(VerticalAlignment?), typeof(FrameworkElementExtensions), new FrameworkPropertyMetadata(null, OnVerticalAlignmentChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetVerticalAlignment(FrameworkElement d, VerticalAlignment? value)
-        {
-            d.SetValue(VerticalAlignmentProperty, value);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
+        public static readonly DependencyProperty VerticalAlignmentProperty = DependencyProperty.RegisterAttached("VerticalAlignment", typeof(VerticalAlignment?), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
         public static VerticalAlignment? GetVerticalAlignment(FrameworkElement d)
-        {
-            return (VerticalAlignment?)d.GetValue(VerticalAlignmentProperty);
-        }
-        static void OnVerticalAlignmentChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue != null)
-                (sender as FrameworkElement).SetCurrentValue(FrameworkElement.VerticalAlignmentProperty, e.NewValue);
-        }
-
-        #endregion
-
-        #region IsDragMoveEnabled
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty IsDragMoveEnabledProperty = DependencyProperty.RegisterAttached("IsDragMoveEnabled", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnIsDragMoveEnabledChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static bool GetIsDragMoveEnabled(FrameworkElement d)
-        {
-            return (bool)d.GetValue(IsDragMoveEnabledProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetIsDragMoveEnabled(FrameworkElement d, bool value)
-        {
-            d.SetValue(IsDragMoveEnabledProperty, value);
-        }
-        static void OnIsDragMoveEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var Window = (sender as FrameworkElement).GetParent<Window>();
-            if (Window != null && (bool)e.NewValue)
-            {
-                (sender as FrameworkElement).MouseDown += (a, b) =>
-                {
-                    if (b.LeftButton == MouseButtonState.Pressed)
-                        Window.DragMove();
-                };
-            }
-        }
+            => (VerticalAlignment?)d.GetValue(VerticalAlignmentProperty);
+        public static void SetVerticalAlignment(FrameworkElement d, VerticalAlignment? value)
+            => d.SetValue(VerticalAlignmentProperty, value);
 
         #endregion
 
@@ -331,53 +523,69 @@ namespace Imagin.Common.Linq
         #region Methods
 
         /// <summary>
-        /// Helper method to determine if the given framework element has the mouse over it or not.
+        /// Helper method to determine if the given <see cref="FrameworkElement"/> has the mouse over it or not.
         /// </summary>
-        /// <param name="element">The FrameworkElement to test for mouse containment.</param>
+        /// <param name="input">The <see cref="FrameworkElement"/> to test for mouse containment.</param>
         /// <returns>True, if the mouse is over the FrameworkElement; false, otherwise.</returns>
-        public static bool ContainsMouse(this FrameworkElement element)
+        public static bool ContainsMouse(this FrameworkElement input)
         {
-            var point = Mouse.GetPosition(element);
+            var point = Mouse.GetPosition(input);
             return
             (
                 point.X >= 0
                 &&
-                point.X <= element.ActualWidth
+                point.X <= input.ActualWidth
                 &&
                 point.Y >= 0
                 &&
-                point.Y <= element.ActualHeight
+                point.Y <= input.ActualHeight
             );
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="Element"></param>
-        /// <returns></returns>
-        public static Style FindStyle<TElement>(this TElement Element) where TElement : FrameworkElement
+        public static Style FindStyle<Element>(this Element input) where Element : FrameworkElement
+            => (Style)input.FindResource(typeof(Element));
+
+        public static int Index(this FrameworkElement input, uint origin = 0)
         {
-            return (Style)Element.FindResource(typeof(TElement));
+            var itemsControl = ItemsControl.ItemsControlFromItemContainer(input);
+            var index = itemsControl.ItemContainerGenerator.IndexFromContainer(input);
+            return origin.Int32() + index;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="Element"></param>
-        /// <param name="Style"></param>
-        /// <returns></returns>
-        public static bool TryFindStyle<TElement>(this TElement Element, out Style Style) where TElement : FrameworkElement
+        public static System.Drawing.Bitmap Render(this FrameworkElement input)
         {
             try
             {
-                Style = Element.FindStyle();
+                input.Measure(new Size(input.ActualWidth, input.ActualHeight));
+                input.Arrange(new Rect(new Size(input.ActualWidth, input.ActualHeight)));
+
+                var bmp = new RenderTargetBitmap((int)input.ActualWidth, (int)input.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+                bmp.Render(input);
+
+                var stream = new MemoryStream();
+
+                var encoder = new BmpBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bmp));
+                encoder.Save(stream);
+
+                return new System.Drawing.Bitmap(stream);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static bool TryFindStyle<Element>(this Element input, out Style style) where Element : FrameworkElement
+        {
+            try
+            {
+                style = input.FindStyle();
                 return true;
             }
             catch
             {
-                Style = default(Style);
+                style = default(Style);
                 return false;
             }
         }

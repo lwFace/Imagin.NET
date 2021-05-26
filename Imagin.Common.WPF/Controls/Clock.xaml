@@ -1,0 +1,64 @@
+﻿<UserControl 
+    x:Class="Imagin.Common.Controls.Clock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls">
+    <Canvas
+        x:Name="PART_Canvas"
+        DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Clock}}}"
+        Height="100"
+        SnapsToDevicePixels="False"
+        Width="100">
+        <Ellipse
+            Canvas.Left="47"
+            Canvas.Top="47"
+            Fill="{Binding CenterStroke}"
+            Stroke="{Binding CenterStroke}"
+            StrokeThickness="1"
+            Height="6"
+            Width="6"/>
+        <Ellipse
+            x:Name="EllipseA"
+            Panel.ZIndex="2"
+            Canvas.Left="-3"
+            Canvas.Top="47"
+            Fill="{Binding AStroke}"
+            Height="{Binding AStrokeThickness}"
+            Visibility="{Binding AVisibility}"
+            Width="{Binding AStrokeThickness}"/>
+        <Ellipse
+            x:Name="EllipseB"
+            Panel.ZIndex="2"
+            Canvas.Left="97"
+            Canvas.Top="47"
+            Fill="{Binding BStroke}"
+            Height="{Binding BStrokeThickness}"
+            Visibility="{Binding BVisibility}"
+            Width="{Binding BStrokeThickness}"/>
+        
+        <Line
+            x:Name="Hour"
+            Stroke="{Binding HourStroke}"
+            StrokeThickness="{Binding HourStrokeThickness}"
+            X1="50"
+            Y1="50"
+            X2="50"
+            Y2="10"/>
+        <Line
+            x:Name="Minute"
+            Stroke="{Binding MinuteStroke}"
+            StrokeThickness="{Binding MinuteStrokeThickness}"
+            X1="50"
+            Y1="50"
+            X2="50"
+            Y2="0"/>
+        <Line
+            x:Name="Second"
+            Stroke="{Binding SecondStroke}"
+            StrokeThickness="{Binding SecondStrokeThickness}"
+            X1="50"
+            Y1="50"
+            X2="50"
+            Y2="0"/>
+    </Canvas>
+</UserControl>

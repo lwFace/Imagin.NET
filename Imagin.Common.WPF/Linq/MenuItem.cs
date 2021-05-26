@@ -1,42 +1,22 @@
-﻿using Imagin.Common.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class MenuItemExtensions
     {
         #region Properties
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static Dictionary<MenuItem, string> elements = new Dictionary<MenuItem, string>();
 
         #region IconTemplate
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty IconTemplateProperty = DependencyProperty.RegisterAttached("IconTemplate", typeof(DataTemplate), typeof(MenuItemExtensions), new PropertyMetadata(default(DataTemplate)));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static DataTemplate GetIconTemplate(FrameworkElement d)
         {
             return (DataTemplate)d.GetValue(IconTemplateProperty);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
         public static void SetIconTemplate(FrameworkElement d, DataTemplate value)
         {
             d.SetValue(IconTemplateProperty, value);
@@ -44,24 +24,11 @@ namespace Imagin.Common.Linq
 
         #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty GroupNameProperty = DependencyProperty.RegisterAttached("GroupName", typeof(string), typeof(MenuItemExtensions), new PropertyMetadata(string.Empty, OnGroupNameChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="Value"></param>
         public static void SetGroupName(MenuItem d, string Value)
         {
             d.SetValue(GroupNameProperty, Value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static string GetGroupName(MenuItem d)
         {
             return d.GetValue(GroupNameProperty).ToString();
@@ -76,14 +43,14 @@ namespace Imagin.Common.Linq
                 var OldName = e.OldValue.ToString();
 
                 //Switching to no group
-                if (NewName.IsNullOrEmpty())
+                if (NewName.NullOrEmpty())
                 {
                     RemoveGrouping(MenuItem);
                 }
                 //Switching to new group
                 else if (NewName != OldName)
                 {
-                    if (!OldName.IsNullOrEmpty())
+                    if (!OldName.NullOrEmpty())
                         RemoveGrouping(MenuItem);
 
                     AddGrouping(MenuItem, e.NewValue.ToString());
@@ -91,34 +58,21 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.RegisterAttached("SelectionMode", typeof(MenuItemSelectionMode), typeof(MenuItemExtensions), new PropertyMetadata(MenuItemSelectionMode.Single, OnSelectionModeChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="Value"></param>
-        public static void SetSelectionMode(MenuItem d, MenuItemSelectionMode Value)
+        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.RegisterAttached("SelectionMode", typeof(SelectionMode), typeof(MenuItemExtensions), new PropertyMetadata(SelectionMode.Single, OnSelectionModeChanged));
+        public static void SetSelectionMode(MenuItem d, SelectionMode Value)
         {
             d.SetValue(SelectionModeProperty, Value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static MenuItemSelectionMode GetSelectionMode(MenuItem d)
+        public static SelectionMode GetSelectionMode(MenuItem d)
         {
-            return (MenuItemSelectionMode)d.GetValue(SelectionModeProperty);
+            return (SelectionMode)d.GetValue(SelectionModeProperty);
         }
         static void OnSelectionModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var MenuItem = d as MenuItem;
 
             //If going from multiple to single, 
-            if (e.OldValue?.To<MenuItemSelectionMode>() == MenuItemSelectionMode.Multiple)
+            if (e.OldValue?.To<SelectionMode>() == SelectionMode.Multiple)
             {
                 var GroupName = GetGroupName(MenuItem);
 
@@ -158,7 +112,7 @@ namespace Imagin.Common.Linq
 
             var SelectionMode = GetSelectionMode(MenuItem);
             //If multiple elements in the same group cannot be checked at the same time
-            if (SelectionMode != MenuItemSelectionMode.Multiple)
+            if (SelectionMode != SelectionMode.Multiple)
             {
                 //Uncheck all elements except current
                 foreach (var i in elements)
@@ -173,7 +127,7 @@ namespace Imagin.Common.Linq
         {
             var MenuItem = sender as MenuItem;
             //Make sure it's still checkable! (see OnPreviewMouseDown)
-            if (MenuItem.IsChecked && GetSelectionMode(MenuItem) == MenuItemSelectionMode.Single)
+            if (MenuItem.IsChecked && GetSelectionMode(MenuItem) == SelectionMode.Single)
                 MenuItem.IsCheckable = true;
         }
 
@@ -181,7 +135,7 @@ namespace Imagin.Common.Linq
         {
             var MenuItem = sender as MenuItem;
             //If it's already checked, we're about to uncheck it; if one element must always be checked, disable unchecking
-            if (MenuItem.IsChecked && GetSelectionMode(MenuItem) == MenuItemSelectionMode.Single)
+            if (MenuItem.IsChecked && GetSelectionMode(MenuItem) == SelectionMode.Single)
                 MenuItem.IsCheckable = false;
         }
 

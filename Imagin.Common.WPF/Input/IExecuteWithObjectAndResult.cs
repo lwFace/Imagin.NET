@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Imagin.Common.Input
+﻿namespace Imagin.Common.Input
 {
     /// <summary>
     /// This interface is meant for the <see cref="WeakFunc{T}" /> class and can be 

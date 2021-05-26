@@ -1,0 +1,49 @@
+<UserControl 
+    x:Class="Imagin.Common.Controls.Downloader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    mc:Ignorable="d" 
+    d:DesignWidth="1200"
+    d:DesignHeight="256"
+    x:Name="PART_Downloader">
+    <UserControl.Resources>
+        <Converters:FileSpeedConverter x:Key="FileSpeedConverter"/>
+        <Converters:SecondsConverter x:Key="SecondsConverter"/>
+    </UserControl.Resources>
+    <Grid
+        DataContext="{Binding ElementName=PART_Downloader}"
+        Background="Red">
+        <TextBlock
+            FontSize="15"
+            Text="{Binding Progress, StringFormat={}{0}%}"
+            HorizontalAlignment="Center"/>
+        <local:ProgressBar 
+            Grid.Row="1"
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Center" 
+            Value="{Binding Progress}" 
+            Margin="0,10" 
+            MinHeight="15"/>
+        <TextBlock 
+            Grid.Row="2"
+            Text="{Binding Processed}" 
+            HorizontalAlignment="Center"
+            ToolTip="Progress"
+            Margin="0,0,0,3"/>
+        <TextBlock 
+            Grid.Row="3" 
+            Text="{Binding Speed, Converter={StaticResource FileSpeedConverter}}" 
+            HorizontalAlignment="Center"
+            ToolTip="Speed"
+            Margin="0,0,0,3"/>
+        <TextBlock 
+            Grid.Row="4" 
+            Text="{Binding Remaining, Converter={StaticResource SecondsConverter}}" 
+            HorizontalAlignment="Center"
+            ToolTip="Remaining"/>
+    </Grid>
+</UserControl>

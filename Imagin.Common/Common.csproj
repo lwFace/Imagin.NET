@@ -4,35 +4,90 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Imagin.Common</AssemblyName>
     <RootNamespace>Imagin.Common</RootNamespace>
+    <Configurations>Debug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Imagin.Common.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Arithmetic\**" />
-    <Compile Remove="Lang\asdf\**" />
+    <Compile Remove="Configuration\**" />
+    <Compile Remove="Media\Adaptation\**" />
+    <Compile Remove="Media\Compression\**" />
+    <Compile Remove="Media\Conversion\**" />
+    <Compile Remove="Media\Linq\**" />
+    <Compile Remove="Media\Models\**" />
+    <Compile Remove="Text\**" />
     <Compile Remove="Timers\**" />
     <Compile Remove="[Interfaces]\**" />
     <EmbeddedResource Remove="Arithmetic\**" />
-    <EmbeddedResource Remove="Lang\asdf\**" />
+    <EmbeddedResource Remove="Configuration\**" />
+    <EmbeddedResource Remove="Media\Adaptation\**" />
+    <EmbeddedResource Remove="Media\Compression\**" />
+    <EmbeddedResource Remove="Media\Conversion\**" />
+    <EmbeddedResource Remove="Media\Linq\**" />
+    <EmbeddedResource Remove="Media\Models\**" />
+    <EmbeddedResource Remove="Text\**" />
     <EmbeddedResource Remove="Timers\**" />
     <EmbeddedResource Remove="[Interfaces]\**" />
     <None Remove="Arithmetic\**" />
-    <None Remove="Lang\asdf\**" />
+    <None Remove="Configuration\**" />
+    <None Remove="Media\Adaptation\**" />
+    <None Remove="Media\Compression\**" />
+    <None Remove="Media\Conversion\**" />
+    <None Remove="Media\Linq\**" />
+    <None Remove="Media\Models\**" />
+    <None Remove="Text\**" />
     <None Remove="Timers\**" />
     <None Remove="[Interfaces]\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Attributes\Icon.cs" />
+    <Compile Remove="Attributes\Key.cs" />
+    <Compile Remove="Attributes\Searchable.cs" />
     <Compile Remove="Collections\EnumCollection.cs" />
+    <Compile Remove="Collections\Generic\BaseCollection.cs" />
     <Compile Remove="Collections\Generic\TrackableList.cs" />
+    <Compile Remove="Collections\ObjectModel\ObservableStack.cs" />
+    <Compile Remove="Data\DateFormat.cs" />
     <Compile Remove="DayOfWeek.cs" />
+    <Compile Remove="Analytics\ILog.cs" />
+    <Compile Remove="Analytics\ILogEntry.cs" />
+    <Compile Remove="Analytics\Log.cs" />
+    <Compile Remove="Analytics\LogEntry.cs" />
+    <Compile Remove="Analytics\LogEntryType.cs" />
     <Compile Remove="HDirection.cs" />
     <Compile Remove="IPeriodical.cs" />
+    <Compile Remove="Lang\Main.Designer.cs" />
+    <Compile Remove="Linq\Encoding.cs" />
     <Compile Remove="Linq\IColorTetrad.cs" />
     <Compile Remove="Linq\IColorVector.cs" />
+    <Compile Remove="Math\BLine.cs" />
+    <Compile Remove="Math\BRange.cs" />
+    <Compile Remove="Math\BRegion.cs" />
+    <Compile Remove="Math\BVector2.cs" />
+    <Compile Remove="Math\BVector3.cs" />
+    <Compile Remove="Media\ChromacityPoint.cs" />
+    <Compile Remove="Media\ChromaticityCoordinates.cs" />
+    <Compile Remove="Media\CIE.cs" />
+    <Compile Remove="Media\ColorDisposition.cs" />
+    <Compile Remove="Media\ColorModels.cs" />
+    <Compile Remove="Media\ComponentType.cs" />
+    <Compile Remove="Media\ComponentUnit.cs" />
+    <Compile Remove="Media\Display.cs" />
+    <Compile Remove="Media\GradientPosition.cs" />
+    <Compile Remove="Media\GradientType.cs" />
+    <Compile Remove="Media\IColor.cs" />
+    <Compile Remove="Media\IModel.cs" />
+    <Compile Remove="Media\LinearColor.cs" />
+    <Compile Remove="Media\ReferenceWhite.cs" />
+    <Compile Remove="Media\Vector3.cs" />
+    <Compile Remove="Media\WorkingSpace.cs" />
+    <Compile Remove="Media\WorkingSpaces.cs" />
     <Compile Remove="Percent.cs" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
     <Compile Remove="Quadruplet.cs" />
@@ -42,7 +97,13 @@
     <Compile Remove="TaggedObject.cs" />
     <Compile Remove="Transmission.cs" />
     <Compile Remove="VDirection.cs" />
-    <Compile Remove="_Interfaces\ITaggable.cs" />
+    <Compile Remove="Interfaces\ITaggable.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Lang\Main.es-ES.resx" />
+    <EmbeddedResource Remove="Lang\Main.it-IT.resx" />
+    <EmbeddedResource Remove="Lang\Main.resx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,22 +112,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Lang\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Lang\Main.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Main.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Lang\Main.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Main.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <PackageReference Include="InheritDoc" Version="2.5.2" />
   </ItemGroup>
 
 </Project>

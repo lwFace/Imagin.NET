@@ -2,48 +2,54 @@
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class BrushExtensions
     {
         /// <summary>
-        /// Creates <see cref="Brush"/> from specified <see cref="Brush"/> and it's values.
+        /// Gets a new <see cref="Brush"/> from the given <see cref="Brush"/> (not deep copy).
         /// </summary>
-        public static Brush Duplicate(this Brush Value)
+        public static Brush Duplicate(this Brush input)
         {
-            if (Value is LinearGradientBrush)
+            if (input is LinearGradientBrush a)
             {
-                var Linear = Value as LinearGradientBrush;
-
-                return new LinearGradientBrush(Linear.GradientStops)
+                return new LinearGradientBrush(a.GradientStops)
                 {
-                    StartPoint = Linear.StartPoint,
-                    EndPoint = Linear.EndPoint,
-                    MappingMode = Linear.MappingMode,
-                    Opacity = Linear.Opacity,
-                    ColorInterpolationMode = Linear.ColorInterpolationMode,
-                    SpreadMethod = Linear.SpreadMethod,
-                    RelativeTransform = Linear.RelativeTransform,
-                    Transform = Linear.Transform
+                    StartPoint 
+                        = a.StartPoint,
+                    EndPoint 
+                        = a.EndPoint,
+                    MappingMode 
+                        = a.MappingMode,
+                    Opacity 
+                        = a.Opacity,
+                    ColorInterpolationMode 
+                        = a.ColorInterpolationMode,
+                    SpreadMethod 
+                        = a.SpreadMethod,
+                    RelativeTransform 
+                        = a.RelativeTransform,
+                    Transform 
+                        = a.Transform
                 };
             }
-            else if (Value is RadialGradientBrush)
+            else if (input is RadialGradientBrush b)
             {
-                var Radial = Value as RadialGradientBrush;
-
-                return new RadialGradientBrush(Radial.GradientStops)
+                return new RadialGradientBrush(b.GradientStops)
                 {
-                    MappingMode = Radial.MappingMode,
-                    Opacity = Radial.Opacity,
-                    ColorInterpolationMode = Radial.ColorInterpolationMode,
-                    SpreadMethod = Radial.SpreadMethod,
-                    RelativeTransform = Radial.RelativeTransform,
-                    Transform = Radial.Transform
+                    MappingMode 
+                        = b.MappingMode,
+                    Opacity 
+                        = b.Opacity,
+                    ColorInterpolationMode 
+                        = b.ColorInterpolationMode,
+                    SpreadMethod 
+                        = b.SpreadMethod,
+                    RelativeTransform 
+                        = b.RelativeTransform,
+                    Transform 
+                        = b.Transform
                 };
             }
-
-            return default(Brush);
+            return default;
         }
     }
 }

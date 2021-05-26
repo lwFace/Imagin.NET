@@ -2,19 +2,11 @@
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class EncodingExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="encoding"></param>
-        /// <returns></returns>
-        public static System.Text.Encoding GetEncoding(this Encoding encoding)
+        public static System.Text.Encoding Convert(this Encoding input)
         {
-            switch (encoding)
+            switch (input)
             {
                 case Encoding.ASCII:
                     return System.Text.Encoding.ASCII;
@@ -27,7 +19,7 @@ namespace Imagin.Common.Linq
                 case Encoding.UTF8:
                     return System.Text.Encoding.UTF8;
             }
-            return System.Text.Encoding.Default;
+            return default;
         }
     }
 }

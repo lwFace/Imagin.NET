@@ -1,0 +1,86 @@
+﻿<UserControl 
+    x:Class="Paint.ToolButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:i="http://imagin.tech/imagin/common"
+    xmlns:local="clr-namespace:Paint"
+    mc:Ignorable="d">
+    <Border>
+        <Border.Resources>
+            <i:Reference x:Key="ToolButton" Data="{i:Ancestor {x:Type local:ToolButton}}"/>
+        </Border.Resources>
+        <Grid 
+            Background="Transparent"
+            DataContext="{Binding Data, Source={StaticResource ToolButton}}" 
+            PreviewMouseLeftButtonDown="Grid_MouseLeftButtonDown"
+            PreviewMouseRightButtonDown="Grid_MouseRightButtonDown">
+            <ContentControl
+                Content="{Binding SelectedItem}"
+                ContentTemplate="{Binding SelectedItemTemplate}"
+                Margin="0,0,5,5">
+            </ContentControl>
+            <i:MaskedImage
+                HorizontalAlignment="Right"
+                RenderOptions.BitmapScalingMode="NearestNeighbor"
+                Source="{i:Image Paint, Images/RightTriangle.png}"
+                SourceHeight="6"
+                SourceWidth="6"
+                VerticalAlignment="Bottom"
+                Visibility="{Binding ArrowVisibility}">
+                <i:MaskedImage.Style>
+                    <Style TargetType="{x:Type i:MaskedImage}" BasedOn="{StaticResource {x:Type i:MaskedImage}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Data.IsChecked, Source={StaticResource ToolButton}}" Value="True">
+                                <Setter Property="SourceColor" Value="{DynamicResource Brush.Image.MouseOver}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Data.IsChecked, Source={StaticResource ToolButton}}" Value="False">
+                                <Setter Property="SourceColor" Value="{DynamicResource Brush.Image}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </i:MaskedImage.Style>
+            </i:MaskedImage>
+            <Popup 
+                x:Name="PART_Popup" 
+                DataContext="{Binding Data, Source={StaticResource ToolButton}}"
+                AllowsTransparency="True"
+                Focusable="False" 
+                IsOpen="{Binding IsOpen}" 
+                MouseLeave="PART_Popup_MouseLeave"
+                Placement="Bottom" 
+                PopupAnimation="Fade">
+                <Grid>
+                    <Border 
+                        Background="{DynamicResource Brush.ComboBox.DropDown.Background}"
+                        BorderBrush="{DynamicResource Brush.ComboBox.DropDown.Border}" 
+                        BorderThickness="1"
+                        SnapsToDevicePixels="True"
+                        MinWidth="{Binding ActualWidth}">
+                        <ItemsControl  
+                            x:Name="PART_ItemsControl"
+                            ItemsSource="{Binding ItemsSource}"
+                            KeyboardNavigation.DirectionalNavigation="Contained"
+                            Margin="1,2,1,1" 
+                            SnapsToDevicePixels="True">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ComboBoxItem
+                                        PreviewMouseDown="ComboBoxItem_PreviewMouseDown"
+                                        Content="{Binding .}"
+                                        ContentTemplate="{Binding Data.ItemTemplate, Source={StaticResource ToolButton}}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Grid>
+            </Popup>
+        </Grid>
+    </Border>
+</UserControl>

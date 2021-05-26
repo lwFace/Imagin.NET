@@ -1,8 +1,5 @@
 ﻿namespace Imagin.Common.Media
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public enum GraphicalUnit
     {
         /// <summary>

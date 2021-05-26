@@ -1,0 +1,60 @@
+﻿<local:BaseWindow 
+    x:Class="Imagin.Common.Controls.CollectionWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup"
+    Height="420"
+    ResizeMode="NoResize"
+    Width="720"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
+    <Grid 
+        DataContext="{Data:Ancestor {x:Type local:CollectionWindow}}"
+        Margin="10"
+        Linq:GridExtensions.Rows="Auto,*,Auto"
+        Linq:PanelExtensions.Spacing="0,0,0,5"
+        Linq:PanelExtensions.SpacingExcept="Last">
+        <TextBlock
+            Grid.Row="0">
+            <Run Text="{Binding Label, Mode=OneWay}"/>:
+        </TextBlock>
+        <Grid 
+            Linq:GridExtensions.Columns="*,Auto"
+            Grid.Row="1">
+            <ListBox
+                Grid.Column="0"
+                ItemsSource="{Binding Collection, Mode=OneWay}"
+                ItemTemplate="{Binding ItemTemplate}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                SelectionMode="Single"/>
+            <StackPanel
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                Linq:PanelExtensions.Spacing="0,0,0,5"
+                Linq:PanelExtensions.SpacingExcept="Last">
+                <local:MaskedButton
+                    Command="{Binding UpCommand}"
+                    Source="{Markup:Image Imagin.Common.WPF, Images/ArrowUp.png}"/>
+                <local:MaskedButton
+                    Command="{Binding DownCommand}"
+                    Source="{Markup:Image Imagin.Common.WPF, Images/ArrowDown.png}"/>
+            </StackPanel>
+        </Grid>
+        <StackPanel 
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            Linq:PanelExtensions.Spacing="0,0,5,0"
+            Linq:PanelExtensions.SpacingExcept="Last"
+            Orientation="Horizontal">
+            <Button 
+                Command="{Binding RenameCommand}"
+                Content="Rename"/>
+            <Button 
+                Command="{Binding DeleteCommand}"
+                Content="Delete"/>
+        </StackPanel>
+    </Grid>
+</local:BaseWindow>

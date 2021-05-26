@@ -1,19 +1,72 @@
-﻿using Imagin.Common.Linq;
+﻿using Imagin.Common.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class TreeViewExtensions
     {
+        #region Properties
+
+        #region SelectedItems
+
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(TreeViewExtensions));
+        public static IList GetSelectedItems(System.Windows.Controls.TreeView TreeView)
+        {
+            return (IList)TreeView.GetValue(SelectedItemsProperty);
+        }
+        public static void SetSelectedItems(System.Windows.Controls.TreeView TreeView, IList Value)
+        {
+            TreeView.SetValue(SelectedItemsProperty, Value);
+        }
+
+        #endregion
+
+        #region SelectionMode
+
+        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.RegisterAttached("SelectionMode", typeof(TreeViewSelectionMode), typeof(TreeViewExtensions), new PropertyMetadata(TreeViewSelectionMode.Single, OnSelectionModeChanged));
+        public static TreeViewSelectionMode GetSelectionMode(System.Windows.Controls.TreeView TreeView)
+        {
+            return (TreeViewSelectionMode)TreeView.GetValue(SelectionModeProperty);
+        }
+        public static void SetSelectionMode(System.Windows.Controls.TreeView TreeView, TreeViewSelectionMode Value)
+        {
+            TreeView.SetValue(SelectionModeProperty, Value);
+        }
+        static void OnSelectionModeChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var TreeView = sender as System.Windows.Controls.TreeView;
+            if ((TreeViewSelectionMode)e.NewValue == TreeViewSelectionMode.Single)
+            {
+                var SelectedItems = TreeViewExtensions.GetSelectedItems(TreeView);
+                if (SelectedItems != null && SelectedItems.Count > 1)
+                    TreeView.SelectItem(TreeView.ItemContainerGenerator.ContainerFromItem(SelectedItems[0]).As<TreeViewItem>());
+            }
+        }
+
+        #endregion
+
+        #region (internal) StartItem
+
+        internal static readonly DependencyProperty StartItemProperty = DependencyProperty.RegisterAttached("StartItem", typeof(TreeViewItem), typeof(TreeViewExtensions));
+        internal static TreeViewItem GetStartItem(System.Windows.Controls.TreeView element)
+        {
+            return (TreeViewItem)element.GetValue(StartItemProperty);
+        }
+        internal static void SetStartItem(System.Windows.Controls.TreeView element, TreeViewItem value)
+        {
+            element.SetValue(StartItemProperty, value);
+        }
+
+        #endregion
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -62,7 +115,7 @@ namespace Imagin.Common.Linq
             {
                 foreach (var i in Control.Items)
                 {
-                    if (i.IsNot<T>())
+                    if (i.Not<T>())
                         throw new InvalidCastException("Item must be of type T");
 
                     var j = Control.ItemContainerGenerator.ContainerFromItem(i).To<ItemsControl>();
@@ -86,7 +139,7 @@ namespace Imagin.Common.Linq
             {
                 foreach (var i in Control.Items)
                 {
-                    if (i.IsNot<T>())
+                    if (i.Not<T>())
                         throw new InvalidCastException("Item must be of type T");
 
                     var j = Control.ItemContainerGenerator.ContainerFromItem(i).To<ItemsControl>();
@@ -123,7 +176,7 @@ namespace Imagin.Common.Linq
                 {
                     if (m == n)
                     {
-                        if (i.IsNot<T>())
+                        if (i.Not<T>())
                             throw new InvalidCastException("Item must be of type T");
 
                         var j = (ItemsControl)Control.ItemContainerGenerator.ContainerFromItem(i);
@@ -138,11 +191,6 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Control"></param>
-        /// <param name="AllItems"></param>
         public static void GetAllItems(ItemsControl Control, ICollection<TreeViewItem> AllItems)
         {
             if (Control != null)
@@ -159,24 +207,14 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <param name="Item"></param>
-        public static void SelectItem(this TreeView TreeView, TreeViewItem Item)
+        public static void SelectItem(this System.Windows.Controls.TreeView TreeView, TreeViewItem Item)
         {
             SelectNone(TreeView);
             TreeViewItemExtensions.SetIsSelected(Item, true);
             TreeViewExtensions.SetStartItem(TreeView, Item);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <param name="Item"></param>
-        public static void SelectItems(this TreeView TreeView, TreeViewItem Item)
+        public static void SelectItems(this System.Windows.Controls.TreeView TreeView, TreeViewItem Item)
         {
             if (Item == null) return;
 
@@ -189,13 +227,7 @@ namespace Imagin.Common.Linq
             else SelectItem(TreeView, Item);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <param name="TreeViewItem"></param>
-        /// <param name="ShiftControl"></param>
-        public static void SelectItemsContinuously(this TreeView TreeView, TreeViewItem TreeViewItem, bool ShiftControl = false)
+        public static void SelectItemsContinuously(this System.Windows.Controls.TreeView TreeView, TreeViewItem TreeViewItem, bool ShiftControl = false)
         {
             var StartItem = TreeViewExtensions.GetStartItem(TreeView);
             if (StartItem != null)
@@ -230,12 +262,7 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <param name="TreeViewItem"></param>
-        public static void SelectItemsRandomly(this TreeView TreeView, TreeViewItem TreeViewItem)
+        public static void SelectItemsRandomly(this System.Windows.Controls.TreeView TreeView, TreeViewItem TreeViewItem)
         {
             TreeViewItemExtensions.SetIsSelected(TreeViewItem, !TreeViewItemExtensions.GetIsSelected(TreeViewItem));
             if (TreeViewExtensions.GetStartItem(TreeView) == null || Keyboard.Modifiers == ModifierKeys.Control)
@@ -250,10 +277,6 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Control"></param>
         public static void SelectNone(this ItemsControl Control)
         {
             if (Control != null)
@@ -268,76 +291,6 @@ namespace Imagin.Common.Linq
                     }
                 }
             }
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(TreeViewExtensions));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <returns></returns>
-        public static IList GetSelectedItems(TreeView TreeView)
-        {
-            return (IList)TreeView.GetValue(SelectedItemsProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <param name="Value"></param>
-        public static void SetSelectedItems(TreeView TreeView, IList Value)
-        {
-            TreeView.SetValue(SelectedItemsProperty, Value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.RegisterAttached("SelectionMode", typeof(TreeViewSelectionMode), typeof(TreeViewExtensions), new PropertyMetadata(TreeViewSelectionMode.Single, OnSelectionModeChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <returns></returns>
-        public static TreeViewSelectionMode GetSelectionMode(TreeView TreeView)
-        {
-            return (TreeViewSelectionMode)TreeView.GetValue(SelectionModeProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="TreeView"></param>
-        /// <param name="Value"></param>
-        public static void SetSelectionMode(TreeView TreeView, TreeViewSelectionMode Value)
-        {
-            TreeView.SetValue(SelectionModeProperty, Value);
-        }
-        static void OnSelectionModeChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var TreeView = sender as TreeView;
-            if ((TreeViewSelectionMode)e.NewValue == TreeViewSelectionMode.Single)
-            {
-                var SelectedItems = TreeViewExtensions.GetSelectedItems(TreeView);
-                if (SelectedItems != null && SelectedItems.Count > 1)
-                    TreeView.SelectItem(TreeView.ItemContainerGenerator.ContainerFromItem(SelectedItems[0]).As<TreeViewItem>());
-            }
-        }
-
-        internal static readonly DependencyProperty StartItemProperty = DependencyProperty.RegisterAttached("StartItem", typeof(TreeViewItem), typeof(TreeViewExtensions));
-        internal static TreeViewItem GetStartItem(TreeView element)
-        {
-            return (TreeViewItem)element.GetValue(StartItemProperty);
-        }
-        internal static void SetStartItem(TreeView element, TreeViewItem value)
-        {
-            element.SetValue(StartItemProperty, value);
         }
 
         #endregion

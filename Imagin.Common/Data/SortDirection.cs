@@ -1,17 +1,11 @@
-﻿namespace Imagin.Common.Data
+﻿using System;
+
+namespace Imagin.Common.Data
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [Serializable]
     public enum SortDirection
     {
-        /// <summary>
-        /// 
-        /// </summary>
         Ascending,
-        /// <summary>
-        /// 
-        /// </summary>
         Descending
     }
 }

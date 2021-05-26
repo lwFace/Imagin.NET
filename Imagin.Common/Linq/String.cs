@@ -1,38 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text.RegularExpressions;
-using System.Reflection;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class StringExtensions
     {
-        /// <summary>
-        /// Get string after a.
-        /// </summary>
-        public static string After(this string value, string a)
+        public static String After(this String input, String i)
         {
-            var pos_a = value.LastIndexOf(a);
+            var pos_a = input.LastIndexOf(i);
 
             if (pos_a == -1)
                 return string.Empty;
 
-            var adjusted = pos_a + a.Length;
+            var adjusted = pos_a + i.Length;
 
-            return adjusted >= value.Length ? string.Empty : value.Substring(adjusted);
+            return adjusted >= input.Length ? string.Empty : input.Substring(adjusted);
         }
 
-        /// <summary>
-        /// Get string between a and b.
-        /// </summary>
-        public static string Between(this string value, string a, string b)
+        public static Boolean AlphaNumeric(this String input)
+            => Regex.IsMatch(input, @"^[a-zA-Z0-9]+$");
+
+        public static String Before(this String input, String i)
         {
-            var pos_a = value.IndexOf(a);
-            var pos_b = value.LastIndexOf(b);
+            var result = input.IndexOf(i);
+            return result == -1 ? string.Empty : input.Substring(0, result);
+        }
+
+        public static String Between(this String input, String a, String b)
+        {
+            var pos_a = input.IndexOf(a);
+            var pos_b = input.LastIndexOf(b);
 
             if (pos_a == -1)
                 return string.Empty;
@@ -41,183 +41,12 @@ namespace Imagin.Common.Linq
                 return string.Empty;
 
             var adjusted = pos_a + a.Length;
-
-            return adjusted >= pos_b ? string.Empty : value.Substring(adjusted, pos_b - adjusted);
+            return adjusted >= pos_b ? string.Empty : input.Substring(adjusted, pos_b - adjusted);
         }
 
-        /// <summary>
-        /// Get string before a a.
-        /// </summary>
-        public static string Before(this string value, string a)
+        public static Boolean? Boolean(this String input)
         {
-            var pos_a = value.IndexOf(a);
-            return pos_a == -1 ? string.Empty : value.Substring(0, pos_a);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Values"></param>
-        /// <returns></returns>
-        public static bool EndsWithAny(this string Value, params char[] Values)
-        {
-            return Value.EndsWithAny(Values.Select(i => i.ToString()).ToArray());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Values"></param>
-        /// <returns></returns>
-        public static bool EndsWithAny(this string Value, params object[] Values)
-        {
-            return Value.EndsWithAny(Values.Select(i => i.ToString()).ToArray());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Values"></param>
-        /// <returns></returns>
-        public static bool EndsWithAny(this string Value, params string[] Values)
-        {
-            foreach (var i in Values)
-            {
-                if (Value.EndsWith(i))
-                    return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Format"></param>
-        /// <param name="Args"></param>
-        /// <returns></returns>
-        public static string F(this string Format, params object[] Args)
-        {
-            return string.Format(Format, Args);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Format"></param>
-        /// <param name="Args"></param>
-        /// <returns></returns>
-        public static string Format(this string Format, params object[] Args)
-        {
-            return Format.F(Args);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static bool IsAlphaNumeric(this string Value)
-        {
-            return Regex.IsMatch(Value, @"^[a-zA-Z0-9]+$");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToCheck"></param>
-        /// <returns></returns>
-        public static bool IsDouble(this string ToCheck)
-        {
-            double n;
-            return double.TryParse(ToCheck, out n);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToEvaluate"></param>
-        /// <returns></returns>
-        public static bool IsEmpty(this string ToEvaluate)
-        {
-            return ToEvaluate.Length == 0;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToCheck"></param>
-        /// <returns></returns>
-        public static bool IsInt(this string ToCheck)
-        {
-            int n;
-            return int.TryParse(ToCheck, out n);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToCheck"></param>
-        /// <returns></returns>
-        public static bool IsLong(this string ToCheck)
-        {
-            long n;
-            return long.TryParse(ToCheck, out n);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToEvaluate"></param>
-        /// <returns></returns>
-        public static bool IsNullOrEmpty(this string ToEvaluate)
-            => string.IsNullOrEmpty(ToEvaluate);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToEvaluate"></param>
-        /// <returns></returns>
-        public static bool IsNullOrWhiteSpace(this string ToEvaluate)
-            => string.IsNullOrWhiteSpace(ToEvaluate);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToCheck"></param>
-        /// <returns></returns>
-        public static bool IsShort(this string ToCheck)
-        {
-            short n;
-            return short.TryParse(ToCheck, out n);
-        }
-
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="Enum"/>.
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="Value"></param>
-        /// <param name="IgnoreCase"></param>
-        /// <returns></returns>
-        public static TEnum ParseEnum<TEnum>(this string Value, bool IgnoreCase = true) where TEnum : struct, IFormattable, IComparable, IConvertible
-        {
-            return (TEnum)Enum.Parse(typeof(TEnum), Value, IgnoreCase);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static string SplitCamelCase(this string value)
-            => Regex.Replace(Regex.Replace(value, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
-
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="bool"/>.
-        /// </summary>
-        public static bool? ToBool(this string value)
-        {
-            switch (value.ToLower())
+            switch (input.ToLower())
             {
                 case "true":
                 case "t":
@@ -231,198 +60,247 @@ namespace Imagin.Common.Linq
             return null;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="byte"/>.
-        /// </summary>
-        public static byte ToByte(this string value)
+        public static string Capitalize(this string input)
         {
-            byte.TryParse(value, out byte result);
-            return result;
+            return System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
 
+        public static bool OnlyContains(this string input, char character)
+        {
+            foreach (var i in input)
+            {
+                if (!i.Equals(character))
+                    return false;
+            }
+            return true;
+        }
+
+        public static Boolean Empty(this String input)
+            => input.Length == 0;
+
+        public static Boolean EndsWithAny(this String input, params Char[] values)
+            => input.EndsWithAny(values.Select(i => i.ToString()).ToArray());
+
+        public static Boolean EndsWithAny(this String input, params object[] values)
+            => input.EndsWithAny(values.Select(i => i.ToString()).ToArray());
+
+        public static Boolean EndsWithAny(this String input, params String[] values)
+        {
+            foreach (var i in values)
+            {
+                if (input.EndsWith(i))
+                    return true;
+            }
+            return false;
+        }
+
+        public static String F(this String input, params object[] arguments) => string.Format(input, arguments);
+
+        public static Boolean NullOrEmpty(this String input) => string.IsNullOrEmpty(input);
+
+        public static Boolean NullOrWhitespace(this String input) => string.IsNullOrWhiteSpace(input);
+
+        public static Boolean Numeric(this String input) => Regex.IsMatch(input, @"^[0-9]+$");
+
+        public static string PadLeft(this string input, char i, int repeat) => input.PadLeft(input.Length + repeat, i);
+
         /// <summary>
-        /// Parses <see cref="string"/> to <see cref="char"/>.
+        /// Gets the number of times the given <see cref="char"/> repeats.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="input"></param>
+        /// <param name="character"></param>
         /// <returns></returns>
-        public static char ToChar(this string value)
+        public static int Repeats(this string input, char character)
         {
-            char.TryParse(value, out char result);
+            int result = 0;
+            foreach (var i in input)
+            {
+                if (i.Equals(character))
+                    result++;
+            }
             return result;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="short"/>.
-        /// </summary>
-        public static short ToInt16(this string value)
+        public static String ReplaceBetween(this String input, char a, char b, String replace)
         {
-            short.TryParse(value, out short result);
+            int? i0 = null;
+            int? i1 = null;
+            int length = 0;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (i0 == null)
+                {
+                    if (input[i] == a)
+                        i0 = i;
+                }
+                else
+                {
+                    if (input[i] == b)
+                    {
+                        i1 = i;
+                        break;
+                    }
+
+                    length++;
+                }
+            }
+
+            if (i0 != null && i1 != null)
+                return input.Substring(0, i0.Value + 1) + replace + input.Substring(i1.Value, input.Length - i1.Value);
+
+            return string.Empty;
+        }
+
+        public static String SplitCamel(this String input)
+        {
+            //New way: Previous character must be lowercase and current character must be uppercase.
+            var result = new System.Text.StringBuilder();
+            for (var i = 0; i < input.Length; i++)
+            {
+                if (result.Length > 0)
+                {
+                    if (char.IsLetter(input[i - 1]) && char.IsLetter(input[i]))
+                    {
+                        if (char.IsLower(input[i - 1]) && char.IsUpper(input[i]))
+                            result.Append(' ');
+                    }
+                }
+                result.Append(input[i]);
+            }
+            return result.ToString();
+            //Old way: Regex.Replace(Regex.Replace(input, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
+        }
+
+        //.................................................................................
+
+        public static Byte Byte(this String input)
+        {
+            byte.TryParse(input, out byte result);
             return result;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="int"/>.
-        /// </summary>
-        public static int ToInt32(this string value)
+        public static Char Char(this String input)
         {
-            int.TryParse(value, out int result);
+            char.TryParse(input, out char result);
             return result;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="long"/>.
-        /// </summary>
-        public static long ToInt64(this string value)
+        public static DateTime DateTime(this String input)
         {
-            long.TryParse(value, out long result);
+            System.DateTime.TryParse(input, out DateTime result);
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Separator"></param>
-        /// <returns></returns>
-        public static IEnumerable<int> ToInt32Array(this string Value, char Separator = ',')
+        public static Decimal Decimal(this String input)
         {
-            return Value.ToInt32Array(Separator as char?);
+            decimal.TryParse(input, out decimal result);
+            return result;
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Separator"></param>
-        /// <returns></returns>
-        public static IEnumerable<int> ToInt32Array(this string Value, char? Separator)
+
+        public static Double Double(this String input)
         {
-            if (String.IsNullOrEmpty(Value))
+            double.TryParse(input, out double result);
+            return result;
+        }
+
+        public static Int16 Int16(this String input)
+        {
+            short.TryParse(input, out short result);
+            return result;
+        }
+
+        public static Int32 Int32(this String input)
+        {
+            int.TryParse(input, out int result);
+            return result;
+        }
+
+        public static Int64 Int64(this String input)
+        {
+            long.TryParse(input, out long result);
+            return result;
+        }
+
+        public static IEnumerable<int> Int32Array(this String input, Char separator = ',')
+            => input.Int32Array(separator as char?);
+
+        public static IEnumerable<int> Int32Array(this String input, Char? separator)
+        {
+            if (String.IsNullOrEmpty(input))
                 yield break;
 
-            if (Separator == null)
+            if (separator == null)
             {
-                foreach (var i in Value.ToArray())
-                    yield return i.ToString().ToInt32();
+                foreach (var i in input.ToArray())
+                    yield return i.ToString().Int32();
             }
             else
             {
-                foreach (var i in Value.Split(Separator.Value))
-                    yield return i.ToInt32();
+                foreach (var i in input.Split(separator.Value))
+                    yield return i.Int32();
             }
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="DateTime"/>.
-        /// </summary>
-        public static DateTime ToDateTime(this string value)
+        public static SecureString SecureString(this string input)
         {
-            DateTime.TryParse(value, out DateTime result);
+            var result = new SecureString();
+            if (!input.NullOrWhitespace())
+            {
+                foreach (char c in input)
+                    result.AppendChar(c);
+            }
             return result;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="decimal"/>.
-        /// </summary>
-        public static decimal ToDecimal(this string value)
+        public static Single Single(this String input)
         {
-            decimal.TryParse(value, out decimal result);
+            float.TryParse(input, out float result);
             return result;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="double"/>.
-        /// </summary>
-        public static double ToDouble(this string value)
+        public static TimeSpan TimeSpan(this String input)
         {
-            double.TryParse(value, out double result);
+            System.TimeSpan.TryParse(input, out TimeSpan result);
             return result;
         }
 
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="float"/>.
-        /// </summary>
-        public static float ToFloat(this string value)
+        public static Boolean TryParse<T>(this String input, out T result, Boolean ignoreCase = true) where T : struct, IFormattable, IComparable, IConvertible => Enum.TryParse(input, ignoreCase, out result);
+
+        public static UDouble UDouble(this String input)
         {
-            float.TryParse(value, out float result);
+            Common.UDouble.TryParse(input, out UDouble result);
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static TimeSpan ToTimeSpan(this string value)
+        public static UInt16 UInt16(this String input)
         {
-            TimeSpan.TryParse(value, out TimeSpan result);
-            return result;
-        }
-
-        /// <summary>
-        /// Parses <see cref="string"/> to <see cref="UDouble"/>.
-        /// </summary>
-        public static UDouble ToUDouble(this string value)
-        {
-            UDouble.TryParse(value, out UDouble result);
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static ushort ToUInt16(this string Value)
-        {
-            ushort.TryParse(Value, out ushort Result);
+            ushort.TryParse(input, out ushort Result);
             return Result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static uint ToUInt32(this string Value)
+        public static UInt32 UInt32(this String input)
         {
-            uint.TryParse(Value, out uint Result);
+            uint.TryParse(input, out uint Result);
             return Result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static ulong ToUInt64(this string Value)
+        public static UInt64 UInt64(this String input)
         {
-            ulong.TryParse(Value, out ulong Result);
+            ulong.TryParse(input, out ulong Result);
             return Result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="kind"></param>
-        /// <returns></returns>
-        public static Uri ToUri(this string value, UriKind kind = UriKind.RelativeOrAbsolute)
+        public static Uri Uri(this String input, UriKind kind = UriKind.RelativeOrAbsolute)
         {
-            Uri.TryCreate(value, kind, out Uri result);
+            System.Uri.TryCreate(input, kind, out Uri result);
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="raw"></param>
-        /// <param name="Delimiter"></param>
-        /// <returns></returns>
-        public static Version ToVersion(this string raw, char Delimiter = '.')
+        public static Version Version(this String input, Char delimiter = '.')
         {
             int major = 0, minor = 0, build = 0;
-            string[] tokens = raw.Split(Delimiter);
+            string[] tokens = input.Split(delimiter);
             if (tokens.Length > 0)
             {
                 int.TryParse(tokens[0], out major);
@@ -434,20 +312,6 @@ namespace Imagin.Common.Linq
                 }
             }
             return new Version(major, minor, build);
-        }
-
-        /// <summary>
-        /// Attempts to parse <see cref="string"/> to <see cref="Enum"/>.
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="OldValue"></param>
-        /// <param name="NewValue"></param>
-        /// <param name="IgnoreCase"></param>
-        /// <returns></returns>
-        public static bool TryParseEnum<TEnum>(this string OldValue, out TEnum NewValue, bool IgnoreCase = true) where TEnum : struct, IFormattable, IComparable, IConvertible
-        {
-            NewValue = default(TEnum);
-            return Enum.TryParse(OldValue, IgnoreCase, out NewValue);
         }
     }
 }

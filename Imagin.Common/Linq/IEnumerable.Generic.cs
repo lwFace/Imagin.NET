@@ -2,18 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static partial class IEnumerableExtensions
     {
-        static TValue Compare<TValue>(this IEnumerable<TValue> source, Func<TValue, TValue, bool> action, TValue origin = default(TValue))
+        static TValue Compare<TValue>(this IEnumerable<TValue> input, Func<TValue, TValue, bool> action, TValue origin = default(TValue))
         {
             var result = origin;
-            foreach (var i in source)
+            foreach (var i in input)
             {
                 if (action(i, result))
                     result = i;
@@ -21,36 +19,11 @@ namespace Imagin.Common.Linq
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public static T At<T>(this IEnumerable<T> source, int index)
-        {
-            var j = 0;
-            foreach (var i in source)
-            {
-                if (j == index)
-                    return i;
+        //............................................................................................................
 
-                j++;
-            }
-            return default(T);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        public static bool Contains<T>(this IEnumerable<T> source, Predicate<T> predicate)
+        public static bool Contains<T>(this IEnumerable<T> input, Predicate<T> predicate)
         {
-            foreach (var i in source)
+            foreach (var i in input)
             {
                 if (predicate(i))
                     return true;
@@ -59,217 +32,197 @@ namespace Imagin.Common.Linq
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <param name="Action"></param>
-        public static void For<T>(this IEnumerable<T> Source, int From, Action<IEnumerable<T>, int> Action)
-        {
-            for (var i = From; i < Source.Count(); i++)
-                Action(Source, i);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <param name="Until"></param>
-        /// <param name="Action"></param>
-        public static void For<T>(this IEnumerable<T> Source, int From, int Until, Action<IEnumerable<T>, int> Action)
-        {
-            for (var i = From; i < Until; i++)
-                Action(Source, i);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <param name="Until"></param>
-        /// <param name="Action"></param>
-        public static void For<T>(this IEnumerable<T> Source, int From, Predicate<int> Until, Action<IEnumerable<T>, int> Action)
-        {
-            for (var i = From; Until(i); i++)
-                Action(Source, i);
-        }
-
-        /// <summary>
         /// Perform for each loop on given <see cref="IEnumerable{T}"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="Action"></param>
-        public static void ForEach<T>(this IEnumerable<T> Source, Action<T> Action)
+        /// <param name="input"></param>
+        /// <param name="action"></param>
+        public static void ForEach<T>(this IEnumerable<T> input, Action<T> action)
         {
-            foreach (var i in Source)
-                Action(i);
+            foreach (var i in input)
+                action(i);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static T Last<T>(this IEnumerable<T> Source)
+        public static T Last<T>(this IEnumerable<T> input)
         {
             var Result = default(T);
-            Source.ForEach(i => Result = i);
+            input.ForEach(i => Result = i);
             return Result;
         }
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static T LeastCommon<T>(this IEnumerable<T> Source)
+        public static T LeastCommon<T>(this IEnumerable<T> input)
         {
             return
             (
-                from i in Source
+                from i in input
                 group i by i into g
                 orderby g.Count() ascending
                 select g.Key
             )
-            .First();
+            .First<T>();
         }
 
         /// <summary>
-        /// 
+        /// Returns the maximal element of the given sequence, based on
+        /// the given projection.
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Double Maximum(this IEnumerable<Double> source) => source.Compare((i, j) => i > j);
+        /// <remarks>
+        /// If more than one element has the maximal projected value, the first
+        /// one encountered will be returned. This overload uses the default comparer
+        /// for the projected type. This operator uses immediate execution, but
+        /// only buffers a single result (the current maximal element).
+        /// </remarks>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="input">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>
+        /// <returns>The maximal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="input"/> is empty</exception>
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> input, Func<TSource, TKey> selector) => input.MaxBy(selector, null);
 
         /// <summary>
-        /// 
+        /// Returns the maximal element of the given sequence, based on
+        /// the given projection and the specified comparer for projected values. 
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Int16 Maximum(this IEnumerable<Int16> source) => source.Compare((i, j) => i > j);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Int32 Maximum(this IEnumerable<Int32> source) => source.Compare((i, j) => i > j);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Int64 Maximum(this IEnumerable<Int64> source) => source.Compare((i, j) => i > j);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Double Minimum(this IEnumerable<Double> source) => source.Compare((i, j) => i < j, Double.MaxValue);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Int16 Minimum(this IEnumerable<Int16> source) => source.Compare((i, j) => i < j, Int16.MaxValue);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Int32 Minimum(this IEnumerable<Int32> source) => source.Compare((i, j) => i < j, Int32.MaxValue);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Int64 Minimum(this IEnumerable<Int64> source) => source.Compare((i, j) => i < j, Int64.MaxValue);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static T MostCommon<T>(this IEnumerable<T> Source)
+        /// <remarks>
+        /// If more than one element has the maximal projected value, the first
+        /// one encountered will be returned. This operator uses immediate execution, but
+        /// only buffers a single result (the current maximal element).
+        /// </remarks>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="input">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>
+        /// <param name="comparer">Comparer to use to compare projected values</param>
+        /// <returns>The maximal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/>, <paramref name="selector"/> 
+        /// or <paramref name="comparer"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="input"/> is empty</exception>
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> input, Func<TSource, TKey> selector, IComparer<TKey> comparer)
         {
-            new List<int>().Maximum();
+            if (input == null) throw new ArgumentNullException("source");
+            if (selector == null) throw new ArgumentNullException("selector");
+            comparer = comparer ?? Comparer<TKey>.Default;
 
+            using (var sourceIterator = input.GetEnumerator())
+            {
+                if (!sourceIterator.MoveNext())
+                {
+                    throw new InvalidOperationException("Sequence contains no elements");
+                }
+                var max = sourceIterator.Current;
+                var maxKey = selector(max);
+                while (sourceIterator.MoveNext())
+                {
+                    var candidate = sourceIterator.Current;
+                    var candidateProjected = selector(candidate);
+                    if (comparer.Compare(candidateProjected, maxKey) > 0)
+                    {
+                        max = candidate;
+                        maxKey = candidateProjected;
+                    }
+                }
+                return max;
+            }
+        }
+
+        /// <summary>
+        /// Returns the minimal element of the given sequence, based on
+        /// the given projection.
+        /// </summary>
+        /// <remarks>
+        /// If more than one element has the minimal projected value, the first
+        /// one encountered will be returned. This overload uses the default comparer
+        /// for the projected type. This operator uses immediate execution, but
+        /// only buffers a single result (the current minimal element).
+        /// </remarks>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="input">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>
+        /// <returns>The minimal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/> or <paramref name="selector"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="input"/> is empty</exception>
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> input, Func<TSource, TKey> selector)
+        {
+            return input.MinBy(selector, null);
+        }
+
+        /// <summary>
+        /// Returns the minimal element of the given sequence, based on
+        /// the given projection and the specified comparer for projected values.
+        /// </summary>
+        /// <remarks>
+        /// If more than one element has the minimal projected value, the first
+        /// one encountered will be returned. This operator uses immediate execution, but
+        /// only buffers a single result (the current minimal element).
+        /// </remarks>
+        /// <typeparam name="TSource">Type of the source sequence</typeparam>
+        /// <typeparam name="TKey">Type of the projected element</typeparam>
+        /// <param name="input">Source sequence</param>
+        /// <param name="selector">Selector to use to pick the results to compare</param>
+        /// <param name="comparer">Comparer to use to compare projected values</param>
+        /// <returns>The minimal element, according to the projection.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="input"/>, <paramref name="selector"/> 
+        /// or <paramref name="comparer"/> is null</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="input"/> is empty</exception>
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> input, Func<TSource, TKey> selector, IComparer<TKey> comparer)
+        {
+            if (input == null) throw new ArgumentNullException("source");
+            if (selector == null) throw new ArgumentNullException("selector");
+            comparer = comparer ?? Comparer<TKey>.Default;
+
+            using (var sourceIterator = input.GetEnumerator())
+            {
+                if (!sourceIterator.MoveNext())
+                {
+                    throw new InvalidOperationException("Sequence contains no elements");
+                }
+                var min = sourceIterator.Current;
+                var minKey = selector(min);
+                while (sourceIterator.MoveNext())
+                {
+                    var candidate = sourceIterator.Current;
+                    var candidateProjected = selector(candidate);
+                    if (comparer.Compare(candidateProjected, minKey) < 0)
+                    {
+                        min = candidate;
+                        minKey = candidateProjected;
+                    }
+                }
+                return min;
+            }
+        }
+
+        public static T MostCommon<T>(this IEnumerable<T> input)
+        {
             return 
             (
-                from i in Source
+                from i in input
                 group i by i into g
                 orderby g.Count() descending
                 select g.Key
             )
-            .First();
+            .First<T>();
         }
 
-        /// <summary>
-        /// Gets the second item in a sequence.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static T Second<T>(this IEnumerable<T> Value)
+        public static string ToString<T>(this IEnumerable<T> input, string separator)
         {
+            var result = new StringBuilder();
+
             var j = 0;
-            foreach (var i in Value)
+            var k = input.Count() - 1;
+            foreach (var i in input)
             {
-                if (j == 1) return i;
+                result.Append(i.ToString());
+                if (j < k)
+                    result.Append(separator);
+
                 j++;
             }
-            return default(T);
-        }
 
-        /// <summary>
-        /// Gets the last item in a sequence.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static T Third<T>(this IEnumerable<T> Value)
-        {
-            var j = 0;
-            foreach (var i in Value)
-            {
-                if (j == 2) return i;
-                j++;
-            }
-            return default(T);
-        }
-
-        /// <summary>
-        /// Attempt to perform for each loop on given <see cref="IEnumerable{T}"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="Action"></param>
-        public static bool TryForEach<T>(this IEnumerable<T> Source, Action<T> Action)
-        {
-            try
-            {
-                foreach (var i in Source)
-                    Action(i);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return result.ToString();
         }
     }
 }

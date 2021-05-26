@@ -1,0 +1,147 @@
+﻿<UserControl 
+    x:Class="Desktop.TileView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:i="http://imagin.tech/imagin/common"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Desktop"
+    xmlns:Controls="clr-namespace:Desktop.Controls"
+    xmlns:Tiles="clr-namespace:Desktop.Tiles">
+    <UserControl.Resources>
+        <i:Reference x:Key="TileView" Data="{i:Ancestor {x:Type local:TileView}}"/>
+        <i:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter"/>
+        <i:FileNameConverter x:Key="FileNameConverter"/>
+        <i:SecondsConverter x:Key="SecondsConverter"/>
+        <i:SortDirectionConverter x:Key="SortDirectionConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid
+            Background="{DynamicResource Brush.Window.Background}"
+            Opacity="{i:Options TileOpacity}"/>
+        <Controls:HeaderView
+            HeaderAlignment="{Binding Data.HeaderAlignment, Source={StaticResource TileView}}"
+            HeaderPlacement="{Binding Data.HeaderPlacement, Source={StaticResource TileView}}">
+            <Controls:HeaderView.Header>
+                <ContentControl
+                    Content="{Binding}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type Tiles:ClockTile}">
+                            <i:LabelBox
+                                Label="{Binding DateTime}"
+                                Text="{i:Options ClockDateTimeFormat, Mode=TwoWay}"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:CountDownTile}">
+                            <i:LabelBox
+                                Placeholder="Title"
+                                Text="{Binding Title, Mode=TwoWay}"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:ImageTile}">
+                            <i:FileBox 
+                                BrowseMode="Open"
+                                CanBrowse="True"
+                                CanValidate="True"
+                                IconVisibility="Visible"
+                                Label="{Binding Path, Converter={StaticResource FileNameConverter}}"
+                                Placeholder="File or folder path"
+                                BrowseButtonVisibility="True"
+                                Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="{Binding Path}"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:NoteTile}">
+                            <i:LabelBox 
+                                Placeholder="Title"
+                                Text="{Binding Title, Mode=TwoWay}"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:FolderTile}">
+                            <i:FileBox 
+                                BrowseButtonVisibility="True"
+                                BrowseMode="OpenFolder"
+                                CanBrowse="True"
+                                CanValidate="True"
+                                IconVisibility="Visible"
+                                Label="{Binding Path, Converter={StaticResource FileNameConverter}}"
+                                Placeholder="Folder path"
+                                Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="{Binding Path}"/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Controls:HeaderView.Header>
+            <Controls:HeaderView.Body>
+                <ContentControl Content="{Binding}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type Tiles:ClockTile}">
+                            <Viewbox 
+                                Grid.Row="0"
+                                Stretch="Uniform" 
+                                StretchDirection="Both">
+                                <i:Clock Margin="5"/>
+                            </Viewbox>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:CountDownTile}">
+                            <Viewbox Stretch="Uniform" StretchDirection="Both">
+                                <i:LabelBox
+                                    FontSize="36"
+                                    HorizontalAlignment="Center"
+                                    Label="{Binding Date, Converter={StaticResource SecondsConverter}, ConverterParameter=1}"
+                                    Text="{Binding Date, Mode=TwoWay, StringFormat='M/d/yyyy h:mm tt', UpdateSourceTrigger=LostFocus}"
+                                    VerticalAlignment="Center"/>
+                            </Viewbox>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:ImageTile}">
+                            <i:Slideshow
+                                BackgroundOpacity="1"
+                                Interval="{Binding Interval}"
+                                PauseOnMouseOver="{i:Options SlideshowPauseOnMouseOver}"
+                                Path="{Binding Path}"
+                                Transition="{Binding Transition}"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:NoteTile}">
+                            <i:TextBox
+                                AcceptsReturn="True"
+                                FontFamily="{i:Options NoteFontFamily, Mode=OneWay}"
+                                FontSize="{i:Options NoteFontSize, Mode=OneWay}"
+                                i:ControlExtensions.FontSizeWheel="True"
+                                HorizontalAlignment="Stretch"
+                                Text="{Binding Text, Mode=TwoWay}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Top"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type Tiles:FolderTile}">
+                            <i:Browser 
+                                Background="Transparent"
+                                BorderThickness="0"
+                                FolderOpened="OnFolderOpened"
+                                IsReadOnly="True"
+                                                        
+                                ItemBackground="Transparent"
+                                ItemBorder="Transparent"
+                                ItemForeground="#FFF"
+                                                        
+                                ItemMouseOverBackground="#33FFFFFF"
+                                ItemMouseOverBorder="#44FFFFFF"
+                                ItemMouseOverForeground="#FFF"
+
+                                ItemSelectedActiveBackground="#55FFFFFF"
+                                ItemSelectedActiveBorder="#66FFFFFF"
+                                ItemSelectedActiveForeground="#FFF"
+                            
+                                ItemSelectedInactiveBackground="#11FFFFFF"
+                                ItemSelectedInactiveBorder="#22FFFFFF"
+                                ItemSelectedInactiveForeground="#FFF"
+
+                                ItemSize="{i:Options ItemSize, Mode=TwoWay}"
+                                GroupName="{Binding GroupName}"
+                                Path="{Binding Path, Mode=TwoWay}"
+                                SortDirection="{Binding SortDirection, Converter={StaticResource SortDirectionConverter}}"
+                                SortName="{Binding SortName}"
+                                ViewFileExtensions="{i:Options ViewFileExtensions}"
+                                ViewHiddenItems="{i:Options ViewHiddenItems}">
+                            </i:Browser>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Controls:HeaderView.Body>
+        </Controls:HeaderView>
+    </Grid>
+</UserControl>

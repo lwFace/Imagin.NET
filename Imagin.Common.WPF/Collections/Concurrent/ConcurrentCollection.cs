@@ -15,152 +15,66 @@ namespace Imagin.Common.Collections.Concurrent
     /// </summary>
     /// <typeparam name="T">The type of the elements in the collection.</typeparam>
     [Serializable]
-    public class ConcurrentCollection<T> : ConcurrentCollectionBase<T>, ICollection, ICollection<T>, IList, IList<T>, IPropertyChanged, IObservableCollection, IObservableCollection<T>
+    public class ConcurrentCollection<T> : BaseConcurrentCollection<T>, ICollect, ICollect<T>, ICollection, ICollection<T>, IList, IList<T>, IPropertyChanged
     {
         #region Properties
 
-        event EventHandler<EventArgs<object>> itemAdded;
-        event EventHandler<EventArgs<object>> IObservableCollection.ItemAdded
+        event EventHandler<EventArgs<object>> added;
+        event EventHandler<EventArgs<object>> ICollect.Added
         {
-            add
-            {
-                itemAdded += value;
-            }
-            remove
-            {
-                itemAdded -= value;
-            }
+            add => added += value;
+            remove => added -= value;
         }
-        /// <summary>
-        /// Occurs when a single item is added.
-        /// </summary>
-        public event EventHandler<EventArgs<T>> ItemAdded;
+        public event EventHandler<EventArgs<T>> Added;
 
-        event EventHandler<EventArgs> IObservableCollection.ItemsChanged
+        event ChangedEventHandler ICollect.Changed
         {
-            add
-            {
-                ItemsChanged += value;
-            }
-            remove
-            {
-                ItemsChanged -= value;
-            }
+            add => Changed += value;
+            remove => Changed -= value;
         }
-        /// <summary>
-        /// Occurs when the collection changes.
-        /// </summary>
-        public event EventHandler<EventArgs> ItemsChanged;
+        public event ChangedEventHandler Changed;
 
-        event EventHandler<EventArgs> IObservableCollection.ItemsCleared
+        event EventHandler<EventArgs> ICollect.Cleared
         {
-            add
-            {
-                ItemsCleared += value;
-            }
-            remove
-            {
-                ItemsCleared -= value;
-            }
+            add => Cleared += value;
+            remove => Cleared -= value;
         }
-        /// <summary>
-        /// Occurs when the collection is cleared.
-        /// </summary>
-        public event EventHandler<EventArgs> ItemsCleared;
-        
-        event EventHandler<EventArgs<object>> itemInserted;
-        event EventHandler<EventArgs<object>> IObservableCollection.ItemInserted
-        {
-            add
-            {
-                itemInserted += value;
-            }
-            remove
-            {
-                itemInserted -= value;
-            }
-        }
-        /// <summary>
-        /// Occurs when a single item is inserted.
-        /// </summary>
-        public event EventHandler<EventArgs<T>> ItemInserted;
+        public event EventHandler<EventArgs> Cleared;
 
-        event EventHandler<EventArgs<object>> itemRemoved;
-        event EventHandler<EventArgs<object>> IObservableCollection.ItemRemoved
+        event EventHandler<EventArgs> ICollect.Clearing
         {
-            add
-            {
-                itemRemoved += value;
-            }
-            remove
-            {
-                itemRemoved -= value;
-            }
+            add => Clearing += value;
+            remove => Clearing -= value;
         }
-        /// <summary>
-        /// Occurs when a single item is removed.
-        /// </summary>
-        public event EventHandler<EventArgs<T>> ItemRemoved;
+        public event EventHandler<EventArgs> Clearing;
 
-        event EventHandler<EventArgs> IObservableCollection.PreviewItemsCleared
+        event EventHandler<EventArgs<object>> inserted;
+        event EventHandler<EventArgs<object>> ICollect.Inserted
         {
-            add
-            {
-                PreviewItemsCleared += value;
-            }
-            remove
-            {
-                PreviewItemsCleared -= value;
-            }
+            add => inserted += value;
+            remove => inserted -= value;
         }
-        /// <summary>
-        /// Occurs just before the collection is cleared.
-        /// </summary>
-        public event EventHandler<EventArgs> PreviewItemsCleared;
+        public event EventHandler<EventArgs<T>> Inserted;
 
-        /// <summary>
-        /// Occurs when a property changes.
-        /// </summary>
+        event EventHandler<EventArgs<object>> removed;
+        event EventHandler<EventArgs<object>> ICollect.Removed
+        {
+            add => removed += value;
+            remove => removed -= value;
+        }
+        public event EventHandler<EventArgs<T>> Removed;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return DoBaseRead(() => ReadCollection.Count);
-            }
-        }
+        public int Count => DoBaseRead(() => ReadCollection.Count);
 
         bool isEmpty = true;
-        /// <summary>
-        /// 
-        /// </summary>
         public bool IsEmpty
         {
-            get
-            {
-                return isEmpty;
-            }
-            set
-            {
-                isEmpty = value;
-                OnPropertyChanged("IsEmpty");
-            }
-        }
-        bool IObservableCollection.IsEmpty
-        {
-            get
-            {
-                return isEmpty;
-            }
+            get => isEmpty;
+            set => this.Change(ref isEmpty, value);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public bool IsReadOnly
         {
             get
@@ -218,6 +132,28 @@ namespace Imagin.Common.Collections.Concurrent
 
         #region Methods
 
+        #region ICollect
+
+        object ICollect.this[int index] => this[index];
+
+        void ICollect.Add(object i) => Add((T)i);
+
+        void ICollect.Clear() => Clear();
+
+        bool ICollect.Contains(object i) => i is T ? Contains((T)i) : false;
+
+        IEnumerator ICollect.GetEnumerator() => GetEnumerator();
+
+        int ICollect.IndexOf(object i) => i is T ? IndexOf((T)i) : -1;
+
+        void ICollect.Insert(int index, object i) => Insert(index, (T)i);
+
+        bool ICollect.Remove(object i) => Remove((T)i);
+
+        void ICollect.RemoveAt(int i) => RemoveAt(i);
+
+        #endregion
+
         #region ICollection
 
         void ICollection.CopyTo(Array array, int index)
@@ -248,8 +184,8 @@ namespace Imagin.Common.Collections.Concurrent
         int IList.Add(object Item)
         {
             var Result = DoBaseWrite(() => ((IList)WriteCollection).Add(Item));
-            OnItemAdded((T)Item);
-            OnItemsChanged();
+            OnAdded((T)Item);
+            OnChanged();
             return Result;
         }
 
@@ -298,48 +234,29 @@ namespace Imagin.Common.Collections.Concurrent
         void IList.Insert(int i, object Item)
         {
             DoBaseWrite(() => ((IList)WriteCollection).Insert(i, Item));
-            OnItemInserted((T)Item, i);
-            OnItemsChanged();
+            OnInserted((T)Item, i);
+            OnChanged();
         }
 
         void IList.Remove(object Item)
         {
             DoBaseWrite(() => ((IList)WriteCollection).Remove(Item));
-            OnItemRemoved((T)Item);
-            OnItemsChanged();
+            OnRemoved((T)Item);
+            OnChanged();
         }
 
         void IList.RemoveAt(int i)
         {
             var Item = this[i];
             DoBaseWrite(() => ((IList)WriteCollection).RemoveAt(i));
-            OnItemRemoved(Item);
-            OnItemsChanged();
+            OnRemoved(Item);
+            OnChanged();
         }
-
-        #endregion
-
-        #region IObservableCollection
-
-        void IObservableCollection.Add(object Item) => Add((T)Item);
-
-        void IObservableCollection.Clear() => Clear();
-
-        void IObservableCollection.Insert(int i, object Item) => Insert(i, (T)Item);
-
-        bool IObservableCollection.Remove(object Item) => Remove((T)Item);
-
-        void IObservableCollection.RemoveAt(int i) => RemoveAt(i);
 
         #endregion
 
         #region Public
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public T this[int index]
         {
             get
@@ -352,40 +269,23 @@ namespace Imagin.Common.Collections.Concurrent
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Item"></param>
         public void Add(T Item)
         {
             DoBaseWrite(() => WriteCollection.Add(Item));
-            OnItemAdded(Item);
-            OnItemsChanged();
+            OnAdded(Item);
+            OnChanged();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Clear()
         {
-            OnPreviewItemsCleared();
+            OnClearing();
             DoBaseClear(null);
-            OnItemsCleared();
-            OnItemsChanged();
+            OnCleared();
+            OnChanged();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
         public bool Contains(T item) => DoBaseRead(() => ReadCollection.Contains(item));
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="arrayIndex"></param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             DoBaseRead(() =>
@@ -398,131 +298,80 @@ namespace Imagin.Common.Collections.Concurrent
             });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        public T FirstOrDefault() => Count > 0 ? this[0] : default(T);
+
+        public T LastOrDefault() => Count > 0 ? this[Count - 1] : default(T);
+
         public int IndexOf(T item)
         {
             return DoBaseRead(() => ReadCollection.IndexOf(item));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="Item"></param>
         public void Insert(int i, T Item)
         {
             DoBaseWrite(() => WriteCollection.Insert(i, Item));
-            OnItemInserted(Item, i);
-            OnItemsChanged();
+            OnInserted(Item, i);
+            OnChanged();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Item"></param>
-        /// <returns></returns>
         public bool Remove(T Item)
         {
             var Result = DoBaseWrite(() => WriteCollection.Remove(Item));
-            OnItemRemoved(Item);
-            OnItemsChanged();
+            OnRemoved(Item);
+            OnChanged();
             return Result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="i"></param>
         public void RemoveAt(int i)
         {
             var Item = this[i];
             DoBaseWrite(() => WriteCollection.RemoveAt(i));
-            OnItemRemoved(Item);
-            OnItemsChanged();
+            OnRemoved(Item);
+            OnChanged();
         }
 
         #endregion
 
         #region Public (Async)
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public async Task BeginClear()
-        {
-            await Task.Run(() => Clear());
-        }
+        public async Task BeginClear() => await Task.Run(() => Clear());
 
         #endregion
 
         #region Virtual
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Item"></param>
-        protected virtual void OnItemAdded(T Item)
+        protected virtual void OnAdded(T Item)
         {
-            itemAdded?.Invoke(this, new EventArgs<object>(Item));
-            ItemAdded?.Invoke(this, new EventArgs<T>(Item));
+            added?.Invoke(this, new EventArgs<object>(Item));
+            Added?.Invoke(this, new EventArgs<T>(Item));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void OnItemsChanged()
+        protected virtual void OnChanged()
         {
-            OnPropertyChanged("Count");
+            OnPropertyChanged(nameof(Count));
             IsEmpty = Count == 0;
-            ItemsChanged?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void OnItemsCleared()
+        protected virtual void OnCleared()
         {
-            ItemsCleared?.Invoke(this, new EventArgs());
+            Cleared?.Invoke(this, new EventArgs());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Item"></param>
-        /// <param name="Index"></param>
-        protected virtual void OnItemInserted(T Item, int Index)
+        protected virtual void OnClearing() => Clearing?.Invoke(this, new EventArgs());
+
+        protected virtual void OnInserted(T Item, int Index)
         {
-            itemInserted?.Invoke(this, new EventArgs<object>(Item, Index));
-            ItemInserted?.Invoke(this, new EventArgs<T>(Item, Index));
+            inserted?.Invoke(this, new EventArgs<object>(Item, Index));
+            Inserted?.Invoke(this, new EventArgs<T>(Item, Index));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Item"></param>
-        protected virtual void OnItemRemoved(T Item)
+        protected virtual void OnRemoved(T Item)
         {
-            itemRemoved?.Invoke(this, new EventArgs<object>(Item));
-            ItemRemoved?.Invoke(this, new EventArgs<T>(Item));
+            removed?.Invoke(this, new EventArgs<object>(Item));
+            Removed?.Invoke(this, new EventArgs<T>(Item));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void OnPreviewItemsCleared()
-        {
-            PreviewItemsCleared?.Invoke(this, new EventArgs());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Name"></param>
         public virtual void OnPropertyChanged(string Name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Name));

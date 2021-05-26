@@ -1,0 +1,28 @@
+﻿<ComboBox 
+    x:Class="Imagin.Common.Controls.FontFamilyBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    VerticalAlignment="Center" 
+    SelectedIndex="0" 
+    ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" 
+    ToolTip="Font family">
+    <ComboBox.ItemTemplate>
+        <DataTemplate>
+            <TextBlock 
+                Text="{Binding}"
+                VerticalAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowPreview, RelativeSource={RelativeSource AncestorType={x:Type local:FontFamilyBox}}}" Value="True">
+                                <Setter Property="FontFamily" Value="{Binding Mode=OneWay}"/>
+                                <Setter Property="Height" Value="16"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </DataTemplate>
+    </ComboBox.ItemTemplate>
+</ComboBox>

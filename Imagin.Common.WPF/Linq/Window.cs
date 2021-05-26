@@ -1,146 +1,298 @@
-﻿using System;
+﻿using Imagin.Common.Native;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class WindowExtensions
     {
-        #region Classes
+        #region Properties
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public class MONITORINFO
-        {
-            /// <summary>
-            /// </summary>            
-            public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+        #region MinimizeCommand
 
-            /// <summary>
-            /// </summary>            
-            public RECT rcMonitor = new RECT();
-
-            /// <summary>
-            /// </summary>            
-            public RECT rcWork = new RECT();
-
-            /// <summary>
-            /// </summary>            
-            public int dwFlags = 0;
-        }
+        public static readonly RoutedUICommand MinimizeCommand = new RoutedUICommand(nameof(MinimizeCommand), nameof(MinimizeCommand), typeof(WindowExtensions));
+        static void OnMinimize(object sender, ExecutedRoutedEventArgs e) => SystemCommands.MinimizeWindow(sender as Window);
+        static void OnCanMinimize(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
 
         #endregion
 
-        #region Properties
+        #region MaximizeCommand
+
+        public static readonly RoutedUICommand MaximizeCommand = new RoutedUICommand(nameof(MaximizeCommand), nameof(MaximizeCommand), typeof(WindowExtensions));
+        static void OnMaximize(object sender, ExecutedRoutedEventArgs e) => SystemCommands.MaximizeWindow(sender as Window);
+        static void OnCanMaximize(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = CanMaximize(sender as Window);
+
+        #endregion
+
+        #region RestoreCommand
+
+        public static readonly RoutedUICommand RestoreCommand = new RoutedUICommand(nameof(RestoreCommand), nameof(RestoreCommand), typeof(WindowExtensions));
+        static void OnRestore(object sender, ExecutedRoutedEventArgs e) => SystemCommands.RestoreWindow(sender as Window);
+        static void OnCanRestore(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = CanRestore(sender as Window);
+
+        #endregion
+
+        #region CloseCommand
+
+        public static readonly RoutedUICommand CloseCommand = new RoutedUICommand(nameof(CloseCommand), nameof(CloseCommand), typeof(WindowExtensions));
+        static void OnClose(object sender, ExecutedRoutedEventArgs e) => SystemCommands.CloseWindow(sender as Window);
+        static void CanClose(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+
+        #endregion
+
+        /// ------------------------------------------------------------------------------
 
         #region Always On Bottom
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly DependencyProperty SinkerProperty = DependencyProperty.RegisterAttached("Sinker", typeof(WindowSinker), typeof(WindowExtensions), new UIPropertyMetadata(null));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static WindowSinker GetSinker(DependencyObject obj)
+        #region Bottom
+
+        public class Bottom
         {
-            return (WindowSinker)obj.GetValue(SinkerProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetSinker(DependencyObject obj, WindowSinker value)
-        {
-            obj.SetValue(SinkerProperty, value);
+            #region Properties
+
+            const UInt32 SWP_NOSIZE = 0x0001;
+
+            const UInt32 SWP_NOMOVE = 0x0002;
+
+            const UInt32 SWP_NOACTIVATE = 0x0010;
+
+            const UInt32 SWP_NOZORDER = 0x0004;
+
+            const int WM_ACTIVATEAPP = 0x001C;
+
+            const int WM_ACTIVATE = 0x0006;
+
+            const int WM_SETFOCUS = 0x0007;
+
+            const int WM_WINDOWPOSCHANGING = 0x0046;
+
+            static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+
+            Window Window = null;
+
+            #endregion
+
+            #region WindowSinker
+
+            public Bottom(Window Window)
+            {
+                this.Window = Window;
+            }
+
+            #endregion
+
+            #region Methods
+
+            [DllImport("user32.dll")]
+            static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+            [DllImport("user32.dll")]
+            static extern IntPtr DeferWindowPos(IntPtr hWinPosInfo, IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+            [DllImport("user32.dll")]
+            static extern IntPtr BeginDeferWindowPos(int nNumWindows);
+
+            [DllImport("user32.dll")]
+            static extern bool EndDeferWindowPos(IntPtr hWinPosInfo);
+
+            void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                var Handle = (new WindowInteropHelper(Window)).Handle;
+
+                var Source = HwndSource.FromHwnd(Handle);
+                Source.RemoveHook(new HwndSourceHook(WndProc));
+            }
+
+            void OnLoaded(object sender, RoutedEventArgs e)
+            {
+                var Hwnd = new WindowInteropHelper(Window).Handle;
+                SetWindowPos(Hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+
+                var Handle = (new WindowInteropHelper(Window)).Handle;
+
+                var Source = HwndSource.FromHwnd(Handle);
+                Source.AddHook(new HwndSourceHook(WndProc));
+            }
+
+            IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+            {
+                if (msg == WM_SETFOCUS)
+                {
+                    hWnd = new WindowInteropHelper(Window).Handle;
+                    SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+                    handled = true;
+                }
+                return IntPtr.Zero;
+            }
+
+            public void Sink()
+            {
+                Window.Loaded += OnLoaded;
+                Window.Closing += OnClosing;
+            }
+
+            public void Unsink()
+            {
+                Window.Loaded -= OnLoaded;
+                Window.Closing -= OnClosing;
+            }
+
+            #endregion
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        #endregion
+
+        public static readonly DependencyProperty BottomProperty = DependencyProperty.RegisterAttached("Bottommost", typeof(Bottom), typeof(WindowExtensions), new UIPropertyMetadata(null));
+        public static Bottom GetBottom(DependencyObject d)
+            => (Bottom)d.GetValue(BottomProperty);
+        public static void SetBottom(DependencyObject d, Bottom value)
+            => d.SetValue(BottomProperty, value);
+
         public static readonly DependencyProperty AlwaysOnBottomProperty = DependencyProperty.RegisterAttached("AlwaysOnBottom", typeof(bool), typeof(WindowExtensions), new UIPropertyMetadata(false, OnAlwaysOnBottomChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static bool GetAlwaysOnBottom(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(AlwaysOnBottomProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetAlwaysOnBottom(DependencyObject obj, bool value)
-        {
-            obj.SetValue(AlwaysOnBottomProperty, value);
-        }
+        public static bool GetAlwaysOnBottom(DependencyObject d)
+            => (bool)d.GetValue(AlwaysOnBottomProperty);
+        public static void SetAlwaysOnBottom(DependencyObject d, bool value)
+            => d.SetValue(AlwaysOnBottomProperty, value);
         static void OnAlwaysOnBottomChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var Window = sender as Window;
-            if (Window != null)
+            if (sender is Window i)
             {
                 if ((bool)e.NewValue)
                 {
-                    var Sinker = new WindowSinker(Window);
-                    Sinker.Sink();
-                    SetSinker(Window, Sinker);
+                    var bottom = new Bottom(i);
+                    bottom.Sink();
+                    SetBottom(i, bottom);
                 }
                 else
                 {
-                    var Sinker = GetSinker(Window);
-                    Sinker.Unsink();
-                    SetSinker(Window, null);
+                    var bottom = GetBottom(i);
+                    bottom?.Unsink();
+                    SetBottom(i, null);
                 }
             }
         }
 
         #endregion
 
-        #region Icon
+        #region AutoCenter
 
         /// <summary>
-        /// Gets or sets a value indicating whether window should implement default behavior; this is only applicable when window
-        /// a) overrides default style,
-        /// b) allows transparency, and
-        /// c) style is set to 'None'.
+        /// Gets or sets value indicating whether window should position itself relative to center of the screen.
         /// </summary>
-        public static readonly DependencyProperty IconProperty = DependencyProperty.RegisterAttached("Icon", typeof(ImageSource), typeof(WindowExtensions), new PropertyMetadata(null));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static ImageSource GetIcon(DependencyObject obj)
+        public static readonly DependencyProperty AutoCenter = DependencyProperty.RegisterAttached("AutoCenter", typeof(bool), typeof(WindowExtensions), new UIPropertyMetadata(false, OnAutoCenterChanged));
+        public static bool GetAutoCenter(DependencyObject d)
+            => (bool)d.GetValue(AutoCenter);
+        public static void SetAutoCenter(DependencyObject d, bool value)
+            => d.SetValue(AutoCenter, value);
+        static void OnAutoCenterChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            return (ImageSource)obj.GetValue(IconProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetIcon(DependencyObject obj, ImageSource value)
-        {
-            obj.SetValue(IconProperty, value);
+            if (sender is Window i && (bool)e.NewValue)
+            {
+                i.SizeChanged += (a, b) =>
+                {
+                    if (b.HeightChanged)
+                        i.Top += (b.PreviousSize.Height - b.NewSize.Height) / 2;
+                    if (b.WidthChanged)
+                        i.Left += (b.PreviousSize.Width - b.NewSize.Width) / 2;
+                };
+
+            }
         }
 
         #endregion
 
-        #region OverridesDefaultBehavior
+        #region Immovable
+
+        const int WM_SYSCOMMAND = 0x0112;
+        const int SC_MOVE = 0xF010;
+
+        public static readonly DependencyProperty ImmovableProperty = DependencyProperty.RegisterAttached("Immovable", typeof(bool), typeof(WindowExtensions), new PropertyMetadata(false, OnImmovableChanged));
+        public static bool GetImmovable(Window d)
+            => (bool)d.GetValue(ImmovableProperty);
+        public static void SetImmovable(Window d, bool value)
+            => d.SetValue(ImmovableProperty, value);
+        static void OnImmovableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Window i)
+            {
+                i.SourceInitialized -= Immovable_OnWindowSourceInitialized;
+                if ((bool)e.OldValue)
+                    i.SourceInitialized += Immovable_OnWindowSourceInitialized;
+            }
+        }
+
+        static void Immovable_OnWindowSourceInitialized(object sender, EventArgs e)
+        {
+            WindowInteropHelper helper = new WindowInteropHelper((Window)sender);
+            HwndSource source = HwndSource.FromHwnd(helper.Handle);
+            source.AddHook(WndProc);
+        }
+
+        static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case WM_SYSCOMMAND:
+                    int command = wParam.ToInt32() & 0xfff0;
+                    if (command == SC_MOVE)
+                    {
+                        handled = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        #endregion
+
+        #region IsChild
+
+        public static readonly DependencyProperty IsChildProperty = DependencyProperty.RegisterAttached("IsChild", typeof(bool), typeof(WindowExtensions), new PropertyMetadata(false, OnIsChildChanged));
+        public static bool GetIsChild(DependencyObject d)
+            => (bool)d.GetValue(IsChildProperty);
+        public static void SetIsChild(DependencyObject d, bool value)
+            => d.SetValue(IsChildProperty, value);
+        static void OnIsChildChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Window i)
+                i.Owner = (bool)e.NewValue ? Application.Current.MainWindow : null;
+        }
+
+        #endregion
+
+        #region IsDragMoveEnabled
+
+        /// <summary>
+        /// Gets or sets value indicating whether window should allow drag moving.
+        /// </summary>
+        public static readonly DependencyProperty IsDragMoveEnabled = DependencyProperty.RegisterAttached("IsDragMoveEnabled", typeof(bool), typeof(WindowExtensions), new UIPropertyMetadata(true, OnIsDragMoveEnabledChanged));
+        public static bool GetIsDragMoveEnabled(DependencyObject d)
+            => (bool)d.GetValue(IsDragMoveEnabled);
+        public static void SetIsDragMoveEnabled(DependencyObject d, bool value)
+            => d.SetValue(IsDragMoveEnabled, value);
+        static void OnIsDragMoveEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Window i && !((bool)e.NewValue))
+            {
+                i.SourceInitialized += (a, b) =>
+                {
+                    WindowInteropHelper helper = new WindowInteropHelper(i);
+                    HwndSource Source = HwndSource.FromHwnd(helper.Handle);
+                    Source.AddHook(WndProc);
+                };
+            }
+        }
+
+        #endregion
+
+        /// ------------------------------------------------------------------------------
+
+        #region Extends
 
         /// <summary>
         /// Gets or sets a value indicating whether window should implement default behavior; this is only applicable when window
@@ -148,41 +300,34 @@ namespace Imagin.Common.Linq
         /// b) allows transparency, and
         /// c) style is set to 'None'.
         /// </summary>
-        public static readonly DependencyProperty OverridesDefaultBehaviorProperty = DependencyProperty.RegisterAttached("OverridesDefaultBehavior", typeof(bool), typeof(WindowExtensions), new PropertyMetadata(false, OnOverridesDefaultBehaviorChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static bool GetOverridesDefaultBehavior(DependencyObject obj)
+        public static readonly DependencyProperty ExtendsProperty = DependencyProperty.RegisterAttached("Extends", typeof(bool), typeof(WindowExtensions), new PropertyMetadata(false, OnExtendsChanged));
+        public static bool GetExtends(Window d)
+            => (bool)d.GetValue(ExtendsProperty);
+        public static void SetExtends(Window d, bool value)
+            => d.SetValue(ExtendsProperty, value);
+        static void OnExtendsChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            return (bool)obj.GetValue(OverridesDefaultBehaviorProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetOverridesDefaultBehavior(DependencyObject obj, bool value)
-        {
-            obj.SetValue(OverridesDefaultBehaviorProperty, value);
-        }
-        static void OnOverridesDefaultBehaviorChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var Window = sender as Window;
-            if (Window != null && (bool)e.NewValue)
-            {
-                Window.SourceInitialized += (a, b) =>
-                {
-                    var Handle = (new WindowInteropHelper(Window)).Handle;
-                    HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(WindowProc));
+            var window = sender as Window;
+            window.SourceInitialized -= Extends_OnSourceInitialized;
 
-                    Window.CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnCloseWindow));
-                    Window.CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximizeWindow, OnCanResizeWindow));
-                    Window.CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, OnMinimizeWindow, OnCanMinimizeWindow));
-                    Window.CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, OnRestoreWindow, OnCanResizeWindow));
-                };
+            if ((bool)e.NewValue)
+            {
+                window.SourceInitialized += Extends_OnSourceInitialized;
             }
+        }
+
+        static void Extends_OnSourceInitialized(object sender, EventArgs e)
+        {
+            var window = sender as Window;
+            window.SourceInitialized -= Extends_OnSourceInitialized;
+
+            var handle = (new WindowInteropHelper(window)).Handle;
+            HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
+
+            window.CommandBindings.Add(new CommandBinding(MinimizeCommand, OnMinimize, OnCanMinimize));
+            window.CommandBindings.Add(new CommandBinding(MaximizeCommand, OnMaximize, OnCanMaximize));
+            window.CommandBindings.Add(new CommandBinding(RestoreCommand, OnRestore, OnCanRestore));
+            window.CommandBindings.Add(new CommandBinding(CloseCommand, OnClose, CanClose));
         }
 
         #endregion
@@ -197,36 +342,7 @@ namespace Imagin.Common.Linq
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
-        static void OnCanResizeWindow(object sender, CanExecuteRoutedEventArgs e)
-        {
-            var Window = sender as Window;
-            e.CanExecute = Window.ResizeMode == ResizeMode.CanResize || Window.ResizeMode == ResizeMode.CanResizeWithGrip;
-        }
-
-        static void OnCloseWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.CloseWindow(sender as Window);
-        }
-
-        static void OnMaximizeWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            (sender as Window).WindowState = WindowState.Maximized;
-        }
-
-        static void OnMinimizeWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MinimizeWindow(sender as Window);
-        }
-
-        static void OnCanMinimizeWindow(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = (sender as Window).ResizeMode != ResizeMode.NoResize;
-        }
-
-        static void OnRestoreWindow(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.RestoreWindow(sender as Window);
-        }
+        /// ------------------------------------------------------------------------------
 
         static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -258,165 +374,46 @@ namespace Imagin.Common.Linq
                 var rcWorkArea = monitorInfo.rcWork;
                 var rcMonitorArea = monitorInfo.rcMonitor;
 
-                mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
-                mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
-                mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
-                mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
+                mmi.ptMaxPosition.x = System.Math.Abs(rcWorkArea.left - rcMonitorArea.left);
+                mmi.ptMaxPosition.y = System.Math.Abs(rcWorkArea.top - rcMonitorArea.top);
+                mmi.ptMaxSize.x = System.Math.Abs(rcWorkArea.right - rcWorkArea.left);
+                mmi.ptMaxSize.y = System.Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
             }
 
             Marshal.StructureToPtr(mmi, lParam, true);
         }
 
-        #endregion
+        /// ------------------------------------------------------------------------------
 
-        #region Structures
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MINMAXINFO
+        public static double ActualLeft(this Window input)
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            public POINT ptReserved;
-            /// <summary>
-            /// 
-            /// </summary>
-            public POINT ptMaxSize;
-            /// <summary>
-            /// 
-            /// </summary>
-            public POINT ptMaxPosition;
-            /// <summary>
-            /// 
-            /// </summary>
-            public POINT ptMinTrackSize;
-            /// <summary>
-            /// 
-            /// </summary>
-            public POINT ptMaxTrackSize;
-        };
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
-        {
-            /// <summary>
-            /// x coordinate of point.
-            /// </summary>
-            public int x;
-            /// <summary>
-            /// y coordinate of point.
-            /// </summary>
-            public int y;
-
-            /// <summary>
-            /// Construct a point of coordinates (x,y).
-            /// </summary>
-            public POINT(int x, int y)
+            if (input.WindowState == WindowState.Maximized)
             {
-                this.x = x;
-                this.y = y;
+                var field = typeof(Window).GetField("_actualLeft", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                return (double)field.GetValue(input);
             }
+            else return input.Left;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        public struct RECT
+        public static double ActualTop(this Window input)
         {
-            /// <summary> Win32 </summary>
-            public int left;
-
-            /// <summary> Win32 </summary>
-            public int top;
-
-            /// <summary> Win32 </summary>
-            public int right;
-
-            /// <summary> Win32 </summary>
-            public int bottom;
-
-            /// <summary> Win32 </summary>
-            public static readonly RECT Empty = new RECT();
-
-            /// <summary> Win32 </summary>
-            public int Width
+            if (input.WindowState == WindowState.Maximized)
             {
-                get { return Math.Abs(right - left); }  // Abs needed for BIDI OS
+                var field = typeof(Window).GetField("_actualTop", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                return (double)field.GetValue(input);
             }
-
-            /// <summary> Win32 </summary>
-            public int Height
-            {
-                get { return bottom - top; }
-            }
-
-            /// <summary> Win32 </summary>
-            public RECT(int left, int top, int right, int bottom)
-            {
-                this.left = left;
-                this.top = top;
-                this.right = right;
-                this.bottom = bottom;
-            }
-
-            /// <summary> Win32 </summary>
-            public RECT(RECT rcSrc)
-            {
-                this.left = rcSrc.left;
-                this.top = rcSrc.top;
-                this.right = rcSrc.right;
-                this.bottom = rcSrc.bottom;
-            }
-
-            /// <summary> Win32 </summary>
-            public bool IsEmpty
-            {
-                get
-                {
-                    // BUGBUG : On Bidi OS (hebrew arabic) left > right
-                    return left >= right || top >= bottom;
-                }
-            }
-
-            /// <summary> Return a user friendly representation of this struct </summary>
-            public override string ToString()
-            {
-                if (this == RECT.Empty) { return "RECT {Empty}"; }
-                return "RECT { left : " + left + " / top : " + top + " / right : " + right + " / bottom : " + bottom + " }";
-            }
-
-            /// <summary> Determine if 2 RECT are equal (deep compare) </summary>
-            public override bool Equals(object obj)
-            {
-                if (!(obj is Rect)) { return false; }
-                return (this == (RECT)obj);
-            }
-
-            /// <summary>Return the HashCode for this struct (not garanteed to be unique)</summary>
-            public override int GetHashCode()
-            {
-                return left.GetHashCode() + top.GetHashCode() + right.GetHashCode() + bottom.GetHashCode();
-            }
-
-            /// <summary> Determine if 2 RECT are equal (deep compare)</summary>
-            public static bool operator ==(RECT rect1, RECT rect2)
-            {
-                return (rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom);
-            }
-
-            /// <summary> Determine if 2 RECT are different(deep compare)</summary>
-            public static bool operator !=(RECT rect1, RECT rect2)
-            {
-                return !(rect1 == rect2);
-            }
+            else return input.Top;
         }
+
+        public static bool CanMaximize(this Window window) => window != null && window.WindowStyle != WindowStyle.ToolWindow && window.WindowState != WindowState.Maximized && window.ResizeMode != ResizeMode.NoResize;
+
+        public static void Center(this Window input)
+        {
+            input.Left = (SystemParameters.PrimaryScreenWidth / 2.0) - (input.Width / 2.0);
+            input.Top = (SystemParameters.PrimaryScreenHeight / 2.0) - (input.Height / 2.0);
+        }
+
+        public static bool CanRestore(this Window window) => window != null && window.WindowStyle != WindowStyle.ToolWindow && window.WindowState != WindowState.Normal && window.ResizeMode != ResizeMode.NoResize;
 
         #endregion
     }

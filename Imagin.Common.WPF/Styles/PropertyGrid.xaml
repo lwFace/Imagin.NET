@@ -1,0 +1,672 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Common="clr-namespace:Imagin.Common"
+    xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=System"
+    xmlns:Controls="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Input="clr-namespace:System.Windows.Input;assembly=System"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/DataGrid.xaml}"/>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/Menu.xaml}"/>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/TextBlock.xaml}"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Converters:CamelCaseConverter x:Key="CamelCaseConverter"/>
+    <Converters:DisplayNameConverter x:Key="DisplayNameConverter"/>
+    <Converters:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter"/>
+    <Converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+    <Converters:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+    <Converters:ToStringConverter x:Key="ToStringConverter"/>
+    <Converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+    <Converters:ValueEqualsParameterMultiConverter x:Key="ValueEqualsParameterMultiConverter"/>
+    
+    <Storyboard x:Key="FadeIn">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1.0" Duration="0:0:0.5" AccelerationRatio="0.4" DecelerationRatio="0.4"/>
+    </Storyboard>
+
+    <Style x:Key="{x:Type local:PropertyGrid}" TargetType="{x:Type local:PropertyGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="CanUserDeleteRows" Value="False"/>
+        <Setter Property="CanUserReorderColumns" Value="False"/>
+        <Setter Property="CanUserResizeColumns" Value="True"/>
+        <Setter Property="CanUserResizeRows" Value="False"/>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DescriptionBorderStyle">
+            <Setter.Value>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{DynamicResource Brush.PropertyGrid.Description.Background}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource Brush.PropertyGrid.Description.Border}"/>
+                    <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                    <Setter Property="MinHeight" Value="36"/>
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource Brush.Text}"/>
+                    <Setter Property="Padding" Value="10"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DescriptionTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                            FontWeight="Bold"
+                            Margin="0,0,0,7"
+                            Text="{Binding DisplayName, Converter={StaticResource CamelCaseConverter}, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis"
+                            ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                        <TextBlock 
+                            Grid.Row="1"
+                            Text="{Binding Description, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap"
+                            ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="EnableColumnVirtualization" Value="True"/>
+        <Setter Property="EnableRowVirtualization" Value="True"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text}"/>
+        <Setter Property="DefaultCategoryName" Value="General"/>
+        <Setter Property="DefaultGroupStyle">
+            <Setter.Value>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander 
+                                            IsExpanded="{Data:Ancestor GroupVisibility, {x:Type local:PropertyGrid}, Mode=OneWay}" 
+                                            HorizontalAlignment="Stretch">
+                                            <Expander.Header>
+                                                <Grid Linq:GridExtensions.Columns="Auto,*">
+                                                    <ContentControl Content="{Binding}">
+                                                        <ContentControl.Style>
+                                                            <Style TargetType="ContentControl">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Name, Converter={StaticResource StringToBooleanConverter}}" Value="True">
+                                                                        <Setter Property="ContentTemplate">
+                                                                            <Setter.Value>
+                                                                                <DataTemplate>
+                                                                                    <TextBlock FontSize="15">
+                                                                                        <Run Text="{Binding Name, Mode=OneWay}" Foreground="{DynamicResource Brush.Link}"/>
+                                                                                        <Run Text="{Binding ItemCount, Mode=OneWay, StringFormat= ({0})}"/>
+                                                                                    </TextBlock>
+                                                                                </DataTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Name, Converter={StaticResource StringToBooleanConverter}}" Value="False">
+                                                                        <Setter Property="ContentTemplate">
+                                                                            <Setter.Value>
+                                                                                <DataTemplate>
+                                                                                    <TextBlock FontSize="15">
+                                                                                        <Run Text="{Data:Ancestor DefaultCategoryName, {x:Type local:PropertyGrid}, Mode=OneWay}" Foreground="{DynamicResource Brush.Link}"/>
+                                                                                        <Run Text="{Binding ItemCount, Mode=OneWay, StringFormat= ({0})}"/>
+                                                                                    </TextBlock>
+                                                                                </DataTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ContentControl.Style>
+                                                    </ContentControl>
+                                                    <local:Line
+                                                        Grid.Column="1"
+                                                        Margin="5,0,0,0"
+                                                        Orientation="Horizontal"/>
+                                                </Grid>
+                                            </Expander.Header>
+                                            <ItemsPresenter/>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter/>
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="DataGridRow.Loaded">
+                            <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+                        </EventTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Lockable}" Value="True"/>
+                                <Condition Binding="{Binding Locked}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Lockable}" Value="True"/>
+                                <Condition Binding="{Binding Locked}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding Lockable}" Value="False">
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </DataTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ItemsControl.AlternationIndex" Value="0" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource Brush.DataGridRow.Even.Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.DataGridRow.Even.Border}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ItemsControl.AlternationIndex" Value="1" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource Brush.DataGridRow.Odd.Background}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.DataGridRow.Odd.Border}"/>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Linq:DataGridRowExtensions.SelectionVisibility" Value="Visible" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Linq:ItemsControlExtensions.CanDragSelect" Value="False"/>
+        <Setter Property="Linq:DataGridExtensions.Extends" Value="False"/>
+        <Setter Property="LoaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <local:ProgressRing/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="NameAboveValue" Value="False"/>
+        <Setter Property="NameTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type local:MemberModel}">
+                    <TextBlock
+                        TextTrimming="CharacterEllipsis"
+                        VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Setter Property="Text" Value="{Binding DisplayName, Mode=OneWay}"/>
+                                <Setter Property="ToolTip" Value="{Binding DisplayName, Mode=OneWay}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TemplateType}" Value="{x:Type Input:ICommand}">
+                                        <Setter Property="Text" Value=""/>
+                                        <Setter Property="ToolTip" Value=""/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="PropertyCrumbTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock
+                        Text="{Binding Converter={StaticResource DisplayNameConverter}}"
+                        TextTrimming="CharacterEllipsis"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ReferencePropertyTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid
+                        Linq:GridExtensions.Columns="*,Auto">
+                        <TextBlock
+                            x:Name="TextBlock"
+                            Grid.Column="0"
+                            TextTrimming="CharacterEllipsis"
+                            VerticalAlignment="Center"
+                            ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding ForwardCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PropertyGrid}}}"
+                            CommandParameter="{Binding}"
+                            Content="..."
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                            <Setter TargetName="TextBlock" Property="Text" Value="(multiple values)"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                            <Setter TargetName="TextBlock" Property="Text" Value="{Binding Value, Converter={StaticResource ToStringConverter}}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="SplitterStyle">
+            <Setter.Value>
+                <Style TargetType="GridSplitter">
+                    <Setter Property="Background" Value="{DynamicResource Brush.GridSplitter.Background}" />
+                    <Setter Property="Height" Value="3"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
+                    <Setter Property="ResizeDirection" Value="Rows" />
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="Width" Value="Auto"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PropertyGrid">
+                    <Border 
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Resources>
+                            <Data:Reference x:Key="BasePropertyGrid"  Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PropertyGrid}}}"/>
+
+                            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="Padding" Value="10,1"/>
+                            </Style>
+                        </Border.Resources>
+                        <Grid 
+                            DataContext="{Binding Data, Source={StaticResource BasePropertyGrid}}"
+                            Linq:GridExtensions.Rows="Auto,*,Auto,Auto">
+                            <!-- =======================================[Header] -->
+                            <Border 
+                                Height="30"
+                                Style="{DynamicResource Style.Border.Bottom}"
+                                Visibility="{Binding HeaderVisibility, Mode=OneWay}">
+                                <Grid 
+                                    IsEnabled="{Binding Source, Converter={StaticResource ObjectToBooleanConverter}}"
+                                    Margin="5,0"
+                                    Linq:GridExtensions.Columns="Auto,*,Auto,Auto,Auto,Auto"
+                                    Linq:PanelExtensions.Spacing="0,0,5,0"
+                                    Linq:PanelExtensions.SpacingExcept="Last"
+                                    Linq:PanelExtensions.VerticalContentAlignment="Center">
+
+                                    <!-- =======================================[Search] -->
+                                    <local:MaskedToggleButton
+                                        Grid.Column="0"
+                                        Source="pack://application:,,,/Imagin.Common.WPF;component/Images/Search.png"
+                                        ToolTip="Search">
+                                        <local:MaskedToggleButton.Menu>
+                                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                <ContextMenu.ItemsSource>
+                                                    <CompositeCollection>
+                                                        <CollectionContainer Collection="{Markup:Enumerate local:PropertyGridSearchName}"/>
+                                                    </CompositeCollection>
+                                                </ContextMenu.ItemsSource>
+                                                <ContextMenu.Resources>
+                                                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                                        <Setter Property="Command" Value="{Binding Data.SearchCommand, Source={StaticResource BasePropertyGrid}}"/>
+                                                        <Setter Property="CommandParameter" Value="{Binding Mode=OneWay}"/>
+                                                        <Setter Property="StaysOpenOnClick" Value="True"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:PropertyGridSearchName}">
+                                                                <Setter Property="IsChecked">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{StaticResource ValueEqualsParameterMultiConverter}" Mode="OneWay">
+                                                                            <Binding Path="Data.SearchName" Source="{StaticResource BasePropertyGrid}"/>
+                                                                            <Binding Path="."/>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContextMenu.Resources>
+                                            </ContextMenu>
+                                        </local:MaskedToggleButton.Menu>
+                                    </local:MaskedToggleButton>
+                                    <local:TextBox
+                                        Grid.Column="1"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        IsClearEnabled="True"
+                                        Padding="0"
+                                        Placeholder="Search"
+                                        Text="{Binding Search, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        ToolTip="Search"/>
+
+                                    <!-- =======================================[Custom buttons] -->
+                                    <ItemsControl
+                                        Grid.Column="2"
+                                        ItemsSource="{Binding HeaderButtons}"
+                                        VerticalAlignment="Center">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <ContentPresenter Content="{Binding Mode=OneWay}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- =======================================[Default Buttons] -->
+                                    <local:MaskedToggleButton
+                                        Grid.Column="3"
+                                        Source="{Markup:Image Imagin.Common.Wpf, Images/Category.png}"
+                                        ToolTip="Group">
+                                        <local:MaskedToggleButton.Menu>
+                                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                <ContextMenu.ItemsSource>
+                                                    <CompositeCollection>
+                                                        <MenuItem Header="Collapse" 
+                                                            IsCheckable="True"
+                                                            IsChecked="{Binding GroupVisibility}"
+                                                            StaysOpenOnClick="True"/>
+                                                        <Separator/>
+                                                        <CollectionContainer Collection="{Markup:Enumerate local:PropertyGridGroupName}"/>
+                                                    </CompositeCollection>
+                                                </ContextMenu.ItemsSource>
+                                                <ContextMenu.Resources>
+                                                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                                        <Setter Property="Command" Value="{Binding Data.GroupCommand, Source={StaticResource BasePropertyGrid}}"/>
+                                                        <Setter Property="CommandParameter" Value="{Binding Mode=OneWay}"/>
+                                                        <Setter Property="StaysOpenOnClick" Value="True"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:PropertyGridGroupName}">
+                                                                <Setter Property="IsChecked">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{StaticResource ValueEqualsParameterMultiConverter}" Mode="OneWay">
+                                                                            <Binding Path="Data.GroupName" Source="{StaticResource BasePropertyGrid}"/>
+                                                                            <Binding Path="."/>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContextMenu.Resources>
+                                            </ContextMenu>
+                                        </local:MaskedToggleButton.Menu>
+                                    </local:MaskedToggleButton>
+                                    <local:MaskedToggleButton
+                                        Grid.Column="4"
+                                        Source="{Markup:Image Imagin.Common.Wpf, Images/Sort.png}"
+                                        ToolTip="Sort">
+                                        <local:MaskedToggleButton.Menu>
+                                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                <ContextMenu.ItemsSource>
+                                                    <CompositeCollection>
+                                                        <CollectionContainer Collection="{Markup:Enumerate local:PropertyGridSortName}"/>
+                                                        <Separator/>
+                                                        <CollectionContainer Collection="{Markup:Enumerate ComponentModel:ListSortDirection}"/>
+                                                    </CompositeCollection>
+                                                </ContextMenu.ItemsSource>
+                                                <ContextMenu.Resources>
+                                                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                                        <Setter Property="Command" Value="{Binding Data.SortCommand, Source={StaticResource BasePropertyGrid}}"/>
+                                                        <Setter Property="CommandParameter" Value="{Binding Mode=OneWay}"/>
+                                                        <Setter Property="StaysOpenOnClick" Value="True"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:PropertyGridSortName}">
+                                                                <Setter Property="IsChecked">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{StaticResource ValueEqualsParameterMultiConverter}" Mode="OneWay">
+                                                                            <Binding Path="Data.SortName" Source="{StaticResource BasePropertyGrid}"/>
+                                                                            <Binding Path="."/>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type ComponentModel:ListSortDirection}">
+                                                                <Setter Property="IsChecked">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding Converter="{StaticResource ValueEqualsParameterMultiConverter}" Mode="OneWay">
+                                                                            <Binding Path="Data.SortDirection" Source="{StaticResource BasePropertyGrid}"/>
+                                                                            <Binding Path="."/>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContextMenu.Resources>
+                                                <!--
+                                                <MenuItem 
+                                                    Header="{l:Loc Imagin.Common.WPF:Main:Name}" 
+                                                    IsCheckable="True" 
+                                                    IsChecked="{Binding SortByName, UpdateSourceTrigger=PropertyChanged}" 
+                                                    Linq:MenuItemExtensions.GroupName="SortName"
+                                                    StaysOpenOnClick="True"/>
+                                                <MenuItem 
+                                                    Header="{l:Loc Imagin.Common.WPF:Main:Type}" 
+                                                    IsCheckable="True" 
+                                                    IsChecked="{Binding SortByType, UpdateSourceTrigger=PropertyChanged}"
+                                                    Linq:MenuItemExtensions.GroupName="SortName"
+                                                    StaysOpenOnClick="True"/>
+                                                <Separator/>
+                                                <MenuItem 
+                                                    Header="{l:Loc Imagin.Common.WPF:Main:Ascending}" 
+                                                    IsCheckable="True" 
+                                                    IsChecked="{Binding IsSortAscending, UpdateSourceTrigger=PropertyChanged}" 
+                                                    Linq:MenuItemExtensions.GroupName="SortDirection"
+                                                    StaysOpenOnClick="True"/>
+                                                <MenuItem 
+                                                    Header="{l:Loc Imagin.Common.WPF:Main:Descending}"
+                                                    IsCheckable="True" 
+                                                    IsChecked="{Binding IsSortDescending, UpdateSourceTrigger=PropertyChanged}" 
+                                                    Linq:MenuItemExtensions.GroupName="SortDirection"
+                                                    StaysOpenOnClick="True"/>
+                                                -->
+                                            </ContextMenu>
+                                        </local:MaskedToggleButton.Menu>
+                                    </local:MaskedToggleButton>
+
+                                    <!-- =======================================[Options (the following commands are optional)] -->
+                                    <local:MaskedToggleButton
+                                        Grid.Column="5"
+                                        Source="{Markup:Image Imagin.Common.Wpf, Images/ArrowDown.png}"
+                                        ToolTip="Options">
+                                        <local:MaskedToggleButton.Menu>
+                                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                <MenuItem Header="Reset" 
+                                                    Command="{Binding ResetCommand}"/>
+                                            </ContextMenu>
+                                        </local:MaskedToggleButton.Menu>
+                                    </local:MaskedToggleButton>
+                                </Grid>
+                            </Border>
+
+                            <!-- =======================================[Loader] -->
+                            <ContentControl
+                                Grid.Row="1"
+                                ContentTemplate="{Binding LoaderTemplate}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding Loading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <!-- =======================================[Content] -->
+                            <Grid
+                                Grid.Row="1"
+                                Linq:GridExtensions.Rows="Auto,Auto,*"
+                                Visibility="{Binding Loading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}">
+                                <!-- =======================================[Type] -->
+                                <Grid
+                                    Linq:GridExtensions.Columns="Auto,*"
+                                    Margin="10,10,10,5"
+                                    Visibility="{Binding TypeVisibility}">
+                                    <local:MaskedButton
+                                        Grid.Column="0"
+                                        Command="{Binding BackwardCommand}"
+                                        Margin="0,-1,5,0"
+                                        Source="{Markup:Image Imagin.Common.Wpf, Images/ArrowLeftRound.png}"
+                                        ToolTip="Back"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=Default}"/>
+                                    <ContentControl
+                                        Grid.Column="1"
+                                        Content="{Binding Route}"
+                                        ContentStringFormat="{Binding TypeStringFormat}"
+                                        ContentTemplate="{Binding TypeTemplate}"
+                                        ContentTemplateSelector="{Binding TypeTemplateSelector}"
+                                        VerticalAlignment="Center">
+                                        <ContentControl.Style>
+                                            <Style TargetType="ContentControl">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Source, Converter={StaticResource ObjectToBooleanConverter}}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Source, Converter={StaticResource ObjectToBooleanConverter}}" Value="True">
+                                                        <Setter Property="Visibility" Value="{Binding TypeVisibility, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ContentControl.Style>
+                                    </ContentControl>
+                                </Grid>
+
+                                <!-- =======================================[Featured] -->
+                                <Grid 
+                                    Grid.Row="1"
+                                    Margin="10,5,10,0"
+                                    Visibility="{Binding Properties.Featured, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}">
+                                    <ItemsControl
+                                        ItemsSource="{Binding Properties.Featured}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid
+                                                    Margin="0,0,0,5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Column="0"
+                                                        Margin="0,0,10,0"
+                                                        Text="{Binding DisplayName, Mode=OneWay}"
+                                                        VerticalAlignment="Center"
+                                                        Visibility="{Binding Data.NameColumnVisibility, Source={StaticResource BasePropertyGrid}}"/>
+                                                    <ContentControl
+                                                        Grid.Column="1"
+                                                        Content="{Binding}"
+                                                        ContentTemplate="{Binding Data.ValueTemplate, Source={StaticResource BasePropertyGrid}}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Grid>
+
+                                <!-- =======================================[DataGrid rows] -->
+                                <ScrollViewer 
+                                    Grid.Row="2"
+                                    Panel.ZIndex="1"
+                                    Focusable="False">
+                                    <ItemsPresenter 
+                                        Margin="{TemplateBinding Padding}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Grid>
+
+                            <!-- =======================================[Splitter] -->
+                            <GridSplitter
+                                Grid.Row="2"
+                                ResizeDirection="Rows"
+                                Style="{Binding SplitterStyle}"
+                                Visibility="{Binding SplitterVisibility}"/>
+                            <!-- =======================================[Description] -->
+                            <Border
+                                Grid.Row="3"
+                                Style="{Binding DescriptionBorderStyle}"
+                                Visibility="{Binding DescriptionVisibility}">
+                                <ContentControl 
+                                    Content="{Binding Properties.Active}"
+                                    ContentStringFormat="{Binding DescriptionStringFormat}"
+                                    ContentTemplate="{Binding DescriptionTemplate}"
+                                    ContentTemplateSelector="{Binding DescriptionTemplateSelector}">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Properties.Active}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TypeTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <local:PropertyCrumbView
+                        Route="{Binding}"
+                        CrumbTemplate="{Binding PropertyCrumbTemplate, RelativeSource={RelativeSource AncestorType={x:Type local:PropertyGrid}}}">
+                        <local:PropertyCrumbView.SeparatorTemplate>
+                            <DataTemplate>
+                                <local:MaskedImage
+                                    Source="pack://application:,,,/Imagin.Common.WPF;component/Images/ArrowP.png"
+                                    SourceHeight="6"
+                                    SourceWidth="6"/>
+                            </DataTemplate>
+                        </local:PropertyCrumbView.SeparatorTemplate>
+                    </local:PropertyCrumbView>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ValueTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid Linq:GridExtensions.Rows="Auto,*" Margin="2">
+                        <ContentControl
+                            Grid.Row="0"
+                            Content="{Binding}"
+                            ContentTemplate="{Data:Ancestor NameTemplate, {x:Type local:PropertyGrid}}"
+                            Margin="0,0,0,5"
+                            Visibility="{Data:Ancestor NameAboveValue, {x:Type local:PropertyGrid}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Controls:PropertyView
+                            Grid.Row="1"
+                            Property="{Binding}"
+                            ReferencePropertyStringFormat="{Data:Ancestor ReferencePropertyStringFormat, {x:Type local:PropertyGrid}}"
+                            ReferencePropertyTemplate="{Data:Ancestor ReferencePropertyTemplate, {x:Type local:PropertyGrid}}"
+                            ReferencePropertyTemplateSelector="{Data:Ancestor ReferencePropertyTemplateSelector, {x:Type local:PropertyGrid}}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VirtualizingPanel.IsContainerVirtualizable" Value="True"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+    </Style>
+</ResourceDictionary>

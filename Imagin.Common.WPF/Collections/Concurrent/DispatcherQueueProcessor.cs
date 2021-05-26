@@ -178,7 +178,7 @@ namespace Imagin.Common.Collections.Concurrent
                             }
                             try
                             {
-                                Thread.Sleep(1);
+                                System.Threading.Thread.Sleep(1);
                             }
                             catch (Exception)
                             {

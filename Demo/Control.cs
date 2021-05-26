@@ -1,40 +1,26 @@
-﻿using Imagin.Common;
-using System;
+﻿using System;
 using System.Windows;
+using System.Windows.Markup;
 
-namespace Imagin.NET.Demo
+namespace Demo
 {
-    public class Control : NamedObject
+    [ContentProperty(nameof(Instance))]
+    public class Control : DependencyObject
     {
-        object instance;
+        public static DependencyProperty InstanceProperty = DependencyProperty.Register(nameof(Instance), typeof(object), typeof(Control), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.None));
         public object Instance
         {
-            get => instance;
-            set => Property.Set(this, ref instance, value, () => Instance);
+            get => GetValue(InstanceProperty);
+            set => SetValue(InstanceProperty, value);
         }
 
-        public override string Name
-        {
-            get => base.Name ?? Type.Name;
-            set => base.Name = value;
-        }
-
-        DataTemplate options;
-        public DataTemplate Options
-        {
-            get => options;
-            set => Property.Set(this, ref options, value, () => Options);
-        }
-
-        Type type;
+        public static DependencyProperty TypeProperty = DependencyProperty.Register(nameof(Type), typeof(Type), typeof(Control), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.None));
         public Type Type
         {
-            get => type;
-            set => Property.Set(this, ref type, value, () => Type);
+            get => (Type)GetValue(TypeProperty);
+            set => SetValue(TypeProperty, value);
         }
 
-        public Control() : this(null) { }
-
-        public Control(string Name) : base(Name) { }
+        public Control() : base() { }
     }
 }

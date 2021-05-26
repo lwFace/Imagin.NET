@@ -1,0 +1,74 @@
+﻿<UserControl 
+    x:Class="Desktop.Controls.HeaderView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:i="http://imagin.tech/imagin/common"
+    xmlns:local="clr-namespace:Desktop.Controls"
+    xmlns:Desktop="clr-namespace:Desktop"
+    mc:Ignorable="d" 
+    d:DesignHeight="300" 
+    d:DesignWidth="300">
+    <UserControl.Resources>
+        <i:Reference x:Key="HeaderView" Data="{i:Ancestor {x:Type local:HeaderView}}"/>
+    </UserControl.Resources>
+    <ContentControl
+        Content="{Binding}">
+        <ContentControl.ContentTemplate>
+            <DataTemplate>
+                <Grid
+                    Margin="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="PART_Row1" Height="Auto"/>
+                        <RowDefinition x:Name="PART_Row2" Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border 
+                        x:Name="PART_Header"
+                        Background="Transparent"
+                        MouseLeftButtonDown="OnMouseLeftButtonDown">
+                        <ContentPresenter 
+                            x:Name="PART_ContentPresenter"
+                            Content="{Binding Data.Header, Source={StaticResource HeaderView}}"/>
+                    </Border>
+                    <Border
+                        x:Name="PART_Content"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        BorderBrush="#33000000"
+                        BorderThickness="1"
+                        Margin="0,6,0,0">
+                        <ContentPresenter Content="{Binding Data.Body, Source={StaticResource HeaderView}}"/>
+                    </Border>
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding HeaderAlignment, RelativeSource={RelativeSource AncestorType={x:Type local:HeaderView}}}" Value="{x:Static Desktop:HeaderAlignments.Center}">
+                        <Setter TargetName="PART_ContentPresenter" Property="HorizontalAlignment" Value="Center"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding HeaderAlignment, RelativeSource={RelativeSource AncestorType={x:Type local:HeaderView}}}" Value="{x:Static Desktop:HeaderAlignments.Left}">
+                        <Setter TargetName="PART_ContentPresenter" Property="HorizontalAlignment" Value="Left"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding HeaderAlignment, RelativeSource={RelativeSource AncestorType={x:Type local:HeaderView}}}" Value="{x:Static Desktop:HeaderAlignments.Right}">
+                        <Setter TargetName="PART_ContentPresenter" Property="HorizontalAlignment" Value="Right"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding HeaderPlacement, RelativeSource={RelativeSource AncestorType={x:Type local:HeaderView}}}" Value="{x:Static Desktop:HeaderPlacements.Top}">
+                        <Setter TargetName="PART_Header" Property="Grid.Row" Value="0"/>
+                        <Setter TargetName="PART_Content" Property="Grid.Row" Value="1"/>
+                        <Setter TargetName="PART_Header" Property="Margin" Value="0"/>
+                        <Setter TargetName="PART_Content" Property="Margin" Value="0,6,0,0"/>
+                        <Setter TargetName="PART_Row1" Property="Height" Value="Auto"/>
+                        <Setter TargetName="PART_Row2" Property="Height" Value="*"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding HeaderPlacement, RelativeSource={RelativeSource AncestorType={x:Type local:HeaderView}}}" Value="{x:Static Desktop:HeaderPlacements.Bottom}">
+                        <Setter TargetName="PART_Header" Property="Grid.Row" Value="1"/>
+                        <Setter TargetName="PART_Content" Property="Grid.Row" Value="0"/>
+                        <Setter TargetName="PART_Header" Property="Margin" Value="0,6,0,0"/>
+                        <Setter TargetName="PART_Content" Property="Margin" Value="0"/>
+                        <Setter TargetName="PART_Row1" Property="Height" Value="*"/>
+                        <Setter TargetName="PART_Row2" Property="Height" Value="Auto"/>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ContentControl.ContentTemplate>
+    </ContentControl>
+</UserControl>

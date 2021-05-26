@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<List xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Attributes="Bullet" Bullets="Square" DateTimeFormat="dddd, MMM d, yyyy" DecimalFormat="${N2}" SortDirection="Descending" SortName="Added" Value="None" xmlns="Notes">
+  <Lines>
+    <Line Added="2021-04-25T06:52:28.4689321-04:00" Decimal="0" Checked="false" DateTime="2021-04-26T06:52:28.4689321-04:00" Image="">Toggling the visibility of a password causes the properties to refresh.</Line>
+    <Line Added="2021-04-24T11:52:29.7022962-04:00" Decimal="0" Checked="false" DateTime="2021-04-25T11:52:29.7022962-04:00" Image="">Figure out what happens when the app is closed while a task is synchronizing!</Line>
+    <Line Added="2021-04-21T20:42:15.653152-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:42:15.653152-04:00" Image="">Figure out way to refresh the passwords ItemsControl when a password's category changes.</Line>
+    <Line Added="2021-04-21T20:08:10.6477257-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:08:10.6477257-04:00" Image="">When enabling a task that ultimately doesn't get enabled, PropertyGrid does not show the lack of a change unless the task is unselected and then selected again.</Line>
+    <Line Added="2021-04-21T20:06:56.5219471-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:06:56.5219471-04:00" Image="">Is there an event for plugging and unplugging drives?</Line>
+    <Line Added="2021-04-21T20:06:52.1478624-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:06:52.1478624-04:00" Image="">When the source or destination is an external drive. When plugged or unplugged, a) FileBox should revalidate and b) the task should stop (if already started) or start (if set to automatically start).</Line>
+    <Line Added="2021-04-21T20:06:40.157876-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:06:40.157876-04:00" Image="">Define redundancies that ensures no files or folders get deleted at the source path.</Line>
+  </Lines>
+</List>

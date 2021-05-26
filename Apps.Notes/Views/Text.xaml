@@ -1,0 +1,280 @@
+﻿<ResourceDictionary 
+    x:Class="Notes.TextView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Notes"
+    xmlns:i="http://imagin.tech/imagin/common">
+    <i:BulletMultiConverter x:Key="BulletMultiConverter"/>
+    <i:HasFlagConverter x:Key="HasFlagConverter"/>
+    <i:NullConverter x:Key="NullConverter"/>
+    <i:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+    <i:SecondsConverter x:Key="SecondsConverter"/>
+    <i:SortDirectionConverter x:Key="SortDirectionConverter"/>
+    <i:ToStringConverter x:Key="ToStringConverter"/>
+
+    <DataTemplate x:Key="DataTemplate.List">
+        <Grid i:GridExtensions.Rows="Auto,*">
+            <Grid.Resources>
+                <i:Reference x:Key="List" Data="{Binding}"/>
+                <i:Reference x:Key="Lines" Data="{Binding Lines}"/>
+            </Grid.Resources>
+            <Border
+                Grid.Row="0"
+                Style="{DynamicResource Style.Border.Bottom}">
+                <i:MaskedButton
+                    Command="{Binding AddCommand}"
+                    HorizontalAlignment="Left"
+                    Margin="5"
+                    Source="{i:Image Notes, Images/Plus.png}"
+                    ToolTip="Add"
+                    VerticalAlignment="Center"/>
+            </Border>
+            <ScrollViewer
+                Grid.Row="1"
+                HorizontalScrollBarVisibility="Disabled"
+                Padding="0,5,10,0">
+                <ItemsControl
+                    ItemsSource="{Binding Lines}"
+                    i:ItemsControlExtensions.SortDirection="{Binding SortDirection, Converter={StaticResource SortDirectionConverter}}"
+                    i:ItemsControlExtensions.SortName="{Binding SortName, Converter={StaticResource ToStringConverter}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding}">
+                                <ContentControl.Resources>
+                                    <i:Reference x:Key="Line" Data="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+                                </ContentControl.Resources>
+                                <ContentControl.ContentTemplate>
+                                    <DataTemplate>
+                                        <DataTemplate.Resources>
+                                            <i:DateTimeStringFormatMultiConverter x:Key="DateTimeStringFormatMultiConverter"/>
+                                            <i:DecimalStringFormatMultiConverter x:Key="DecimalStringFormatMultiConverter"/>
+                                            <i:DecimalToStringConverter x:Key="DecimalToStringConverter"/>
+                                        </DataTemplate.Resources> 
+                                        <Grid
+                                            i:GridExtensions.Columns="Auto,Auto,Auto,*,Auto"
+                                            i:PanelExtensions.VerticalContentAlignment="Center"
+                                            Margin="10,0,0,5">
+                                            <CheckBox
+                                                x:Name="PART_CheckBox"
+                                                Grid.Column="0"
+                                                IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Margin="0,0,10,0"/>
+                                            <i:BulletView
+                                                Grid.Column="1"
+                                                Bullet="{Binding Data.Bullets, Source={StaticResource List}}"
+                                                Count="{Binding Data.Count, Source={StaticResource List}}"
+                                                FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                FontSize="{i:Options FontSize, Mode=OneWay}"
+                                                Foreground="{DynamicResource Brush.Text}"
+                                                Margin="0,0,10,0"
+                                                Value="{Binding Data, Source={StaticResource Line}}">
+                                                <i:BulletView.Style>
+                                                    <Style TargetType="{x:Type i:BulletView}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Data.Attributes, Converter={StaticResource HasFlagConverter}, ConverterParameter={x:Static local:Attributes.Bullet}, Source={StaticResource List}}" Value="False">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </i:BulletView.Style>
+                                            </i:BulletView>
+                                            <Border
+                                                Grid.Column="2"
+                                                x:Name="PART_Image"
+                                                BorderBrush="#22000000"
+                                                BorderThickness="1"
+                                                ClipToBounds="True"
+                                                CornerRadius="999"
+                                                Height="72"
+                                                Margin="0,0,10,0"
+                                                PreviewMouseLeftButtonUp="OnImagePreviewMouseLeftButtonUp"
+                                                Width="72">
+                                                <Border.Background>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Image, Converter={StaticResource NullConverter}}"/>
+                                                </Border.Background>
+                                            </Border>
+                                            <Grid Grid.Column="3">
+                                                <i:LabelBox
+                                                    x:Name="PART_LabelBox"
+                                                    FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                    FontSize="{i:Options FontSize, Mode=TwoWay}"
+                                                    i:ControlExtensions.FontSizeWheel="True"
+                                                    i:ControlExtensions.FontSizeWheelMaximum="72"
+                                                    i:ControlExtensions.FontSizeWheelMinimum="8"
+                                                    IsEditable="{Binding Editing, Mode=TwoWay}"
+                                                    Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    TextWrapping="Wrap">
+                                                    <i:LabelBox.Style>
+                                                        <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
+                                                            <EventSetter Event="LostFocus" Handler="OnListLostFocus"/>
+                                                            <EventSetter Event="PreviewKeyDown" Handler="OnListPreviewKeyDown"/>
+                                                        </Style>
+                                                    </i:LabelBox.Style>
+                                                </i:LabelBox>
+                                            </Grid>
+                                            <StackPanel
+                                                Grid.Column="4"
+                                                Margin="5,0,0,0">
+                                                <i:LabelBox
+                                                    FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                    FontSize="{i:Options FontSize, Mode=TwoWay}"
+                                                    i:ControlExtensions.FontSizeWheel="True"
+                                                    i:ControlExtensions.FontSizeWheelMaximum="72"
+                                                    i:ControlExtensions.FontSizeWheelMinimum="8"
+                                                    HorizontalAlignment="Right"
+                                                    Text="{Binding Decimal, Converter={StaticResource DecimalToStringConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                                    TextWrapping="Wrap">
+                                                    <i:LabelBox.Label>
+                                                        <MultiBinding Converter="{StaticResource DecimalStringFormatMultiConverter}">
+                                                            <MultiBinding.Bindings>
+                                                                <Binding Path="Decimal"/>
+                                                                <Binding Path="Data.DecimalFormat" Source="{StaticResource List}"/>
+                                                            </MultiBinding.Bindings>
+                                                        </MultiBinding>
+                                                    </i:LabelBox.Label>
+                                                    <i:LabelBox.Style>
+                                                        <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
+                                                            <EventSetter Event="LostFocus" Handler="OnListLostFocus"/>
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.Decimal}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </i:LabelBox.Style>
+                                                </i:LabelBox>
+                                                <i:LabelBox
+                                                    FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                    FontSize="{i:Options FontSize, Mode=TwoWay}"
+                                                    i:ControlExtensions.FontSizeWheel="True"
+                                                    i:ControlExtensions.FontSizeWheelMaximum="72"
+                                                    i:ControlExtensions.FontSizeWheelMinimum="8"
+                                                    HorizontalAlignment="Right"
+                                                    Label="{Binding DateTime, Converter={StaticResource SecondsConverter}, ConverterParameter=1}"
+                                                    Text="{Binding DateTime, Mode=TwoWay, StringFormat='M/d/yyyy h:mm tt', UpdateSourceTrigger=LostFocus}"
+                                                    TextWrapping="Wrap">
+                                                    <i:LabelBox.Style>
+                                                        <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
+                                                            <EventSetter Event="LostFocus" Handler="OnListLostFocus"/>
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.DateTime}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </i:LabelBox.Style>
+                                                </i:LabelBox>
+                                                <i:LabelBox 
+                                                    FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                    FontSize="{i:Options FontSize, Mode=TwoWay}"
+                                                    i:ControlExtensions.FontSizeWheel="True"
+                                                    i:ControlExtensions.FontSizeWheelMaximum="72"
+                                                    i:ControlExtensions.FontSizeWheelMinimum="8"
+                                                    FontStyle="Italic"
+                                                    HorizontalAlignment="Right"
+                                                    Opacity="0.6"
+                                                    Text="{Binding Data.DateTimeFormat, Mode=TwoWay, Source={StaticResource List}, UpdateSourceTrigger=PropertyChanged}"
+                                                    TextTrimming="CharacterEllipsis">
+                                                    <i:LabelBox.Label>
+                                                        <MultiBinding Converter="{StaticResource DateTimeStringFormatMultiConverter}">
+                                                            <MultiBinding.Bindings>
+                                                                <Binding Path="DateTime"/>
+                                                                <Binding Path="Data.DateTimeFormat" Source="{StaticResource List}"/>
+                                                            </MultiBinding.Bindings>
+                                                        </MultiBinding>
+                                                    </i:LabelBox.Label>
+                                                    <i:LabelBox.Style>
+                                                        <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.DateTime}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </i:LabelBox.Style>
+                                                </i:LabelBox>
+                                            </StackPanel>
+                                        </Grid>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Data.Attributes, Converter={StaticResource HasFlagConverter}, ConverterParameter={x:Static local:Attributes.Check}, Source={StaticResource List}}" Value="False">
+                                                <Setter TargetName="PART_CheckBox" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Data.Attributes, Converter={StaticResource HasFlagConverter}, ConverterParameter={x:Static local:Attributes.Image}, Source={StaticResource List}}" Value="False">
+                                                <Setter TargetName="PART_Image" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ContentControl.ContentTemplate>
+                            </ContentControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="DataTemplate.Text">
+        <i:TextBox
+            AcceptsReturn="True"
+            BorderThickness="0"
+            FontFamily="{i:Options FontFamily, Mode=OneWay}"
+            FontSize="{i:Options FontSize, Mode=TwoWay}"
+            i:ControlExtensions.FontSizeWheel="True"
+            i:ControlExtensions.FontSizeWheelMaximum="72"
+            i:ControlExtensions.FontSizeWheelMinimum="8"
+            Padding="10"
+            Placeholder="Write something..."
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            i:TextBoxExtensions.Tab="True"
+            i:TextBoxExtensions.TabSpace="{i:Options Tab}"
+            i:TextBoxExtensions.CaretIndex="{Binding CaretIndex, Mode=OneWay}"
+            i:TextBoxExtensions.SelectionLength="{Binding SelectionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            i:TextBoxExtensions.SelectionStart="{Binding SelectionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectAllOnFocus="True"
+            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="{i:Options TextWrap}"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Top">
+            <i:TextBox.Style>
+                <Style TargetType="{x:Type i:TextBox}" BasedOn="{StaticResource {x:Type i:TextBox}}">
+                    <EventSetter Event="PreviewMouseMove" Handler="OnTextBoxPreviewMouseMove"/>
+                </Style>
+            </i:TextBox.Style>
+        </i:TextBox>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type local:TextDocument}">
+        <ContentControl Content="{Binding}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type local:List}">
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Valid}" Value="True">
+                                        <Setter Property="ContentTemplate" Value="{StaticResource DataTemplate.List}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Valid}" Value="False">
+                                        <Setter Property="ContentTemplate" Value="{StaticResource DataTemplate.Text}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:Note}">
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DataTemplate.Text}"/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+    </DataTemplate>
+</ResourceDictionary>

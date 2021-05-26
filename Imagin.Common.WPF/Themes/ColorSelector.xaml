@@ -1,0 +1,67 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Effects="clr-namespace:Imagin.Common.Effects">
+    <Style x:Key="{x:Type local:ColorSelector}" TargetType="{x:Type local:ColorSelector}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ColorSelector}">
+                    <ControlTemplate.Resources>
+                        <Converters:ByteToDoubleConverter x:Key="ByteToDoubleConverter"/>
+                    </ControlTemplate.Resources> 
+                    <Grid>
+                        <Border
+                            SnapsToDevicePixels="True"
+                            Style="{TemplateBinding BorderStyle}">
+                            <local:CheckerBoard x:Name="PART_CheckerBoard">
+                                <Viewbox Stretch="Fill">
+                                    <Grid x:Name="Grid" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="White" Height="1" Width="1">
+                                        <Grid.Effect>
+                                            <Effects:ColorXYEffect
+                                                ActualModel="{Binding Model}"
+                                                Value="{Binding Value}"/>
+                                        </Grid.Effect>
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Alpha}" Value="With">
+                                                        <Setter Property="Opacity" Value="{Binding AlphaValue, Converter={StaticResource ByteToDoubleConverter}}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                    </Grid>
+                                </Viewbox>
+                            </local:CheckerBoard>
+                        </Border>
+                        <Canvas 
+                            x:Name="PART_Canvas"
+                            ClipToBounds="True">
+                            <Border
+                                x:Name="PART_Border"
+                                Canvas.Left="{Binding EllipsePosition.X, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                Canvas.Top="{Binding EllipsePosition.Y, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                CornerRadius="999"
+                                Height="{TemplateBinding EllipseSize}"
+                                Width="{TemplateBinding EllipseSize}">
+                                <Border
+                                    BorderBrush="White"
+                                    BorderThickness="1"
+                                    CornerRadius="999"/>
+                            </Border>
+                        </Canvas>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Alpha" Value="With">
+                            <Setter TargetName="Grid" Property="Opacity" Value="{Binding AlphaValue, Converter={StaticResource ByteToDoubleConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

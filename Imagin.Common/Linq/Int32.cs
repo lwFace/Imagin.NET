@@ -1,181 +1,96 @@
 ﻿using System;
-using System.Linq;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class Int32Extensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="Increment"></param>
-        /// <returns></returns>
-        public static Int32 Add(this Int32 value, Int32 Increment) => value + Increment;
+        public static void For(this int input, int whileLessThan, Action<int> action)
+        {
+            for (var i = input; i < whileLessThan; i++)
+                action(i);
+        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int32 Absolute(this Int32 value) => Math.Abs(value);
+        //...............................................................................
 
-        /// <summary>
-        /// Coerces to the specified range.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="maximum"></param>
-        /// <param name="minimum"></param>
-        /// <returns></returns>
-        public static Int32 Coerce(this Int32 value, Int32 maximum, Int32 minimum = 0) => Math.Max(Math.Min(value, maximum), minimum);
+        public static Int32 Add(this Int32 input, Int32 Increment) => input + Increment;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="divisor"></param>
-        /// <returns></returns>
-        public static Int32 Divide(this Int32 value, Int32 divisor) => value / divisor;
+        public static Int32 Absolute(this Int32 input) => System.Math.Abs(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int32 K(this Int32 value) => value * 1024;
+        public static Byte Byte(this Int32 input) => Convert.ToByte(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Boolean IsEven(this Int32 value) => value == 0 ? true : value % 2 == 0;
+        public static Int32 Coerce(this Int32 input, Int32 maximum, Int32 minimum = 0) => System.Math.Max(System.Math.Min(input, maximum), minimum);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Boolean IsOdd(this Int32 value) => !IsEven(value);
+        public static Decimal Decimal(this Int32 input) => Convert.ToDecimal(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int32 M(this Int32 value) => value * 1024 * 1024;
+        public static Int32 Divide(this Int32 input, Int32 divisor) => input / divisor;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="scalar"></param>
-        /// <returns></returns>
-        public static Int32 Multiply(this Int32 value, Int32 scalar) => value * scalar;
+        public static Double Double(this Int32 input) => Convert.ToDouble(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
+        public static Int32 K(this Int32 input) => input * 1024;
+
+        public static Int16 Int16(this Int32 input) => Convert.ToInt16(input);
+
+        public static Int64 Int64(this Int32 input) => Convert.ToInt64(input);
+
+        public static Boolean Even(this Int32 input) => input == 0 ? true : input % 2 == 0;
+
+        public static Boolean Odd(this Int32 input) => !Even(input);
+
+        public static Int32 M(this Int32 input) => input * 1024 * 1024;
+
+        public static Int32 Maximum(this Int32 input, Int32 maximum) => input.Coerce(maximum, int.MinValue);
+
+        public static Int32 Minimum(this Int32 input, Int32 minimum) => input.Coerce(int.MaxValue, minimum);
+
+        public static Int32 Multiply(this Int32 input, Int32 scalar) => input * scalar;
+
+        public static Int32 Negate(this Int32 input) => -input;
+
+        public static String Ordinal(this Int32 input)
+        {
+            var result = String.Empty;
+            switch (input)
+            {
+                case 1:
+                    result = "st";
+                    break;
+                case 2:
+                    result = "nd";
+                    break;
+                case 3:
+                    result = "rd";
+                    break;
+                default:
+                    result = "th";
+                    break;
+            }
+            return $"{input}{result}";
+        }
+
+        public static Single Single(this Int32 input) => Convert.ToSingle(input);
+
         public static Byte[] SplitBytes(this Int32 input)
         {
             String s = input.ToString();
-            Byte[] Result = new Byte[s.Length];
+            Byte[] result = new Byte[s.Length];
+
             Int32 i = 0;
             foreach (char c in s)
             {
-                Result[i] = c.ToString().ToByte();
+                result[i] = c.ToString().Byte();
                 i++;
             }
-            return Result;
+            return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="decrement"></param>
-        /// <returns></returns>
-        public static Int32 Subtract(this Int32 value, Int32 decrement) => value - decrement;
+        public static Int32 Subtract(this Int32 input, Int32 decrement) => input - decrement;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Byte ToByte(this Int32 value) => Convert.ToByte(value);
+        public static UInt16 UInt16(this Int32 input) => Convert.ToUInt16(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Decimal ToDecimal(this Int32 value)
-            => Convert.ToDecimal(value);
+        public static UInt32 UInt32(this Int32 input) => Convert.ToUInt32(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Double ToDouble(this Int32 value) => Convert.ToDouble(value);
+        public static UInt64 UInt64(this Int32 input) => Convert.ToUInt64(input);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int16 ToInt16(this Int32 value) => Convert.ToInt16(value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int64 ToInt64(this Int32 value) => Convert.ToInt64(value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static String ToOrdinal(this Int32 value)
-        {
-            var Result = String.Empty;
-            switch (value)
-            {
-                case 1:
-                    Result = "st";
-                    break;
-                case 2:
-                    Result = "nd";
-                    break;
-                case 3:
-                    Result = "rd";
-                    break;
-                default:
-                    Result = "th";
-                    break;
-            }
-            return "{0}{1}".F(value, Result);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Single ToSingle(this Int32 value) => Convert.ToSingle(value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="minimum"></param>
-        /// <param name="maximum"></param>
-        /// <returns></returns>
-        public static Boolean WithinRange(this Int32 value, Int32 minimum, Int32 maximum) => value >= minimum && value <= maximum;
+        public static bool Within(this Int32 input, Int32 minimum, Int32 maximum) => input >= minimum && input <= maximum;
     }
 }

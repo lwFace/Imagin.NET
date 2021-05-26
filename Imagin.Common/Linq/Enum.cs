@@ -1,172 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class EnumExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static TEnum Add<TEnum>(this Enum type, TEnum value) where TEnum : struct, IFormattable, IComparable, IConvertible
-        {
-            return (TEnum)Enum.ToObject(typeof(TEnum), type.To<int>() | value.To<int>());
-        }
+        public static Enum Add<Enum>(this System.Enum input, Enum value) where Enum : struct, IFormattable, IComparable, IConvertible => (Enum)System.Enum.ToObject(typeof(Enum), input.To<int>() | value.To<int>());
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Enum Add(this Enum type, Enum value)
-        {
-            return Enum.ToObject(type.GetType(), type.To<int>() | value.To<int>()) as Enum;
-        }
+        public static Enum Add(this Enum input, Enum value) => Enum.ToObject(input.GetType(), input.To<int>() | value.To<int>()) as Enum;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TAttribute"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static TAttribute GetAttribute<TAttribute>(this Enum source) where TAttribute : Attribute
+        public static Attribute GetAttribute<Attribute>(this Enum input) where Attribute : System.Attribute
         {
-            var info = source.GetType().GetMember(source.ToString());
+            var info = input.GetType().GetMember(input.ToString());
 
             foreach (var i in info[0].GetCustomAttributes(true))
             {
-                if (i is TAttribute)
-                    return (TAttribute)i;
+                if (i is Attribute)
+                    return (Attribute)i;
             }
 
-            return default(TAttribute);
+            return default(Attribute);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static IEnumerable<Attribute> GetAttributes(this Enum source)
+        public static IEnumerable<Attribute> GetAttributes(this Enum input)
         {
-            var info = source.GetType().GetMember(source.ToString());
+            var info = input.GetType().GetMember(input.ToString());
             return info[0].GetCustomAttributes(true).Cast<Attribute>() ?? Enumerable.Empty<Attribute>();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool Has(this Enum source, Enum value)
-        {
-            return source.HasFlag(value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool Has<TEnum>(this TEnum source, TEnum value) where TEnum : struct, IFormattable, IComparable, IConvertible
-        {
-            return source.As<Enum>().HasFlag(value as Enum);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="values"></param>
-        /// <returns></returns>
-        public static bool HasAll<TEnum>(this TEnum source, params TEnum[] values) where TEnum : struct, IFormattable, IComparable, IConvertible
+        public static bool HasAll(this Enum input, params Enum[] values) 
         {
             foreach (var i in values)
             {
-                if (!source.Has(i))
+                if (!input.HasFlag(i))
                     return false;
             }
             return true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="values"></param>
-        /// <returns></returns>
-        public static bool HasAny<TEnum>(this TEnum source, params TEnum[] values) where TEnum : struct, IFormattable, IComparable, IConvertible
+        public static bool HasAny(this Enum input, params Enum[] values) 
         {
             foreach (var i in values)
             {
-                if (source.Has(i))
+                if (input.HasFlag(i))
                     return true;
             }
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="values"></param>
-        /// <returns></returns>
-        public static bool HasNone<TEnum>(this TEnum source, params TEnum[] values) where TEnum : struct, IFormattable, IComparable, IConvertible
+        public static bool HasNone(this Enum input, params Enum[] values) 
         {
-            return !source.HasAny(values);
+            return !input.HasAny(values);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TAttribute"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static bool HasAttribute<TAttribute>(this Enum source) where TAttribute : Attribute
+        public static bool HasAttribute<Attribute>(this Enum input) where Attribute : System.Attribute
         {
-            var info = source.GetType().GetMember(source.ToString());
+            var info = input.GetType().GetMember(input.ToString());
 
             foreach (var i in info[0].GetCustomAttributes(true))
             {
-                if (i is TAttribute)
+                if (i is Attribute)
                     return true;
             }
 
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static TEnum Remove<TEnum>(this Enum type, TEnum value) where TEnum : struct, IFormattable, IComparable, IConvertible => (TEnum)Enum.ToObject(typeof(TEnum), type.To<int>() & ~value.To<int>());
+        public static Enum Remove<Enum>(this System.Enum input, Enum value) where Enum : struct, IFormattable, IComparable, IConvertible 
+            => (Enum)System.Enum.ToObject(typeof(Enum), input.To<int>() & ~value.To<int>());
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Enum Remove(this Enum type, Enum value) => Enum.ToObject(type.GetType(), type.To<int>() & ~value.To<int>()) as Enum;
+        public static Enum Remove(this Enum input, Enum value) 
+            => Enum.ToObject(input.GetType(), input.To<int>() & ~value.To<int>()) as Enum;
     }
 }

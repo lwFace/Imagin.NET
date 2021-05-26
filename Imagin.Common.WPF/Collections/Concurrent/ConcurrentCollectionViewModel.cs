@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 namespace Imagin.Common.Collections.Concurrent
 {
     /// <summary>
-    /// The view model for <see cref="ConcurrentCollectionBase{T}"/>; this is exposed by <see cref="ConcurrentCollectionBase{T}"/> when it is used on the dispatcher thread.
+    /// The view model for <see cref="BaseConcurrentCollection{T}"/>; this is exposed by <see cref="BaseConcurrentCollection{T}"/> when it is used on the dispatcher thread.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]

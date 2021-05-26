@@ -1,0 +1,121 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Data="clr-namespace:Imagin.Common.Data">
+    
+    <local:AngleToPointConverter x:Key="AngleToPointConverter"/>
+    <local:AngleToIsLargeConverter x:Key="AngleToIsLargeConverter"/>
+    <local:RadiusToSizeConverter x:Key="RadiusToSizeConverter"/>
+    <local:StrokeToStartPointConverter x:Key="StrokeToStartPointConverter"/>
+    <local:RadiusToCenterConverter x:Key="RadiusToCenterConverter"/>
+    <local:RadiusToDiameter x:Key="RadiusToDiameter"/>
+    <local:InnerRadiusConverter x:Key="InnerRadiusConverter"/>
+
+    <Style x:Key="{x:Type local:ProgressView}" TargetType="local:ProgressView">
+        <Setter Property="CenterBackground" Value="Transparent"/>
+        <Setter Property="Radius" Value="40"/>
+        <Setter Property="StrokeThickness" Value="10"/>
+        <Setter Property="Value" Value="50"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ProgressView">
+                    <Grid
+                        Width="{Binding Radius, Converter={StaticResource RadiusToDiameter},RelativeSource={RelativeSource AncestorType=ProgressBar}}"
+                        Height="{Binding Radius, Converter={StaticResource RadiusToDiameter}, RelativeSource={RelativeSource AncestorType=ProgressBar}}">
+                        <Path Fill="{TemplateBinding CenterBackground}">
+                            <Path.Data>
+                                <EllipseGeometry 
+                                    Center="{Binding Radius,Converter={StaticResource RadiusToCenterConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=ProgressBar}}">
+                                    <EllipseGeometry.RadiusX>
+                                        <MultiBinding Converter="{StaticResource InnerRadiusConverter}">
+                                            <Binding Path="Radius" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ProgressBar}"/>
+                                            <Binding Path="StrokeThickness" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ProgressBar}"/>
+                                        </MultiBinding>
+                                    </EllipseGeometry.RadiusX>
+                                    <EllipseGeometry.RadiusY>
+                                        <Binding Path="RadiusX" RelativeSource="{RelativeSource Self}"/>
+                                    </EllipseGeometry.RadiusY>
+                                </EllipseGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Path
+                            Stroke="{TemplateBinding Background}" 
+                            StrokeThickness="{TemplateBinding StrokeThickness}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure>
+                                        <PathFigure.StartPoint>
+                                            <MultiBinding Converter="{StaticResource StrokeToStartPointConverter}">
+                                                <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                            </MultiBinding>
+                                        </PathFigure.StartPoint>
+                                        <ArcSegment 
+                                            RotationAngle="0" 
+                                            SweepDirection="Clockwise"
+                                            IsLargeArc="{Binding Angle, Converter={StaticResource AngleToIsLargeConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=ProgressBar}}">
+                                            <ArcSegment.Point>
+                                                <MultiBinding Converter="{StaticResource AngleToPointConverter}">
+                                                    <Binding Path="Angle" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                </MultiBinding>
+                                            </ArcSegment.Point>
+                                            <ArcSegment.Size>
+                                                <MultiBinding Converter="{StaticResource RadiusToSizeConverter}">
+                                                    <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                </MultiBinding>
+                                            </ArcSegment.Size>
+                                        </ArcSegment>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Path
+                            Stroke="{TemplateBinding Foreground}" 
+                            StrokeThickness="{TemplateBinding StrokeThickness}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure>
+                                        <PathFigure.StartPoint>
+                                            <MultiBinding Converter="{StaticResource StrokeToStartPointConverter}">
+                                                <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                            </MultiBinding>
+                                        </PathFigure.StartPoint>
+                                        <ArcSegment 
+                                            RotationAngle="0" 
+                                            SweepDirection="Clockwise"
+                                            IsLargeArc="{Binding Angle, Converter={StaticResource AngleToIsLargeConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=ProgressBar}}">
+                                            <ArcSegment.Point>
+                                                <MultiBinding Converter="{StaticResource AngleToPointConverter}">
+                                                    <Binding Path="Angle" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                </MultiBinding>
+                                            </ArcSegment.Point>
+                                            <ArcSegment.Size>
+                                                <MultiBinding Converter="{StaticResource RadiusToSizeConverter}">
+                                                    <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                </MultiBinding>
+                                            </ArcSegment.Size>
+                                        </ArcSegment>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+
+                        <ContentControl
+                            Content="{TemplateBinding Value}"
+                            ContentTemplate="{TemplateBinding CenterTemplate}"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

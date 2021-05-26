@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class PointExtensions
     {
+        #region System.Drawing.Point
+
+        public static System.Drawing.Point Between(this System.Drawing.Point a, System.Drawing.Point b)
+            => new System.Drawing.Point(((a.X + b.X).Double() / 2.0).Int32(), ((a.Y + b.Y).Double() / 2.0).Int32());
+
+        public static float Distance(this System.Drawing.Point a, System.Drawing.Point b)
+            => (float)System.Math.Sqrt(System.Math.Pow(b.X - a.X, 2) + System.Math.Pow(b.Y - a.Y, 2));
+
+        public static Point Double(this System.Drawing.Point a) => new Point(a.X, a.Y);
+
+        #endregion
+
+        #region System.Windows.Point
+
         /// <summary>
         /// Adds given value (a.X + b, a.Y + b).
         /// </summary>
@@ -19,9 +25,7 @@ namespace Imagin.Common.Linq
         /// <param name="b"></param>
         /// <returns></returns>
         public static Point Add(this Point a, double b)
-        {
-            return a.Add(new Point(b, b));
-        }
+            => a.Add(new Point(b, b));
 
         /// <summary>
         /// Adds given point (a.X + b.X, a.Y + b.Y).
@@ -30,17 +34,11 @@ namespace Imagin.Common.Linq
         /// <param name="b"></param>
         /// <returns></returns>
         public static Point Add(this Point a, Point b)
-        {
-            return new Point(a.X + b.X, a.Y + b.Y);
-        }
+            => new Point(a.X + b.X, a.Y + b.Y);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="maximum"></param>
-        /// <param name="minimum"></param>
-        /// <returns></returns>
+        public static Point Between(this Point a, Point b)
+            => new Point((a.X + b.X) / 2.0, (a.Y + b.Y) / 2.0);
+
         public static Point Coerce(this Point source, Point maximum, Point minimum = default(Point))
         {
             minimum = minimum == default(Point) ? new Point(0, 0) : minimum;
@@ -48,76 +46,47 @@ namespace Imagin.Common.Linq
             var x = source.X;
             var y = source.Y;
 
-            x = x > maximum.X ? maximum.X : (x < minimum.X ? minimum.X : x);
-            y = y > maximum.Y ? maximum.Y : (y < minimum.Y ? minimum.Y : y);
+            x = x > maximum.X ? maximum.X : x < minimum.X ? minimum.X : x;
+            y = y > maximum.Y ? maximum.Y : y < minimum.Y ? minimum.Y : y;
 
             return new Point(x, y);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public static float Distance(this Point a, Point b)
+            => (float)System.Math.Sqrt(System.Math.Pow(b.X - a.X, 2) + System.Math.Pow(b.Y - a.Y, 2));
+
         public static Point Divide(this Point a, double b)
         {
             return a.Divide(new Point(b, b));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static Point Divide(this Point a, Point b)
         {
             return new Point(a.X / b.X, a.Y / b.Y);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public static System.Drawing.Point Int32(this Point a) => new System.Drawing.Point(a.X.Int32(), a.Y.Int32());
+
         public static Point Multiply(this Point a, double b)
         {
             return a.Multiply(new Point(b, b));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static Point Multiply(this Point a, Point b)
         {
             return new Point(a.X * b.X, a.Y * b.Y);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static Point Subtract(this Point a, double b)
         {
             return a.Subtract(new Point(b, b));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static Point Subtract(this Point a, Point b)
         {
             return new Point(a.X - b.X, a.Y - b.Y);
         }
+
+        #endregion
     }
 }

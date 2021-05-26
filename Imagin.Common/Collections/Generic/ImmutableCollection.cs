@@ -1,73 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Imagin.Common.Collections.Generic
 {
-    /// <summary>
-    /// Provides a collection that is immutable or cannot be changed.
-    /// </summary>
-    public class ImmutableCollection<T> : ImmutableCollectionBase<T>
+    public class ImmutableCollection<T> : BaseImmutableCollection<T>
     {
         /// <summary>
-        /// The base collection that is wrapped by this class to restrict access
+        /// The collection wrapped by this class to restrict access.
         /// </summary>
-        IList<T> Source;
+        IList<T> source;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public override int Count
-        {
-            get
-            {
-                return Source.Count;
-            }
-        }
+        public override int Count => source.Count;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        public ImmutableCollection(IEnumerable<T> source)
-        {
-            Source = new List<T>(source);
-        }
+        public ImmutableCollection(IEnumerable<T> source) => this.source = new List<T>(source);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public ImmutableCollection() : this(Enumerable.Empty<T>())
-        {
-        }
+        public ImmutableCollection() : this(Enumerable.Empty<T>()) { }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Item"></param>
-        /// <returns></returns>
-        public override bool Contains(T Item)
-        {
-            return Source.Contains(Item);
-        }
+        public override bool Contains(T Item) => source.Contains(Item);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Array"></param>
-        /// <param name="ArrayIndex"></param>
-        public override void CopyTo(T[] Array, int ArrayIndex)
-        {
-            Source.CopyTo(Array, ArrayIndex);
-        }
+        public override void CopyTo(T[] Array, int ArrayIndex) => source.CopyTo(Array, ArrayIndex);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override IEnumerator<T> GetEnumerator()
-        {
-            return Source.GetEnumerator();
-        }
+        public override IEnumerator<T> GetEnumerator() => source.GetEnumerator();
     }
 }

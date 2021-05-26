@@ -1,0 +1,32 @@
+﻿<UserControl 
+    x:Class="Imagin.Common.Controls.ThicknessBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:l="clr-namespace:Imagin.Common.Globalization.Extensions"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq">
+    <Grid
+        x:Name="Grid"
+        Linq:GridExtensions.Columns="*,*,*,*"
+        Linq:PanelExtensions.Spacing="{Binding Spacing}">
+        <local:DoubleUpDown
+            Minimum="{Binding Minimum}"
+            Maximum="{Binding Maximum}"
+            ToolTip="{l:Loc Imagin.Common.WPF:Main:Left}"/>
+        <local:DoubleUpDown
+            Grid.Column="1"
+            Minimum="{Binding Minimum}"
+            Maximum="{Binding Maximum}"
+            ToolTip="{l:Loc Imagin.Common.WPF:Main:Top}"/>
+        <local:DoubleUpDown
+            Grid.Column="2"
+            Minimum="{Binding Minimum}"
+            Maximum="{Binding Maximum}"
+            ToolTip="{l:Loc Imagin.Common.WPF:Main:Right}"/>
+        <local:DoubleUpDown
+            Grid.Column="3"
+            Minimum="{Binding Minimum}"
+            Maximum="{Binding Maximum}"
+            ToolTip="{l:Loc Imagin.Common.WPF:Main:Bottom}"/>
+    </Grid>
+</UserControl>

@@ -2,111 +2,100 @@
 {
     public static partial class ArrayExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="elements"></param>
-        /// <returns></returns>
-        public static TElement[] Add<TElement>(this TElement[] source, params TElement[] elements)
+        public static T[] Add<T>(this T[] input, params T[] elements)
         {
-            var length = source.Length;
-            System.Array.Resize(ref source, length + elements.Length);
+            var length = input.Length;
+            System.Array.Resize(ref input, length + elements.Length);
 
             for (int j = 0, count = elements.Length; j < count; j++)
-                source[length + j] = elements[j];
+                input[length + j] = elements[j];
 
-            return source;
+            return input;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public static int IndexOf<TElement>(this TElement[] source, TElement element)
+        public static T[,] Duplicate<T>(this T[,] input)
         {
-            for (int i = 0, length = source.Length; i < length; i++)
+            int rows = input.GetLength(0), columns = input.GetLength(1);
+
+            var result = new T[rows, columns];
+            for (int row = 0; row < rows; row++)
             {
-                if (source[i].Equals(element))
+                for (int column = 0; column < columns; column++)
+                    result[row, column] = input[row, column];
+            }
+            return result;
+        }
+
+        public static T[][] Duplicate<T>(this T[][] input)
+        {
+            int rows = input.Length, columns = input[0].Length;
+
+            var result = new T[rows][];
+            for (int row = 0; row < rows; row++)
+            {
+                result[row] = new T[columns];
+                for (int column = 0; column < columns; column++)
+                    result[row][column] = input[row][column];
+            }
+            return result;
+        }
+
+        public static int IndexOf<T>(this T[] input, T element)
+        {
+            for (int i = 0, length = input.Length; i < length; i++)
+            {
+                if (input[i].Equals(element))
                     return i;
             }
             return -1;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static TElement[][] Project<TElement>(this TElement[,] source)
+        public static T[][] Project<T>(this T[,] input)
         {
-            int rows = source.GetLength(0), columns = source.GetLength(1);
+            int rows = input.GetLength(0), columns = input.GetLength(1);
 
-            var result = new TElement[rows][];
+            var result = new T[rows][];
             for (int row = 0; row < rows; row++)
             {
-                result[row] = new TElement[columns];
+                result[row] = new T[columns];
                 for (int column = 0; column < columns; column++)
-                    result[row][column] = source[row, column];
+                    result[row][column] = input[row, column];
             }
 
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static TElement[,] Project<TElement>(this TElement[][] source)
+        public static T[,] Project<T>(this T[][] input)
         {
-            int rows = source.Length, columns = source[0].Length;
+            int rows = input.Length, columns = input[0].Length;
 
-            var result = new TElement[rows, columns];
+            var result = new T[rows, columns];
             for (int row = 0; row < rows; row++)
             {
                 for (int column = 0; column < columns; column++)
-                    result[row, column] = source[row][column];
+                    result[row, column] = input[row][column];
             }
 
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="elements"></param>
-        public static void Remove<TElement>(this TElement[] source, params TElement[] elements)
+        public static void Remove<T>(this T[] input, params T[] elements)
         {
             foreach (var i in elements)
-                source.RemoveAt(source.IndexOf(i));
+                input.RemoveAt(input.IndexOf(i));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="index"></param>
-        public static void RemoveAt<TElement>(this TElement[] source, int index)
+        public static void RemoveAt<T>(this T[] input, int index)
         {
-            var result = new TElement[source.Length - 1];
+            var result = new T[input.Length - 1];
 
             if (index > 0)
-                System.Array.Copy(source, 0, result, 0, index);
+                System.Array.Copy(input, 0, result, 0, index);
 
-            if (index < source.Length - 1)
-                System.Array.Copy(source, index + 1, result, index, source.Length - index - 1);
+            if (index < input.Length - 1)
+                System.Array.Copy(input, index + 1, result, index, input.Length - index - 1);
 
-            source = result;
+            input = result;
         }
     }
 }

@@ -3,29 +3,12 @@ using System;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class UInt64Extensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="maximum"></param>
-        /// <param name="minimum"></param>
-        /// <returns></returns>
         public static ulong Coerce(this UInt64 value, UInt64 maximum, UInt64 minimum = 0L) 
-            => Math.Max(Math.Min(value, maximum), minimum);
+            => System.Math.Max(System.Math.Min(value, maximum), minimum);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="format"></param>
-        /// <param name="round"></param>
-        /// <returns></returns>
-        public static string ToFileSize(this UInt64 value, FileSizeFormat format, int round = 1)
+        public static string FileSize(this UInt64 value, FileSizeFormat format, int round = 1)
         {
             if (format == FileSizeFormat.Bytes)
                 return value.ToString();
@@ -48,80 +31,65 @@ namespace Imagin.Common.Linq
 
             var f = format == FileSizeFormat.BinaryUsingSI || format == FileSizeFormat.IECBinary ? (ulong)1024 : 1000;
 
-            var m = (int)Math.Log(value, f);
+            var m = (int)System.Math.Log(value, f);
             var a = (decimal)value / (1L << (m * 10));
 
-            if (Math.Round(a, round) >= 1000)
+            if (System.Math.Round(a, round) >= 1000)
             {
                 m += 1;
                 a /= f;
             }
 
-            return string.Format("{0:n" + round + "} {1}", a, Labels[m]);
+            var result = string.Format("{0:n" + round + "}", a);
+
+            var j = result.Length;
+            for (var i = result.Length - 1; i >= 0; i--)
+            {
+                if (result[i] == '.')
+                {
+                    j--;
+                    break;
+                }
+                if (result[i] == '0')
+                {
+                    j--;
+                }
+                else break;
+            }
+
+            return $"{result.Substring(0, j)} {Labels[m]}"; ;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Decimal ToDecimal(this UInt64 value)
+        public static Decimal Decimal(this UInt64 value)
             => Convert.ToDecimal(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Double ToDouble(this UInt64 value)
+        public static Double Double(this UInt64 value)
             => Convert.ToDouble(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int16 ToInt16(this UInt64 value)
+        public static Int16 Int16(this UInt64 value)
             => Convert.ToInt16(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int32 ToInt32(this UInt64 value)
+        public static Int32 Int32(this UInt64 value)
             => Convert.ToInt32(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Int64 ToInt64(this UInt64 value)
+        public static Int64 Int64(this UInt64 value)
             => Convert.ToInt64(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static Single ToSingle(this UInt64 value)
+        public static UInt64 Maximum(this UInt64 input, UInt64 maximum)
+            => input.Coerce(maximum, UInt64.MinValue);
+
+        public static UInt64 Minimum(this UInt64 input, UInt64 minimum)
+            => input.Coerce(UInt64.MaxValue, minimum);
+
+        public static Single Single(this UInt64 value)
             => Convert.ToSingle(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static UInt16 ToUInt16(this UInt64 value)
+        public static UInt16 UInt16(this UInt64 value)
             => Convert.ToUInt16(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static UInt32 ToUInt32(this UInt64 value)
+        public static UInt32 UInt32(this UInt64 value)
             => Convert.ToUInt32(value);
+
+        public static bool Within(this ulong input, ulong minimum, ulong maximum) => input >= minimum && input <= maximum;
     }
 }

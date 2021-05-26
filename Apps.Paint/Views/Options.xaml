@@ -1,0 +1,31 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Paint"
+    xmlns:i="http://imagin.tech/imagin/common">
+    <DataTemplate DataType="{x:Type local:OptionsPanel}">
+        <i:PropertyGrid
+            BorderThickness="0"
+            DescriptionVisibility="Collapsed"
+            GroupName="Category"
+            GroupVisibility="True"
+            HeaderVisibility="Collapsed"
+            HeadersVisibility="None"
+            Source="{i:Options}">
+            <i:PropertyGrid.OverrideTemplates>
+                <DataTemplate DataType="{x:Type i:PanelCollection}">
+                    <ItemsControl ItemsSource="{Binding Value}" Margin="0,5,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type i:Panel}">
+                                <CheckBox 
+                                    Content="{Binding Title}"
+                                    IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                                    Margin="0,0,0,5"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </i:PropertyGrid.OverrideTemplates>
+        </i:PropertyGrid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -19,7 +19,7 @@ namespace Imagin.Common.Lang {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Main {
@@ -205,6 +205,33 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close all.
+        /// </summary>
+        internal static string CloseAll {
+            get {
+                return ResourceManager.GetString("CloseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close all but this.
+        /// </summary>
+        internal static string CloseAllButThis {
+            get {
+                return ResourceManager.GetString("CloseAllButThis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collapse Groups.
         /// </summary>
         internal static string CollapseGroups {
@@ -219,6 +246,15 @@ namespace Imagin.Common.Lang {
         internal static string Collection {
             get {
                 return ResourceManager.GetString("Collection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command.
+        /// </summary>
+        internal static string Command {
+            get {
+                return ResourceManager.GetString("Command", resourceCulture);
             }
         }
         
@@ -277,6 +313,24 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Float.
+        /// </summary>
+        internal static string Float {
+            get {
+                return ResourceManager.GetString("Float", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Float all.
+        /// </summary>
+        internal static string FloatAll {
+            get {
+                return ResourceManager.GetString("FloatAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Font.
         /// </summary>
         internal static string Font {
@@ -309,6 +363,15 @@ namespace Imagin.Common.Lang {
         internal static string FromNow {
             get {
                 return ResourceManager.GetString("FromNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        internal static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
@@ -412,6 +475,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {
@@ -444,6 +516,15 @@ namespace Imagin.Common.Lang {
         internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous.
+        /// </summary>
+        internal static string Previous {
+            get {
+                return ResourceManager.GetString("Previous", resourceCulture);
             }
         }
         

@@ -20,11 +20,6 @@ namespace Imagin.Common.Input
         /// </summary>
         public TValue NewValue => _value.Item2;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="OldValue"></param>
-        /// <param name="NewValue"></param>
         public ChangedValue(TValue OldValue, TValue NewValue) => _value = Tuple.Create<TValue, TValue>(OldValue, NewValue);
     }
 }

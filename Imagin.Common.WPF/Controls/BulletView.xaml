@@ -1,0 +1,93 @@
+﻿<UserControl 
+    x:Class="Imagin.Common.Controls.BulletView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Text="clr-namespace:Imagin.Common.Text">
+    <UserControl.Resources>
+        <Data:Reference x:Key="BulletView" Data="{Data:Ancestor {x:Type local:BulletView}}"/>
+        <Converters:BulletMultiConverter x:Key="BulletMultiConverter"/>
+    </UserControl.Resources>
+    <ContentControl DataContext="{Data:Ancestor {x:Type local:BulletView}}" Content="{Binding Bullet}">
+        <ContentControl.Style>
+            <Style TargetType="ContentControl">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock
+                                FontFamily="{Binding Data.FontFamily, Mode=OneWay, Source={StaticResource BulletView}}"
+                                FontSize="{Binding Data.FontSize, Mode=OneWay, Source={StaticResource BulletView}}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource BulletMultiConverter}">
+                                        <Binding Path="Data.Value" Source="{StaticResource BulletView}"/>
+                                        <Binding Path="Data.Bullet" Source="{StaticResource BulletView}"/>
+                                        <Binding Path="Data.Count" Source="{StaticResource BulletView}"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Style.Triggers>
+                    <Trigger Property="Content" Value="{x:Static Text:Bullets.Square}">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Rectangle
+                                        Fill="{Binding Data.Foreground, Source={StaticResource BulletView}}"
+                                        Height="6"
+                                        Width="6"/>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Trigger>
+                    <Trigger Property="Content" Value="{x:Static Text:Bullets.SquareOutline}">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Rectangle
+                                        Stroke="{Binding Data.Foreground, Source={StaticResource BulletView}}"
+                                        StrokeThickness="1"
+                                        Height="6"
+                                        Width="6"/>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Trigger>
+                    <Trigger Property="Content" Value="{x:Static Text:Bullets.Circle}">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Ellipse
+                                        Fill="{Binding Data.Foreground, Source={StaticResource BulletView}}"
+                                        Height="6"
+                                        Width="6"/>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Trigger>
+                    <Trigger Property="Content" Value="{x:Static Text:Bullets.CircleOutline}">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Ellipse
+                                        Stroke="{Binding Data.Foreground, Source={StaticResource BulletView}}"
+                                        StrokeThickness="1"
+                                        Height="6"
+                                        Width="6"/>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
+    </ContentControl>
+</UserControl>

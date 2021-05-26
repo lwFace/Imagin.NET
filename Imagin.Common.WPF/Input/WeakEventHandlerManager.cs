@@ -4,9 +4,6 @@ using System.Threading;
 
 namespace Imagin.Common.Input
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class WeakEventHandlerManager
     {
         static readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
@@ -44,12 +41,6 @@ namespace Imagin.Common.Input
             return count;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="handlers"></param>
-        /// <param name="handler"></param>
-        /// <param name="defaultListSize"></param>
         public static void AddWeakReferenceHandler(ref List<WeakReference> handlers, EventHandler handler, int defaultListSize)
         {
             if (handler == null)
@@ -61,11 +52,6 @@ namespace Imagin.Common.Input
             handlers.Add(new WeakReference(handler));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="handlers"></param>
         public static void CallWeakReferenecHandlers(object sender, List<WeakReference> handlers)
         {
             if (handlers != null)
@@ -82,11 +68,6 @@ namespace Imagin.Common.Input
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="handlers"></param>
-        /// <param name="handler"></param>
         public static void RemoveWeakReferenceHandler(List<WeakReference> handlers, EventHandler handler)
         {
             if (handlers != null)

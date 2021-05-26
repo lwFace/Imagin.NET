@@ -1,89 +1,34 @@
-﻿using Imagin.Common.Linq;
+﻿using Imagin.Common.Controls;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class ControlExtensions
     {
         #region Properties
 
-        #region Static
-
-        static Control CurrentDropTarget = null;
-
-        static Control CurrentItem = null;
-
-        /// <summary>
-        /// Indicates whether or not the current item is a possible drop target
-        /// </summary>
-        static bool IsPossibleDropTarget;
-
-        #endregion
-
-        #region Content
-
-        /// <summary>
-        /// Enables assigning any FrameworkElement a 'content' object.
-        /// </summary>
-        public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached("Content", typeof(object), typeof(ControlExtensions), new PropertyMetadata(null, OnContentChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static object GetContent(Control d)
-        {
-            return d.GetValue(ContentProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
-        public static void SetContent(Control d, object value)
-        {
-            d.SetValue(ContentProperty, value);
-        }
-        static void OnContentChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var FrameworkElement = sender as FrameworkElement;
-            if (FrameworkElement != null)
-            {
-                if (e.NewValue != null && e.NewValue is FrameworkElement)
-                    e.NewValue.As<FrameworkElement>().DataContext = FrameworkElement.DataContext;
-            }
-        }
-
-        #endregion
-
         #region IsDraggingOver
 
+        static Control currentDropTarget = null;
+
+        static Control currentControl = null;
+
         /// <summary>
         /// Indicates whether or not the current item is a possible drop target
         /// </summary>
+        static bool isPossibleDropTarget;
+
+        /// <summary>
+        /// Indicates whether or not the current item is a possible drop target.
+        /// </summary>
         static readonly DependencyPropertyKey IsDraggingOverKey = DependencyProperty.RegisterAttachedReadOnly("IsDraggingOver", typeof(bool), typeof(ControlExtensions), new FrameworkPropertyMetadata(null, new CoerceValueCallback(OnIsDraggingOverCoerced)));
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty IsDraggingOverProperty = IsDraggingOverKey.DependencyProperty;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static bool GetIsDraggingOver(Control d)
-        {
-            return (bool)d.GetValue(IsDraggingOverProperty);
-        }
-        static object OnIsDraggingOverCoerced(DependencyObject Item, object value)
-        {
-            return Item == CurrentDropTarget && IsPossibleDropTarget ? true : false;
-        }
+        public static bool GetIsDraggingOver(Control i) => (bool)i.GetValue(IsDraggingOverProperty);
+        static object OnIsDraggingOverCoerced(DependencyObject i, object value) => i == currentDropTarget && isPossibleDropTarget ? true : false;
 
         #endregion
 
@@ -93,46 +38,19 @@ namespace Imagin.Common.Linq
         /// Indicates whether or not the mouse is directly over an item.
         /// </summary>
         static readonly DependencyPropertyKey IsMouseDirectlyOverKey = DependencyProperty.RegisterAttachedReadOnly("IsMouseDirectlyOver", typeof(bool), typeof(ControlExtensions), new FrameworkPropertyMetadata(null, new CoerceValueCallback(OnIsMouseDirectlyOverCoerced)));
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty IsMouseDirectlyOverProperty = IsMouseDirectlyOverKey.DependencyProperty;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static bool GetIsMouseDirectlyOver(Control d)
-        {
-            return (bool)d.GetValue(IsMouseDirectlyOverProperty);
-        }
-        static object OnIsMouseDirectlyOverCoerced(DependencyObject item, object value)
-        {
-            return item == CurrentItem;
-        }
+        public static bool GetIsMouseDirectlyOver(Control i) => (bool)i.GetValue(IsMouseDirectlyOverProperty);
+        static object OnIsMouseDirectlyOverCoerced(DependencyObject i, object value) => i == currentControl;
 
         #endregion
 
         #region IsReadOnly
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.RegisterAttached("IsReadOnly", typeof(bool), typeof(ControlExtensions), new PropertyMetadata(false));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
         public static void SetIsReadOnly(Control d, bool value)
         {
             d.SetValue(IsReadOnlyProperty, value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static bool GetIsReadOnly(Control d)
         {
             return (bool)d.GetValue(IsReadOnlyProperty);
@@ -140,23 +58,253 @@ namespace Imagin.Common.Linq
 
         #endregion
 
-        #region UpdateOverItem
+        /// -----------------------------------------------
 
-        static readonly RoutedEvent UpdateOverItemEvent = EventManager.RegisterRoutedEvent("UpdateOverItem", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ControlExtensions));
-        /// <summary>
-        /// This method is a listener for the UpdateOverItemEvent.  
-        /// When it is received, it means that the sender is the 
-        /// closest item to the mouse (closest logically, not visually).
-        /// </summary>
-        static void OnUpdateOverItem(object sender, RoutedEventArgs args)
+        #region FadeIn
+
+        public static readonly DependencyProperty FadeInProperty = DependencyProperty.RegisterAttached("FadeIn", typeof(bool), typeof(ControlExtensions), new UIPropertyMetadata(false, OnFadeInChanged));
+        public static bool GetFadeIn(FrameworkElement i) => (bool)i.GetValue(FadeInProperty);
+        public static void SetFadeIn(FrameworkElement i, bool value) => i.SetValue(FadeInProperty, value);
+        static void OnFadeInChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            //Mark this object as the tree view item over which the mouse is currently positioned.
-            CurrentItem = sender as Control;
-            //Tell that item to recalculate
-            CurrentItem.InvalidateProperty(IsMouseDirectlyOverProperty);
-            //Prevent this event from notifying other items higher in tree
-            args.Handled = true;
+            var control = sender as FrameworkElement;
+            control.Loaded -= FadeIn_OnLoaded;
+            if (GetFadeIn(control))
+                control.Loaded += FadeIn_OnLoaded;
         }
+
+        static void FadeIn_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var frameworkElement = sender as FrameworkElement;
+            FadeIn(frameworkElement);
+        }
+
+        static void FadeIn(FrameworkElement control)
+        {
+            var duration = GetFadeInDuration(control);
+            control.FadeIn(duration == default ? new Duration(TimeSpan.FromSeconds(0.5)) : duration);
+        }
+
+        #endregion
+
+        #region FadeInDuration
+
+        public static readonly DependencyProperty FadeInDurationProperty = DependencyProperty.RegisterAttached("FadeInDuration", typeof(Duration), typeof(ControlExtensions), new UIPropertyMetadata(default(Duration)));
+        public static Duration GetFadeInDuration(FrameworkElement i) => (Duration)i.GetValue(FadeInDurationProperty);
+        public static void SetFadeInDuration(FrameworkElement i, Duration value) => i.SetValue(FadeInDurationProperty, value);
+
+        #endregion
+
+        #region FadeOut
+
+        public static readonly DependencyProperty FadeOutProperty = DependencyProperty.RegisterAttached("FadeOut", typeof(bool), typeof(ControlExtensions), new UIPropertyMetadata(false, OnFadesOutChanged));
+        public static bool GetFadeOut(FrameworkElement i) => (bool)i.GetValue(FadeOutProperty);
+        public static void SetFadeOut(FrameworkElement i, bool value) => i.SetValue(FadeOutProperty, value);
+        static void OnFadesOutChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var control = sender as FrameworkElement;
+            if (control != null)
+            {
+                control.Unloaded -= FadeOut_OnUnloaded;
+                if ((bool)e.NewValue)
+                    control.Unloaded += FadeOut_OnUnloaded;
+            }
+        }
+
+        static void FadeOut_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            var frameworkElement = sender as FrameworkElement;
+            FadeOut(frameworkElement);
+        }
+
+        static void FadeOut(FrameworkElement control)
+        {
+            var duration = GetFadeOutDuration(control);
+            control.FadeOut(duration == default ? new Duration(TimeSpan.FromSeconds(0.5)) : duration);
+        }
+
+        #endregion
+
+        #region FadeOutDuration
+
+        public static readonly DependencyProperty FadeOutDurationProperty = DependencyProperty.RegisterAttached("FadeOutDuration", typeof(Duration), typeof(ControlExtensions), new UIPropertyMetadata(default(Duration)));
+        public static Duration GetFadeOutDuration(FrameworkElement i) => (Duration)i.GetValue(FadeOutDurationProperty);
+        public static void SetFadeOutDuration(FrameworkElement i, Duration value) => i.SetValue(FadeOutDurationProperty, value);
+
+        #endregion
+
+        /// -----------------------------------------------
+
+        #region FontSizeWheel
+
+        public static readonly DependencyProperty FontSizeWheelMaximumProperty = DependencyProperty.RegisterAttached("FontSizeWheelMaximum", typeof(int), typeof(ControlExtensions), new PropertyMetadata(32));
+        public static void SetFontSizeWheelMaximum(Control i, int value) => i.SetValue(FontSizeWheelMaximumProperty, value);
+        public static int GetFontSizeWheelMaximum(Control i) => (int)i.GetValue(FontSizeWheelMaximumProperty);
+
+        public static readonly DependencyProperty FontSizeWheelMinimumProperty = DependencyProperty.RegisterAttached("FontSizeWheelMinimum", typeof(int), typeof(ControlExtensions), new PropertyMetadata(8));
+        public static void SetFontSizeWheelMinimum(Control i, int value) => i.SetValue(FontSizeWheelMinimumProperty, value);
+        public static int GetFontSizeWheelMinimum(Control i) => (int)i.GetValue(FontSizeWheelMinimumProperty);
+
+        public static readonly DependencyProperty FontSizeWheelProperty = DependencyProperty.RegisterAttached("FontSizeWheel", typeof(bool), typeof(ControlExtensions), new PropertyMetadata(false, OnFontSizeWheelChanged));
+        public static void SetFontSizeWheel(Control i, bool value) => i.SetValue(FontSizeWheelProperty, value);
+        public static bool GetFontSizeWheel(Control i) => (bool)i.GetValue(FontSizeWheelProperty);
+        static void OnFontSizeWheelChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var control = sender as Control;
+            control.PreviewMouseWheel -= FontSizeWheel_OnMouseWheel;
+            if ((bool)e.NewValue)
+                control.PreviewMouseWheel += FontSizeWheel_OnMouseWheel;
+        }
+
+        static void FontSizeWheel_OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var control = sender as Control;
+            if (ModifierKeys.Control.Pressed())
+            {
+                if (e.Delta > 0)
+                {
+                    if (control.FontSize + 1 <= GetFontSizeWheelMaximum(control))
+                        control.SetCurrentValue(Control.FontSizeProperty, control.FontSize + 1);
+                }
+                else
+                {
+                    if (control.FontSize - 1 >= GetFontSizeWheelMinimum(control))
+                        control.SetCurrentValue(Control.FontSizeProperty, control.FontSize - 1);
+                }
+                e.Handled = true;
+            }
+        }
+
+        #endregion
+
+        /// -----------------------------------------------
+
+        #region Transform (incomplete...)
+
+        static void SetupTransform(FrameworkElement frameworkElement)
+        {
+            if (frameworkElement != null)
+            {
+                var adornerLayer = AdornerLayer.GetAdornerLayer(frameworkElement);
+                if (adornerLayer != null)
+                {
+                    var adorners = adornerLayer.GetAdorners(frameworkElement);
+                    adorners?.ForEach(i => adornerLayer.Remove(i));
+
+                    if (GetIsResizable(frameworkElement))
+                    {
+                        var adorner = new TransformAdorner(frameworkElement, GetResizeSnap(frameworkElement), GetResizeThumbStyle(frameworkElement));
+                        adornerLayer.Add(adorner);
+                    }
+                }
+            }
+        }
+
+        #region Rotation
+
+        public static readonly DependencyProperty RotationProperty = DependencyProperty.RegisterAttached("Rotation", typeof(double), typeof(ControlExtensions), new UIPropertyMetadata(0.0, OnRotationChanged));
+        public static double GetRotation(FrameworkElement d)
+        {
+            return (double)d.GetValue(RotationProperty);
+        }
+        public static void SetRotation(FrameworkElement d, double value)
+        {
+            d.SetValue(RotationProperty, value);
+        }
+        static void OnRotationChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        #endregion
+
+        #region Scale
+
+        public static readonly DependencyProperty ScaleProperty = DependencyProperty.RegisterAttached("Scale", typeof(double), typeof(ControlExtensions), new UIPropertyMetadata(1.0, OnScaleChanged));
+        public static double GetScale(FrameworkElement d)
+        {
+            return (double)d.GetValue(ScaleProperty);
+        }
+        public static void SetScale(FrameworkElement d, double value)
+        {
+            d.SetValue(ScaleProperty, value);
+        }
+        static void OnScaleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        #endregion
+
+        #region IsResizable
+
+        public static readonly DependencyProperty IsResizableProperty = DependencyProperty.RegisterAttached("IsResizable", typeof(bool), typeof(ControlExtensions), new UIPropertyMetadata(false, OnIsResizableChanged));
+        public static bool GetIsResizable(FrameworkElement d)
+        {
+            return (bool)d.GetValue(IsResizableProperty);
+        }
+        public static void SetIsResizable(FrameworkElement d, bool value)
+        {
+            d.SetValue(IsResizableProperty, value);
+        }
+        static void OnIsResizableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            SetupTransform(sender as FrameworkElement);
+        }
+
+        #endregion
+
+        #region ResizeSnap
+
+        public static readonly DependencyProperty ResizeSnapProperty = DependencyProperty.RegisterAttached("ResizeSnap", typeof(double), typeof(ControlExtensions), new UIPropertyMetadata(8d, OnResizeSnapChanged));
+        public static double GetResizeSnap(FrameworkElement d)
+        {
+            return (double)d.GetValue(ResizeSnapProperty);
+        }
+        public static void SetResizeSnap(FrameworkElement d, double value)
+        {
+            d.SetValue(ResizeSnapProperty, value);
+        }
+        static void OnResizeSnapChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            SetupTransform(sender as FrameworkElement);
+        }
+
+        #endregion
+
+        #region ResizeThumbStyle
+
+        public static readonly DependencyProperty ResizeThumbStyleProperty = DependencyProperty.RegisterAttached("ResizeThumbStyle", typeof(Style), typeof(ControlExtensions), new UIPropertyMetadata(default(Style), OnResizeThumbStyleChanged));
+        public static Style GetResizeThumbStyle(FrameworkElement d)
+        {
+            return (Style)d.GetValue(ResizeThumbStyleProperty);
+        }
+        public static void SetResizeThumbStyle(FrameworkElement d, Style value)
+        {
+            d.SetValue(ResizeThumbStyleProperty, value);
+        }
+        static void OnResizeThumbStyleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            SetupTransform(sender as FrameworkElement);
+        }
+
+        #endregion
+
+        #region RotateThumbStyle
+
+        public static readonly DependencyProperty RotateThumbStyleProperty = DependencyProperty.RegisterAttached("RotateThumbStyle", typeof(Style), typeof(ControlExtensions), new UIPropertyMetadata(default(Style), OnRotateThumbStyleChanged));
+        public static Style GetRotateThumbStyle(FrameworkElement d)
+        {
+            return (Style)d.GetValue(RotateThumbStyleProperty);
+        }
+        public static void SetRotateThumbStyle(FrameworkElement d, Style value)
+        {
+            d.SetValue(RotateThumbStyleProperty, value);
+        }
+        static void OnRotateThumbStyleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            SetupTransform(sender as FrameworkElement);
+        }
+
+        #endregion
 
         #endregion
 
@@ -166,30 +314,26 @@ namespace Imagin.Common.Linq
 
         static ControlExtensions()
         {
-            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDragEnterEvent, new DragEventHandler(OnDragOver), true);
-            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDragLeaveEvent, new DragEventHandler(OnDragLeave), true);
-            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDragOverEvent, new DragEventHandler(OnDragOver), true);
-            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDropEvent, new DragEventHandler(OnDrop), true);
-            EventManager.RegisterClassHandler(typeof(Control), Control.MouseEnterEvent, new MouseEventHandler(OnMouseTransition), true);
-            EventManager.RegisterClassHandler(typeof(Control), Control.MouseLeaveEvent, new MouseEventHandler(OnMouseTransition), true);
+            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDragEnterEvent, new System.Windows.DragEventHandler(OnDragOver), true);
+            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDragLeaveEvent, new System.Windows.DragEventHandler(OnDragLeave), true);
+            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDragOverEvent, new System.Windows.DragEventHandler(OnDragOver), true);
+            EventManager.RegisterClassHandler(typeof(Control), Control.PreviewDropEvent, new System.Windows.DragEventHandler(OnDrop), true);
+            EventManager.RegisterClassHandler(typeof(Control), Control.MouseEnterEvent, new MouseEventHandler(OnMouseEnterLeave), true);
+            EventManager.RegisterClassHandler(typeof(Control), Control.MouseLeaveEvent, new MouseEventHandler(OnMouseEnterLeave), true);
             EventManager.RegisterClassHandler(typeof(Control), UpdateOverItemEvent, new RoutedEventHandler(OnUpdateOverItem));
         }
-
-        #endregion
-
-        #region Methods
 
         static void OnDrop(object sender, DragEventArgs args)
         {
             lock (IsDraggingOverProperty)
             {
-                IsPossibleDropTarget = false;
-                if (CurrentDropTarget != null)
-                    CurrentDropTarget.InvalidateProperty(IsDraggingOverProperty);
+                isPossibleDropTarget = false;
+                if (currentDropTarget != null)
+                    currentDropTarget.InvalidateProperty(IsDraggingOverProperty);
                 var Item = sender as Control;
                 if (Item != null)
                 {
-                    CurrentDropTarget = Item;
+                    currentDropTarget = Item;
                     Item.InvalidateProperty(IsDraggingOverProperty);
                 }
             }
@@ -204,22 +348,22 @@ namespace Imagin.Common.Linq
         {
             lock (IsDraggingOverProperty)
             {
-                IsPossibleDropTarget = false;
-                if (CurrentDropTarget != null)
+                isPossibleDropTarget = false;
+                if (currentDropTarget != null)
                 {
-                    var OldItem = CurrentDropTarget;
-                    CurrentDropTarget = null;
+                    var OldItem = currentDropTarget;
+                    currentDropTarget = null;
                     OldItem.InvalidateProperty(IsDraggingOverProperty);
                 }
 
                 if (e.Effects != DragDropEffects.None)
-                    IsPossibleDropTarget = true;
+                    isPossibleDropTarget = true;
 
                 var Control = sender as Control;
                 if (Control != null)
                 {
-                    CurrentDropTarget = Control;
-                    CurrentDropTarget.InvalidateProperty(IsDraggingOverProperty);
+                    currentDropTarget = Control;
+                    currentDropTarget.InvalidateProperty(IsDraggingOverProperty);
                 }
             }
         }
@@ -233,30 +377,30 @@ namespace Imagin.Common.Linq
         {
             lock (IsDraggingOverProperty)
             {
-                IsPossibleDropTarget = false;
-                if (CurrentDropTarget != null)
+                isPossibleDropTarget = false;
+                if (currentDropTarget != null)
                 {
-                    var OldItem = CurrentDropTarget;
-                    CurrentDropTarget = null;
+                    var OldItem = currentDropTarget;
+                    currentDropTarget = null;
                     OldItem.InvalidateProperty(IsDraggingOverProperty);
                 }
                 var Control = sender as Control;
                 if (Control != null)
                 {
-                    CurrentDropTarget = Control;
-                    CurrentDropTarget.InvalidateProperty(IsDraggingOverProperty);
+                    currentDropTarget = Control;
+                    currentDropTarget.InvalidateProperty(IsDraggingOverProperty);
                 }
             }
         }
 
-        static void OnMouseTransition(object sender, MouseEventArgs args)
+        static void OnMouseEnterLeave(object sender, MouseEventArgs args)
         {
             lock (IsMouseDirectlyOverProperty)
             {
-                if (CurrentItem != null)
+                if (currentControl != null)
                 {
-                    var OldItem = CurrentItem;
-                    CurrentItem = null;
+                    var OldItem = currentControl;
+                    currentControl = null;
                     OldItem.InvalidateProperty(IsMouseDirectlyOverProperty);
                 }
                 //Get the element that is currently under the mouse.
@@ -269,6 +413,22 @@ namespace Imagin.Common.Linq
                     CurrentPosition.RaiseEvent(RoutedEventArgs);
                 }
             }
+        }
+
+        static readonly RoutedEvent UpdateOverItemEvent = EventManager.RegisterRoutedEvent("UpdateOverItem", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ControlExtensions));
+        /// <summary>
+        /// This method is a listener for the UpdateOverItemEvent.  
+        /// When it is received, it means that the sender is the 
+        /// closest item to the mouse (closest logically, not visually).
+        /// </summary>
+        static void OnUpdateOverItem(object sender, RoutedEventArgs args)
+        {
+            //Mark this object as the tree view item over which the mouse is currently positioned.
+            currentControl = sender as Control;
+            //Tell that item to recalculate
+            currentControl.InvalidateProperty(IsMouseDirectlyOverProperty);
+            //Prevent this event from notifying other items higher in tree
+            args.Handled = true;
         }
 
         #endregion

@@ -1,0 +1,70 @@
+﻿<UserControl 
+    x:Class="Paint.EffectView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:i="http://imagin.tech/imagin/common" 
+    xmlns:local="clr-namespace:Paint"
+    mc:Ignorable="d" 
+    d:DesignHeight="300"
+    d:DesignWidth="300">
+    <UserControl.Resources>
+        <i:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+    </UserControl.Resources>
+    <TreeView 
+        x:Name="TreeView"
+        DataContext="{i:Ancestor {x:Type local:EffectView}}">
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="TreeViewItem">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <Grid/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TreeViewItem">
+                            <Grid>
+                                <ContentPresenter                                                
+                                    Content="{TemplateBinding Header}"/>
+                                <ItemsPresenter/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Adjustment.IsVisible}" Value="True">
+                        <Setter Property="Effect" Value="{Binding Adjustment}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </TreeView.ItemContainerStyle>
+        <TreeView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Grid/>
+            </ItemsPanelTemplate>
+        </TreeView.ItemsPanel>
+        <TreeView.Style>
+            <Style TargetType="TreeView">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TreeView">
+                            <ItemsPresenter/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TreeView.Style>
+        <TreeView.Resources>
+            <HierarchicalDataTemplate DataType="{x:Type local:EffectWrapper}" ItemsSource="{Binding Child}"/>
+            <HierarchicalDataTemplate DataType="{x:Type local:TemplateWrapper}">
+                <ContentControl Content="{Binding Source}" ContentTemplate="{Binding Template}"/>
+            </HierarchicalDataTemplate>
+        </TreeView.Resources>
+    </TreeView>
+</UserControl>

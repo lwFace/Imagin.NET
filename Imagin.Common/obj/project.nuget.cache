@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "G71sE/2gFlMF4VoWhlhIpc+aaEcIybBd8WAyApObNWgf4VJkTFa5vEXqxPPCei0Lg2JQwqHA+1QB3e7xIAk6xw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\james\\OneDrive\\Development\\Software\\Library\\Imagin.NET\\Imagin.Common\\Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\james\\.nuget\\packages\\inheritdoc\\2.5.2\\inheritdoc.2.5.2.nupkg.sha512",
+    "C:\\Users\\james\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\james\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'InheritDoc 2.5.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "InheritDoc",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
+}

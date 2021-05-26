@@ -1,0 +1,87 @@
+﻿<local:BaseWindow 
+    x:Class="Imagin.Common.Controls.AboutWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    Title="About"
+    Width="600"
+    WindowStartupLocation="CenterScreen">
+    <Grid 
+        DataContext="{Data:Ancestor {x:Type local:AboutWindow}}"
+        Linq:GridExtensions.Rows="*,Auto">
+        <Grid
+            Grid.Row="0"
+            Linq:GridExtensions.Columns="Auto,*">
+            <Border
+                Grid.Column="0"
+                CornerRadius="999"
+                Height="148"
+                Margin="12"
+                Width="148">
+                <Border.Background>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Logo}"/>
+                </Border.Background>
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" Direction="0"  Color="#55000000" ShadowDepth="0"/>
+                </Border.Effect>
+            </Border>
+            <Grid
+                Grid.Column="1"
+                Linq:GridExtensions.Columns="Auto,Auto,*"
+                Linq:GridExtensions.Rows="Auto,*"
+                Margin="10">
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    FontSize="26"
+                    Text="{Markup:AssemblyProduct}"
+                    VerticalAlignment="Center"/>
+                <Label
+                    Grid.Column="1"
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource Label.Accent}"
+                    VerticalAlignment="Center">
+                    <TextBlock 
+                        FontSize="14"
+                        FontStyle="Italic"
+                        Text="{Markup:ProjectVersion}"
+                        TextTrimming="CharacterEllipsis"/>
+                </Label>
+                <TextBlock
+                    Grid.ColumnSpan="3"
+                    Grid.Row="1"
+                    FontSize="14"
+                    Margin="0,5,0,0"
+                    Text="{Markup:AssemblyDescription}"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+        <Border
+            Grid.Row="1"
+            Background="#11000000"
+            BorderBrush="#22000000"
+            BorderThickness="0,1,0,0">
+            <Grid 
+                Linq:GridExtensions.Columns="*,Auto"
+                Margin="5">
+                <TextBlock
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Opacity="0.8"
+                    Text="{Markup:AssemblyCopyright}"
+                    TextTrimming="CharacterEllipsis"/>
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding CloseCommand}"
+                    Content="Done"
+                    IsDefault="True"/>
+            </Grid>
+        </Border>
+    </Grid>
+</local:BaseWindow>

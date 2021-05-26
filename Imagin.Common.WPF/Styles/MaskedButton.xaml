@@ -1,0 +1,93 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/FrameworkElement.xaml}"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Storyboard x:Key="FadeInAnimation">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1.0" Duration="0:0:0.5" AccelerationRatio="0.4" DecelerationRatio="0.4"/>
+    </Storyboard>
+
+    <Style x:Key="{x:Type local:MaskedButton}" TargetType="{x:Type local:MaskedButton}" BasedOn="{StaticResource {x:Type FrameworkElement}}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ButtonSize" Value="12,12"/>
+        <Setter Property="ButtonSource" Value="pack://application:,,,/Imagin.Common.WPF;component/Images/TriangleDown.png"/>
+        <Setter Property="ContentMargin" Value="5" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text}" />
+        <Style.Triggers>
+            <Trigger Property="MenuButtonVisibility" Value="Visible">
+                <Setter Property="ContentMargin" Value="5,0"/>
+            </Trigger>
+            <Trigger Property="MenuButtonVisibility" Value="Collapsed">
+                <Setter Property="ContentMargin" Value="5,0,0,0"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="#007acc"/>
+                <Setter Property="Foreground" Value="#FFF"/>
+                <Setter Property="SourceColor" Value="#FFF"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="MenuButtonVisibility" Value="Visible"/>
+                    <Condition Property="Content" Value="{x:Null}"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="ContentMargin" Value="5,0,0,0"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsChecked" Value="False"/>
+                    <Condition Property="IsMouseOver" Value="False"/>
+                    <Condition Property="IsPressed" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SourceColor" Value="{DynamicResource Brush.Image}"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsChecked" Value="False"/>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="IsPressed" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SourceColor" Value="{DynamicResource Brush.Image.MouseOver}"/>
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsChecked" Value="False"/>
+                    <Condition Property="IsPressed" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SourceColor" Value="{DynamicResource Brush.Image.Pressed}"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="local:Crumb" BasedOn="{StaticResource {x:Type local:MaskedButton}}">
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Linq:FrameworkElementExtensions.CornerRadius" Value="2"/>
+        <Setter Property="Padding" Value="4" />
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="local:Crumb.Loaded">
+                <BeginStoryboard Storyboard="{StaticResource FadeInAnimation}"/>
+            </EventTrigger>
+            <Trigger Property="Linq:ControlExtensions.IsDraggingOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.DropTarget.Border}" />
+            </Trigger>
+            <Trigger Property="Linq:ControlExtensions.IsDraggingOver" Value="False">
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Brush.BreadCrumb.MouseOver.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.BreadCrumb.MouseOver.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Brush.BreadCrumb.MouseOver.Foreground}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Brush.BreadCrumb.Pressed.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.BreadCrumb.Pressed.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Brush.BreadCrumb.Pressed.Foreground}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

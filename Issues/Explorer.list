@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<List xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Attributes="Bullet" Bullets="Square" DateTimeFormat="dddd, MMM d, yyyy" DecimalFormat="${N2}" SortDirection="Descending" SortName="Added" Value="None" xmlns="Notes">
+  <Lines>
+    <Line Added="2021-05-09T21:07:18.8395571-04:00" Decimal="0" Checked="false" DateTime="2021-05-10T21:07:18.8395571-04:00" Image="">Browser: Refactor feature where typing with Browser in focus selects items.</Line>
+    <Line Added="2021-05-04T08:56:49.2319133-04:00" Decimal="0" Checked="false" DateTime="2021-05-05T08:56:49.2319133-04:00" Image="">When the path changes, the information in the bottom right isn't always hidden when there is no selection.</Line>
+    <Line Added="2021-05-02T09:42:58.2501199-04:00" Decimal="0" Checked="false" DateTime="2021-05-03T09:42:58.2501199-04:00" Image="">Support slower thumbnail loads and figure out what needs done to prevent excessive error messages.</Line>
+    <Line Added="2021-05-02T09:42:16.8260133-04:00" Decimal="0" Checked="false" DateTime="2021-05-03T09:42:16.8260133-04:00" Image="">The "Content" view does not trim file name characters with ellipsis.</Line>
+    <Line Added="2021-04-30T14:27:17.2214196-04:00" Decimal="0" Checked="false" DateTime="2021-05-01T14:27:17.2214196-04:00" Image="">How can we recreate the Recycle Bin and where would we put it?</Line>
+    <Line Added="2021-04-30T14:19:22.6342813-04:00" Decimal="0" Checked="false" DateTime="2021-05-01T14:19:22.6342813-04:00" Image="">Every instance of AddressBar, Browser, Navigator, and Explorer, and ExplorerWindow would need to ensure all objects, events, and asynchronous tasks are disposed of appropriately. This extends to Container, which also utilizes ItemCollection.</Line>
+    <Line Added="2021-04-30T14:19:02.5812795-04:00" Decimal="0" Checked="false" DateTime="2021-05-01T14:19:02.5812795-04:00" Image="">Sometimes, items in Navigator load indefinitely and nothing ever happens.</Line>
+    <Line Added="2021-04-21T20:41:31.6162306-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:41:31.6162306-04:00" Image="">Consider adding tool bar for managing files and folders (like creating new files, folders, and shortcuts).</Line>
+    <Line Added="2021-04-21T20:09:49.9237262-04:00" Decimal="0" Checked="false" DateTime="2021-04-22T20:09:49.9237262-04:00" Image="">With ExplorerWindow open, renaming a folder by opening it's properties crashes the program!</Line>
+    <Line Added="2021-04-15T07:57:23.8147901-04:00" Decimal="0" Checked="false" DateTime="2021-04-16T07:57:23.8147901-04:00" Image="">Experiment with improving performance by not loading crumbs automatically and not loading Navigator items automatically.</Line>
+    <Line Added="2021-03-29T07:18:11.4224416-04:00" Decimal="0" Checked="false" DateTime="2021-03-30T07:18:11.4224416-04:00" Image="">Make it to where "RenamePanel" can affect child folders!</Line>
+    <Line Added="2021-03-22T17:21:12.3724862-04:00" Decimal="0" Checked="false" DateTime="2021-03-23T17:21:12.3724862-04:00" Image="">Review drag and drop copy and move operations</Line>
+    <Line Added="2021-03-22T17:20:15.9218079-04:00" Decimal="0" Checked="false" DateTime="2021-03-23T17:20:15.9218079-04:00" Image="">Some icons aren't shown at full size.</Line>
+    <Line Added="2021-03-17T10:52:43.2338409-04:00" Decimal="0" Checked="false" DateTime="2021-03-18T10:52:43.2338409-04:00" Image="">Can't drag items out of the ToolBar inside of CrumbBar</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7119456-05:00" Image="">Browser: Drag and drop operations are too sensitive.</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7119456-05:00" Image="">Renaming files does not work</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7119456-05:00" Image="">Consider not showing a dialog when the path cannot be found (or defining specific circumstances when this should occur).</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7119456-05:00" Image="">Scrolling should be slower the closer the mouse is to the center when drag selecting.</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7119456-05:00" Image="">How do you open shortcuts that target something like "My Computer"? If the shortcut does not target a file or a folder (it is null or empty), try opening the file using Process.Start.</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7139471-05:00" Image="">Do visual file operations block the UI? Should they be called on UI thread asynchronously?</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7139471-05:00" Image="">Going back and forward crashes</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7139471-05:00" Image="">Get drop handlers working outside of app</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7139471-05:00" Image="">Can't drag items out of Navigator</Line>
+    <Line Added="2021-03-17T09:57:03.6192405-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:31:04.7139471-05:00" Image="">Add loading animations next to Length and SelectionLength to show when updating...</Line>
+  </Lines>
+</List>

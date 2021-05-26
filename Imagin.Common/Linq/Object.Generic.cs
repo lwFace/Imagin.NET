@@ -4,14 +4,32 @@ namespace Imagin.Common.Linq
 {
     public static partial class ObjectExtensions
     {
+        public static void If<T>(this T a, Predicate<T> b, Action<T> c)
+        {
+            if (b(a))
+                c(a);
+        }
+
+        /* Remarks
+
+        To implement equality in a class, define the following methods and tweak accordingly...
+
+        A. public static bool operator ==(T a, T b) => a.EqualsOverload(b);
+        B. public static bool operator !=(T a, T b) => !(a == b);
+        C. public override bool Equals(object b) => Equals(b as T);
+        D. public bool Equals(T b) => this.Equals<T>(b) && ...;
+        E. public override int GetHashCode() => ...;
+
+        */
+
         /// <summary>
-        /// Implements standard behavior of the <see cref="IEquatable{T}.Equals(T)"/> method of a <see langword="class"/> or <see langword="struct"/>; use in conjunction with native behavior. For example: <see langword="public bool Equals(TSource o) => this.Equals[TSource](o) AND ();"/>
+        /// Implements <see cref="IEquatable{T}.Equals(T)"/> for any given <see langword="class"/> that implements <see cref="IEquatable{T}"/>.
         /// </summary>
-        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool Equals<TSource>(this TSource a, TSource b)
+        public static bool Equals<T>(this T a, T b)
         {
             if (ReferenceEquals(b, null))
                 return false;
@@ -26,57 +44,51 @@ namespace Imagin.Common.Linq
         }
 
         /// <summary>
-        /// Implements standard behavior of the <see langword="=="/> operator overload of a <see langword="class"/> or <see langword="struct"/>. For example: <see langword="public static bool operator ==(left, right) => left.Equals_(right);"/>
+        /// Implements the <see langword="=="/> operator for any given <see langword="class"/> or <see langword="struct"/>. Example: <see langword="public static bool operator ==(left, right) => left.EqualsEquals(right);"/>
         /// </summary>
-        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool Equals_<TSource>(this TSource a, TSource b)
+        public static bool EqualsOverload<T>(this T a, T b)
         {
-            if (!ReferenceEquals(a, null))
-                return a.Equals(b);
+            if (ReferenceEquals(a, null))
+            {
+                //null == null = true
+                if (ReferenceEquals(b, null))
+                    return true;
 
-            if (ReferenceEquals(b, null))
-                return true;
-
-            return false;
+                //Only the left side is null
+                return false;
+            }
+            return a.Equals(b);
         }
 
+        //-----------------------------------------------------------------------------------
+
         /// <summary>
-        /// Check if object is equal to any given object.
+        /// Gets whether or not <see cref="object"/> is equal to any given <see cref="object"/>.
         /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="input"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static bool EqualsAny<TSource>(this TSource source, params TSource[] values)
+        public static bool EqualsAny<T>(this T input, params T[] values)
         {
             foreach (var i in values)
             {
-                if (source.Equals(i))
+                if (input.Equals(i))
                     return true;
             }
             return false;
         }
 
         /// <summary>
-        /// Executes the given <see cref="Action"/> if the given object is not <see langword="null"/>.
+        /// Gets whether or not the <see cref="object"/> is <see cref="System.Nullable"/>.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="action"></param>
-        public static void IfNotNull<TSource>(this TSource source, Action<TSource> action)
-        {
-            if (source != null)
-                action(source);
-        }
-
-        /// <summary>
-        /// Gets whether or not the <see cref="object"/> is <see cref="Nullable"/>.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="Value"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public static bool IsNullable<TSource>(this TSource Value) => Value.GetType().IsNullable();
+        public static bool Nullable<T>(this T input) => input.GetType().IsNullable();
     }
 }

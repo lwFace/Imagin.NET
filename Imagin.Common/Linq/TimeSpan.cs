@@ -2,65 +2,52 @@
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class TimeSpanExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="Maximum"></param>
-        /// <param name="Minimum"></param>
-        /// <returns></returns>
-        public static TimeSpan Coerce(this TimeSpan Value, TimeSpan Maximum, TimeSpan Minimum = default(TimeSpan))
+        public static TimeSpan Coerce(this TimeSpan input, TimeSpan maximum, TimeSpan minimum = default(TimeSpan))
         {
-            var minimum = Minimum == default(TimeSpan) ? TimeSpan.Zero : Minimum;
-            return Value > Maximum ? Maximum : (Value < minimum ? minimum : Value);
+            var result = minimum == default ? TimeSpan.Zero : minimum;
+            return input > maximum ? maximum : (input < result ? result : input);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="elapsed"></param>
-        /// <param name="total"></param>
-        /// <param name="current"></param>
-        /// <returns></returns>
-        public static TimeSpan GetRemaining(this TimeSpan elapsed, long total, long current)
+        public static TimeSpan Left(this TimeSpan input, long current, long total)
         {
-            var Lines = (current.ToDouble() / total.ToDouble()).Multiply(100.0);
-            Lines = Lines == 0.0 ? 1.0 : Lines;
-            return TimeSpan.FromSeconds(elapsed.TotalSeconds.Divide(Lines).Multiply(100.0.Subtract(Lines)));
+            var lines = (current.Double() / total.Double()).Multiply(100.0);
+            lines = lines == 0.0 ? 1.0 : lines;
+            var seconds = (input.TotalSeconds / lines) * (100.0 - lines);
+            return TimeSpan.FromSeconds(double.IsNaN(seconds) ? 0 : seconds);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static int Months(this TimeSpan Value)
+        public static int Months(this TimeSpan input) => input.Days.Double().Divide(30d).Floor().Int32();
+
+        public static int Years(this TimeSpan input)
         {
-            return Value.Days.ToDouble().Divide(30d).Floor().ToInt32();
-            /*
-            Days = Days - (30 * Months);
-            Days = Days < 0 ? 0 : Days;
-            */
+            var result = input.Months();
+            return result >= 12 ? result.Double().Divide(12d).Floor().Int32() : 0;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static int Years(this TimeSpan Value)
+        public static string ShortTime(this TimeSpan input, bool daysOnly)
         {
-            var Months = Value.Months();
-            return Months >= 12 ? Months.ToDouble().Divide(12d).Floor().ToInt32() : 0;
-            /*
-            Months = Months - (12 * Years);
-            Months = Months < 0 ? 0 : Months;
-            */
+            if (input.TotalSeconds == 0)
+                return string.Empty;
+
+            string result = string.Empty;
+            if (input.Days > 0)
+                result += string.Format("{0}d", input.Days.ToString());
+
+            if (!daysOnly || input.Days == 0)
+            {
+                if (input.Hours > 0)
+                    result += string.Format(" {0}h", input.Hours.ToString());
+
+                if (input.Minutes > 0)
+                    result += string.Format(" {0}m", input.Minutes.ToString());
+
+                if (input.Seconds > 0)
+                    result += string.Format(" {0}s", input.Seconds.ToString());
+            }
+
+            return result;
         }
     }
 }

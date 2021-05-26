@@ -4,15 +4,8 @@ using System.Threading.Tasks;
 
 namespace Imagin.Common.Threading
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TResult"></typeparam>
     public sealed class TaskCompletionNotifier<TResult> : INotifyPropertyChanged
     {
-        /// <summary>
-        /// 
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -48,10 +41,6 @@ namespace Imagin.Common.Threading
         /// </summary>
         public bool IsFaulted => Task.IsFaulted;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="task"></param>
         public TaskCompletionNotifier(Task<TResult> task)
         {
             this.Task = task;

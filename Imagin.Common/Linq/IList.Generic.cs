@@ -5,125 +5,49 @@ using System.Linq;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static partial class IListExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static TItem First<TItem>(this IList<TItem> Source)
+        public static T First<T>(this IList<T> input) => input.Any() ? input[0] : default;
+
+        public static void For<T>(this IList<T> input, int from, Action<IList<T>, int> action)
         {
-            return Source.Any() ? Source[0] : default(TItem);
+            for (var i = from; i < input.Count(); i++)
+                action(input, i);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <param name="Action"></param>
-        public static void For<T>(this IList<T> Source, int From, Action<IList<T>, int> Action)
+        public static void For<T>(this IList<T> input, int from, int until, Action<IList<T>, int> action)
         {
-            for (var i = From; i < Source.Count(); i++)
-                Action(Source, i);
+            for (var i = from; i < until; i++)
+                action(input, i);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <param name="Until"></param>
-        /// <param name="Action"></param>
-        public static void For<T>(this IList<T> Source, int From, int Until, Action<IList<T>, int> Action)
+        public static void For<T>(this IList<T> input, int from, Predicate<int> until, Action<IList<T>, int> action)
         {
-            for (var i = From; i < Until; i++)
-                Action(Source, i);
+            for (var i = from; until(i); i++)
+                action(input, i);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <param name="Until"></param>
-        /// <param name="Action"></param>
-        public static void For<T>(this IList<T> Source, int From, Predicate<int> Until, Action<IList<T>, int> Action)
-        {
-            for (var i = From; Until(i); i++)
-                Action(Source, i);
-        }
+        public static T Last<T>(this IList<T> input) => input.Any() ? input[input.Count - 1] : default;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static TItem Last<TItem>(this IList<TItem> Source)
+        public static void Remove<T>(this IList<T> input, Predicate<T> where)
         {
-            return Source.Any() ? Source[Source.Count - 1] : default(TItem);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Value"></param>
-        /// <param name="Where"></param>
-        public static void Remove<T>(this IList<T> Value, Predicate<T> Where)
-        {
-            for (var i = Value.Count - 1; i >= 0; i--)
+            for (var i = input.Count - 1; i >= 0; i--)
             {
-                if (Where(Value[i]))
-                    Value.Remove(Value[i]);
+                if (where(input[i]))
+                    input.Remove(input[i]);
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Items"></param>
-        /// <param name="Item"></param>
-        /// <returns></returns>
-        public static bool TryAdd<T>(this IList<T> Items, T Item)
+        public static void Shuffle<T>(this IList<T> input)
         {
-            try
+            int n = input.Count;
+            while (n > 1)
             {
-                Items.Add(Item);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Items"></param>
-        /// <returns></returns>
-        public static bool TryClear<T>(this IList<T> Items)
-        {
-            try
-            {
-                Items.Clear();
-                return true;
-            }
-            catch
-            {
-                return false;
+                n--;
+                int k = Random.NextInt32(n + 1);
+                T value = input[k];
+                input[k] = input[n];
+                input[n] = value;
             }
         }
     }

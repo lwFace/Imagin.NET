@@ -1,0 +1,3 @@
+nuget push Imagin.Common.2.7.1.nupkg e2a8f3e4-877d-47d2-8bf8-786569fc266b -Source https://www.nuget.org/api/v2/package
+nuget push Imagin.Controls.Common.2.7.1.nupkg e2a8f3e4-877d-47d2-8bf8-786569fc266b -Source https://www.nuget.org/api/v2/package
+nuget push Imagin.Controls.Extended.2.7.1.nupkg e2a8f3e4-877d-47d2-8bf8-786569fc266b -Source https://www.nuget.org/api/v2/package

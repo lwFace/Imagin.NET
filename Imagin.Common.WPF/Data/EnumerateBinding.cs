@@ -1,23 +1,17 @@
-﻿using Imagin.Common.Linq;
+﻿using Imagin.Common.Converters;
+using Imagin.Common.Linq;
 using System;
 using System.Windows.Data;
 
 namespace Imagin.Common.Data
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public sealed class EnumerateBinding : Binding
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
         public EnumerateBinding(string path) : base(path)
         {
-            Converter = Imagin.Common.Converters.Converter<object, object>.New
+            Converter = new DefaultConverter<object, object>
             (
-                input => input?.GetType().GetEnumValues(Appearance.Visible), 
+                input => input?.GetType().Enumerate(Appearance.Visible), 
                 input => throw new NotSupportedException()
             );
             Mode = BindingMode.OneTime;

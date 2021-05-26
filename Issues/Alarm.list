@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<List xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Attributes="Bullet" Bullets="Square" SortDirection="Descending" SortName="Added" xmlns="Notes">
+  <Lines>
+    <Line Checked="false" DateTime="2021-03-08T10:14:50.1040579-05:00" Added="2021-03-07T10:14:50.1040579-05:00" Image="">A problem involving 1 addition, 1 division, and 1 multiplication WITHOUT parenthesis was discovered to be unsolvable!</Line>
+  </Lines>
+</List>

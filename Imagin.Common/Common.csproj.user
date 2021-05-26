@@ -3,5 +3,6 @@
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
     <ShowAllFiles>true</ShowAllFiles>
+    <AutoRefresh>false</AutoRefresh>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<List xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Attributes="Bullet" Bullets="Square" DateTimeFormat="dddd, MMM d, yyyy" DecimalFormat="${N2}" SortDirection="Descending" SortName="Added" Value="None" xmlns="Notes">
+  <Lines>
+    <Line Added="2021-05-08T19:43:13.7993057-04:00" Decimal="0" Checked="false" DateTime="2021-05-09T19:43:13.7993057-04:00" Image="">ColorDocument: We need to refactor the Color property somehow...</Line>
+    <Line Added="2021-04-01T07:40:16.5036806-04:00" Decimal="0" Checked="false" DateTime="2021-04-02T07:40:16.5036806-04:00" Image="">Recompile main shader.</Line>
+    <Line Added="2021-03-27T09:19:03.1220541-04:00" Decimal="0" Checked="false" DateTime="2021-03-28T09:19:03.1220541-04:00" Image="">HSB conversion algorithm needs addressed. The problem area seems to be sector 3-4 (where sector has range of [0, 5]), but nothing seems to be incorrect here. Cross-reference with official algorithm online.</Line>
+    <Line Added="2021-03-26T08:25:02.123311-04:00" Decimal="0" Checked="false" DateTime="2021-03-11T05:32:36.9400346-05:00" Image="">Test all conversions</Line>
+  </Lines>
+</List>

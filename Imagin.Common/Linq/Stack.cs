@@ -2,19 +2,8 @@
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class StackExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        public static bool Any<TObject>(this Stack<TObject> Value)
-        {
-            return Value.Count > 0;
-        }
+        public static bool Any<T>(this Stack<T> input) => input.Count > 0;
     }
 }

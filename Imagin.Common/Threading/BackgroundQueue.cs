@@ -5,9 +5,6 @@ using Imagin.Common.Input;
 
 namespace Imagin.Common.Threading
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class BackgroundQueue
     {
         object Lock = new object();
@@ -55,11 +52,6 @@ namespace Imagin.Common.Threading
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Action"></param>
-        /// <returns></returns>
         public Task Add(Action Action)
         {
             lock (Lock)
@@ -74,11 +66,6 @@ namespace Imagin.Common.Threading
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Action"></param>
-        /// <returns></returns>
         public Task Add(Action<CancellationToken> Action)
         {
             lock (Lock)
@@ -93,12 +80,6 @@ namespace Imagin.Common.Threading
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Action"></param>
-        /// <returns></returns>
         public Task Add<T>(Func<T> Action)
         {
             lock (Lock)
@@ -112,12 +93,6 @@ namespace Imagin.Common.Threading
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Action"></param>
-        /// <returns></returns>
         public Task Add<T>(Func<CancellationToken, T> Action)
         {
             lock (Lock)
@@ -132,16 +107,10 @@ namespace Imagin.Common.Threading
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public BackgroundQueue()
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         protected virtual void OnCancelled()
         {
             count = 0;
@@ -151,17 +120,11 @@ namespace Imagin.Common.Threading
             Cancelled?.Invoke(this, new EventArgs());
         }
         
-        /// <summary>
-        /// 
-        /// </summary>
         protected virtual void OnCompleted()
         {
             Completed?.Invoke(this, new EventArgs());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         protected virtual void OnTaskCompleted<T>(T Result)
         {
             count--;

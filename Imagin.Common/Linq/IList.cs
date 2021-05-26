@@ -1,123 +1,83 @@
-﻿using Imagin.Common.Data;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static partial class IListExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="item"></param>
-        /// <param name="comparer"></param>
-        public static void AddSorted<T>(this IList<T> list, T item, IComparer<T> comparer = null)
+        public static void AddSorted<T>(this IList<T> input, T item, IComparer<T> comparer = null)
         {
             if (comparer == null)
                 comparer = Comparer<T>.Default;
 
             int i = 0;
-            while (i < list.Count && comparer.Compare(list[i], item) < 0)
+            while (i < input.Count && comparer.Compare(input[i], item) < 0)
                 i++;
 
-            list.Insert(i, item);
+            input.Insert(i, item);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static bool Any(this IList Source) 
+        public static bool Any(this IList input) 
         {
-            if (Source != null)
+            if (input != null)
             {
-                foreach (var i in Source)
+                foreach (var i in input)
                     return true;
             }
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static object FirstOrDefault(this IList Source)
+        public static object First(this IList input)
         {
-            var result = default(object);
+            object result = null;
 
-            if (Source == null)
+            if (input == null)
                 return result;
 
-            foreach (var i in Source)
+            foreach (var i in input)
                 return i;
 
             return result;
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Source"></param>
-        /// <param name="Action"></param>
-        public static void ForEach(this IList Source, Action<object> Action)
+
+        public static T First<T>(this IList input, Predicate<T> predicate = null)
         {
-            foreach (var i in Source)
+            foreach (var i in input)
+            {
+                if (i is T && predicate?.Invoke((T)i) != false)
+                    return (T)i;
+            }
+            return default(T);
+        }
+
+        public static void ForEach(this IList input, Action<object> Action)
+        {
+            foreach (var i in input)
                 Action(i);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Source"></param>
-        /// <returns></returns>
-        public static object Last(this IList Source)
+        public static object Last(this IList input)
         {
             var Result = default(object);
-            Source.ForEach(i => Result = i);
+            input.ForEach(i => Result = i);
             return Result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static List<object> ToList(this IList source)
+        public static IEnumerable<T> Select<T>(this IList input, Func<object, T> select)
         {
-            var result = new List<object>();
-            source.ForEach(i => result.Add(i));
-            return result;
+            foreach (var i in input)
+                yield return select(i);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="Source"></param>
-        /// <param name="Selector"></param>
-        /// <param name="Direction"></param>
-        public static void Sort<TSource, TKey>(this IList<TSource> Source, Func<TSource, TKey> Selector, SortDirection Direction)
-        {
-            var Sorted = default(List<TSource>);
-            if (Direction == SortDirection.Ascending)
-            {
-                Sorted = Source.OrderBy(Selector).ToList();
-            }
-            else Sorted = Source.OrderByDescending(Selector).ToList();
+        public static object[] ToArray(this IList input) => input.Cast<object>().ToArray();
 
-            Source.Clear();
-            foreach (var i in Sorted)
-                Source.Add(i);
+        public static List<object> ToList(this IList input)
+        {
+            var result = new List<object>();
+            input.ForEach(i => result.Add(i));
+            return result;
         }
     }
 }

@@ -1,0 +1,764 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{50373482-8119-4FF8-AD67-C5487F7851A2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Paint</RootNamespace>
+    <AssemblyName>Paint</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Imagin.Common">
+      <HintPath>..\Imagin.Common\bin\Debug\netstandard2.0\Imagin.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Imagin.Common.WPF">
+      <HintPath>..\Imagin.Common.WPF\bin\Debug\Imagin.Common.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Effects\AdjustmentEffect.cs" />
+    <Compile Include="Effects\Adjustments\AlphaReplace.cs" />
+    <Compile Include="Effects\Adjustments\Blend.cs" />
+    <Compile Include="Effects\Adjustments\DirectionalBlur.cs" />
+    <Compile Include="Effects\Adjustments\EffectCollection.cs" />
+    <Compile Include="Effects\Adjustments\Emboss.cs" />
+    <Compile Include="Effects\Adjustments\Gamma.cs" />
+    <Compile Include="Effects\Adjustments\GlassTiles.cs" />
+    <Compile Include="Effects\Adjustments\Gloom.cs" />
+    <Compile Include="Effects\Adjustments\Lab.cs" />
+    <Compile Include="Effects\Adjustments\ParametricEdgeDetection.cs" />
+    <Compile Include="Effects\Adjustments\Pinch.cs" />
+    <Compile Include="Effects\Adjustments\Pixelate.cs" />
+    <Compile Include="Effects\Adjustments\Replace.cs" />
+    <Compile Include="Effects\Adjustments\Ripple.cs" />
+    <Compile Include="Effects\Adjustments\Sepia.cs" />
+    <Compile Include="Effects\Adjustments\Sharpen.cs" />
+    <Compile Include="Effects\Adjustments\SketchGranite.cs" />
+    <Compile Include="Effects\Adjustments\SketchPencil.cs" />
+    <Compile Include="Effects\Adjustments\SmoothMagnify.cs" />
+    <Compile Include="Effects\Adjustments\Swirl.cs" />
+    <Compile Include="Effects\Adjustments\Tone.cs" />
+    <Compile Include="Effects\Adjustments\Waves.cs" />
+    <Compile Include="Effects\Adjustments\XYZ.cs" />
+    <Compile Include="Effects\Adjustments\ZoomBlur.cs" />
+    <Compile Include="Effects\BaseEffect.cs" />
+    <Compile Include="Effects\Blend\XOrEffect.cs" />
+    <Compile Include="Effects\Blend\AverageEffect.cs" />
+    <Compile Include="Effects\BlendEffect.cs" />
+    <Compile Include="Effects\Blend\ColorBurnEffect.cs" />
+    <Compile Include="Effects\Blend\ColorDodgeEffect.cs" />
+    <Compile Include="Effects\Blend\ColorEffect.cs" />
+    <Compile Include="Effects\Blend\DarkenEffect.cs" />
+    <Compile Include="Effects\Blend\DifferenceEffect.cs" />
+    <Compile Include="Effects\Blend\ExclusionEffect.cs" />
+    <Compile Include="Effects\Blend\GlowEffect.cs" />
+    <Compile Include="Effects\Blend\HardLightEffect.cs" />
+    <Compile Include="Effects\Blend\HardMixEffect.cs" />
+    <Compile Include="Effects\Blend\HueEffect.cs" />
+    <Compile Include="Effects\Blend\LightenEffect.cs" />
+    <Compile Include="Effects\Blend\LinearBurnEffect.cs" />
+    <Compile Include="Effects\Blend\LinearDodgeEffect.cs" />
+    <Compile Include="Effects\Blend\LinearLightEffect.cs" />
+    <Compile Include="Effects\Blend\LuminosityEffect.cs" />
+    <Compile Include="Effects\Blend\MultiplyEffect.cs" />
+    <Compile Include="Effects\Blend\NegationEffect.cs" />
+    <Compile Include="Effects\Blend\NormalEffect.cs" />
+    <Compile Include="Effects\Blend\OverlayEffect.cs" />
+    <Compile Include="Effects\Blend\PhoenixEffect.cs" />
+    <Compile Include="Effects\Blend\PinLightEffect.cs" />
+    <Compile Include="Effects\Blend\ReflectEffect.cs" />
+    <Compile Include="Effects\Blend\SaturationEffect.cs" />
+    <Compile Include="Effects\Blend\ScreenEffect.cs" />
+    <Compile Include="Effects\Blend\SoftLightEffect.cs" />
+    <Compile Include="Effects\Blend\VividLightEffect.cs" />
+    <Compile Include="Brushes\CustomBrush.cs" />
+    <Compile Include="Brushes\FixedSquareBrush.cs" />
+    <Compile Include="Brushes\HardBrush.cs" />
+    <Compile Include="Controls\LayerView.xaml.cs">
+      <DependentUpon>LayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SelectionView.xaml.cs">
+      <DependentUpon>SelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolButton.xaml.cs">
+      <DependentUpon>ToolButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolPreview.cs" />
+    <Compile Include="Controls\TransformView.xaml.cs">
+      <DependentUpon>TransformView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\XOrShape.cs" />
+    <Compile Include="Core\Channel.cs" />
+    <Compile Include="Core\ColorRanges.cs" />
+    <Compile Include="Core\Easing.cs" />
+    <Compile Include="Core\HorizontalShift.cs" />
+    <Compile Include="Core\SpongeModes.cs" />
+    <Compile Include="Core\Transform.cs" />
+    <Compile Include="Layers\.Layers\Path.cs" />
+    <Compile Include="Layers\Adjustment.cs" />
+    <Compile Include="Layers\Arranger.cs" />
+    <Compile Include="Linq\Effect.cs" />
+    <Compile Include="Mutations\AdjustmentCollection.cs" />
+    <Compile Include="Gradients\GradientBand.cs" />
+    <Compile Include="Gradients\Gradients.cs" />
+    <Compile Include="Gradients\GradientType.cs" />
+    <Compile Include="Gradients\Old.cs" />
+    <Compile Include="Linq\ClearTypeLetterGlyph.cs" />
+    <Compile Include="Linq\DpiDetector.cs" />
+    <Compile Include="Linq\GrayScaleLetterGlyph.cs" />
+    <Compile Include="Linq\IntGeometry.cs" />
+    <Compile Include="Linq\LetterGlyphTool.cs" />
+    <Compile Include="Linq\PortableFontDesc.cs" />
+    <Compile Include="Linq\ScrollingTool.cs" />
+    <Compile Include="Panels\Brush.cs" />
+    <Compile Include="Panels\Character.cs" />
+    <Compile Include="Panels\Browser.cs" />
+    <Compile Include="Panels\Filter.cs" />
+    <Compile Include="Panels\Options.cs" />
+    <Compile Include="Panels\Paragraph.cs" />
+    <Compile Include="Panels\Channels.cs" />
+    <Compile Include="Panels\Colors.cs" />
+    <Compile Include="Core\BlendModes.cs" />
+    <Compile Include="Core\CursorPosition.cs" />
+    <Compile Include="Core\DocumentPreset.cs" />
+    <Compile Include="Core\FileFormat.cs" />
+    <Compile Include="Mutations\Mutation.cs" />
+    <Compile Include="Layers\.Base layers\RegionShape.cs" />
+    <Compile Include="Layers\.Layers\CustomShape.cs" />
+    <Compile Include="Layers\.Base layers\Group.cs" />
+    <Compile Include="Layers\.Base layers\Visual.cs" />
+    <Compile Include="Panels\Histogram.cs" />
+    <Compile Include="Panels\History.cs" />
+    <Compile Include="Panels\Notes.cs" />
+    <Compile Include="Panels\Layer.cs" />
+    <Compile Include="Panels\Properties.cs" />
+    <Compile Include="Panels\Tool.cs" />
+    <Compile Include="Core\CustomPath.cs" />
+    <Compile Include="Effects\Adjustments\Balance.cs" />
+    <Compile Include="Effects\Adjustments\BlackWhite.cs" />
+    <Compile Include="Effects\Adjustments\BrightnessContrast.cs" />
+    <Compile Include="Effects\Channels.cs" />
+    <Compile Include="Effects\Adjustments\Difference.cs" />
+    <Compile Include="Effects\Adjustments\HSL.cs" />
+    <Compile Include="Effects\OneChannel.cs" />
+    <Compile Include="Effects\Adjustments\Posterize.cs" />
+    <Compile Include="Effects\Adjustments\Shading.cs" />
+    <Compile Include="Effects\Adjustments\Swap.cs" />
+    <Compile Include="Effects\Adjustments\Threshold.cs" />
+    <Compile Include="Effects\Adjustments\Tint.cs" />
+    <Compile Include="Effects\Adjustments\Vibrance.cs" />
+    <Compile Include="Tools\.Tools\Path.cs" />
+    <Compile Include="Tools\.Tools\Transform.cs" />
+    <Compile Include="Tools\Effect brushes\CloneStamp.cs" />
+    <Compile Include="Tools\ToolCollection.cs" />
+    <Compile Include="Tools\ToolGroup.cs" />
+    <Compile Include="Layers\.Layers\Ellipse.cs" />
+    <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Layers\LayerCollection.cs" />
+    <Compile Include="Layers\LayerType.cs" />
+    <Compile Include="Layers\.Layers\Line.cs" />
+    <Compile Include="Layers\.Layers\Pixel.cs" />
+    <Compile Include="Layers\.Layers\Polygon.cs" />
+    <Compile Include="Layers\.Base layers\Rasterizable.cs" />
+    <Compile Include="Layers\.Layers\Rectangle.cs" />
+    <Compile Include="Layers\.Layers\RoundedRectangle.cs" />
+    <Compile Include="Layers\.Base layers\Shape.cs" />
+    <Compile Include="Layers\.Layers\Text.cs" />
+    <Compile Include="Layers\LayerStyle.cs" />
+    <Compile Include="Layers\LayerStyleComponent.cs" />
+    <Compile Include="History\BaseAction.cs" />
+    <Compile Include="History\ActionCollection.cs" />
+    <Compile Include="History\Actions.cs" />
+    <Compile Include="Core\Model.cs" />
+    <Compile Include="Shapes\CustomShape.cs" />
+    <Compile Include="Core\ShapeToolModes.cs" />
+    <Compile Include="Core\SupportedFormats.cs" />
+    <Compile Include="Tools\.Tools\EllipseSelection.cs" />
+    <Compile Include="Tools\.Tools\ColumnSelection.cs" />
+    <Compile Include="Tools\.Tools\PreviewSelection.cs" />
+    <Compile Include="Tools\.Tools\PolygonalLasso.cs" />
+    <Compile Include="Tools\.Tools\Lasso.cs" />
+    <Compile Include="Tools\.Tools\Selection.cs" />
+    <Compile Include="Tools\.Tools\RotateHand.cs" />
+    <Compile Include="Tools\.Tools\Hand.cs" />
+    <Compile Include="Tools\.Tools\Brush.cs" />
+    <Compile Include="Tools\.Tools\Bucket.cs" />
+    <Compile Include="Tools\.Tools\Count.cs" />
+    <Compile Include="Tools\.Tools\Crop.cs" />
+    <Compile Include="Tools\.Tools\CustomShape.cs" />
+    <Compile Include="Tools\.Base tools\EffectBrush.cs" />
+    <Compile Include="Tools\.Tools\Ellipse.cs" />
+    <Compile Include="Tools\.Tools\Eraser.cs" />
+    <Compile Include="Tools\.Tools\Eye.cs" />
+    <Compile Include="Tools\.Tools\Gradient.cs" />
+    <Compile Include="Tools\.Tools\Line.cs" />
+    <Compile Include="Tools\.Tools\MagicWand.cs" />
+    <Compile Include="Tools\.Tools\Move.cs" />
+    <Compile Include="Tools\.Tools\Note.cs" />
+    <Compile Include="Tools\.Tools\Pencil.cs" />
+    <Compile Include="Tools\.Tools\Polygon.cs" />
+    <Compile Include="Tools\.Tools\Rectangle.cs" />
+    <Compile Include="Tools\.Tools\RoundedRectangle.cs" />
+    <Compile Include="Tools\.Tools\Ruler.cs" />
+    <Compile Include="Tools\.Tools\Text.cs" />
+    <Compile Include="Tools\.Tools\Zoom.cs" />
+    <Compile Include="Tools\.Base tools\RegionShape.cs" />
+    <Compile Include="Tools\.Base tools\Shape.cs" />
+    <Compile Include="Tools\.Base tools\Tool.cs" />
+    <Compile Include="Tools\.Tools\RowSelection.cs" />
+    <Compile Include="Brushes\CircleBrush.cs" />
+    <Compile Include="Brushes\BaseBrush.cs" />
+    <Compile Include="Brushes\SquareBrush.cs" />
+    <Compile Include="Mutations\Adjustment.cs" />
+    <Compile Include="Mutations\Filter.cs" />
+    <Compile Include="Controls\Viewer.cs" />
+    <Compile Include="Converters\GridLinesVisibilityConverter.cs" />
+    <Compile Include="Views\Colors.cs" />
+    <Compile Include="Views\Browser.cs" />
+    <Compile Include="Views\Layers.cs" />
+    <Compile Include="Windows\ResizeWindow.xaml.cs">
+      <DependentUpon>ResizeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\NewWindow.xaml.cs">
+      <DependentUpon>NewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Linq\BitmapContext.cs" />
+    <Compile Include="Linq\BitmapFactory.cs" />
+    <Compile Include="Linq\NativeMethods.cs" />
+    <Compile Include="Linq\WriteableBitmapAntialiasingExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapBaseExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapBlitExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapContextExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapConvertExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapFillExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapFilterExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapLineExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapShapeExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapSplineExtensions.cs" />
+    <Compile Include="Linq\WriteableBitmapTransformationExtensions.cs" />
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\LayerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TransformView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Brush.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Channels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Character.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Browser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Filter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Options.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Paragraph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Histogram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\History.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Layer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Properties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tool.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tools.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Layers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Color.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Filters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Document.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ResizeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\NewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Panels\Color.cs" />
+    <Compile Include="Panels\Tools.cs" />
+    <Compile Include="Panels\Layers.cs" />
+    <Compile Include="Panels\Filters.cs" />
+    <Compile Include="Documents\Document.cs" />
+    <Compile Include="Options.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Effects\Channels.ps" />
+    <Resource Include="Effects\Blend\AverageEffect.ps" />
+    <Resource Include="Effects\Blend\ColorBurnEffect.ps" />
+    <Resource Include="Effects\Blend\ColorDodgeEffect.ps" />
+    <Resource Include="Effects\Blend\ColorEffect.ps" />
+    <Resource Include="Effects\Blend\DarkenEffect.ps" />
+    <Resource Include="Effects\Blend\DifferenceEffect.ps" />
+    <Resource Include="Effects\Blend\ExclusionEffect.ps" />
+    <Resource Include="Effects\Blend\GlowEffect.ps" />
+    <Resource Include="Effects\Blend\HardLightEffect.ps" />
+    <Resource Include="Effects\Blend\HardMixEffect.ps" />
+    <Resource Include="Effects\Blend\HueEffect.ps" />
+    <Resource Include="Effects\Blend\LightenEffect.ps" />
+    <Resource Include="Effects\Blend\LinearBurnEffect.ps" />
+    <Resource Include="Effects\Blend\LinearDodgeEffect.ps" />
+    <Resource Include="Effects\Blend\LinearLightEffect.ps" />
+    <Resource Include="Effects\Blend\LuminosityEffect.ps" />
+    <Resource Include="Effects\Blend\MultiplyEffect.ps" />
+    <Resource Include="Effects\Blend\NegationEffect.ps" />
+    <Resource Include="Effects\Blend\NormalEffect.ps" />
+    <Resource Include="Effects\Blend\OverlayEffect.ps" />
+    <Resource Include="Effects\Blend\PhoenixEffect.ps" />
+    <Resource Include="Effects\Blend\PinLightEffect.ps" />
+    <Resource Include="Effects\Blend\ReflectEffect.ps" />
+    <Resource Include="Effects\Blend\SaturationEffect.ps" />
+    <Resource Include="Effects\Blend\ScreenEffect.ps" />
+    <Resource Include="Effects\Blend\SoftLightEffect.ps" />
+    <Resource Include="Effects\Blend\VividLightEffect.ps" />
+    <Resource Include="Effects\Adjustments\AlphaReplace.ps" />
+    <Resource Include="Effects\Adjustments\DirectionalBlur.ps" />
+    <Resource Include="Effects\Adjustments\Emboss.ps" />
+    <Resource Include="Effects\Adjustments\GlassTiles.ps" />
+    <Resource Include="Effects\Adjustments\Gloom.ps" />
+    <Resource Include="Effects\Adjustments\ParametricEdgeDetection.ps" />
+    <Resource Include="Effects\Adjustments\Pinch.ps" />
+    <Resource Include="Effects\Adjustments\Pixelate.ps" />
+    <Resource Include="Effects\Adjustments\Ripple.ps" />
+    <Resource Include="Effects\Adjustments\Sepia.ps" />
+    <Resource Include="Effects\Adjustments\Sharpen.ps" />
+    <Resource Include="Effects\Adjustments\SketchGranite.ps" />
+    <Resource Include="Effects\Adjustments\SketchPencil.ps" />
+    <Resource Include="Effects\Adjustments\SmoothMagnify.ps" />
+    <Resource Include="Effects\Adjustments\Swirl.ps" />
+    <Resource Include="Effects\Adjustments\Tone.ps" />
+    <Resource Include="Effects\Adjustments\Waves.ps" />
+    <Resource Include="Effects\Adjustments\ZoomBlur.ps" />
+    <Resource Include="Effects\Adjustments\Lab.ps" />
+    <Resource Include="Effects\Adjustments\Gamma.ps" />
+    <Resource Include="Effects\Adjustments\XYZ.ps" />
+    <Resource Include="Effects\Adjustments\Replace.ps" />
+    <Resource Include="Effects\Adjustments\Blend.ps" />
+    <Resource Include="Effects\Blend\XOr.ps" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Effects\Adjustments\Balance.ps" />
+    <Resource Include="Effects\Adjustments\BlackWhite.ps" />
+    <Resource Include="Effects\Adjustments\HSL.ps" />
+    <Resource Include="Effects\Adjustments\Threshold.ps" />
+    <Resource Include="Effects\Adjustments\Vibrance.ps" />
+    <Resource Include="Effects\Adjustments\Difference.ps" />
+    <Resource Include="Effects\Adjustments\Posterize.ps" />
+    <Resource Include="Effects\Adjustments\Shading.ps" />
+    <Resource Include="Effects\Adjustments\Swap.ps" />
+    <Resource Include="Effects\Adjustments\Tint.ps" />
+    <Resource Include="Effects\Adjustments\BrightnessContrast.ps" />
+    <Resource Include="Effects\OneChannel.ps" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Layouts\Default.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Copy.png" />
+    <Resource Include="Images\Folder.png" />
+    <Resource Include="Images\Trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Eye.png" />
+    <Resource Include="Images\Lock.png" />
+    <Resource Include="Images\Unlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Brush.png" />
+    <Resource Include="Images\Bucket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ColumnSelection.png" />
+    <Resource Include="Images\Ellipse.png" />
+    <Resource Include="Images\EllipseSelection.png" />
+    <Resource Include="Images\Eraser.png" />
+    <Resource Include="Images\EyeDrop.png" />
+    <Resource Include="Images\Gradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Arrow.png" />
+    <Resource Include="Images\Lasso.png" />
+    <Resource Include="Images\Line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Pencil.png" />
+    <Resource Include="Images\Polygon.png" />
+    <Resource Include="Images\PolygonalLasso.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rectangle.png" />
+    <Resource Include="Images\RoundedRectangle.png" />
+    <Resource Include="Images\RowSelection.png" />
+    <Resource Include="Images\Selection.png" />
+    <Resource Include="Images\Zoom.png" />
+    <Resource Include="Images\ZoomIn.png" />
+    <Resource Include="Images\ZoomOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Hide.png" />
+    <Resource Include="Images\Layers.png" />
+    <Resource Include="Images\Opacity.png" />
+    <Resource Include="Images\Palette.png" />
+    <Resource Include="Images\Properties.png" />
+    <Resource Include="Images\Show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PolygonFilled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CompassBackground.png" />
+    <Resource Include="Images\CompassForeground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RightTriangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Burn.png" />
+    <Resource Include="Images\Dodge.png" />
+    <Resource Include="Images\Smudge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Sponge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Sharpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CloneStamp.png" />
+    <Resource Include="Images\Crop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Count.png" />
+    <Resource Include="Images\Note.png" />
+    <Resource Include="Images\Ruler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MagicWand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CustomShape.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CursorNote.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RotateHand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Blur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AlignBottomEdges.png" />
+    <Resource Include="Images\AlignHorizontalCenters.png" />
+    <Resource Include="Images\AlignLeftEdges.png" />
+    <Resource Include="Images\AlignRightEdges.png" />
+    <Resource Include="Images\AlignTopEdges.png" />
+    <Resource Include="Images\AlignVerticalCenters.png" />
+    <Resource Include="Images\AutoAlignLayers.png" />
+    <Resource Include="Images\DistributeBottomEdges.png" />
+    <Resource Include="Images\DistributeHorizontalCenters.png" />
+    <Resource Include="Images\DistributeLeftEdges.png" />
+    <Resource Include="Images\DistributeRightEdges.png" />
+    <Resource Include="Images\DistributeTopEdges.png" />
+    <Resource Include="Images\DistributeVerticalCenters.png" />
+    <Resource Include="Images\Fx.png" />
+    <Resource Include="Images\ShapeLayer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ColorReplacement.png" />
+    <Resource Include="Images\ColorSwap.png" />
+    <Resource Include="Images\PaintBrush.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Block.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Histogram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Link.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Layer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Colors.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Channels.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Shapes\Presets\Clover.png" />
+    <Resource Include="Shapes\Presets\Heart.png" />
+    <Resource Include="Shapes\Presets\Moon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AlignCenter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Wrench.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Transform.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Wrenches.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Effects\Adjustments\AlphaReplace.fx" />
+    <Content Include="Effects\Adjustments\Blend.fx" />
+    <Content Include="Effects\Adjustments\DirectionalBlur.fx" />
+    <Content Include="Effects\Adjustments\Emboss.fx" />
+    <Content Include="Effects\Adjustments\Gamma.fx" />
+    <Content Include="Effects\Adjustments\GlassTiles.fx" />
+    <Content Include="Effects\Adjustments\Gloom.fx" />
+    <Content Include="Effects\Adjustments\Lab.fx" />
+    <Content Include="Effects\Adjustments\ParametricEdgeDetection.fx" />
+    <Content Include="Effects\Adjustments\Pinch.fx" />
+    <Content Include="Effects\Adjustments\Pixelate.fx" />
+    <Content Include="Effects\Adjustments\Replace.fx" />
+    <Content Include="Effects\Adjustments\Ripple.fx" />
+    <Content Include="Effects\Adjustments\Sepia.fx" />
+    <Content Include="Effects\Adjustments\Sharpen.fx" />
+    <Content Include="Effects\Adjustments\SketchGranite.fx" />
+    <Content Include="Effects\Adjustments\SketchPencil.fx" />
+    <Content Include="Effects\Adjustments\SmoothMagnify.fx" />
+    <Content Include="Effects\Adjustments\Swirl.fx" />
+    <Content Include="Effects\Adjustments\Tone.fx" />
+    <Content Include="Effects\Adjustments\Waves.fx" />
+    <Content Include="Effects\Adjustments\XYZ.fx" />
+    <Content Include="Effects\Adjustments\ZoomBlur.fx" />
+    <Content Include="Effects\Blend\ColorBurnEffect.fx" />
+    <Content Include="Effects\Blend\ColorDodgeEffect.fx" />
+    <Content Include="Effects\Blend\ColorEffect.fx" />
+    <Content Include="Effects\Blend\DarkenEffect.fx" />
+    <Content Include="Effects\Blend\DifferenceEffect.fx" />
+    <Content Include="Effects\Blend\ExclusionEffect.fx" />
+    <Content Include="Effects\Blend\GlowEffect.fx" />
+    <Content Include="Effects\Blend\HardLightEffect.fx" />
+    <Content Include="Effects\Blend\HardMixEffect.fx" />
+    <Content Include="Effects\Blend\HueEffect.fx" />
+    <Content Include="Effects\Blend\LightenEffect.fx" />
+    <Content Include="Effects\Blend\LinearBurnEffect.fx" />
+    <Content Include="Effects\Blend\LinearDodgeEffect.fx" />
+    <Content Include="Effects\Blend\LinearLightEffect.fx" />
+    <Content Include="Effects\Blend\LuminosityEffect.fx" />
+    <Content Include="Effects\Blend\MultiplyEffect.fx" />
+    <Content Include="Effects\Blend\NegationEffect.fx" />
+    <Content Include="Effects\Blend\NormalEffect.fx" />
+    <Content Include="Effects\Blend\OverlayEffect.fx" />
+    <Content Include="Effects\Blend\PhoenixEffect.fx" />
+    <Content Include="Effects\Blend\PinLightEffect.fx" />
+    <Content Include="Effects\Blend\ReflectEffect.fx" />
+    <Content Include="Effects\Blend\SaturationEffect.fx" />
+    <Content Include="Effects\Blend\ScreenEffect.fx" />
+    <Content Include="Effects\Blend\SoftLightEffect.fx" />
+    <Content Include="Effects\Blend\VividLightEffect.fx" />
+    <Content Include="Effects\Adjustments\Balance.fx" />
+    <Content Include="Effects\Adjustments\BlackWhite.fx" />
+    <Content Include="Effects\Adjustments\BrightnessContrast.fx" />
+    <Content Include="Effects\Styles\ColorOverlay.fx" />
+    <Content Include="Effects\Styles\GradientOverlay.fx" />
+    <Resource Include="Logo.ico" />
+    <Resource Include="Images\Info.png" />
+    <Resource Include="Images\Filters.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\FreePath.png" />
+    <Resource Include="Images\Path.png" />
+    <Content Include="Effects\Blend\XOr.fx" />
+    <Content Include="Effects\Channels.fx" />
+    <Content Include="Effects\Adjustments\Difference.fx" />
+    <Content Include="Effects\Adjustments\HSL.fx" />
+    <Content Include="Effects\OneChannel.fx" />
+    <Content Include="Effects\Adjustments\Posterize.fx" />
+    <Content Include="Effects\Adjustments\Shading.fx" />
+    <Content Include="Effects\Adjustments\Swap.fx" />
+    <Content Include="Effects\Adjustments\Threshold.fx" />
+    <Content Include="Effects\Adjustments\Tint.fx" />
+    <Content Include="Effects\Adjustments\Vibrance.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lang\" />
+    <Folder Include="Legacy\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

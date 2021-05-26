@@ -2,49 +2,19 @@
 
 namespace Imagin.Common.Media
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public struct Pixel : IPixel
+    public struct Pixel
     {
-        readonly Color color;
-        /// <summary>
-        /// 
-        /// </summary>
-        public Color Color
-        {
-            get => color;
-        }
+        public readonly Color Color;
 
-        readonly int x;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int X
-        {
-            get => x;
-        }
+        public readonly int X;
 
-        readonly int y;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Y
-        {
-            get => y;
-        }
+        public readonly int Y;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="color"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
         public Pixel(Color color, int x, int y)
         {
-            this.color = color;
-            this.x = x;
-            this.y = y;
+            Color = color;
+            X = x;
+            Y = y;
         }
     }
 }

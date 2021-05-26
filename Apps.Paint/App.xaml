@@ -1,0 +1,19 @@
+﻿<i:SingleApplication 
+    x:Class="Paint.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:i="http://imagin.tech/imagin/common"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="pack://application:,,,/Paint;component/MainWindow.xaml">
+    <i:SingleApplication.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <i:Themes/>
+                <ResourceDictionary Source="{i:Styles Imagin.Common.WPF}"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type i:AboutWindow}">
+                <Setter Property="Logo" Value="{i:Image Paint, Logo.ico}"/>
+            </Style>
+        </ResourceDictionary>
+    </i:SingleApplication.Resources>
+</i:SingleApplication>

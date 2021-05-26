@@ -1,4 +1,8 @@
-﻿using Imagin.Common.Linq;
+﻿using Imagin.Common.Controls;
+using Imagin.Common.Converters;
+using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -7,9 +11,6 @@ using System.Windows.Input;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class ItemsControlExtensions
     {
         #region Properties
@@ -20,20 +21,10 @@ namespace Imagin.Common.Linq
         /// Applies GridUnit.Star GridLength to all columns.
         /// </summary>
         public static readonly DependencyProperty AutoSizeColumnsProperty = DependencyProperty.RegisterAttached("AutoSizeColumns", typeof(bool), typeof(ItemsControlExtensions), new PropertyMetadata(false, OnAutoSizeColumnsChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static bool GetAutoSizeColumns(ItemsControl d)
         {
             return (bool)d.GetValue(AutoSizeColumnsProperty);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
         public static void SetAutoSizeColumns(ItemsControl d, bool value)
         {
             d.SetValue(AutoSizeColumnsProperty, value);
@@ -46,9 +37,8 @@ namespace Imagin.Common.Linq
                 var l = (bool)e.NewValue ? new DataGridLength(1.0, DataGridLengthUnitType.Star) : new DataGridLength(1.0, DataGridLengthUnitType.Auto);
                 d.Columns.ForEach(i => i.Width = l);
             }
-            else if (sender is TreeView)
+            else if (sender is Controls.TreeView t)
             {
-                var t = sender as TreeView;
                 var l = (bool)e.NewValue ? new GridLength(1.0, GridUnitType.Star) : new GridLength(1.0, GridUnitType.Auto);
                 t.Columns.ForEach(i => i.Width = l);
             }
@@ -62,55 +52,41 @@ namespace Imagin.Common.Linq
         /// Gets or sets value indicating whether ItemsControl should allow drag selecting items.
         /// </summary>
         public static readonly DependencyProperty CanDragSelectProperty = DependencyProperty.RegisterAttached("CanDragSelect", typeof(bool), typeof(ItemsControlExtensions), new PropertyMetadata(false, OnCanDragSelectChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static bool GetCanDragSelect(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(CanDragSelectProperty);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetCanDragSelect(DependencyObject obj, bool value)
-        {
-            obj.SetValue(CanDragSelectProperty, value);
-        }
-
+        public static bool GetCanDragSelect(DependencyObject d)
+            => (bool)d.GetValue(CanDragSelectProperty);
+        public static void SetCanDragSelect(DependencyObject d, bool value)
+            => d.SetValue(CanDragSelectProperty, value);
         static void OnCanDragSelectChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var ItemsControl = sender as ItemsControl;
-            if (ItemsControl != null)
+            var itemsControl = sender as ItemsControl;
+            if (itemsControl != null)
             {
+                itemsControl.Loaded -= CanDragSelect_Loaded;
                 if ((bool)e.NewValue)
-                    ItemsControl.Loaded += RegisterCanDragSelect;
+                {
+                    itemsControl.Loaded += CanDragSelect_Loaded;
+                }
                 else
                 {
-                    ItemsControl.Loaded -= RegisterCanDragSelect;
+                    if (GetDragSelector(itemsControl) != null)
+                        GetDragSelector(itemsControl).Deinitialize();
 
-                    if (GetDragSelector(ItemsControl) != null)
-                        GetDragSelector(ItemsControl).Deregister();
-
-                    SetDragSelector(ItemsControl, null);
+                    SetDragSelector(itemsControl, null);
                 }
             }
         }
 
-        static void RegisterCanDragSelect(object sender, RoutedEventArgs e)
+        static void CanDragSelect_Loaded(object sender, RoutedEventArgs e)
         {
-            var ItemsControl = sender as ItemsControl;
-            if (GetDragSelector(ItemsControl) == null)
+            var itemsControl = sender as ItemsControl;
+            if (GetDragSelector(itemsControl) == null)
             {
-                ItemsControl.ApplyTemplate();
+                itemsControl.ApplyTemplate();
 
-                var Manager = DragSelector.New(ItemsControl);
-                Manager.Register();
+                var dragSelector = new DragSelector(itemsControl);
+                dragSelector.Initialize();
 
-                SetDragSelector(ItemsControl, Manager);
+                SetDragSelector(itemsControl, dragSelector);
             }
         }
 
@@ -120,13 +96,8 @@ namespace Imagin.Common.Linq
 
         internal static readonly DependencyProperty DragSelectorProperty = DependencyProperty.RegisterAttached("DragSelector", typeof(DragSelector), typeof(ItemsControlExtensions), new PropertyMetadata(null));
         internal static DragSelector GetDragSelector(ItemsControl d)
-        {
-            return (DragSelector)d.GetValue(DragSelectorProperty);
-        }
-        internal static void SetDragSelector(ItemsControl d, DragSelector value)
-        {
-            d.SetValue(DragSelectorProperty, value);
-        }
+            => (DragSelector)d.GetValue(DragSelectorProperty);
+        internal static void SetDragSelector(ItemsControl d, DragSelector value) => d.SetValue(DragSelectorProperty, value);
 
         #endregion
 
@@ -136,20 +107,10 @@ namespace Imagin.Common.Linq
         /// Determines whether or not to add a ContextMenu to the column header for toggling column visibility.
         /// </summary>
         public static readonly DependencyProperty IsColumnMenuEnabledProperty = DependencyProperty.RegisterAttached("IsColumnMenuEnabled", typeof(bool), typeof(ItemsControlExtensions), new PropertyMetadata(false, IsColumnMenuEnabledChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static bool GetIsColumnMenuEnabled(ItemsControl d)
         {
             return (bool)d.GetValue(IsColumnMenuEnabledProperty);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
         public static void SetIsColumnMenuEnabled(ItemsControl d, bool value)
         {
             d.SetValue(IsColumnMenuEnabledProperty, value);
@@ -157,7 +118,7 @@ namespace Imagin.Common.Linq
 
         static void IsColumnMenuEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is DataGrid || sender is TreeView)
+            if (sender is DataGrid || sender is System.Windows.Controls.TreeView)
             {
                 var i = sender as ItemsControl;
                 var h = i.GetHashCode();
@@ -195,9 +156,8 @@ namespace Imagin.Common.Linq
 
                 d.ColumnHeaderStyle = t;
             }
-            else if (Control is TreeView)
+            else if (Control is Controls.TreeView t)
             {
-                var t = Control as TreeView;
                 t.ColumnHeaderContextMenu = IsEnabled ? GetContextMenu(t) : null;
             }
         }
@@ -232,14 +192,14 @@ namespace Imagin.Common.Linq
             return Result;
         }
 
-        static ContextMenu GetContextMenu(TreeView TreeView)
+        static ContextMenu GetContextMenu(Controls.TreeView TreeView)
         {
             var Result = new ContextMenu();
             foreach (var Column in TreeView.Columns)
             {
-                if (Column is TreeViewTextColumn || Column is TreeViewTemplateColumn && (Column.Header != null && !Column.Header.ToString().IsEmpty()))
+                if (Column is TreeViewTextColumn || Column is TreeViewTemplateColumn && (Column.Header != null && !Column.Header.ToString().Empty()))
                 {
-                    if (Column is TreeViewTextColumn && (Column.As<TreeViewTextColumn>().MemberPath.IsNullOrEmpty()))
+                    if (Column is TreeViewTextColumn && (Column.As<TreeViewTextColumn>().MemberPath.NullOrEmpty()))
                         continue;
 
                     //Result.Items.Add(GetMenuItem(Column, () => Column.Header == null || Column.Header.ToString().IsEmpty() ? (Column as TreeViewTextColumn).MemberPath : Column.Header.ToString()));
@@ -255,7 +215,7 @@ namespace Imagin.Common.Linq
             {
                 if (Column is DataGridTextColumn || Column is DataGridTemplateColumn)
                 {
-                    if (Column.Header != null && !Column.Header.ToString().IsNullOrEmpty() && !Column.SortMemberPath.IsNullOrEmpty())
+                    if (Column.Header != null && !Column.Header.ToString().NullOrEmpty() && !Column.SortMemberPath.NullOrEmpty())
                     {
                         var m = GetMenuItem(Column);
 
@@ -291,24 +251,11 @@ namespace Imagin.Common.Linq
 
         #region DragScrollOffset
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty DragScrollOffsetProperty = DependencyProperty.RegisterAttached("DragScrollOffset", typeof(double), typeof(ItemsControlExtensions), new PropertyMetadata(10.0));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static double GetDragScrollOffset(DependencyObject obj)
         {
             return (double)obj.GetValue(DragScrollOffsetProperty);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
         public static void SetDragScrollOffset(DependencyObject obj, double value)
         {
             obj.SetValue(DragScrollOffsetProperty, value);
@@ -318,24 +265,11 @@ namespace Imagin.Common.Linq
 
         #region DragScrollTolerance
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty DragScrollToleranceProperty = DependencyProperty.RegisterAttached("DragScrollTolerance", typeof(double), typeof(ItemsControlExtensions), new PropertyMetadata(5.0));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static double GetDragScrollTolerance(DependencyObject obj)
         {
             return (double)obj.GetValue(DragScrollToleranceProperty);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
         public static void SetDragScrollTolerance(DependencyObject obj, double value)
         {
             obj.SetValue(DragScrollToleranceProperty, value);
@@ -343,51 +277,193 @@ namespace Imagin.Common.Linq
 
         #endregion
 
+        /// ----------------------------------------------------------------------------------------------------
+
+        static void GroupSort(ItemsControl itemsControl)
+        {
+            if (itemsControl.ItemsSource is ListCollectionView || itemsControl.ItemsSource is IList)
+            {
+                GroupSort_Update(itemsControl);
+            }
+            else
+            {
+                itemsControl.Loaded -= GroupSort_OnLoaded;
+                itemsControl.Loaded += GroupSort_OnLoaded;
+            }
+        }
+
+        static void GroupSort(ItemsControl itemsControl, ListCollectionView listCollectionView)
+        {
+            listCollectionView.GroupDescriptions.Clear();
+            listCollectionView.SortDescriptions.Clear();
+
+            if (!GetGroupName(itemsControl).NullOrEmpty())
+                listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(GetGroupName(itemsControl), new DefaultConverter<object, object>(i => i, i => i)));
+
+            if (!GetSortName(itemsControl).NullOrEmpty())
+                listCollectionView.SortDescriptions.Add(new SortDescription(GetSortName(itemsControl), GetSortDirection(itemsControl)));
+        }
+
+        /// ----------------------------------------------------------------------------------------------------
+
+        static void GroupSort_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var itemsControl = (ItemsControl)sender;
+            itemsControl.Loaded -= GroupSort_OnLoaded;
+
+            if (itemsControl.ItemsSource is ListCollectionView || itemsControl.ItemsSource is IList)
+            {
+                GroupSort_Update(itemsControl);
+                return;
+            }
+
+            DependencyPropertyDescriptor.FromProperty(ItemsControl.ItemsSourceProperty, typeof(ItemsControl)).AddValueChanged(itemsControl, GroupSort_OnItemsSourceChanged);
+        }
+
+        static void GroupSort_OnItemsSourceChanged(object sender, EventArgs e)
+        {
+            var itemsControl = (ItemsControl)sender;
+            DependencyPropertyDescriptor.FromProperty(ItemsControl.ItemsSourceProperty, typeof(ItemsControl)).RemoveValueChanged(itemsControl, GroupSort_OnItemsSourceChanged);
+            GroupSort_Update(itemsControl);
+        }
+
+        static void GroupSort_Update(ItemsControl itemsControl)
+        {
+            if (itemsControl.ItemsSource is ListCollectionView)
+            {
+                GroupSort(itemsControl, (ListCollectionView)itemsControl.ItemsSource);
+            }
+            else if (itemsControl.ItemsSource is IList)
+            {
+                var listCollectionView = new ListCollectionView((IList)itemsControl.ItemsSource);
+
+                itemsControl.SetCurrentValue(ItemsControl.ItemsSourceProperty, listCollectionView);
+                GroupSort(itemsControl, listCollectionView);
+            }
+        }
+
+        /// ----------------------------------------------------------------------------------------------------
+
+        #region GroupName
+
+        public static readonly DependencyProperty GroupNameProperty = DependencyProperty.RegisterAttached("GroupName", typeof(string), typeof(ItemsControlExtensions), new PropertyMetadata(string.Empty, OnGroupNameChanged));
+        public static string GetGroupName(ItemsControl d)
+        {
+            return (string)d.GetValue(GroupNameProperty);
+        }
+        public static void SetGroupName(ItemsControl d, string value)
+        {
+            d.SetValue(GroupNameProperty, value);
+        }
+        static void OnGroupNameChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            GroupSort((ItemsControl)sender);
+        }
+
+        #endregion
+
+        #region GroupStyle
+
+        public static readonly DependencyProperty GroupStyleProperty = DependencyProperty.RegisterAttached("GroupStyle", typeof(GroupStyle), typeof(ItemsControlExtensions), new PropertyMetadata(null, OnGroupStyleChanged));
+        public static GroupStyle GetGroupStyle(ItemsControl d)
+        {
+            return (GroupStyle)d.GetValue(GroupStyleProperty);
+        }
+        public static void SetGroupStyle(ItemsControl d, GroupStyle value)
+        {
+            d.SetValue(GroupStyleProperty, value);
+        }
+        static void OnGroupStyleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var groupStyle = ((ItemsControl)sender).GroupStyle;
+            groupStyle.Clear();
+            groupStyle.Add((GroupStyle)e.NewValue);
+        }
+
+        #endregion
+
+        /// ----------------------------------------------------------------------------------------------------
+
+        #region SortName
+
+        public static readonly DependencyProperty SortNameProperty = DependencyProperty.RegisterAttached("SortName", typeof(string), typeof(ItemsControlExtensions), new PropertyMetadata(string.Empty, OnSortNameChanged));
+        public static string GetSortName(ItemsControl d)
+        {
+            return (string)d.GetValue(SortNameProperty);
+        }
+        public static void SetSortName(ItemsControl d, string value)
+        {
+            d.SetValue(SortNameProperty, value);
+        }
+        static void OnSortNameChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            GroupSort((ItemsControl)sender);
+        }
+
+        #endregion
+
+        #region SortDirection
+
+        public static readonly DependencyProperty SortDirectionProperty = DependencyProperty.RegisterAttached("SortDirection", typeof(ListSortDirection), typeof(ItemsControlExtensions), new PropertyMetadata(ListSortDirection.Ascending, OnSortDirectionChanged));
+        public static ListSortDirection GetSortDirection(ItemsControl d)
+        {
+            return (ListSortDirection)d.GetValue(SortDirectionProperty);
+        }
+        public static void SetSortDirection(ItemsControl d, ListSortDirection value)
+        {
+            d.SetValue(SortDirectionProperty, value);
+        }
+        static void OnSortDirectionChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            GroupSort((ItemsControl)sender);
+        }
+
+        #endregion
+
+        /// ----------------------------------------------------------------------------------------------------
+
         #region SelectNoneOnEmptySpaceClick
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty SelectNoneOnEmptySpaceClickProperty = DependencyProperty.RegisterAttached("SelectNoneOnEmptySpaceClick", typeof(bool), typeof(ItemsControlExtensions), new PropertyMetadata(false, OnSelectNoneOnEmptySpaceClickChanged));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public static bool GetSelectNoneOnEmptySpaceClick(DependencyObject obj)
         {
             return (bool)obj.GetValue(SelectNoneOnEmptySpaceClickProperty);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
         public static void SetSelectNoneOnEmptySpaceClick(DependencyObject obj, bool value)
         {
             obj.SetValue(SelectNoneOnEmptySpaceClickProperty, value);
         }
-
         static void OnSelectNoneOnEmptySpaceClickChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var ItemsControl = sender as ItemsControl;
-            if (ItemsControl != null && (bool)e.NewValue)
-            {
-                if ((bool)e.NewValue)
-                    ItemsControl.PreviewMouseDown += RegisterSelectNoneOnEmptySpaceClick;
-                else ItemsControl.PreviewMouseDown -= RegisterSelectNoneOnEmptySpaceClick;
-            }
+            var itemsControl = sender as ItemsControl;
+            itemsControl.PreviewMouseDown -= SelectNoneOnEmptySpaceClick_PreviewMouseDown;
+
+            if ((bool)e.NewValue)
+                itemsControl.PreviewMouseDown += SelectNoneOnEmptySpaceClick_PreviewMouseDown;
         }
 
-        static void RegisterSelectNoneOnEmptySpaceClick(object sender, MouseButtonEventArgs e)
+        static void SelectNoneOnEmptySpaceClick_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var ItemsControl = sender as ItemsControl;
-            if (ItemsControlExtensions.GetSelectNoneOnEmptySpaceClick(ItemsControl) && e.LeftButton == MouseButtonState.Pressed)
+            var itemsControl = sender as ItemsControl;
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if ((ItemsControl is TreeView && !e.OriginalSource.Is<TreeViewItem>())
-                 || (ItemsControl is DataGrid && !e.OriginalSource.Is<DataGridRow>())
-                 || (ItemsControl is ListBox && !e.OriginalSource.Is<ListBoxItem>()))
-                    ItemsControl.TryClearSelection();
+                if ((itemsControl is System.Windows.Controls.TreeView && !e.OriginalSource.Is<TreeViewItem>())
+                 || (itemsControl is DataGrid && !e.OriginalSource.Is<DataGridRow>())
+                 || (itemsControl is ListBox && !e.OriginalSource.Is<ListBoxItem>()))
+                {
+                    if ((e.OriginalSource as DependencyObject).GetVisualParent<ScrollBar>() == null)
+                    {
+                        //This prevents all items from getting unselected when trying to drag select with a modifier key pressed.
+                        //The operation would proceed normally anyway, but this is annoying!
+                        if (GetCanDragSelect(itemsControl))
+                        {
+                            if (ModifierKeys.Control.Pressed() || ModifierKeys.Shift.Pressed())
+                                return;
+                        }
+
+                        itemsControl.TryClearSelection();
+                    }
+                }
             }
         }
 
@@ -400,56 +476,32 @@ namespace Imagin.Common.Linq
         /// <summary>
         /// Collapse all items in ItemsControl (siblings of <see langword="Source"/>).
         /// </summary>
-        /// <param name="Parent"></param>
-        /// <param name="Source"></param>
-        internal static void CollapseSiblings(this ItemsControl Parent, TreeViewItem Source)
+        /// <param name="itemsControl"></param>
+        /// <param name="source"></param>
+        internal static void CollapseSiblings(this ItemsControl itemsControl, TreeViewItem source)
         {
-            if (Parent == null || Parent.Items == null) return;
-            foreach (var i in Parent.Items)
+            if (itemsControl == null || itemsControl.Items == null) return;
+            foreach (var i in itemsControl.Items)
             {
-                var c = Parent.ItemContainerGenerator.ContainerFromItem(i);
+                var c = itemsControl.ItemContainerGenerator.ContainerFromItem(i);
                 if (c == null) continue;
                 var Child = c.As<TreeViewItem>();
-                if (Child != null && !Child.Equals(Source))
+                if (Child != null && !Child.Equals(source))
                     Child.IsExpanded = false;
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToEvaluate"></param>
-        public static void ClearSelection(this ItemsControl ToEvaluate)
-        {
-            if (ToEvaluate is ListBox)
-                (ToEvaluate as ListBox).SelectedItems.Clear();
-            else if (ToEvaluate is DataGrid)
-                (ToEvaluate as DataGrid).SelectedItems.Clear();
-            else if (ToEvaluate is TreeView)
-            {
-                var TreeView = ToEvaluate.As<TreeView>();
-                var Item = TreeView.ItemContainerGenerator.ContainerFromItem(TreeView.SelectedItem);
-                if (Item != null)
-                    Item.As<TreeViewItem>().IsSelected = false;
-            }
-            else if (ToEvaluate is TreeView)
-                ToEvaluate.As<TreeView>().SelectNone();
-        }
+        //----------------------------------------------------------------------------------------------------
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Control"></param>
-        /// <param name="Item"></param>
-        public static void Select(this ItemsControl Control, object Item)
+        public static void Select(this ItemsControl itemsControl, object item)
         {
-            if (Control != null)
+            if (itemsControl != null)
             {
-                foreach (var i in Control.Items)
+                foreach (var i in itemsControl.Items)
                 {
-                    var j = (TreeViewItem)Control.ItemContainerGenerator.ContainerFromItem(i);
+                    var j = (TreeViewItem)itemsControl.ItemContainerGenerator.ContainerFromItem(i);
 
-                    if (Item == i)
+                    if (item == i)
                     {
                         if (j is TreeViewItem)
                         {
@@ -459,29 +511,37 @@ namespace Imagin.Common.Linq
                     else 
                     {
                         TreeViewItemExtensions.SetIsSelected(j as TreeViewItem, false);
-                        Select(j, Item);
+                        Select(j, item);
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ToEvaluate"></param>
-        /// <returns></returns>
-        public static bool TryClearSelection(this ItemsControl ToEvaluate)
+        //----------------------------------------------------------------------------------------------------
+
+        public static void ClearSelection(this ItemsControl itemsControl)
         {
-            try
+            if (itemsControl is ListBox)
             {
-                ToEvaluate.ClearSelection();
-                return true;
+                (itemsControl as ListBox).SelectedIndex = -1;
             }
-            catch
+            else if (itemsControl is DataGrid)
             {
-                return false;
+                (itemsControl as DataGrid).SelectedIndex = -1;
             }
+            else if (itemsControl is System.Windows.Controls.TreeView)
+            {
+                var treeView = itemsControl.As<System.Windows.Controls.TreeView>();
+
+                var item = treeView.ItemContainerGenerator.ContainerFromItem(treeView.SelectedItem);
+                if (item != null)
+                    item.As<TreeViewItem>().IsSelected = false;
+            }
+            else if (itemsControl is System.Windows.Controls.TreeView)
+                itemsControl.As<System.Windows.Controls.TreeView>().SelectNone();
         }
+
+        public static bool TryClearSelection(this ItemsControl itemsControl) => Try.Invoke(() => itemsControl.ClearSelection());
 
         #endregion
     }

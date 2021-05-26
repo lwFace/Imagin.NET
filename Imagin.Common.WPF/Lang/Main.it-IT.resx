@@ -309,4 +309,31 @@
   <data name="Yesterday" xml:space="preserve">
     <value>Leri</value>
   </data>
+  <data name="Command" xml:space="preserve">
+    <value>Comando</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aiuto</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Vicino</value>
+  </data>
+  <data name="CloseAll" xml:space="preserve">
+    <value>Chiudi tutto</value>
+  </data>
+  <data name="Float" xml:space="preserve">
+    <value>Galleggiante</value>
+  </data>
+  <data name="CloseAllButThis" xml:space="preserve">
+    <value>Chiudi tutto tranne questo</value>
+  </data>
+  <data name="FloatAll" xml:space="preserve">
+    <value>Galleggiante tutto</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value />
+  </data>
 </root>

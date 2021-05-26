@@ -1,7 +1,8 @@
-﻿using Imagin.Common.Debug;
+﻿using Imagin.Common.Analytics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
@@ -11,33 +12,15 @@ using System.Windows.Media;
 
 namespace Imagin.Common.Linq
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class DependencyObjectExtensions
     {
-        #region Properties
-
         #region IsVisible
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(DependencyObjectExtensions), new PropertyMetadata(true));
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="value"></param>
         public static void SetIsVisible(DependencyObject d, bool value)
         {
             d.SetValue(IsVisibleProperty, value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
         public static bool GetIsVisible(DependencyObject d)
         {
             return (bool)d.GetValue(IsVisibleProperty);
@@ -45,33 +28,44 @@ namespace Imagin.Common.Linq
 
         #endregion
 
-        #endregion
-
         #region Methods
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="property"></param>
-        /// <param name="binding"></param>
-        /// <returns></returns>
-        public static BindingExpressionBase Bind(this DependencyObject source, DependencyProperty property, Binding binding)
-            => BindingOperations.SetBinding(source, property, binding);
+        public static DependencyProperty GetDependencyProperty(this DependencyObject input, string propertyName)
+        {
+            var type = input.GetType();
+            DependencyProperty result(string i)
+            {
+                var field = type.GetField(i, BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Static);
+                return field?.GetValue(null) as DependencyProperty ?? (field?.GetValue(null) as GenericDependencyProperty)?.Property;
+            }
+            return result($"{propertyName}Property") ?? result(propertyName);
+        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Object"></param>
+        public static bool HasDependencyProperty(this DependencyObject input, string propertyName) => input.GetDependencyProperty(propertyName) != null;
+
+        /// ------------------------------------------------------------------------------------------------------------------------------
+
+        public static BindingExpressionBase Bind(this DependencyObject source, DependencyProperty property, Binding binding) => BindingOperations.SetBinding(source, property, binding);
+
+        public static BindingExpressionBase Bind(this DependencyObject input, DependencyProperty property, string path, object source, BindingMode mode = BindingMode.OneWay, IValueConverter converter = null, UpdateSourceTrigger updateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
+        {
+            return BindingOperations.SetBinding(input, property, new Binding()
+            {
+                Converter = converter,
+                Mode = mode,
+                Path = new PropertyPath(path),
+                Source = source,
+                UpdateSourceTrigger = updateSourceTrigger
+            });
+        }
+
+        /// ------------------------------------------------------------------------------------------------------------------------------
+
         public static void CollapseAll(this DependencyObject Object)
         {
             Object.ToggleAll(false);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Object"></param>
         public static void ExpandAll(this DependencyObject Object)
         {
             Object.ToggleAll(true);
@@ -144,26 +138,12 @@ namespace Imagin.Common.Linq
             return foundChild;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="parent"></param>
-        /// <param name="childName"></param>
-        /// <param name="findIndex"></param>
-        /// <returns></returns>
         public static T FindChild<T>(this DependencyObject parent, string childName, int findIndex) where T : DependencyObject
         {
             var foundCount = 0;
             return FindChild<T>(parent, childName, findIndex, ref foundCount);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Object"></param>
-        /// <returns></returns>
         public static T GetChildOfType<T>(this DependencyObject Object) where T : DependencyObject
         {
             if (Object == null)
@@ -223,12 +203,6 @@ namespace Imagin.Common.Linq
             return Parent;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Object"></param>
-        /// <returns></returns>
         public static T GetParent<T>(this DependencyObject Object) where T : DependencyObject
         {
             var Parent = Object.GetParent();
@@ -237,22 +211,11 @@ namespace Imagin.Common.Linq
             return Parent.As<T>();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Child"></param>
-        /// <returns></returns>
         public static DependencyObject GetLogicalParent(this DependencyObject Child)
         {
             return LogicalTreeHelper.GetParent(Child);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Child"></param>
-        /// <returns></returns>
         public static T GetLogicalParent<T>(this DependencyObject Child) where T : DependencyObject
         {
             do
@@ -287,12 +250,6 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Parent"></param>
-        /// <returns></returns>
         public static IEnumerable<T> GetVisualChildren<T>(this DependencyObject Parent) where T : DependencyObject
         {
             if (Parent != null)
@@ -308,30 +265,28 @@ namespace Imagin.Common.Linq
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Child"></param>
-        /// <returns></returns>
         public static DependencyObject GetVisualParent(this DependencyObject Child)
         {
             return VisualTreeHelper.GetParent(Child);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Child"></param>
-        /// <returns></returns>
         public static T GetVisualParent<T>(this DependencyObject Child) where T : DependencyObject
         {
-            do
+            if (Child is DependencyObject)
             {
-                if (Child is T) return (T)Child;
-                Child = Child.GetVisualParent();
+                do
+                {
+                    if (Child is T)
+                        return (T)Child;
+
+                    if (Child is Visual)
+                    {
+                        Child = Child.GetVisualParent();
+                    }
+                    else break;
+                }
+                while (Child != null);
             }
-            while (Child != null);
             return null;
         }
 

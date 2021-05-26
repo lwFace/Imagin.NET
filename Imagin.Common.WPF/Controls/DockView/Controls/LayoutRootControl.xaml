@@ -1,0 +1,121 @@
+﻿<UserControl 
+    x:Class="Imagin.Common.Controls.LayoutRootControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup">
+    <Grid>
+        <Border x:Name="Root"/>
+        <Grid x:Name="Markers">
+            <Canvas>
+                <Border x:Name="Selection"
+                    Style="{Data:Ancestor SelectionStyle, {x:Type local:LayoutRootControl}}"/>
+                <Grid x:Name="SecondaryMarkers"
+                    Linq:GridExtensions.Columns="*,*,*"
+                    Linq:GridExtensions.Rows="*,*,*"
+                    Height="{Binding ActualHeight, ElementName=EmptyMarker, Mode=OneWay}"
+                    Width="{Binding ActualWidth, ElementName=EmptyMarker, Mode=OneWay}">
+                    <local:MaskedImage
+                        x:Name="EmptyMarker"
+                        Grid.ColumnSpan="3"
+                        Grid.RowSpan="3"
+                        Source="{Markup:Image Imagin.Common.WPF, Images/DockEmpty.png}"
+                        Style="{Data:Ancestor EmptyMarkerStyle, {x:Type local:LayoutRootControl}}"/>
+
+                    <local:MaskedImage
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        MouseEnter="OnSecondaryMarkerMouseEnter"
+                        MouseLeave="OnSecondaryMarkerMouseLeave"
+                        MouseLeftButtonUp="OnSecondaryMarkerMouseLeftButtonUp"
+                        Source="{Markup:Image Imagin.Common.WPF, Images/DockLeft.png}"
+                        Style="{Data:Ancestor SecondaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                        Tag="{x:Static local:Docks.Left}"
+                        ToolTip="Left"/>
+                    <local:MaskedImage
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        MouseEnter="OnSecondaryMarkerMouseEnter"
+                        MouseLeave="OnSecondaryMarkerMouseLeave"
+                        MouseLeftButtonUp="OnSecondaryMarkerMouseLeftButtonUp"
+                        Source="{Markup:Image Imagin.Common.WPF, Images/DockTop.png}"
+                        Style="{Data:Ancestor SecondaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                        Tag="{x:Static local:Docks.Top}"
+                        ToolTip="Top"/>
+                    <local:MaskedImage
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        MouseEnter="OnSecondaryMarkerMouseEnter"
+                        MouseLeave="OnSecondaryMarkerMouseLeave"
+                        MouseLeftButtonUp="OnSecondaryMarkerMouseLeftButtonUp"
+                        Source="{Markup:Image Imagin.Common.WPF, Images/DockRight.png}"
+                        Style="{Data:Ancestor SecondaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                        Tag="{x:Static local:Docks.Right}"
+                        ToolTip="Right"/>
+                    <local:MaskedImage
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        MouseEnter="OnSecondaryMarkerMouseEnter"
+                        MouseLeave="OnSecondaryMarkerMouseLeave"
+                        MouseLeftButtonUp="OnSecondaryMarkerMouseLeftButtonUp"
+                        Source="{Markup:Image Imagin.Common.WPF, Images/DockBottom.png}"
+                        Style="{Data:Ancestor SecondaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                        Tag="{x:Static local:Docks.Bottom}"
+                        ToolTip="Bottom"/>
+                    <local:MaskedImage
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        MouseEnter="OnSecondaryMarkerMouseEnter"
+                        MouseLeave="OnSecondaryMarkerMouseLeave"
+                        MouseLeftButtonUp="OnSecondaryMarkerMouseLeftButtonUp"
+                        Source="{Markup:Image Imagin.Common.WPF, Images/DockCenter.png}"
+                        Style="{Data:Ancestor SecondaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                        Tag="{x:Static local:Docks.Center}"
+                        ToolTip="Center"/>
+                </Grid>
+            </Canvas>
+            <local:MaskedImage
+                HorizontalAlignment="Left"
+                MouseEnter="OnPrimaryMarkerMouseEnter"
+                MouseLeave="OnPrimaryMarkerMouseLeave"
+                MouseLeftButtonUp="OnPrimaryMarkerMouseLeftButtonUp"
+                Source="{Markup:Image Imagin.Common.WPF, Images/DockLeft.png}"
+                Style="{Data:Ancestor PrimaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                Tag="{x:Static local:Docks.Left}"
+                ToolTip="Left"
+                VerticalAlignment="Center"/>
+            <local:MaskedImage
+                HorizontalAlignment="Center"
+                MouseEnter="OnPrimaryMarkerMouseEnter"
+                MouseLeave="OnPrimaryMarkerMouseLeave"
+                MouseLeftButtonUp="OnPrimaryMarkerMouseLeftButtonUp"
+                Source="{Markup:Image Imagin.Common.WPF, Images/DockTop.png}"
+                Style="{Data:Ancestor PrimaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                Tag="{x:Static local:Docks.Top}"
+                ToolTip="Top"
+                VerticalAlignment="Top"/>
+            <local:MaskedImage
+                HorizontalAlignment="Right"
+                MouseEnter="OnPrimaryMarkerMouseEnter"
+                MouseLeave="OnPrimaryMarkerMouseLeave"
+                MouseLeftButtonUp="OnPrimaryMarkerMouseLeftButtonUp"
+                Source="{Markup:Image Imagin.Common.WPF, Images/DockRight.png}"
+                Style="{Data:Ancestor PrimaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                Tag="{x:Static local:Docks.Right}"
+                ToolTip="Right"
+                VerticalAlignment="Center"/>
+            <local:MaskedImage
+                HorizontalAlignment="Center"
+                MouseEnter="OnPrimaryMarkerMouseEnter"
+                MouseLeave="OnPrimaryMarkerMouseLeave"
+                MouseLeftButtonUp="OnPrimaryMarkerMouseLeftButtonUp"
+                Source="{Markup:Image Imagin.Common.WPF, Images/DockBottom.png}"
+                Style="{Data:Ancestor PrimaryMarkerStyle, {x:Type local:LayoutRootControl}}"
+                Tag="{x:Static local:Docks.Bottom}"
+                ToolTip="Bottom"
+                VerticalAlignment="Bottom"/>
+        </Grid>
+    </Grid>
+</UserControl>

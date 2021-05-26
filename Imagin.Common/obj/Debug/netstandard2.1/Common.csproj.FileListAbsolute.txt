@@ -1,0 +1,9 @@
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\bin\Debug\netstandard2.1\Imagin.Common.deps.json
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\bin\Debug\netstandard2.1\Imagin.Common.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\bin\Debug\netstandard2.1\Imagin.Common.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.1\Common.csprojAssemblyReference.cache
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.1\Common.AssemblyInfoInputs.cache
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.1\Common.AssemblyInfo.cs
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.1\Common.csproj.CoreCompileInputs.cache
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.1\Imagin.Common.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.1\Imagin.Common.pdb
