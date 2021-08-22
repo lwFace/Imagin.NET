@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<List xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Attributes="Bullet" Bullets="Square" DateTimeFormat="dddd, MMM d, yyyy" DecimalFormat="${N2}" SortDirection="Descending" SortName="Added" Value="None" xmlns="Notes">
-  <Lines>
-    <Line Added="2021-03-26T08:52:45.8363497-04:00" Decimal="0" Checked="false" DateTime="2021-03-27T08:52:45.8363497-04:00" Image="">The theme of the task bar menu is not changed when everything else is.</Line>
-  </Lines>
-</List>
