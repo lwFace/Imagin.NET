@@ -151,14 +151,6 @@ Documentation is sparse and that is both intentional and unintentional. I am pic
 ### [InheritDoc](https://www.inheritdoc.io/)
 Referenced by *Imagin.Common* and **cannot** be used anywhere else.
 
-## Issues
-
-There is an aptly named sub-folder that contains files of anything that has known issues. These issues are self-reported at the time of a release and may not account for issues opened by others on *GitHub*. 
-
-Future issues opened on *GitHub* will be referenced as they are discovered if they are still active at the time of a release.
-
-These files can be viewed as lists using the included app, *Notes*.
-
 ## Nuget
 Refer here for latest changes!
 
