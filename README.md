@@ -1,4 +1,4 @@
-# Imagin .NET ![](https://img.shields.io/badge/style-5.2-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
+# Imagin .NET ![](https://img.shields.io/badge/style-5.2.3-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
 A framework for developing WPF apps.
 
 ## Apps
@@ -128,7 +128,7 @@ XAMLMarkupExtensions | 1.3.0 | http://xamlmarkupextensions.codeplex.com/ |
 
 ### *Demo* ![](https://img.shields.io/badge/style-C%23-blue.svg?style=flat&label=Language)
 
-Showcases all controls and their properties. This is primarily used for *testing*.
+Showcases all controls. This is for *testing*.
 
 ### *MasterVolume* ![](https://img.shields.io/badge/style-C++-red.svg?style=flat&label=Language)
 
@@ -140,19 +140,10 @@ mscorlib | 4.0 |
 
 ## Dependencies
 
-All third-party dependencies are located in the sub-folder **Libary**.
-
-## Documentation
-
-Documentation is sparse and that is both intentional and unintentional. I am picky with wording things and a lot of it would be redundant anyway so I try to avoid it unless something super complex requires further clarification. For the most part, the framework is designed in a manner that is easy to understand, but not everything is obvious to everyone so I do understand the importance of documentation. I plan on including more in the future, but I will still strive to keep it simple.
-
-### [InheritDoc](https://www.inheritdoc.io/)
-Referenced by *Imagin.Common* and **cannot** be used anywhere else.
+All third-party dependencies are located in the folder **Libary**.
 
 ## Nuget
-Refer here for latest changes!
-
-> **5/27/2021**: All packages obsolete. DO NOT USE.
+All packages are deprecated (8/29/2021).
     
 ## Donate
 
