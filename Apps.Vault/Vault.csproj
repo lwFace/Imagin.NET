@@ -64,7 +64,6 @@
     <Compile Include="Panels\Options.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Panels\Convert.cs" />
-    <Compile Include="Panels\Generate.cs" />
     <Compile Include="Panels\Log.cs" />
     <Compile Include="Panels\Passwords.cs" />
     <Compile Include="Panels\Properties.cs" />
@@ -93,10 +92,6 @@
     <Page Include="Views\Convert.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Generate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Options.xaml">
       <Generator>MSBuild:Compile</Generator>

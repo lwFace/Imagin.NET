@@ -1,9 +1,9 @@
-# Imagin .NET ![](https://img.shields.io/badge/style-5.1-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
-A framework for developing WPF apps with a modest emphasis on customization.
+# Imagin .NET ![](https://img.shields.io/badge/style-5.2-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
+A framework for developing WPF apps.
 
 ## Apps
 
-There are seven experimental apps that demonstrate what the library is capable of.
+The following apps demonstrate what the library can do.
 
 ### *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -14,22 +14,17 @@ Set an alarm that repeats every so often until disabled.
 * Plays a .mp3 or .wav file you specify.
 * Can require a math problem be solved before disabling (or snoozing) the alarm.
 * Can force system volume at a certain level so the alarm is guarenteed to be heard.
+* Set multiple alarms with just two clicks.
 
-**Why?**
-> I am very displeased with the default app on Windows 10 (it is slow!). I also like setting multiple alarms...this combines (and extends) those features so multiple alarms can be set with just two clicks.
-
-### *Color* ![](https://img.shields.io/badge/style-Stable--ish-yellow.svg?style=flat&label=Build)
+### *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Find, convert, and save multiple colors.
 
 **Features**
-* Similar to the color picker in *Photoshop*.
+* A lightweight version of the color picker in *Photoshop*.
 * Introduces several color models nonexistant in most software to visualize colors even further.
 * Enables converting to and from each color model, including hexadecimal and models that can't be visualized like *CMYK* and *XYZ*.
 * Utilizes *DirectX* to maximize performance.
-
-**Why?**
-> I wanted an app designed just for picking colors. It is marginally more lightweight than **Paint** and has similar (if not better) performance than **Photoshop**.
 
 ### *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -39,19 +34,14 @@ Draw tiles on the desktop to display notes, count downs, clocks, images, slidesh
 * Tiles may include a single photo, a slideshow of photos, or a folder of files and folders.
 * Tiles can be resized, moved, and the background color can be customized.
 
-**Why?**
-> The only apps I know of that offer these features are locked behind a pay wall. My solution does not tap much into Windows programming (a sad pitfall), but still adopts a similarly effective approach.
-
-### *Explorer* ![](https://img.shields.io/badge/style-Stable--ish-yellow.svg?style=flat&label=Build)
+### *Explorer* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Explore file system visually or by command line.
 
 **Features**
 * Includes traditional *Windows* context menus.
 * Perform mass rename operations on file names and extensions.
-
-**Why?**
-> I wanted something that I could customize on my own terms instead of digging into lower-level Windows stuff.
+* Minimal digging into lower-level Windows stuff.
 
 ### *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -64,9 +54,6 @@ Manage multiple text and list files.
 * Notes are automatically sorted by the latest changes.
 * Includes all features of Notepad.
 
-**Why?**
-> I like seeing all my notes in one place. I also like making lists. This ultimately eliminates the need to use an app like **Microsoft Word** or **Excel** to make simple notes and lists.
-
 ### *Paint* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
 
 Create, open, and save image files.
@@ -76,32 +63,40 @@ Create, open, and save image files.
 * There is a focus on filters, similar to *Instagram*.
 * Utilizes *DirectX*, but leaves much to be desired.
 
-**Why?**
-> I wanted to see if I could imitiate what **Paint** and **Adobe Photoshop** do. So far, I have realized much of this relies on very specific algorithms. As I am not enthusastic about reinventing the wheel (a really big wheel), I have left much unfinished. This is a for-fun project for anyone who wants to take it a step further. Fortunately, many of the concepts are already there!
+### *Random* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
-### *Vault* ![](https://img.shields.io/badge/style-Stable--ish-yellow.svg?style=flat&label=Build)
+Generate random strings of any length and character.
+
+**Features**
+* Generate strings of a specified length.
+* Type the characters to include.
+* Add characters from presets.
+* Customize appearance of generated strings.
+
+***Coming soon***
+* Generate strings asynchronously.
+* Remember previously generated strings.
+* Support custom presets for adding characters.
+
+### *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Sync folders and manage passwords.
 
 **Features**
-* Copies, encrypts, or decrypts a folder at one location (the source) to another location (the destination). 
-* Tasks can include and exclude both files and folders.
-* Can encrypt and decrypt file and folder names as well as file content.
+* Create tasks to copy, encrypt, or decrypt a folder at one location (the source) to another location (the destination). 
 * When a task is enabled, changes are observed in real-time.
-* All task activity can be logged.
+* Tasks can include and exclude both files and folders.
+* Encrypt and decrypt file and folder names as well as file content.
+* Log all task activity.
 * Manage (and optionally encrypt) passwords.
-* Generate random strings of characters.
-* A utility for quickly encrypting and decrypting text.
-
-**Why?**
-> I wanted an app that could easily back up any folder on my computer in real-time. Encryption and decryption was a must because I prefer to encrypt my own data before backing it up to the cloud. Encryption and decryption in this app is experimental and based on algorithms I found online. Therefore, I can't guarentee this app can reliably (and accurately) encrypt or decrypt your data. It is ultimately up to you (until noted otherwise) to verify the reliability and accuracy of the encryption and decryption!
+* Quickly encrypt and decrypt arbitrary text.
 
 #### Build status
 
   Status  |  Description  |
 --------|------------|
 ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build) | Nothing currently known can cause app to crash; most or all features are complete.
-![](https://img.shields.io/badge/style-Stable--ish-yellow.svg?style=flat&label=Build) | Some features can cause app to crash and/or insufficient testing was performed to reach a meaningful conclusion; some features are incomplete or do not exist.
+![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) | Some features can cause app to crash and/or insufficient testing was performed to reach a meaningful conclusion; some features are incomplete or do not exist.
 ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build) | Most features can cause app to crash; many features are incomplete or do not exist.
 
 ## Projects
@@ -155,6 +150,14 @@ Documentation is sparse and that is both intentional and unintentional. I am pic
 
 ### [InheritDoc](https://www.inheritdoc.io/)
 Referenced by *Imagin.Common* and **cannot** be used anywhere else.
+
+## Issues
+
+There is an aptly named sub-folder that contains files of anything that has known issues. These issues are self-reported at the time of a release and may not account for issues opened by others on *GitHub*. 
+
+Future issues opened on *GitHub* will be referenced as they are discovered if they are still active at the time of a release.
+
+These files can be viewed as lists using the included app, *Notes*.
 
 ## Nuget
 Refer here for latest changes!

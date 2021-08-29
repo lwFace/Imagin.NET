@@ -69,7 +69,6 @@
                                 <ResourceDictionary.MergedDictionaries>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Convert.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Copy.xaml}"/>
-                                    <ResourceDictionary Source="{i:Uri Vault, Views/Generate.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Log.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Options.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Passwords.xaml}"/>
