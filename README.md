@@ -3,8 +3,6 @@ A framework for developing WPF apps.
 
 ## Apps
 
-The following apps demonstrate what the library can do.
-
 ### *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Set an alarm that repeats every so often until disabled.
