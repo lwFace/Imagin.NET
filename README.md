@@ -140,10 +140,10 @@ mscorlib | 4.0 |
 
 ## Dependencies
 
-All third-party dependencies are located in the folder **Libary**.
+All third-party dependencies are located in the **Libary** folder.
 
 ## Nuget
-All packages are deprecated (8/29/2021).
+All packages deprecated (8/29/2021).
     
 ## Donate
 
