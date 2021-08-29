@@ -101,7 +101,7 @@ Sync folders and manage passwords.
 
 ### *Imagin.Common* ![](https://img.shields.io/badge/style-C%23-blue.svg?style=flat&label=Language)
 
-Defines common utilities for use in a shared environment.
+Common utilities for shared environments.
 
 **Dependencies**
 
@@ -112,7 +112,7 @@ InheritDoc | 2.5.2 | https://www.inheritdoc.io/
 
 ### *Imagin.Common.WPF* ![](https://img.shields.io/badge/style-C%23-blue.svg?style=flat&label=Language)
 
-Defines common user interface elements for use in WPF apps.
+Common user interface elements.
 
 **Dependencies**
 
