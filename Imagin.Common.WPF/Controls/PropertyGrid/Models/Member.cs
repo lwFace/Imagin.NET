@@ -182,12 +182,19 @@ namespace Imagin.Common.Controls
             get => rangeFormat;
             set => this.Change(ref rangeFormat, value);
         }
-        
+
         string stringFormat = string.Empty;
         public string StringFormat
         {
             get => stringFormat;
             set => this.Change(ref stringFormat, value);
+        }
+
+        char stringFormatDelimiter = ';';
+        public char StringFormatDelimiter
+        {
+            get => stringFormatDelimiter;
+            set => this.Change(ref stringFormatDelimiter, value);
         }
 
         UpdateSourceTrigger updateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
@@ -443,6 +450,10 @@ namespace Imagin.Common.Controls
                 = TemplateType == typeof(String)
                 ? input.Get<StringFormatAttribute>().StringFormat
                 : Format;
+
+            StringFormatDelimiter = TemplateType == typeof(String)
+                ? input.Get<StringFormatAttribute>().StringFormatDelimiter
+                : StringFormatDelimiter;
 
             Featured
                 = input.Get<FeaturedAttribute>().Featured;

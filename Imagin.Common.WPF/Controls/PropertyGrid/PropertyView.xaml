@@ -1449,7 +1449,8 @@
                                                 <local:TokenView x:Name="TokenView"
                                                     IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                     HorizontalAlignment="Stretch"
-                                                    Placeholder="{Binding DisplayName}">
+                                                    Placeholder="{Binding DisplayName}"
+                                                    TokenDelimiter="{Binding StringFormatDelimiter}">
                                                 </local:TokenView>
                                                 <DataTemplate.Triggers>
                                                     <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">

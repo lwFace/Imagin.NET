@@ -7,6 +7,7 @@ namespace Imagin.Common.Globalization
     {
         English,
         Spanish,
-        Italian
+        Italian,
+        Japanese
     }
 }

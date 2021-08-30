@@ -1489,6 +1489,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Lang\Main.es-ES.resx" />
     <EmbeddedResource Include="Lang\Main.it-IT.resx" />
+    <EmbeddedResource Include="Lang\Main.ja-JP.resx" />
     <EmbeddedResource Include="Lang\Main.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Designer.cs</LastGenOutput>

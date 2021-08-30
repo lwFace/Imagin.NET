@@ -54,3 +54,5 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Random\obj\
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Random\obj\Debug\Random.csproj.CopyComplete
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Random\obj\Debug\Random.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Random\obj\Debug\Random.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Random\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Random\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll

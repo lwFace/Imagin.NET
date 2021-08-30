@@ -145,22 +145,22 @@
     <value>Indietro</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>sfondo</value>
+    <value>Sfondo</value>
   </data>
   <data name="Bind" xml:space="preserve">
     <value>Legami</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value />
+    <value>Parte inferiore</value>
   </data>
   <data name="BottomLeft" xml:space="preserve">
-    <value />
+    <value>In basso a sinistra</value>
   </data>
   <data name="BottomRight" xml:space="preserve">
-    <value />
+    <value>In basso a destra</value>
   </data>
   <data name="Center" xml:space="preserve">
-    <value />
+    <value>Centro</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Chiaro</value>
@@ -184,7 +184,7 @@
     <value>Discendente</value>
   </data>
   <data name="Disconnect" xml:space="preserve">
-    <value />
+    <value>Disconnetti</value>
   </data>
   <data name="Enter" xml:space="preserve">
     <value>Accedere</value>
@@ -214,10 +214,10 @@
     <value>Aumentare</value>
   </data>
   <data name="Key" xml:space="preserve">
-    <value />
+    <value>Chiave</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value />
+    <value>Sinistra</value>
   </data>
   <data name="Minutes" xml:space="preserve">
     <value>Minuti</value>
@@ -253,7 +253,7 @@
     <value>Ricaricare</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value />
+    <value>Destro</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Ricerca</value>
@@ -280,13 +280,13 @@
     <value>Domani</value>
   </data>
   <data name="Top" xml:space="preserve">
-    <value />
+    <value>Superiore</value>
   </data>
   <data name="TopLeft" xml:space="preserve">
-    <value />
+    <value>In alto a sinistra</value>
   </data>
   <data name="TopRight" xml:space="preserve">
-    <value />
+    <value>In alto a destra</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>
@@ -298,7 +298,7 @@
     <value>Nome utente</value>
   </data>
   <data name="Value" xml:space="preserve">
-    <value />
+    <value>Valore</value>
   </data>
   <data name="Years" xml:space="preserve">
     <value>Anni</value>
@@ -331,9 +331,57 @@
     <value>Galleggiante tutto</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value />
+    <value>Prossimo</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value />
+    <value>Precedente</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copia</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Tagliare</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Impasto</value>
+  </data>
+  <data name="Abort" xml:space="preserve">
+    <value>Interrompi</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tutto</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continua</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Fatto</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="Ignore" xml:space="preserve">
+    <value>Ignorare</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Messaggio</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Nessuno</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Va bene</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Riprova</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Successo</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Avvertimento</value>
   </data>
 </root>

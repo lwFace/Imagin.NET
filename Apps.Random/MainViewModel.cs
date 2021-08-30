@@ -5,7 +5,9 @@ using Imagin.Common.Linq;
 using Imagin.Common.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Text;
 
 namespace Random
 {
@@ -27,6 +29,13 @@ namespace Random
         const string Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         //............................................................................
+        
+        bool generating = false;
+        public bool Generating
+        {
+            get => generating;
+            set => this.Change(ref generating, value);
+        }
 
         bool viewOptions = false;
         public bool ViewOptions
@@ -73,19 +82,45 @@ namespace Random
                             break;
                     }
 
-                    Get.Current<Options>().Characters = string.Concat($"{Get.Current<Options>().Characters}{result}".Distinct());
+                    Get.Current<Options>().Characters = $"{Get.Current<Options>().Characters}{result}";
                 },
                 i => true);
                 return addCharactersCommand;
             }
         }
 
+        ICommand addCustomCharactersCommand;
+        public ICommand AddCustomCharactersCommand => addCustomCharactersCommand = addCustomCharactersCommand ?? new RelayCommand<string>(i => Get.Current<Options>().Characters = $"{Get.Current<Options>().Characters}{i}", i => true);
+        
+        async Task Generate()
+        {
+            Generating = true;
+
+            await App.Current.Dispatcher.BeginInvoke(() =>
+            {
+                Get.Current<Options>().History.Add(Get.Current<Options>().Text);
+                Get.Current<Options>().Text = string.Empty;
+            });
+
+            var result = new StringBuilder();
+            var length = (int)Get.Current<Options>().Length;
+
+            var characters = Get.Current<Options>().Characters;
+            await Task.Run(() => result.Append(Imagin.Common.Random.String(characters, length, length)));
+
+            await App.Current.Dispatcher.BeginInvoke(() => Get.Current<Options>().Text = result.ToString());
+            Generating = false;
+        }
+
+        ICommand copyCommand;
+        public ICommand CopyCommand => copyCommand = copyCommand ?? new RelayCommand(() => System.Windows.Clipboard.SetText(Get.Current<Options>().Text), () => !Get.Current<Options>().Text.NullOrEmpty());
+
         ICommand generateCommand;
         public ICommand GenerateCommand
         {
             get
             {
-                generateCommand = generateCommand ?? new RelayCommand(() => Get.Current<Options>().Text = Imagin.Common.Random.String(string.Concat(Get.Current<Options>().Characters.Distinct()), (int)Get.Current<Options>().Length, (int)Get.Current<Options>().Length), () => !Get.Current<Options>().Characters.NullOrEmpty());
+                generateCommand = generateCommand ?? new RelayCommand(() => _ = Generate(), () => !Generating && !Get.Current<Options>().Characters.NullOrEmpty());
                 return generateCommand;
             }
         }

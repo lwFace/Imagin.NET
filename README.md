@@ -1,4 +1,4 @@
-# Imagin .NET ![](https://img.shields.io/badge/style-5.2.3-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
+# Imagin .NET ![](https://img.shields.io/badge/style-5.3-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
 A framework for developing WPF apps.
 
 ## Apps

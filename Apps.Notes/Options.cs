@@ -6,7 +6,6 @@ using Imagin.Common.Data;
 using Imagin.Common.Storage;
 using Imagin.Common.Text;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 

@@ -62,7 +62,6 @@
     <Compile Remove="Analytics\LogEntryType.cs" />
     <Compile Remove="HDirection.cs" />
     <Compile Remove="IPeriodical.cs" />
-    <Compile Remove="Lang\Main.Designer.cs" />
     <Compile Remove="Linq\Encoding.cs" />
     <Compile Remove="Linq\IColorTetrad.cs" />
     <Compile Remove="Linq\IColorVector.cs" />
@@ -101,18 +100,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Lang\Main.es-ES.resx" />
-    <EmbeddedResource Remove="Lang\Main.it-IT.resx" />
-    <EmbeddedResource Remove="Lang\Main.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="project.json" />
     <None Remove="project.lock.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Lang\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

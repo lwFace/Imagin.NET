@@ -16,5 +16,5 @@ DEBUG;TRACE
 19-1744805772
 App.xaml;MainWindow.xaml;Views\Convert.xaml;Views\Options.xaml;Views\Log.xaml;Views\Passwords.xaml;Views\Properties.xaml;Views\Queue.xaml;Views\Copy.xaml;
 
-False
+True
 

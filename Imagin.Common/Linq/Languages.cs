@@ -16,6 +16,9 @@ namespace Imagin.Common.Linq
                 case Languages.Italian:
                     result = "it-IT";
                     break;
+                case Languages.Japanese:
+                    result = "ja-JP";
+                    break;
                 case Languages.Spanish:
                     result = "es-ES";
                     break;

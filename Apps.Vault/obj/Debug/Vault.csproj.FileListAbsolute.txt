@@ -35,3 +35,4 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Vault\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Vault\obj\Debug\Vault.csproj.CopyComplete
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Vault\obj\Debug\Vault.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Vault\obj\Debug\Vault.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Vault\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll
