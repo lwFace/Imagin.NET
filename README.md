@@ -66,15 +66,15 @@ Create, open, and save image files.
 Generate random strings of any length and character.
 
 **Features**
-* Generate strings of a specified length.
+* Generate random strings (asynchronously). 
+* Specify a length.
 * Type the characters to include.
 * Add characters from presets.
+* Custom presets for adding characters.
 * Customize appearance of generated strings.
 
 ***Coming soon***
-* Generate strings asynchronously.
 * Remember previously generated strings.
-* Support custom presets for adding characters.
 
 ### *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
