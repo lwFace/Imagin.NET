@@ -1,4 +1,4 @@
-# Imagin .NET ![](https://img.shields.io/badge/style-5.3-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
+# Imagin .NET ![](https://img.shields.io/badge/style-5.3.2-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
 A framework for developing WPF apps.
 
 ## Apps
@@ -141,6 +141,15 @@ mscorlib | 4.0 |
 ## Dependencies
 
 All third-party dependencies are located in the **Libary** folder.
+
+## Languages
+
+  Language  |
+------------|
+English |
+Spanish |
+Italian |
+Japanese |
 
 ## Nuget
 All packages deprecated (8/29/2021).
