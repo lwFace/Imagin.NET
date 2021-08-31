@@ -3,7 +3,7 @@ A framework for developing WPF apps.
 
 ## Apps
 
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="64" /> *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+### <img style="border-radius: 100%;" align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="64" /> *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Set an alarm that repeats every so often until disabled.
 
@@ -97,7 +97,7 @@ Sync folders and manage passwords.
 ----------|---------------|------------|
 ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build) | Nothing currently known can cause app to crash | Most or all complete |
 ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) | Insufficient testing performed to reach meaningful conclusion | Some incomplete or do not exist |
-![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build) | Some features can cause app to crash | Several incomplete or do not exist |
+![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build) | Some features can cause app to crash | Most incomplete or do not exist |
 
 ## Projects
 
@@ -132,7 +132,7 @@ XAMLMarkupExtensions | 1.3.0 | http://xamlmarkupextensions.codeplex.com/ |
 
 Showcases all controls. This is for *testing*.
 
-### *MasterVolume* <img align="right" src="https://img.shields.io/badge/style-C++-red.svg?style=flat&label=Language" />
+### *MasterVolume* ![](https://img.shields.io/badge/style-C++-red.svg?style=flat&label=Language)
 
 Allows a program to increase or decrease the system volume.
 
