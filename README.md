@@ -93,11 +93,11 @@ Sync folders and manage passwords.
 
 #### Build status
 
-  Status  |  Description  |
---------|------------|
-![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build) | Nothing currently known can cause app to crash; most or all features are complete.
-![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) | Some features can cause app to crash and/or insufficient testing was performed to reach a meaningful conclusion; some features are incomplete or do not exist.
-![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build) | Most features can cause app to crash; many features are incomplete or do not exist.
+  Status  |  Description  |  Features  |
+----------|---------------|------------|
+![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build) | Nothing currently known can cause app to crash | Most or all complete |
+![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) | Insufficient testing performed to reach meaningful conclusion | Some incomplete or do not exist |
+![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build) | Some features can cause app to crash | Several incomplete or do not exist |
 
 ## Projects
 
@@ -132,7 +132,7 @@ XAMLMarkupExtensions | 1.3.0 | http://xamlmarkupextensions.codeplex.com/ |
 
 Showcases all controls. This is for *testing*.
 
-### *MasterVolume* ![](https://img.shields.io/badge/style-C++-red.svg?style=flat&label=Language)
+### *MasterVolume* <img align="right" src="https://img.shields.io/badge/style-C++-red.svg?style=flat&label=Language" />
 
 Allows a program to increase or decrease the system volume.
 
