@@ -103,7 +103,7 @@ Sync folders and manage passwords.
 
 ### *Imagin.Common* ![](https://img.shields.io/badge/style-C%23-blue.svg?style=flat&label=Language)
 
-Common utilities for shared environments.
+Common utilities for shared projects.
 
 **Dependencies**
 
