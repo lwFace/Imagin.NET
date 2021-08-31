@@ -144,14 +144,26 @@ mscorlib | 4.0 |
 
 All third-party dependencies are located in the **Libary** folder.
 
-## Languages
+## Languages (4)
 
-  Language  |
-------------|
+    |
+----|
 English |
 Spanish |
 Italian |
 Japanese |
+
+## Themes (7)
+
+    |
+----|
+Blaze |
+Chocolate |
+Dark |
+Jungle |
+Light |
+Midnight |
+Violet |
 
 ## Nuget
 All packages deprecated (8/29/2021).
