@@ -14,9 +14,9 @@ Set an alarm that repeats every so often until disabled.
 * Can force system volume at a certain level so the alarm is guarenteed to be heard.
 * Set multiple alarms with just two clicks.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="128" /> 
 
-### *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
+
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="64" /> *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Find, convert, and save multiple colors.
 
@@ -26,9 +26,7 @@ Find, convert, and save multiple colors.
 * Enables converting to and from each color model, including hexadecimal and models that can't be visualized like *CMYK* and *XYZ*.
 * Utilizes *DirectX* to maximize performance.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="128" />
-
-### *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and entire folders.
 
@@ -36,9 +34,7 @@ Draw tiles on the desktop to display notes, count downs, clocks, images, slidesh
 * Tiles may include a single photo, a slideshow of photos, or a folder of files and folders.
 * Tiles can be resized, moved, and the background color can be customized.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Explorer.png?raw=true" width="128" />
-
-### *Explorer* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Explorer.png?raw=true" width="64" /> *Explorer* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Explore file system visually or by command line.
 
@@ -47,9 +43,7 @@ Explore file system visually or by command line.
 * Perform mass rename operations on file names and extensions.
 * Minimal digging into lower-level Windows stuff.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Notes.png?raw=true" width="128" />
-
-### *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Notes.png?raw=true" width="64" /> *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Manage multiple text and list files.
 
@@ -60,9 +54,7 @@ Manage multiple text and list files.
 * Notes are automatically sorted by the latest changes.
 * Includes all features of Notepad.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Paint.png?raw=true" width="128" />
-
-### *Paint* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Paint.png?raw=true" width="64" /> *Paint* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
 
 Create, open, and save image files.
 
@@ -71,9 +63,7 @@ Create, open, and save image files.
 * There is a focus on filters, similar to *Instagram*.
 * Utilizes *DirectX*, but leaves much to be desired.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Random.png?raw=true" width="128" />
-
-### *Random* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Random.png?raw=true" width="64" /> *Random* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Generate random strings of any length and character.
 
@@ -88,9 +78,7 @@ Generate random strings of any length and character.
 ***Coming soon***
 * Remember previously generated strings.
 
-<img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="128" />
-
-### *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Sync folders and manage passwords.
 
