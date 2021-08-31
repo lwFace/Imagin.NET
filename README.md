@@ -146,8 +146,8 @@ All third-party dependencies are located in the **Libary** folder.
 
 ## Languages (4)
 
-    |
-----|
+  Language  |
+------------|
 English |
 Spanish |
 Italian |
@@ -155,8 +155,8 @@ Japanese |
 
 ## Themes (7)
 
-    |
-----|
+  Theme  |
+---------|
 Blaze |
 Chocolate |
 Dark |
