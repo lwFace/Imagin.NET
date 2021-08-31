@@ -3,8 +3,7 @@ A framework for developing WPF apps.
 
 ## Apps
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="128" /> 
-
+<img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="64" /> 
 ### *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Set an alarm that repeats every so often until disabled.
@@ -90,7 +89,7 @@ Generate random strings of any length and character.
 ***Coming soon***
 * Remember previously generated strings.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="128" />
+<img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="128" />
 
 ### *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
