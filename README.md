@@ -3,7 +3,9 @@ A framework for developing WPF apps.
 
 ## Apps
 
-### <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="32" /> *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+### *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="128" /> 
 
 Set an alarm that repeats every so often until disabled.
 
