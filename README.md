@@ -3,7 +3,7 @@ A framework for developing WPF apps.
 
 ## Apps
 
-### <img style="border-radius: 50%;" align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="64" /> *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="64" /> *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 An alarm that repeats every so often.
 
@@ -12,7 +12,6 @@ An alarm that repeats every so often.
 * Plays a .mp3 or .wav file you specify.
 * Can require a math problem be solved before disabling (or snoozing) the alarm.
 * Can force system volume at a certain level so the alarm is guarenteed to be heard.
-* Set multiple alarms with just two clicks.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="64" /> *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
@@ -38,8 +37,8 @@ Explore file system.
 
 **Features**
 * Includes traditional *Windows* context menus.
-* Perform mass rename operations on file names and extensions.
-* Minimal digging into lower-level Windows stuff.
+* Execute commands using a command-line interface.
+* Minimal lower-level, Windows stuff.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Notes.png?raw=true" width="64" /> *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -73,9 +72,6 @@ Generate random strings of any length and character.
 * Custom presets for adding characters.
 * Customize appearance of generated strings.
 
-***Coming soon***
-* Remember previously generated strings.
-
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Rename.png?raw=true" width="64" /> *Rename* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Rename multiple file names and extensions at once.
@@ -86,9 +82,6 @@ Rename multiple file names and extensions at once.
 * Target files with certain extensions.
 * Target files with certain names.
 * Correct file extension casing
-
-***Coming soon***
-* Undo and redo renaming operations.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
