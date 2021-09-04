@@ -35,6 +35,8 @@ Draw tiles on the desktop to display notes, count downs, clocks, images, slidesh
 * Tiles may include a single photo, a slideshow of photos, or a folder of files and folders.
 * Tiles can be resized, moved, and the background color can be customized.
 
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Desktop.png?raw=true" width="512" />
+
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Explorer.png?raw=true" width="64" /> *Explorer* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Explore file system.
