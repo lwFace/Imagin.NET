@@ -147,7 +147,7 @@ mscorlib | 4.0 |
 
 ## Dependencies
 
-Third-party dependencies are located in the **Libary** folder.
+Located in the **Libary** folder.
 
   Name  |  Version  |
 --------|-----------|
