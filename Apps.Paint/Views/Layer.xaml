@@ -1,0 +1,112 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Paint"
+    xmlns:Adjust="clr-namespace:Paint.Adjust"
+    xmlns:i="http://imagin.tech/imagin/common" >
+    <DataTemplate DataType="{x:Type local:LayerPanel}">
+        <DataTemplate.Resources>
+            <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <i:ObjectIsConverter x:Key="ObjectIsConverter"/>
+        </DataTemplate.Resources> 
+        <i:PropertyGrid
+            BorderThickness="0"
+            DescriptionVisibility="Collapsed"
+            GroupName="None"
+            GroupVisibility="False"
+            HeaderVisibility="Collapsed"
+            HeadersVisibility="None"
+            NameAboveValue="False"
+            NameColumnVisibility="Visible"
+            Source="{Binding Layers}">
+            <i:PropertyGrid.Resources>
+                <i:Reference x:Key="LayerViewModel" Data="{Binding .}"/>
+            </i:PropertyGrid.Resources>
+            <i:PropertyGrid.PropertyCrumbTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="PART_TextBlock"/>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectIsConverter}, ConverterParameter={x:Type local:Layer}}" Value="True">
+                            <Setter TargetName="PART_TextBlock" Property="Text" Value="{Binding Name}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectIsConverter}, ConverterParameter={x:Type local:Layer}}" Value="False">
+                            <Setter TargetName="PART_TextBlock" Property="Text" Value="{Binding .}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </i:PropertyGrid.PropertyCrumbTemplate>
+            <i:PropertyGrid.OverrideTemplates>
+                <DataTemplate DataType="{x:Type Adjust:AdjustmentEffectCollection}">
+                    <ItemsControl
+                        HorizontalAlignment="Stretch"
+                        ItemsSource="{Binding Value}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type Adjust:AdjustmentEffect}">
+                                <Grid i:GridExtensions.Columns="Auto,*,Auto,Auto">
+                                    <i:MaskedToggleMenu 
+                                        CheckedSource="{i:Image Paint, Images/Eye.png}"
+                                        IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                                        Margin="0,0,5,0"
+                                        Source="{i:Image Paint, Images/Hide.png}"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock 
+                                        Grid.Column="1"
+                                        Text="{Binding Name}"
+                                        TextTrimming="CharacterEllipsis"
+                                        VerticalAlignment="Center"/>
+                                    <i:MaskedButton 
+                                        Grid.Column="2"
+                                        Command="{Binding Data.DeleteAdjustmentCommand, Source={StaticResource LayerViewModel}}"
+                                        CommandParameter="{Binding .}"
+                                        Margin="5,0,0,0"
+                                        Source="{i:Image Paint, Images/Trash.png}"
+                                        VerticalAlignment="Center"/>
+                                    <Button 
+                                        Grid.Column="3"
+                                        Command="{Binding ForwardCommand, RelativeSource={RelativeSource AncestorType={x:Type i:PropertyGrid}}}"
+                                        CommandParameter="{Binding .}"
+                                        Content="Edit"
+                                        Margin="5,2,2,2"
+                                        VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:LayerStyle}"> 
+                    <Grid i:GridExtensions.Columns="*,Auto">
+                        <TextBlock
+                            x:Name="PART_TextBlock"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                            TextTrimming="CharacterEllipsis"
+                            VerticalAlignment="Center"/>
+                        <Button
+                            x:Name="PART_Button"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="1"
+                            Command="{Binding ForwardCommand, RelativeSource={RelativeSource AncestorType={x:Type i:PropertyGrid}}}"
+                            CommandParameter="{Binding Value}"
+                            Content="Edit"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                            <Setter TargetName="PART_TextBlock" Property="Text" Value="(multiple values)"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                            <Setter TargetName="PART_TextBlock" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Button" Property="Grid.Column" Value="0"/>
+                            <Setter TargetName="PART_Button" Property="Grid.ColumnSpan" Value="2"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </i:PropertyGrid.OverrideTemplates>
+        </i:PropertyGrid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -82,6 +82,13 @@ Rename multiple file names and extensions at once.
 
 **Features**
 * Rename multiple file names and extensions.
+* Include sub directories or just top directory.
+* Target files with certain extensions.
+* Target files with certain names.
+* Correct file extension casing
+
+***Coming soon***
+* Undo and redo renaming operations.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
@@ -149,7 +156,7 @@ mscorlib | 4.0 |
 
 All third-party dependencies are located in the **Libary** folder.
 
-## Languages (4)
+## Languages
 
   Language  |
 ------------|
@@ -158,7 +165,7 @@ Spanish |
 Italian |
 Japanese |
 
-## Themes (7)
+## Themes
 
   Theme  |
 ---------|
