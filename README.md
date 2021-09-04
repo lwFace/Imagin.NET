@@ -13,7 +13,7 @@ An alarm that repeats every so often.
 * Can require a math problem be solved before disabling (or snoozing) the alarm.
 * Can force system volume at a certain level so the alarm is guarenteed to be heard.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Alarm.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Alarm.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="64" /> *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
@@ -25,7 +25,7 @@ Save and convert colors.
 * Enables converting to and from each color model, including hexadecimal and models that can't be visualized like *CMYK* and *XYZ*.
 * Utilizes *DirectX* to maximize performance.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Color.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Color.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -44,7 +44,7 @@ Explore file system.
 * Execute commands using a command-line interface.
 * Minimal lower-level, Windows stuff.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Explorer.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Explorer.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Notes.png?raw=true" width="64" /> *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -57,7 +57,7 @@ Make notes and lists.
 * Notes are automatically sorted by the latest changes.
 * Includes all features of Notepad.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Notes.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Notes.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Paint.png?raw=true" width="64" /> *Paint* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
 
@@ -68,7 +68,7 @@ Create and save images.
 * There is a focus on filters, similar to *Instagram*.
 * Utilizes *DirectX*, but leaves much to be desired.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Paint.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Paint.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Random.png?raw=true" width="64" /> *Random* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -82,7 +82,7 @@ Generate random strings of any length and character.
 * Custom presets for adding characters.
 * Customize appearance of generated strings.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Random.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Random.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Rename.png?raw=true" width="64" /> *Rename* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -95,7 +95,7 @@ Rename multiple file names and extensions at once.
 * Target files with certain names.
 * Correct file extension casing
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Rename.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Rename.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
@@ -110,7 +110,7 @@ Sync folders and manage passwords.
 * Manage (and optionally encrypt) passwords.
 * Quickly encrypt and decrypt arbitrary text.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Vault.png?raw=true" width="256" />
+<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Vault.png?raw=true" width="512" />
 
 #### Build status
 
