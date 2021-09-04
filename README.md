@@ -187,13 +187,13 @@ Japanese |
 
   Theme  |
 ---------|
-Blaze |
-Chocolate |
-Dark |
-Jungle |
-Light |
-Midnight |
-Violet |
+Blaze | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Blaze.png?raw=true" width="128" /> |
+Chocolate | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Chocolate.png?raw=true" width="128" /> |
+Dark | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Dark.png?raw=true" width="128" /> |
+Jungle | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Jungle.png?raw=true" width="128" /> |
+Light | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Light.png?raw=true" width="128" /> |
+Midnight | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Midnight.png?raw=true" width="128" /> |
+Violet | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Violet.png?raw=true" width="128" /> |
 
 ## Nuget
 All packages deprecated (8/29/2021).
