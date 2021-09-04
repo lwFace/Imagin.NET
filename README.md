@@ -185,8 +185,8 @@ Japanese |
 
 ## Themes
 
-  Theme  |
----------|
+  Theme  |  Preview  |
+---------|-----------|
 Blaze | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Blaze.png?raw=true" width="128" /> |
 Chocolate | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Chocolate.png?raw=true" width="128" /> |
 Dark | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Dark.png?raw=true" width="128" /> |
