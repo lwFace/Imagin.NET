@@ -32,3 +32,6 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\obj
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\obj\Debug\Desktop.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\obj\Debug\Desktop.pdb
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\bin\Debug\GongSolutions.WPF.DragDrop.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\bin\Debug\Magick.NET-Q16-AnyCPU.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Desktop\bin\Debug\System.Windows.Interactivity.dll

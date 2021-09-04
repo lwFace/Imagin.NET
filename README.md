@@ -27,7 +27,7 @@ Save and convert colors.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Color.png?raw=true" width="512" />
 
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and folders.
 
