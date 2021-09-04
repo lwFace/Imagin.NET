@@ -147,7 +147,16 @@ mscorlib | 4.0 |
 
 ## Dependencies
 
-All third-party dependencies are located in the **Libary** folder.
+Third-party dependencies are located in the **Libary** folder.
+
+  Name  |  Version  |
+--------|-----------|
+GongSolutions.WPF.DragDrop | 1.1 |
+Hardcodet.Wpf.TaskbarNotification | 1.0.5 |
+Magick.NET-Q16-AnyCPU | 7.0.4.100 |
+System.Windows.Interactivity | 2.0.20525 |
+WriteableBitmapEx.Wpf | 1.5 |
+XAMLMarkupExtensions | 1.2.2 |
 
 ## Languages
 
