@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Alarm")]
-[assembly: AssemblyDescription("Set an alarm that repeats every so often until disabled.")]
+[assembly: AssemblyDescription("An alarm that repeats every so often.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Imagin")]
 [assembly: AssemblyProduct("Alarm")]
-[assembly: AssemblyCopyright("Developed by Imagin. No rights reserved.")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

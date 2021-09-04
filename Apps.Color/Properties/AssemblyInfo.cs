@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Color")]
-[assembly: AssemblyDescription("Find, convert, and save multiple colors.")]
+[assembly: AssemblyDescription("Save and convert colors.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Imagin")]
 [assembly: AssemblyProduct("Color")]
-[assembly: AssemblyCopyright("Developed by Imagin. No rights reserved.")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

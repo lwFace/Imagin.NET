@@ -24,6 +24,31 @@ namespace Imagin.Common.Controls
 
         //...........................................................................................
 
+        public static DependencyProperty BrowseTitleProperty = DependencyProperty.Register(nameof(BrowseTitle), typeof(string), typeof(AddressBar), new FrameworkPropertyMetadata("Browse..."));
+        public string BrowseTitle
+        {
+            get => (string)GetValue(BrowseTitleProperty);
+            set => SetValue(BrowseTitleProperty, value);
+        }
+
+        public static DependencyProperty BrowseButtonVisibilityProperty = DependencyProperty.Register(nameof(BrowseButtonVisibility), typeof(Visibility), typeof(AddressBar), new FrameworkPropertyMetadata(Visibility.Collapsed));
+        public Visibility BrowseButtonVisibility
+        {
+            get => (Visibility)GetValue(BrowseButtonVisibilityProperty);
+            set => SetValue(BrowseButtonVisibilityProperty, value);
+        }
+
+        //...........................................................................................
+
+        public static DependencyProperty RefreshButtonVisibilityProperty = DependencyProperty.Register(nameof(RefreshButtonVisibility), typeof(Visibility), typeof(AddressBar), new FrameworkPropertyMetadata(Visibility.Visible));
+        public Visibility RefreshButtonVisibility
+        {
+            get => (Visibility)GetValue(RefreshButtonVisibilityProperty);
+            set => SetValue(RefreshButtonVisibilityProperty, value);
+        }
+
+        //...........................................................................................
+
         public static DependencyProperty FavoritesProperty = DependencyProperty.Register(nameof(Favorites), typeof(Favorites), typeof(AddressBar), new FrameworkPropertyMetadata(null));
         public Favorites Favorites
         {
@@ -113,8 +138,17 @@ namespace Imagin.Common.Controls
         //...........................................................................................
 
         ICommand backCommand;
-        public ICommand BackCommand => backCommand = backCommand ?? 
+        public ICommand BackCommand => backCommand = backCommand ??
             new RelayCommand<object>(i => History.Undo(j => handle.Invoke(() => SetCurrentValue(PathProperty, j))), i => History?.CanUndo() == true);
+
+        ICommand browseCommand;
+        public ICommand BrowseCommand => browseCommand = browseCommand ?? new RelayCommand<object>(i =>
+        {
+            var result = string.Empty;
+            if (ExplorerWindow.Show(out result, BrowseTitle, ExplorerWindow.Modes.OpenFolder, null, Path))
+                ChangePathCommand.Execute(result);
+
+        }, i => true);
 
         ICommand changePathCommand;
         public ICommand ChangePathCommand => changePathCommand = changePathCommand ?? 

@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Explorer")]
-[assembly: AssemblyDescription("Explore file system visually or by command line.")]
+[assembly: AssemblyDescription("Explore file system.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Imagin")]
 [assembly: AssemblyProduct("Explorer")]
-[assembly: AssemblyCopyright("Developed by Imagin. No rights reserved.")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

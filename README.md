@@ -1,11 +1,11 @@
-# Imagin .NET ![](https://img.shields.io/badge/style-5.3-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
+# Imagin .NET ![](https://img.shields.io/badge/style-5.4-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
 A framework for developing WPF apps.
 
 ## Apps
 
 ### <img style="border-radius: 50%;" align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Alarm.png?raw=true" width="64" /> *Alarm* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
-Set an alarm that repeats every so often until disabled.
+An alarm that repeats every so often.
 
 **Features**
 * Sets a repeating alarm using an interval you specify.
@@ -14,11 +14,9 @@ Set an alarm that repeats every so often until disabled.
 * Can force system volume at a certain level so the alarm is guarenteed to be heard.
 * Set multiple alarms with just two clicks.
 
-
-
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="64" /> *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
-Find, convert, and save multiple colors.
+Save and convert colors.
 
 **Features**
 * A lightweight version of the color picker in *Photoshop*.
@@ -28,7 +26,7 @@ Find, convert, and save multiple colors.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
-Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and entire folders.
+Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and folders.
 
 **Features**
 * Tiles may include a single photo, a slideshow of photos, or a folder of files and folders.
@@ -36,7 +34,7 @@ Draw tiles on the desktop to display notes, count downs, clocks, images, slidesh
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Explorer.png?raw=true" width="64" /> *Explorer* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
-Explore file system visually or by command line.
+Explore file system.
 
 **Features**
 * Includes traditional *Windows* context menus.
@@ -45,7 +43,7 @@ Explore file system visually or by command line.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Notes.png?raw=true" width="64" /> *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
-Manage multiple text and list files.
+Make notes and lists.
 
 **Features**
 * Manage a folder of text (.txt) and list (.list) files called "notes".
@@ -56,7 +54,7 @@ Manage multiple text and list files.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Paint.png?raw=true" width="64" /> *Paint* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
 
-Create, open, and save image files.
+Create and save images.
 
 **Features**
 * A raster graphics editor I designed for fun.
@@ -77,6 +75,13 @@ Generate random strings of any length and character.
 
 ***Coming soon***
 * Remember previously generated strings.
+
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Rename.png?raw=true" width="64" /> *Rename* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
+
+Rename multiple file names and extensions at once.
+
+**Features**
+* Rename multiple file names and extensions.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 

@@ -37,7 +37,6 @@ namespace Explorer
         {
             yield return new OptionsPanel();
             yield return new PropertiesPanel();
-            yield return new RenamePanel();
         }
 
         /// ........................................................................

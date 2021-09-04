@@ -7,11 +7,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Desktop")]
-[assembly: AssemblyDescription("Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and entire folders.")]
+[assembly: AssemblyDescription("Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and folders.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Imagin")]
 [assembly: AssemblyProduct("Desktop")]
-[assembly: AssemblyCopyright("Developed by Imagin. No rights reserved.")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

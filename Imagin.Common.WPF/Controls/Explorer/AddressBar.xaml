@@ -79,7 +79,7 @@
             BorderThickness="1"
             Padding="5,1.5">
             <Grid
-                Linq:GridExtensions.Columns="*,Auto,Auto,Auto"
+                Linq:GridExtensions.Columns="*,Auto,Auto,Auto,Auto"
                 Linq:PanelExtensions.Spacing="0,0,5,0"
                 Linq:PanelExtensions.SpacingExcept="Last">
                 <local:ProgressBar
@@ -166,10 +166,30 @@
                     x:Name="PART_RefreshButton" 
                     Command="{Binding RefreshCommand}" 
                     Source="pack://application:,,,/Imagin.Common.WPF;component/Images/Refresh.png" 
-                    ToolTip="Refresh" 
-                    Visibility="{Binding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}"/>
-                <local:MaskedToggleMenu 
+                    ToolTip="Refresh">
+                    <local:MaskedButton.Style>
+                        <Style TargetType="{x:Type local:MaskedButton}" BasedOn="{StaticResource {x:Type local:MaskedButton}}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}"/>
+                                        <Condition Binding="{Binding RefreshButtonVisibility}" Value="Visible"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:MaskedButton.Style>
+                </local:MaskedButton>
+                <local:MaskedButton 
                     Grid.Column="3"
+                    Command="{Binding BrowseCommand}" 
+                    Source="pack://application:,,,/Imagin.Common.WPF;component/Images/Folder.png" 
+                    ToolTip="Browse..." 
+                    Visibility="{Binding BrowseButtonVisibility}"/>
+                <local:MaskedToggleMenu 
+                    Grid.Column="4"
                     CheckedToolTip="Unfavorite"
                     IsChecked="{Binding IsPathFavorite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Source="pack://application:,,,/Imagin.Common.WPF;component/Images/Star.png" 

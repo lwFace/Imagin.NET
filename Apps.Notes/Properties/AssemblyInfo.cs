@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Notes")]
-[assembly: AssemblyDescription("Manage multiple text and list files.")]
+[assembly: AssemblyDescription("Make notes and lists.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Imagin")]
 [assembly: AssemblyProduct("Notes")]
-[assembly: AssemblyCopyright("Developed by Imagin. No rights reserved.")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

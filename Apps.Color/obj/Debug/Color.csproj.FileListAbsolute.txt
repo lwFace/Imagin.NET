@@ -25,3 +25,4 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.pdb
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.csprojAssemblyReference.cache
