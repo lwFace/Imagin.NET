@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-9-1142556901
+1025719262
 
-21-1612451990
+22-45676551
 19-1744805772
-App.xaml;MainWindow.xaml;Views\Convert.xaml;Views\Options.xaml;Views\Log.xaml;Views\Passwords.xaml;Views\Properties.xaml;Views\Queue.xaml;Views\Copy.xaml;
+App.xaml;MainWindow.xaml;Views\Convert.xaml;Views\Generate.xaml;Views\Options.xaml;Views\Log.xaml;Views\Passwords.xaml;Views\Properties.xaml;Views\Queue.xaml;Views\Copy.xaml;
 
 False
 

@@ -22,6 +22,7 @@
       <Element xsi:type="LayoutPanelGroup" MinWidth="256" MaxWidth="540" Width="340">
         <Panels>
           <LayoutPanel IsSelected="true" Name="PropertiesPanel"/>
+          <LayoutPanel Name="GeneratePanel"/>
           <LayoutPanel Name="OptionsPanel"/>
         </Panels>
       </Element>

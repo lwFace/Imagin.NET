@@ -6,6 +6,7 @@
       <Element xsi:type="LayoutPanelGroup" Width="340">
         <Panels>
           <LayoutPanel IsSelected="true" Name="PropertiesPanel"/>
+          <LayoutPanel Name="RenamePanel"/>
           <LayoutPanel Name="OptionsPanel"/>
         </Panels>
       </Element>

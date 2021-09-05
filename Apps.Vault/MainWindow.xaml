@@ -8,10 +8,10 @@
     i:ResxLocalizationProvider.DefaultDictionary="Main"
     xmlns:local="clr-namespace:Vault"
     xmlns:Hardcodet="http://www.hardcodet.net/taskbar"
-    Height="720" 
+    Height="{i:Options WindowHeight, Mode=TwoWay}"
     ResizeMode="CanResizeWithGrip"
     Title="{Binding Title}"
-    Width="1200"
+    Width="{i:Options WindowWidth, Mode=TwoWay}"
     WindowState="Normal"
     WindowStartupLocation="CenterScreen">
     <i:BaseWindow.Buttons>
@@ -69,6 +69,7 @@
                                 <ResourceDictionary.MergedDictionaries>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Convert.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Copy.xaml}"/>
+                                    <ResourceDictionary Source="{i:Uri Vault, Views/Generate.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Log.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Options.xaml}"/>
                                     <ResourceDictionary Source="{i:Uri Vault, Views/Passwords.xaml}"/>

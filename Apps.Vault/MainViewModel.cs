@@ -41,6 +41,7 @@ namespace Vault
         {
             yield return new ConvertPanel();
             yield return new CopyPanel();
+            yield return new GeneratePanel();
             yield return new LogPanel();
             yield return new OptionsPanel();
             yield return new PasswordsPanel();

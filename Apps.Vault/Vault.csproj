@@ -61,6 +61,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="DestinationValidateHandler.cs" />
     <Compile Include="FileExtensions.cs" />
+    <Compile Include="Panels\Generate.cs" />
     <Compile Include="Panels\Options.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Panels\Convert.cs" />
@@ -90,6 +91,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Convert.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Generate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -27,9 +27,9 @@ namespace Explorer
 
         /// ........................................................................
 
-        protected override void OnActiveDocumentChanged(ExplorerDocument value)
+        protected override void OnActiveDocumentChanged(ExplorerDocument i)
         {
-            base.OnActiveDocumentChanged(value);
+            base.OnActiveDocumentChanged(i);
             this.Changed(() => Title);
         }
 
@@ -37,6 +37,7 @@ namespace Explorer
         {
             yield return new OptionsPanel();
             yield return new PropertiesPanel();
+            yield return new RenamePanel();
         }
 
         /// ........................................................................
