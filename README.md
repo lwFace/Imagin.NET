@@ -23,7 +23,7 @@ Save and convert colors.
 * A lightweight version of the color picker in *Photoshop*.
 * Introduces several color models nonexistant in most software to visualize colors even further.
 * Enables converting to and from each color model, including hexadecimal and models that can't be visualized like *CMYK* and *XYZ*.
-* Utilizes *DirectX* to maximize performance.
+* Uses *DirectX* to maximize performance.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Color.png?raw=true" width="512" />
 
@@ -32,8 +32,9 @@ Save and convert colors.
 Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and folders.
 
 **Features**
-* Tiles may include a single photo, a slideshow of photos, or a folder of files and folders.
-* Tiles can be resized, moved, and the background color can be customized.
+* Resize, move, and customize the background of tiles.
+* Snap tiles to custom lengths.
+* Create multiple screens.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Desktop.png?raw=true" width="512" />
 
@@ -44,7 +45,7 @@ Explore file system.
 **Features**
 * Includes traditional *Windows* context menus.
 * Execute commands using a command-line interface.
-* Minimal lower-level, Windows stuff.
+* Rename multiple file names and extensions at once.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Explorer.png?raw=true" width="512" />
 
@@ -54,10 +55,10 @@ Make notes and lists.
 
 **Features**
 * Manage a folder of text (.txt) and list (.list) files called "notes".
-* List items may specify "attributes", which can add useful information, such as prices or dates (think of shopping lists and count downs).
-* Lists can be sorted and are stored as XML.
+* Includes all features of *Notepad*.
+* Lists have *attributes* to display bullets, prices, and dates.
+* Lists are saved as XML.
 * Notes are automatically sorted by the latest changes.
-* Includes all features of Notepad.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Notes.png?raw=true" width="512" />
 
@@ -66,51 +67,27 @@ Make notes and lists.
 Create and save images.
 
 **Features**
-* A raster graphics editor I designed for fun.
-* There is a focus on filters, similar to *Instagram*.
-* Utilizes *DirectX*, but leaves much to be desired.
+* Customize brushes to paint by hand.
+* View histograms.
+* Resize and crop.
+* Create and customize filters.
+* Uses *DirectX*.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Paint.png?raw=true" width="512" />
-
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Random.png?raw=true" width="64" /> *Random* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
-
-Generate random strings of any length and character.
-
-**Features**
-* Generate random strings (asynchronously). 
-* Specify a length.
-* Type the characters to include.
-* Add characters from presets.
-* Custom presets for adding characters.
-* Customize appearance of generated strings.
-
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Random.png?raw=true" width="512" />
-
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Rename.png?raw=true" width="64" /> *Rename* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
-
-Rename multiple file names and extensions at once.
-
-**Features**
-* Rename multiple file names and extensions.
-* Include sub directories or just top directory.
-* Target files with certain extensions.
-* Target files with certain names.
-* Correct file extension casing
-
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Rename.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
 
 Sync folders and manage passwords.
 
 **Features**
-* Create tasks to copy, encrypt, or decrypt a folder at one location (the source) to another location (the destination). 
-* When a task is enabled, changes are observed in real-time.
-* Tasks can include and exclude both files and folders.
-* Encrypt and decrypt file and folder names as well as file content.
-* Log all task activity.
-* Manage (and optionally encrypt) passwords.
-* Quickly encrypt and decrypt arbitrary text.
+* Copy, encrypt, or decrypt a folder at one location (the source) to another location (the destination). 
+* Changes are observed in real-time.
+* Include files or folders only, or both.
+* Encrypt/decrypt file/folder names and file content.
+* Log activity.
+* Save and encrypt passwords.
+* Encrypt and decrypt text.
+* Generate random strings of any length and character.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Vault.png?raw=true" width="512" />
 
