@@ -1,0 +1,116 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Vault"
+    xmlns:i="http://imagin.tech/imagin/common">
+    <DataTemplate DataType="{x:Type local:GeneratePanel}">
+        <Grid>
+            <Grid.Resources>
+                <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                <i:FileNameConverter x:Key="FileNameConverter"/>
+                <i:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+                <i:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+                <i:ToStringConverter x:Key="ToStringConverter"/>
+            </Grid.Resources>
+            <Grid i:GridExtensions.Rows="*,Auto">
+                <Grid 
+                    i:GridExtensions.Rows="Auto,*,Auto,Auto"
+                    i:PanelExtensions.Spacing="0,0,0,10"
+                    i:PanelExtensions.SpacingExcept="Last"
+                    Margin="10">
+                    <Grid 
+                        Grid.Row="0"
+                        i:GridExtensions.Columns="Auto,*,Auto"
+                        i:PanelExtensions.Spacing="0,0,5,0"
+                        i:PanelExtensions.SpacingExcept="Last">
+                        <i:MaskedToggleButton
+                            IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
+                            Source="{i:Image Vault, Images/Plus.png}">
+                            <i:MaskedToggleButton.Menu>
+                                <ContextMenu>
+                                    <ContextMenu.Resources>
+                                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:Characters}">
+                                                    <Setter Property="Command" Value="{i:PanelBinding AddCharactersCommand, {x:Type local:GeneratePanel}}"/>
+                                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContextMenu.Resources>
+                                    <ContextMenu.ItemsSource>
+                                        <CompositeCollection>
+                                            <CollectionContainer Collection="{i:Enumerate {x:Type local:Characters}}"/>
+                                            <Separator/>
+                                            <MenuItem Header="Custom"
+                                                ItemsSource="{i:Options GenerateCustomCharactersList}">
+                                                <MenuItem.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                                        <Setter Property="Command" Value="{i:PanelBinding AddCustomCharactersCommand, {x:Type local:GeneratePanel}}"/>
+                                                        <Setter Property="CommandParameter" Value="{Binding}"/>
+                                                    </Style>
+                                                </MenuItem.ItemContainerStyle>
+                                            </MenuItem>
+                                        </CompositeCollection>
+                                    </ContextMenu.ItemsSource>
+                                </ContextMenu>
+                            </i:MaskedToggleButton.Menu>
+                        </i:MaskedToggleButton>
+                        <i:TextBox 
+                            Grid.Column="1"
+                            IsClearEnabled="True"
+                            IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
+                            Placeholder="Characters"
+                            Text="{i:Options GenerateCharacters, Mode=TwoWay}"
+                            ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                        <i:UInt32UpDown
+                            Grid.Column="2"
+                            IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
+                            Minimum="1"
+                            ToolTip="Length"
+                            Value="{i:Options GenerateLength, Mode=TwoWay}"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid
+                        Grid.Row="1">
+                        <i:TextBox 
+                            AcceptsReturn="True"
+                            BorderThickness="1"
+                            FontFamily="{i:Options GenerateFontFamily}"
+                            FontSize="{i:Options GenerateFontSize, Mode=TwoWay}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="{i:Options GenerateHorizontalAlignment}"
+                            IsReadOnly="True"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{i:Options GenerateText, Mode=TwoWay}"
+                            TextAlignment="Left"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Stretch"
+                            VerticalContentAlignment="{i:Options GenerateVerticalAlignment}"
+                            i:ControlExtensions.FontSizeWheel="True"
+                            i:ControlExtensions.FontSizeWheelMaximum="72"
+                            i:ControlExtensions.FontSizeWheelMinimum="8"/>
+                        <i:ProgressRing 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding Generating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                    <CheckBox 
+                        Grid.Row="2" 
+                        Content="Distinct"
+                        IsChecked="{i:Options GenerateDistinct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button
+                        Grid.Row="3"
+                        Command="{Binding GenerateCommand}"
+                        IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
+                        Style="{DynamicResource Button.Green}"
+                        ToolTip="Generate">
+                        <i:MaskedImage
+                            Source="{i:Image Vault, Images/Refresh.png}"
+                            SourceColor="White"/>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,243 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Vault"
+    xmlns:i="http://imagin.tech/imagin/common" >
+    <DataTemplate DataType="{x:Type local:CopyPanel}">
+        <DataTemplate.Resources>
+            <i:CamelCaseConverter x:Key="CamelCaseConverter"/>
+            <i:FileNameConverter x:Key="FileNameConverter"/>
+            <i:IntToBooleanConverter x:Key="IntToBooleanConverter"/>
+            <i:PropertyChangedMultiConverter x:Key="PropertyChangedMultiConverter"/>
+            <i:RelativeTimeConverter x:Key="RelativeTimeConverter"/>
+        </DataTemplate.Resources>
+        <Grid>
+            <Grid.Resources>
+                <i:Reference x:Key="CopyPanel" Data="{Binding}"/>
+            </Grid.Resources>
+            <DataGrid
+                BorderThickness="0"
+                CanUserResizeColumns="True"
+                CanUserReorderColumns="False"
+                CanUserSortColumns="True"
+                i:ItemsControlExtensions.AutoSizeColumns="True"
+                i:DataGridExtensions.DisplayRowNumber="True"
+                i:DataGridExtensions.DisplayRowNumberOffset="1"
+                i:ItemsControlExtensions.IsColumnMenuEnabled="False"
+                i:DataGridExtensions.SelectedItems="{Binding SelectedItems, Mode=OneWayToSource}"
+                HeadersVisibility="All"
+                ItemsSource="{i:Options Tasks}"
+                HorizontalScrollBarVisibility="Auto"
+                SelectionMode="Single"
+                VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Ellipse
+                                    x:Name="Ellipse"
+                                    Height="8"
+                                    Width="8"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Queue.Count, Converter={StaticResource IntToBooleanConverter}}" Value="True">
+                                        <Setter TargetName="Ellipse" Property="Fill" Value="#FFE0B24E"/>
+                                        <Setter TargetName="Ellipse" Property="ToolTip" Value="Synchronizing"/>
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Queue.Count, Converter={StaticResource IntToBooleanConverter}}" Value="False"/>
+                                            <Condition Binding="{Binding Status}" Value="Disabled"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter TargetName="Ellipse" Property="Fill" Value="#FFE04E4E"/>
+                                        <Setter TargetName="Ellipse" Property="ToolTip" Value="Disabled"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Queue.Count, Converter={StaticResource IntToBooleanConverter}}" Value="False"/>
+                                            <Condition Binding="{Binding Status}" Value="Synchronizing"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter TargetName="Ellipse" Property="Fill" Value="#FFE0B24E"/>
+                                        <Setter TargetName="Ellipse" Property="ToolTip" Value="Synchronizing"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Queue.Count, Converter={StaticResource IntToBooleanConverter}}" Value="False"/>
+                                            <Condition Binding="{Binding Status}" Value="Synchronized"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter TargetName="Ellipse" Property="Fill" Value="#FF5DBF6A"/>
+                                        <Setter TargetName="Ellipse" Property="ToolTip" Value="Synchronized"/>
+                                    </MultiDataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Action" SortMemberPath="Action.Type">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                    TextTrimming="CharacterEllipsis"
+                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource PropertyChangedMultiConverter}" Mode="OneWay">
+                                            <MultiBinding.Bindings>
+                                                <Binding Path="Action"/>
+                                                <Binding Path="Action.Target"/>
+                                                <Binding Path="Action.Type"/>
+                                            </MultiBinding.Bindings>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Source" SortMemberPath="Source">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DataTemplate.Resources>
+                                    <i:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+                                </DataTemplate.Resources>
+                                <i:FileBox 
+                                    BorderThickness="0"
+                                    BrowseMode="OpenFolder"
+                                    BrowseTitle="Source"
+                                    CanBrowse="False"
+                                    CanValidate="True"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                    IconVisibility="Visible"
+                                    IsReadOnly="True"
+                                    Label="{Binding Source, Converter={StaticResource FileNameConverter}, ConverterParameter=1}"
+                                    Padding="5,0"
+                                    Placeholder="Source"
+                                    BrowseButtonVisibility="False"
+                                    Text="{Binding Source, Mode=TwoWay}">
+                                    <i:FileBox.Style>
+                                        <Style TargetType="{x:Type i:FileBox}" BasedOn="{StaticResource {x:Type i:FileBox}}">
+                                            <Setter Property="ToolTip" Value="{x:Null}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Source, Converter={StaticResource StringToBooleanConverter}}" Value="True">
+                                                    <Setter Property="ToolTip" Value="{Binding Source, Mode=OneWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </i:FileBox.Style>
+                                </i:FileBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Destination" SortMemberPath="Destination">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DataTemplate.Resources>
+                                    <i:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+                                </DataTemplate.Resources>
+                                <i:FileBox 
+                                    BorderThickness="0"
+                                    BrowseButtonVisibility="False"
+                                    BrowseMode="OpenFolder"
+                                    BrowseTitle="Destination"
+                                    CanBrowse="False"
+                                    CanValidate="True"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                    IconVisibility="Visible"
+                                    IsReadOnly="True"
+                                    Label="{Binding Destination, Converter={StaticResource FileNameConverter}, ConverterParameter=1}"
+                                    Padding="5,0"
+                                    Placeholder="Destination"
+                                    Text="{Binding Destination, Mode=TwoWay}"
+                                    ValidateHandler="{Binding DestinationValidateHandler}">
+                                    <i:FileBox.Style>
+                                        <Style TargetType="{x:Type i:FileBox}" BasedOn="{StaticResource {x:Type i:FileBox}}">
+                                            <Setter Property="ToolTip" Value="{x:Null}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Destination, Converter={StaticResource StringToBooleanConverter}}" Value="True">
+                                                    <Setter Property="ToolTip" Value="{Binding Destination, Mode=OneWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </i:FileBox.Style>
+                                </i:FileBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Last active" SortMemberPath="LastActive">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                    Text="{Binding LastActive, Converter={StaticResource RelativeTimeConverter}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                        Text="{Binding Status}"/>
+                                    <i:ProgressRing 
+                                        Grid.Column="1"
+                                        x:Name="ProgressRing"
+                                        EllipseDiameterScale="1"
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                        Height="16"
+                                        Margin="5,0,0,0"
+                                        Opacity="0"
+                                        Width="16"/>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Queue.Count, Converter={StaticResource IntToBooleanConverter}}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetName="ProgressRing"
+                                                        Storyboard.TargetProperty="Opacity" 
+                                                        From="0"
+                                                        To="1" 
+                                                        Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation 
+                                                        Storyboard.TargetName="ProgressRing"
+                                                        Storyboard.TargetProperty="Opacity" 
+                                                        From="1"
+                                                        To="0" 
+                                                        Duration="0:0:0.5"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <i:MaskedButton
+                                    Command="{Binding Data.DeleteCommand, Source={StaticResource CopyPanel}}"
+                                    CommandParameter="{Binding}"
+                                    Source="{i:Image Vault, Images/Trash.png}"
+                                    ToolTip="Delete"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add task"
+                            Command="{Binding AddCommand}"
+                            Icon="{i:Image Vault, Images/Plus.png}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

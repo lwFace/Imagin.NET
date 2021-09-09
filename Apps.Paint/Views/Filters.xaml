@@ -1,0 +1,77 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Paint"
+    xmlns:i="http://imagin.tech/imagin/common" >
+    <DataTemplate DataType="{x:Type local:FiltersPanel}">
+        <Grid>
+            <Grid.Resources>
+                <i:Reference x:Key="FiltersViewModel" Data="{Binding .}"/>
+            </Grid.Resources>
+            <ListBox
+                BorderThickness="0"
+                Padding="0,0,0,5"
+                ItemsSource="{i:Options Filters}"
+                i:ItemsControlExtensions.SortName="Name"
+                i:ItemsControlExtensions.SortDirection="Ascending"
+                SelectedValue="{Binding Filter, Mode=TwoWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem Header="Apply"
+                                        Command="{Binding Data.ApplyCommand, Source={StaticResource FiltersViewModel}}"
+                                        CommandParameter="{Binding .}"/>
+                                    <Separator/>
+                                    <MenuItem Header="Clone"
+                                        Command="{Binding Data.CloneCommand, Source={StaticResource FiltersViewModel}}"
+                                        CommandParameter="{Binding .}"/>
+                                    <MenuItem Header="Delete"
+                                        Command="{Binding Data.DeleteCommand, Source={StaticResource FiltersViewModel}}"
+                                        CommandParameter="{Binding .}"/>
+                                    <Separator/>
+                                    <MenuItem Header="Export..."
+                                        Command="{Binding Data.ExportCommand, Source={StaticResource FiltersViewModel}}"
+                                        CommandParameter="{Binding .}"/>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Padding" Value="5"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:Filter}">
+                        <Grid i:GridExtensions.Rows="*,Auto">
+                            <i:CheckerBoard
+                                Grid.Row="0"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                MinHeight="{i:Options FilterPreviewHeight}"
+                                MinWidth="{i:Options FilterPreviewHeight}"
+                                SnapsToDevicePixels="True">
+                                <Border local:EffectExtensions.Effects="{Binding Adjustments}">
+                                    <Image
+                                        Height="{i:Options FilterPreviewHeight}"
+                                        Source="{Binding Data.SelectedLayer.Pixels, Source={StaticResource FiltersViewModel}}"/>
+                                </Border>
+                            </i:CheckerBoard>
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Margin="0,5,0,0"
+                                Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

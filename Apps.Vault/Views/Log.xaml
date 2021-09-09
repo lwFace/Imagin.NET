@@ -1,0 +1,89 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Vault"
+    xmlns:i="http://imagin.tech/imagin/common">
+    <DataTemplate DataType="{x:Type local:LogPanel}">
+        <DataGrid
+            BorderThickness="0"
+            CanUserReorderColumns="False"
+            CanUserSortColumns="True"
+            i:DataGridExtensions.DisplayRowNumber="True"
+            i:DataGridExtensions.DisplayRowNumberOffset="1"
+            i:ItemsControlExtensions.IsColumnMenuEnabled="False"
+            ItemsSource="{Binding Log}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    SortMemberPath="Type">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <i:MaskedImage
+                                x:Name="Image"
+                                SourceColor="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                SourceHeight="12"
+                                SourceWidth="12"/>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Type}" Value="Error">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/X.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Enable">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Play.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Disable">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Stop.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Synchronize">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Refresh.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Watch">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Lightning.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Create">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Plus.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Delete">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Trash.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="Skip">
+                                    <Setter TargetName="Image" Property="Source" Value="pack://application:,,,/Vault;component/Images/Block.png"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    SortMemberPath="Path">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock 
+                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                Text="{Binding Path}"
+                                ToolTip="{Binding Path}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    Header="Time"
+                    SortMemberPath="Time">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock 
+                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
+                                Tag="{Binding Time, StringFormat=hh:mm tt}"
+                                Text="{Binding Time, StringFormat=hh:mm tt}"
+                                ToolTip="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <MenuItem
+                        Command="{Binding ClearCommand}"
+                        Header="Clear"
+                        Icon="pack://application:,,,/Vault;component/Images/X.png"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </DataTemplate>
+</ResourceDictionary>

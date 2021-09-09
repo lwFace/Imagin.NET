@@ -1,0 +1,57 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Paint"
+    xmlns:i="http://imagin.tech/imagin/common" >
+    <DataTemplate DataType="{x:Type local:ColorPanel}">
+        <DataTemplate.Resources>
+            <i:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+            <i:ToStringConverter x:Key="ToStringConverter"/>
+        </DataTemplate.Resources>
+        <i:ColorPicker
+            x:Name="ColorPicker"
+            ClipToBounds="True"
+            Margin="5">
+            <i:ColorPicker.Resources>
+                <i:Reference x:Key="ColorPanel" Data="{Binding}"/>
+            </i:ColorPicker.Resources>
+            <i:ColorPicker.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.Resources>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type i:Component}">
+                                    <Setter Property="i:MenuItemExtensions.GroupName" Value="Components"/>
+                                    <Setter Property="i:MenuItemExtensions.SelectionMode" Value="Single"/>
+                                    <Setter Property="Command" Value="{local:Model ChangeComponentCommand, {x:Type local:ColorPanel}}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                    <Setter Property="IsCheckable" Value="True"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type i:Model}">
+                                    <Setter Property="i:MenuItemExtensions.GroupName" Value="Models"/>
+                                    <Setter Property="i:MenuItemExtensions.SelectionMode" Value="Single"/>
+                                    <Setter Property="Command" Value="{local:Model ChangeModelCommand, {x:Type local:ColorPanel}}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                    <Setter Property="IsCheckable" Value="True"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContextMenu.Resources>
+                    <ContextMenu.ItemsSource>
+                        <CompositeCollection>
+                            <CollectionContainer Collection="{Binding SelectedModel.Components, ElementName=ColorPicker}"/>
+                            <Separator/>
+                            <CollectionContainer Collection="{Binding Models, ElementName=ColorPicker}"/>
+                        </CompositeCollection>
+                    </ContextMenu.ItemsSource>
+                    <ContextMenu.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Text="{Binding ., Converter={StaticResource ToStringConverter}}"/>
+                        </DataTemplate>
+                    </ContextMenu.ItemTemplate>
+                </ContextMenu>
+            </i:ColorPicker.ContextMenu>
+        </i:ColorPicker>
+    </DataTemplate>
+</ResourceDictionary>
