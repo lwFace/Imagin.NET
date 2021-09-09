@@ -251,6 +251,9 @@
             </i:TextBox.Style>
         </i:TextBox>
     </DataTemplate>
+    <DataTemplate x:Key="DataTemplate.Markdown">
+        <i:SplitView/>
+    </DataTemplate>
     
     <DataTemplate DataType="{x:Type local:TextDocument}">
         <ContentControl Content="{Binding}">
@@ -270,6 +273,9 @@
                             </Style>
                         </ContentControl.Style>
                     </ContentControl>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:Markdown}">
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DataTemplate.Markdown}"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:Note}">
                     <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DataTemplate.Text}"/>

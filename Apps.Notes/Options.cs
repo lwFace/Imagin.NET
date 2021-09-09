@@ -6,6 +6,7 @@ using Imagin.Common.Data;
 using Imagin.Common.Storage;
 using Imagin.Common.Text;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -19,6 +20,7 @@ namespace Notes
         enum Category
         {
             Documents,
+            Favorites,
             Find,
             Format,
             List,
@@ -54,12 +56,24 @@ namespace Notes
             set => this.Change(ref encoding, value);
         }
 
+        List<Favorite> writableFavorites = new List<Favorite>();
+
+        [field: NonSerialized]
         Favorites favorites = new Favorites();
         [Hidden]
         public Favorites Favorites
         {
             get => favorites = favorites ?? new Favorites();
             set => this.Change(ref favorites, value);
+        }
+
+        bool showFavoritesBar = true;
+        [Category(Category.Favorites)]
+        [DisplayName("Show bar")]
+        public bool ShowFavoritesBar
+        {
+            get => showFavoritesBar;
+            set => this.Change(ref showFavoritesBar, value);
         }
 
         MatchSource findMatchSource = MatchSource.CurrentDocument;
@@ -159,6 +173,23 @@ namespace Notes
         {
             get => tab;
             set => this.Change(ref tab, value);
+        }
+
+        protected override void OnLoaded()
+        {
+            base.OnLoaded();
+            foreach (var i in writableFavorites)
+                Favorites.Add(i);
+
+            writableFavorites.Clear();
+        }
+
+        protected override void OnSaved()
+        {
+            base.OnSaved();
+            writableFavorites.Clear();
+            foreach (var i in favorites)
+                writableFavorites.Add(i);
         }
     }
 }

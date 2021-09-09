@@ -7,6 +7,8 @@
     i:ResxLocalizationProvider.DefaultAssembly="{i:AssemblyName}"
     i:ResxLocalizationProvider.DefaultDictionary="Main"
     xmlns:local="clr-namespace:Notes"
+    Height="{i:Options WindowHeight, Mode=TwoWay}"
+    Width="{i:Options WindowWidth, Mode=TwoWay}"
     ResizeMode="CanResizeWithGrip"
     Title="{i:AssemblyProduct}"
     TitleIcon="{i:Image Notes, Images/File.png}"
@@ -31,23 +33,37 @@
             Modifiers="Ctrl" 
             Key="S"/>
     </i:BaseWindow.InputBindings>
-    <Grid i:GridExtensions.Rows="Auto,*">
-        <i:AddressBar
-            Grid.Row="0"
+    <i:BaseWindow.Resources>
+        <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <i:FileNameConverter x:Key="FileNameConverter"/>
+    </i:BaseWindow.Resources>
+    <Grid
+        i:GridExtensions.Rows="Auto,Auto,*"
+        i:PanelExtensions.Spacing="0,0,0,5"
+        i:PanelExtensions.SpacingExcept="Last"
+        Margin="5">
+        <Grid.Resources>
+            <i:Reference x:Key="MainViewModel" Data="{Binding}"/>
+        </Grid.Resources>
+        <i:AddressBar Grid.Row="0"
             Favorites="{i:Options Favorites, Mode=OneWay}"
             History="{i:Options History, Mode=OneWay}"
-            Padding="5"
+            Padding="0"
             Path="{i:Options Folder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Refreshed="OnRefreshed"/>
-        <i:DockView
-            Grid.Row="1"
+
+        <i:FavoritesBar Grid.Row="1"
+            Favorites="{i:Options Favorites, Mode=OneWay}"
+            Path="{i:Options Folder, Mode=OneWayToSource}"
+            Visibility="{i:Options ShowFavoritesBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        
+        <i:DockView Grid.Row="2"
             ActiveContent="{Binding ActiveContent, Mode=TwoWay}"
             Default="True"
             DefaultLayout="{i:Uri Notes, Layouts/Default.xml}"
             Documents="{Binding Documents}"
             Layout="{i:Options Layout}"
             LayoutPath="{i:ApplicationPath Layouts}"
-            Margin="5"
             Panels="{Binding Panels}">
             <i:DockView.DocumentTemplate>
                 <DataTemplate>
@@ -65,41 +81,11 @@
             <i:DockView.PanelTemplateSelector>
                 <i:DefaultTemplateSelector>
                     <DataTemplate DataType="{x:Type local:FavoritesPanel}">
-                        <ScrollViewer>
-                            <ScrollViewer.Resources>
-                                <i:Reference x:Key="FavoritesPanel" Data="{Binding}"/>
-                            </ScrollViewer.Resources>
-                            <ItemsControl
-                                ItemsSource="{i:Options Favorites}"
-                                Margin="5">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type i:Favorite}">
-                                        <DataTemplate.Resources>
-                                            <i:FileNameConverter x:Key="FileNameConverter"/>
-                                        </DataTemplate.Resources>
-                                        <Grid 
-                                            Margin="0,0,0,5"
-                                            i:GridExtensions.Columns="*,Auto">
-                                            <i:FileBox
-                                                BorderThickness="0"
-                                                CanBrowse="True"
-                                                CanValidate="True"
-                                                BrowseButtonVisibility="False"
-                                                BrowseMode="OpenFolder"
-                                                Label="{Binding Path, Converter={StaticResource FileNameConverter}}"
-                                                IconVisibility="Visible"
-                                                Text="{Binding Path, Mode=TwoWay}"
-                                                ToolTip="{Binding Path}"/>
-                                            <i:MaskedButton
-                                                Grid.Column="1"
-                                                Command="{Binding Data.GoCommand, Source={StaticResource FavoritesPanel}}"
-                                                CommandParameter="{Binding Path}"
-                                                Source="{i:Image Notes, Images/ArrowRight.png}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
+                        <i:Navigator
+                            Path="{i:Options Folder, Mode=OneWayToSource}"
+                            Root="{i:Options Favorites, Mode=OneWay}"
+                            ViewFiles="False"
+                            ViewHiddenItems="True"/>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type local:FindPanel}">
                         <DataTemplate.Resources>

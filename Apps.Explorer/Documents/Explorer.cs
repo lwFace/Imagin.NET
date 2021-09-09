@@ -63,6 +63,11 @@ namespace Explorer
             Path = Get.Current<Options>().DefaultFolderPath;
         }
 
+        public ExplorerDocument(string path) : base()
+        {
+            Path = path;
+        }
+
         public override void Save() { }
     }
 }

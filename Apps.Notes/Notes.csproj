@@ -69,6 +69,7 @@
     <Compile Include="Documents\List\List.Line.cs" />
     <Compile Include="Documents\List\List.Lines.cs" />
     <Compile Include="Documents\List\Values.cs" />
+    <Compile Include="Documents\Markdown.cs" />
     <Compile Include="Panels\Favorites.cs" />
     <Compile Include="Panels\Find.cs" />
     <Compile Include="Documents\List\List.cs" />

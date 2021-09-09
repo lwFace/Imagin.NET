@@ -8,6 +8,8 @@
     i:ResxLocalizationProvider.DefaultDictionary="Main"
     MinHeight="300"
     MinWidth="600"
+    Height="{i:Options WindowHeight, Mode=TwoWay}"
+    Width="{i:Options WindowWidth, Mode=TwoWay}"
     Title="{i:AssemblyProduct}"
     TitleIcon="{i:Image Color, Images/Logo.png}"
     WindowStartupLocation="CenterScreen">

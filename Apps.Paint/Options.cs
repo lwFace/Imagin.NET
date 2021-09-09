@@ -1,10 +1,9 @@
 ﻿using Imagin.Common;
+using Imagin.Common.Configuration;
 using Imagin.Common.Data;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Media;
-using Imagin.Common.Models;
-using Imagin.Common.Configuration;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;

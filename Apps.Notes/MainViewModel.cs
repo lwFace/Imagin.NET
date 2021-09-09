@@ -16,6 +16,8 @@ namespace Notes
         {
             { typeof(List),
                 "list" },
+            { typeof(Markdown),
+                "md" },
             { typeof(Note),
                 "txt" },
         };
@@ -24,6 +26,8 @@ namespace Notes
         {
             { "list",
                 typeof(List) },
+            { "md",
+                typeof(Markdown) },
             { "txt",
                 typeof(Note) },
         };
@@ -89,6 +93,14 @@ namespace Notes
         ICommand aboutCommand;
         public ICommand AboutCommand => aboutCommand = aboutCommand ?? new RelayCommand(() => new AboutWindow().ShowDialog());
 
+        ICommand goCommand;
+        public ICommand GoCommand => goCommand = goCommand ?? new RelayCommand<string>(i => Get.Current<Options>().Folder = i, i =>
+        {
+            var result = false;
+            Try.Invoke(() => result = Imagin.Common.Storage.Folder.Long.Exists(i));
+            return result;
+        });
+        
         ICommand saveCommand;
         public ICommand SaveCommand
         {

@@ -40,7 +40,7 @@ namespace Notes
             Storage.ItemDeleted += OnItemDeleted;
             Storage.ItemRenamed += OnItemRenamed;
             Storage.Changed += OnItemsChanged;
-            _ = Storage.Refresh(Get.Current<Options>().Folder);
+            _ = Storage.RefreshAsync(Get.Current<Options>().Folder);
 
             StorageView = new ListCollectionView(Storage);
             OnSort();
@@ -52,7 +52,7 @@ namespace Notes
             {
                 case nameof(Options.Folder):
                     Get.Current<MainViewModel>().Documents.Clear();
-                    await Storage.Refresh(Get.Current<Options>().Folder);
+                    await Storage.RefreshAsync(Get.Current<Options>().Folder);
                     break;
 
                 case nameof(Options.SortDirection):

@@ -7,10 +7,10 @@
     i:ResxLocalizationProvider.DefaultDictionary="Main"
     xmlns:local="clr-namespace:Paint"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
-    Height="900" 
     Title="{i:AssemblyProduct}" 
     TitleIcon="{i:Image Paint, Images/Palette.png}"
-    Width="1200"
+    Height="{i:Options WindowHeight, Mode=TwoWay}"
+    Width="{i:Options WindowWidth, Mode=TwoWay}"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized">
     <i:BaseWindow.Buttons>

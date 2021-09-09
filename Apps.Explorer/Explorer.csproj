@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Documents\Console.cs" />
     <Compile Include="Documents\Explorer.cs" />
+    <Compile Include="Panels\Favorites.cs" />
     <Compile Include="Panels\Properties.cs" />
     <Compile Include="Panels\Options.cs" />
     <Page Include="App.xaml">
@@ -173,6 +174,9 @@
   <ItemGroup>
     <Resource Include="Images\Redo.png" />
     <Resource Include="Images\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Star.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

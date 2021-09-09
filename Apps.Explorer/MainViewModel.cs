@@ -14,10 +14,24 @@ namespace Explorer
         {
             get
             {
-                if (ActiveDocument != null)
-                    return Machine.FriendlyName(ActiveDocument.Path);
+                //To do: If Documents.Count == 0, ActiveDocument = null!
+                if (Documents.Count == 0 || ActiveDocument == null)
+                    return nameof(Explorer);
 
-                return nameof(Explorer);
+                return Machine.FriendlyName(ActiveDocument.Path);
+            }
+        }
+
+        public string NewPath
+        {
+            set
+            {
+                if (Documents.Count > 0)
+                {
+                    ActiveDocument.Path = value;
+                    return;
+                }
+                Documents.Add(new ExplorerDocument(value));
             }
         }
 
@@ -33,8 +47,15 @@ namespace Explorer
             this.Changed(() => Title);
         }
 
+        protected override void OnDocumentClosed(ExplorerDocument document)
+        {
+            base.OnDocumentClosed(document);
+            this.Changed(() => Title);
+        }
+
         public override IEnumerable<Panel> Load()
         {
+            yield return new FavoritesPanel();
             yield return new OptionsPanel();
             yield return new PropertiesPanel();
             yield return new RenamePanel();

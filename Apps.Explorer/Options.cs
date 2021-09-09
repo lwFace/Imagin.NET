@@ -1,11 +1,11 @@
 ﻿using Imagin.Common;
-using Imagin.Common.Collections.ObjectModel;
 using Imagin.Common.Configuration;
 using Imagin.Common.Controls;
 using Imagin.Common.Data;
 using Imagin.Common.Media;
 using Imagin.Common.Storage;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -14,6 +14,11 @@ namespace Explorer
     [Serializable]
     public class Options : Data<MainViewModel>
     {
+        enum Category
+        {
+            Favorites
+        }
+
         #region Console
 
         string consoleOutput = string.Empty;
@@ -180,6 +185,30 @@ namespace Explorer
 
         #endregion
 
+        #region Favorites
+
+        List<Favorite> writableFavorites = new List<Favorite>();
+
+        [field: NonSerialized]
+        Favorites favorites = new Favorites();
+        [Hidden]
+        public Favorites Favorites
+        {
+            get => favorites = favorites ?? new Favorites();
+            set => this.Change(ref favorites, value);
+        }
+
+        bool showFavoritesBar = true;
+        [Category(Category.Favorites)]
+        [DisplayName("Show bar")]
+        public bool ShowFavoritesBar
+        {
+            get => showFavoritesBar;
+            set => this.Change(ref showFavoritesBar, value);
+        }
+
+        #endregion
+
         #region Rename
 
         FileExtensionFormats fileExtensionFormat = FileExtensionFormats.Default;
@@ -340,24 +369,21 @@ namespace Explorer
 
         #endregion
 
-        #region Window
-
-        double windowHeight = 720;
-        [Hidden]
-        public double WindowHeight
+        protected override void OnLoaded()
         {
-            get => windowHeight;
-            set => this.Change(ref windowHeight, value);
+            base.OnLoaded();
+            foreach (var i in writableFavorites)
+                Favorites.Add(i);
+
+            writableFavorites.Clear();
         }
 
-        double windowWidth = 1200;
-        [Hidden]
-        public double WindowWidth
+        protected override void OnSaved()
         {
-            get => windowWidth;
-            set => this.Change(ref windowWidth, value);
+            base.OnSaved();
+            writableFavorites.Clear();
+            foreach (var i in favorites)
+                writableFavorites.Add(i);
         }
-
-        #endregion
     }
 }

@@ -65,388 +65,406 @@
         <i:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         <i:ToStringConverter x:Key="ToStringConverter"/>
     </i:BaseWindow.Resources>
-    <i:DockView
-        ActiveContent="{Binding ActiveContent, Mode=TwoWay}"
-        Default="True"
-        DefaultLayout="{i:Uri Explorer, Layouts/Default.xml}"
-        Documents="{Binding Documents}"            
-        Layout="{i:Options Layout}"
-        LayoutPath="{i:ApplicationPath Layouts}"
-        Margin="5"
-        Panels="{Binding Panels}">
-        <i:DockView.DocumentTemplateSelector>
-            <i:DefaultTemplateSelector>
-                <DataTemplate DataType="{x:Type local:ConsoleDocument}">
-                    <i:Console 
-                        Folder="{Binding Path, Mode=TwoWay}"
-                        History="{Binding History, Mode=OneWay}"
-                        Line="{Binding Line, Mode=TwoWay}"
-                        Output="{Binding Output, Mode=TwoWay}"
-                        OutputBackground="{i:Options ConsoleBackground}"
-                        OutputFontFamily="{i:Options ConsoleFontFamily}"
-                        OutputFontSize="{i:Options ConsoleFontSize, Mode=TwoWay}"
-                        OutputForeground="{i:Options ConsoleForeground}"
-                        OutputTextWrapping="{i:Options ConsoleTextWrap}"/>
-                </DataTemplate>
+    <Grid 
+        i:GridExtensions.Rows="Auto,*"
+        i:PanelExtensions.Spacing="0,0,0,5"
+        i:PanelExtensions.SpacingExcept="Last"
+        Margin="5">
+        <i:FavoritesBar Grid.Row="0"
+            Favorites="{i:Options Favorites, Mode=OneWay}"
+            Path="{Binding NewPath, Mode=OneWayToSource}"
+            Visibility="{i:Options ShowFavoritesBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <i:DockView Grid.Row="1"
+            ActiveContent="{Binding ActiveContent, Mode=TwoWay}"
+            Default="True"
+            DefaultLayout="{i:Uri Explorer, Layouts/Default.xml}"
+            Documents="{Binding Documents}"            
+            Layout="{i:Options Layout}"
+            LayoutPath="{i:ApplicationPath Layouts}"
+            Margin="5"
+            Panels="{Binding Panels}">
+            <i:DockView.DocumentTemplateSelector>
+                <i:DefaultTemplateSelector>
+                    <DataTemplate DataType="{x:Type local:ConsoleDocument}">
+                        <i:Console 
+                            Folder="{Binding Path, Mode=TwoWay}"
+                            History="{Binding History, Mode=OneWay}"
+                            Line="{Binding Line, Mode=TwoWay}"
+                            Output="{Binding Output, Mode=TwoWay}"
+                            OutputBackground="{i:Options ConsoleBackground}"
+                            OutputFontFamily="{i:Options ConsoleFontFamily}"
+                            OutputFontSize="{i:Options ConsoleFontSize, Mode=TwoWay}"
+                            OutputForeground="{i:Options ConsoleForeground}"
+                            OutputTextWrapping="{i:Options ConsoleTextWrap}"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:ExplorerDocument}">
+                        <i:Explorer
+                            Favorites="{i:Options Favorites, Mode=OneWay}"
+                            FileOpened="OnFileOpened"
+                            GroupName="{i:Options GroupName}"
+                            History="{Binding History, Mode=OneWay}"
+                            Path="{Binding Path, Mode=TwoWay}"
+                            Root="{i:Options Root}"
+                            Selection="{Binding Selection, Mode=OneWayToSource}"
+                            SortDirection="{i:Options SortDirection}"
+                            SortName="{i:Options SortName}"
+                            View="{i:Options View}"
+                            ViewFileExtensions="{i:Options ViewFileExtensions}"
+                            ViewFiles="{i:Options ViewFiles}"
+                            ViewHiddenItems="{i:Options ViewHiddenItems}"
+                            ViewSize="{i:Options ViewSize, Mode=TwoWay}"/>
+                    </DataTemplate>
+                </i:DefaultTemplateSelector>
+            </i:DockView.DocumentTemplateSelector>
+            <i:DockView.DocumentTitleTemplate>
                 <DataTemplate DataType="{x:Type local:ExplorerDocument}">
-                    <i:Explorer
-                        FileOpened="OnFileOpened"
-                        GroupName="{i:Options GroupName}"
-                        History="{Binding History, Mode=OneWay}"
-                        Path="{Binding Path, Mode=TwoWay}"
-                        Root="{i:Options Root}"
-                        Selection="{Binding Selection, Mode=OneWayToSource}"
-                        SortDirection="{i:Options SortDirection}"
-                        SortName="{i:Options SortName}"
-                        View="{i:Options View}"
-                        ViewFileExtensions="{i:Options ViewFileExtensions}"
-                        ViewFiles="{i:Options ViewFiles}"
-                        ViewHiddenItems="{i:Options ViewHiddenItems}"
-                        ViewSize="{i:Options ViewSize, Mode=TwoWay}"/>
+                    <DataTemplate.Resources>
+                        <i:ObjectIsConverter x:Key="ObjectIsConverter"/>
+                    </DataTemplate.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <i:Thumbnail 
+                            Height="16"
+                            Path="{Binding Path}"
+                            Width="16"/>
+                        <TextBlock 
+                            Margin="5,0,0,0"
+                            Text="{Binding Title}"/>
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectIsConverter}, ConverterParameter={x:Type local:ConsoleDocument}}" Value="True">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Label 
+                                                            Margin="5,0,0,0"
+                                                            Padding="4,2"
+                                                            Content="console"
+                                                            Style="{DynamicResource Label.Accent.Light}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+                    </StackPanel>
                 </DataTemplate>
-            </i:DefaultTemplateSelector>
-        </i:DockView.DocumentTemplateSelector>
-        <i:DockView.DocumentTitleTemplate>
-            <DataTemplate DataType="{x:Type local:ExplorerDocument}">
-                <DataTemplate.Resources>
-                    <i:ObjectIsConverter x:Key="ObjectIsConverter"/>
-                </DataTemplate.Resources>
-                <StackPanel Orientation="Horizontal">
-                    <i:Thumbnail 
-                        Height="16"
-                        Path="{Binding Path}"
-                        Width="16"/>
-                    <TextBlock 
-                        Margin="5,0,0,0"
-                        Text="{Binding Title}"/>
-                    <ContentControl Content="{Binding}">
-                        <ContentControl.Style>
-                            <Style TargetType="ContentControl">
-                                <Setter Property="ContentTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate/>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Converter={StaticResource ObjectIsConverter}, ConverterParameter={x:Type local:ConsoleDocument}}" Value="True">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <Label 
-                                                        Margin="5,0,0,0"
-                                                        Padding="4,2"
-                                                        Content="console"
-                                                        Style="{DynamicResource Label.Accent.Light}"/>
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                </StackPanel>
-            </DataTemplate>
-        </i:DockView.DocumentTitleTemplate>
-        <i:DockView.PanelTemplateSelector>
-            <i:DefaultTemplateSelector>
-                <DataTemplate DataType="{x:Type local:OptionsPanel}">
-                    <i:PropertyGrid
-                        BorderThickness="0"
-                        DescriptionVisibility="Collapsed"
-                        GroupName="Category"
-                        GroupVisibility="True"
-                        HeaderVisibility="Collapsed"
-                        HeadersVisibility="None"
-                        Source="{i:Options}">
-                        <i:PropertyGrid.OverrideTemplates>
-                            <DataTemplate DataType="{x:Type i:PanelCollection}">
-                                <ItemsControl ItemsSource="{Binding Value}" Margin="0,5,0,0">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type i:Panel}">
-                                            <CheckBox 
-                                                Content="{Binding Title}"
-                                                IsChecked="{Binding IsVisible, Mode=TwoWay}"
-                                                Margin="0,0,0,5"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </DataTemplate>
-                        </i:PropertyGrid.OverrideTemplates>
-                    </i:PropertyGrid>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type local:PropertiesPanel}">
-                    <i:PropertyGrid
-                        BorderThickness="0"
-                        DescriptionVisibility="Collapsed"
-                        GroupName="Category"
-                        GroupVisibility="True"
-                        HeaderVisibility="Collapsed"
-                        HeadersVisibility="None"
-                        Source="{Binding Item}"/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type local:RenamePanel}">
-                    <Grid i:GridExtensions.Rows="Auto,*,Auto,Auto">
-                        <Grid.Resources>
-                            <i:CamelCaseConverter x:Key="CamelCaseConverter"/>
-                            <i:ValueEqualsParameterVisibilityConverter x:Key="ValueEqualsParameterVisibilityConverter"/>
-                        </Grid.Resources>
-
-                        <i:FileBox
-                            Grid.Row="0"
-                            BrowseMode="OpenFolder"
-                            BrowseButtonVisibility="False"
-                            CanValidate="True"
-                            IsReadOnly="True"
-                            Margin="10,10,10,0"
-                            Text="{Binding Path}"/>
-                        <Grid
-                            Grid.Row="0"
-                            Grid.RowSpan="2"
-                            Background="#AA000000"
-                            Visibility="{Binding Renaming, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <i:ProgressRing
-                                Height="86"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Width="86"/>
-                        </Grid>
-
-                        <ScrollViewer
-                            Grid.Row="1"
-                            HorizontalScrollBarVisibility="Disabled"
-                            IsEnabled="{Binding Renaming, Converter={StaticResource InverseBooleanConverter}}"
-                            VerticalScrollBarVisibility="Auto">
-                            <Grid
-                                Margin="10"
-                                i:GridExtensions.Rows="Auto,Auto,Auto,Auto,Auto"
-                                i:PanelExtensions.Spacing="0,0,0,10"
-                                i:PanelExtensions.SpacingExcept="Last">
-                                <Grid.Resources>
-                                    <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
-                                        <Setter Property="Padding" Value="10,10,0,10"/>
-                                    </Style>
-                                </Grid.Resources>
-
-                                <GroupBox
-                                    Grid.Row="0"
-                                    Padding="5">
-                                    <GroupBox.Header>
-                                        <Grid
-                                            i:GridExtensions.Columns="Auto,*">
-                                            <TextBlock Text="Target" Margin="0,0,5,0"/>
-                                            <TextBlock Text="What you want to rename" 
-                                                Grid.Column="1"
-                                                Opacity="0.5"
-                                                TextTrimming="CharacterEllipsis"
-                                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-                                        </Grid>
-                                    </GroupBox.Header>
-                                    <StackPanel>
-                                        <ComboBox
-                                            ItemsSource="{i:Enumerate {x:Type local:Targets}}"
-                                            SelectedItem="{i:Options Target, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={StaticResource CamelCaseConverter}}"/>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <CheckBox 
-                                            Grid.Row="5"
-                                            Content="Top directory only"
-                                            IsChecked="{i:Options TopDirectoryOnly, Mode=TwoWay}"
-                                            Margin="0,5,0,0"/>
-                                    </StackPanel>
-                                </GroupBox>
-                                <GroupBox
-                                    Grid.Row="1"
-                                    Padding="5">
-                                    <GroupBox.Header>
-                                        <Grid
-                                            i:GridExtensions.Columns="Auto,*">
-                                            <TextBlock Text="Target file extensions" Margin="0,0,5,0"/>
-                                            <TextBlock Text="Only rename files with these extensions" 
-                                                Grid.Column="1"
-                                                Opacity="0.5"
-                                                TextTrimming="CharacterEllipsis"
-                                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-                                        </Grid>
-                                    </GroupBox.Header>
-                                    <StackPanel
-                                        i:PanelExtensions.Spacing="0,0,0,5"
-                                        i:PanelExtensions.SpacingExcept="Last">
-                                        <RadioButton Content="All"
-                                            GroupName="TargetFileExtensions"
-                                            IsChecked="True"/>
-                                        <RadioButton
-                                            x:Name="PART_RadioButton"
-                                            GroupName="TargetFileExtensions">
-                                            <StackPanel
-                                                IsEnabled="{Binding IsChecked, ElementName=PART_RadioButton}"
-                                                i:PanelExtensions.Spacing="0,0,0,5"
-                                                i:PanelExtensions.SpacingExcept="Last">
-                                                <i:TokenView
-                                                    Placeholder="Target file extensions"
-                                                    TokenDelimiter=","
-                                                    TokensSource="{i:Options TargetFileExtensions, Mode=TwoWay}"/>
-                                                <CheckBox Content="Case sensitive"
-                                                    IsChecked="{i:Options TargetFileExtensionsCase, Mode=TwoWay}"/>
-                                            </StackPanel>
-                                        </RadioButton>
-                                    </StackPanel>
-                                </GroupBox>
-                                <GroupBox
-                                    Grid.Row="2"
-                                    Padding="5">
-                                    <GroupBox.Header>
-                                        <Grid
-                                            i:GridExtensions.Columns="Auto,*">
-                                            <TextBlock Text="Target file names" Margin="0,0,5,0"/>
-                                            <TextBlock Text="Only rename files that have names with these characters"
-                                                Grid.Column="1" 
-                                                Opacity="0.5"
-                                                TextTrimming="CharacterEllipsis"
-                                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-                                        </Grid>
-                                    </GroupBox.Header>
-                                    <StackPanel
-                                        i:PanelExtensions.Spacing="0,0,0,5"
-                                        i:PanelExtensions.SpacingExcept="Last">
-                                        <ComboBox
-                                            ItemsSource="{i:Enumerate {x:Type local:FileNameTargets}}"
-                                            SelectedItem="{i:Options TargetFileNames, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Converter={StaticResource CamelCaseConverter}}"/>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </GroupBox>
-                                <GroupBox
-                                    Grid.Row="3"
-                                    Padding="5">
-                                    <GroupBox.Header>
-                                        <Grid
-                                            i:GridExtensions.Columns="Auto,*">
-                                            <TextBlock Text="File extension format" Margin="0,0,5,0"/>
-                                            <TextBlock Text="How to format the file extension" 
-                                                Grid.Column="1"
-                                                Opacity="0.5"
-                                                TextTrimming="CharacterEllipsis"
-                                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-                                        </Grid>
-                                    </GroupBox.Header>
-                                    <ComboBox
-                                        ItemsSource="{i:Enumerate {x:Type local:FileExtensionFormats}}"
-                                        SelectedItem="{i:Options FileExtensionFormat, Mode=TwoWay}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Converter={StaticResource CamelCaseConverter}}"/>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </GroupBox>
-                                <GroupBox 
-                                    Grid.Row="4"
-                                    Padding="5">
-                                    <GroupBox.Header>
-                                        <Grid
-                                            i:GridExtensions.Columns="Auto,*">
-                                            <TextBlock Text="Options" Margin="0,0,5,0"/>
-                                            <TextBlock Text="{i:Options FileNameOptionDescription}" 
-                                                Grid.Column="1"
-                                                Opacity="0.5"
-                                                TextTrimming="CharacterEllipsis"
-                                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
-                                        </Grid>
-                                    </GroupBox.Header>
-                                    <Grid>
-                                        <StackPanel
-                                            i:PanelExtensions.Spacing="0,0,0,5"
-                                            i:PanelExtensions.SpacingExcept="Last"
-                                            Visibility="{i:Options Target, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:Targets.FileExtension}}">
-                                            <Label Content="New file extension"/>
-                                            <i:TextBox Placeholder="New file extension"
-                                                Text="{i:Options NewFileExtension, Mode=TwoWay}"/>
-                                        </StackPanel>
-                                        <StackPanel
-                                            i:PanelExtensions.Spacing="0,0,0,5"
-                                            i:PanelExtensions.SpacingExcept="Last"
-                                            Visibility="{i:Options Target, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:Targets.FileName}}">
-
-                                            <ComboBox
-                                                ItemsSource="{i:Enumerate {x:Type local:FileNameOptions}}"
-                                                SelectedItem="{i:Options FileNameOption, Mode=TwoWay}"/>
-
-                                            <StackPanel
-                                                Visibility="{i:Options FileNameOption, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:FileNameOptions.Increment}}"
-                                                i:PanelExtensions.Spacing="0,0,0,5"
-                                                i:PanelExtensions.SpacingExcept="Last">
-                                                <Label Content="Format"/>
-                                                <i:TextBox
-                                                    Placeholder="Format"
-                                                    Text="{i:Options FileNameFormat, Mode=TwoWay}"/>
-                                                <Label Content="Start at"/>
-                                                <i:Int32UpDown
-                                                    Minimum="0"
-                                                    Placeholder="Start at"
-                                                    Text="{i:Options FileNameIndex, Mode=TwoWay}"/>
+            </i:DockView.DocumentTitleTemplate>
+            <i:DockView.PanelTemplateSelector>
+                <i:DefaultTemplateSelector>
+                    <DataTemplate DataType="{x:Type local:FavoritesPanel}">
+                        <i:Navigator
+                            Path="{i:MainViewModel NewPath, Mode=OneWayToSource}"
+                            Root="{i:Options Favorites, Mode=OneWay}"
+                            ViewFiles="False"
+                            ViewHiddenItems="True"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:OptionsPanel}">
+                        <i:PropertyGrid
+                            BorderThickness="0"
+                            DescriptionVisibility="Collapsed"
+                            GroupName="Category"
+                            GroupVisibility="True"
+                            HeaderVisibility="Collapsed"
+                            HeadersVisibility="None"
+                            Source="{i:Options}">
+                            <i:PropertyGrid.OverrideTemplates>
+                                <DataTemplate DataType="{x:Type i:PanelCollection}">
+                                    <ItemsControl ItemsSource="{Binding Value}" Margin="0,5,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type i:Panel}">
                                                 <CheckBox 
-                                                    Content="For all file extensions"
-                                                    IsChecked="{i:Options StartAtForAllFileExtensions, Mode=TwoWay}"/>
-                                                <Label Content="Increment by"/>
-                                                <i:Int32UpDown
-                                                    Minimum="1"
-                                                    Placeholder="Increment by"
-                                                    Text="{i:Options FileNameIncrement, Mode=TwoWay}"/>
+                                                    Content="{Binding Title}"
+                                                    IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                                                    Margin="0,0,0,5"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </i:PropertyGrid.OverrideTemplates>
+                        </i:PropertyGrid>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:PropertiesPanel}">
+                        <i:PropertyGrid
+                            BorderThickness="0"
+                            DescriptionVisibility="Collapsed"
+                            GroupName="Category"
+                            GroupVisibility="True"
+                            HeaderVisibility="Collapsed"
+                            HeadersVisibility="None"
+                            Source="{Binding Item}"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:RenamePanel}">
+                        <Grid i:GridExtensions.Rows="Auto,*,Auto,Auto">
+                            <Grid.Resources>
+                                <i:CamelCaseConverter x:Key="CamelCaseConverter"/>
+                                <i:ValueEqualsParameterVisibilityConverter x:Key="ValueEqualsParameterVisibilityConverter"/>
+                            </Grid.Resources>
+
+                            <i:FileBox
+                                Grid.Row="0"
+                                BrowseMode="OpenFolder"
+                                BrowseButtonVisibility="False"
+                                CanValidate="True"
+                                IsReadOnly="True"
+                                Margin="10,10,10,0"
+                                Text="{Binding Path}"/>
+                            <Grid
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Background="#AA000000"
+                                Visibility="{Binding Renaming, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <i:ProgressRing
+                                    Height="86"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Width="86"/>
+                            </Grid>
+
+                            <ScrollViewer
+                                Grid.Row="1"
+                                HorizontalScrollBarVisibility="Disabled"
+                                IsEnabled="{Binding Renaming, Converter={StaticResource InverseBooleanConverter}}"
+                                VerticalScrollBarVisibility="Auto">
+                                <Grid
+                                    Margin="10"
+                                    i:GridExtensions.Rows="Auto,Auto,Auto,Auto,Auto"
+                                    i:PanelExtensions.Spacing="0,0,0,10"
+                                    i:PanelExtensions.SpacingExcept="Last">
+                                    <Grid.Resources>
+                                        <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                                            <Setter Property="Padding" Value="10,10,0,10"/>
+                                        </Style>
+                                    </Grid.Resources>
+
+                                    <GroupBox
+                                        Grid.Row="0"
+                                        Padding="5">
+                                        <GroupBox.Header>
+                                            <Grid
+                                                i:GridExtensions.Columns="Auto,*">
+                                                <TextBlock Text="Target" Margin="0,0,5,0"/>
+                                                <TextBlock Text="What you want to rename" 
+                                                    Grid.Column="1"
+                                                    Opacity="0.5"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                                            </Grid>
+                                        </GroupBox.Header>
+                                        <StackPanel>
+                                            <ComboBox
+                                                ItemsSource="{i:Enumerate {x:Type local:Targets}}"
+                                                SelectedItem="{i:Options Target, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource CamelCaseConverter}}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <CheckBox 
+                                                Grid.Row="5"
+                                                Content="Top directory only"
+                                                IsChecked="{i:Options TopDirectoryOnly, Mode=TwoWay}"
+                                                Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <GroupBox
+                                        Grid.Row="1"
+                                        Padding="5">
+                                        <GroupBox.Header>
+                                            <Grid
+                                                i:GridExtensions.Columns="Auto,*">
+                                                <TextBlock Text="Target file extensions" Margin="0,0,5,0"/>
+                                                <TextBlock Text="Only rename files with these extensions" 
+                                                    Grid.Column="1"
+                                                    Opacity="0.5"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                                            </Grid>
+                                        </GroupBox.Header>
+                                        <StackPanel
+                                            i:PanelExtensions.Spacing="0,0,0,5"
+                                            i:PanelExtensions.SpacingExcept="Last">
+                                            <RadioButton Content="All"
+                                                GroupName="TargetFileExtensions"
+                                                IsChecked="True"/>
+                                            <RadioButton
+                                                x:Name="PART_RadioButton"
+                                                GroupName="TargetFileExtensions">
+                                                <StackPanel
+                                                    IsEnabled="{Binding IsChecked, ElementName=PART_RadioButton}"
+                                                    i:PanelExtensions.Spacing="0,0,0,5"
+                                                    i:PanelExtensions.SpacingExcept="Last">
+                                                    <i:TokenView
+                                                        Placeholder="Target file extensions"
+                                                        TokenDelimiter=","
+                                                        TokensSource="{i:Options TargetFileExtensions, Mode=TwoWay}"/>
+                                                    <CheckBox Content="Case sensitive"
+                                                        IsChecked="{i:Options TargetFileExtensionsCase, Mode=TwoWay}"/>
+                                                </StackPanel>
+                                            </RadioButton>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <GroupBox
+                                        Grid.Row="2"
+                                        Padding="5">
+                                        <GroupBox.Header>
+                                            <Grid
+                                                i:GridExtensions.Columns="Auto,*">
+                                                <TextBlock Text="Target file names" Margin="0,0,5,0"/>
+                                                <TextBlock Text="Only rename files that have names with these characters"
+                                                    Grid.Column="1" 
+                                                    Opacity="0.5"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                                            </Grid>
+                                        </GroupBox.Header>
+                                        <StackPanel
+                                            i:PanelExtensions.Spacing="0,0,0,5"
+                                            i:PanelExtensions.SpacingExcept="Last">
+                                            <ComboBox
+                                                ItemsSource="{i:Enumerate {x:Type local:FileNameTargets}}"
+                                                SelectedItem="{i:Options TargetFileNames, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource CamelCaseConverter}}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <GroupBox
+                                        Grid.Row="3"
+                                        Padding="5">
+                                        <GroupBox.Header>
+                                            <Grid
+                                                i:GridExtensions.Columns="Auto,*">
+                                                <TextBlock Text="File extension format" Margin="0,0,5,0"/>
+                                                <TextBlock Text="How to format the file extension" 
+                                                    Grid.Column="1"
+                                                    Opacity="0.5"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                                            </Grid>
+                                        </GroupBox.Header>
+                                        <ComboBox
+                                            ItemsSource="{i:Enumerate {x:Type local:FileExtensionFormats}}"
+                                            SelectedItem="{i:Options FileExtensionFormat, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource CamelCaseConverter}}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </GroupBox>
+                                    <GroupBox 
+                                        Grid.Row="4"
+                                        Padding="5">
+                                        <GroupBox.Header>
+                                            <Grid
+                                                i:GridExtensions.Columns="Auto,*">
+                                                <TextBlock Text="Options" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{i:Options FileNameOptionDescription}" 
+                                                    Grid.Column="1"
+                                                    Opacity="0.5"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+                                            </Grid>
+                                        </GroupBox.Header>
+                                        <Grid>
+                                            <StackPanel
+                                                i:PanelExtensions.Spacing="0,0,0,5"
+                                                i:PanelExtensions.SpacingExcept="Last"
+                                                Visibility="{i:Options Target, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:Targets.FileExtension}}">
+                                                <Label Content="New file extension"/>
+                                                <i:TextBox Placeholder="New file extension"
+                                                    Text="{i:Options NewFileExtension, Mode=TwoWay}"/>
                                             </StackPanel>
                                             <StackPanel
-                                                Visibility="{i:Options FileNameOption, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:FileNameOptions.Replace}}"
                                                 i:PanelExtensions.Spacing="0,0,0,5"
-                                                i:PanelExtensions.SpacingExcept="Last">
-                                                <Label Content="Replace"/>
-                                                <i:TextBox
-                                                    Placeholder="Replace"
-                                                    Text="{i:Options FileNameReplace, Mode=TwoWay}"/>
+                                                i:PanelExtensions.SpacingExcept="Last"
+                                                Visibility="{i:Options Target, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:Targets.FileName}}">
 
-                                                <Label Content="With"/>
-                                                <i:TextBox
-                                                    Placeholder="Replace with"
-                                                    Text="{i:Options FileNameReplaceWith, Mode=TwoWay}"/>
+                                                <ComboBox
+                                                    ItemsSource="{i:Enumerate {x:Type local:FileNameOptions}}"
+                                                    SelectedItem="{i:Options FileNameOption, Mode=TwoWay}"/>
+
+                                                <StackPanel
+                                                    Visibility="{i:Options FileNameOption, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:FileNameOptions.Increment}}"
+                                                    i:PanelExtensions.Spacing="0,0,0,5"
+                                                    i:PanelExtensions.SpacingExcept="Last">
+                                                    <Label Content="Format"/>
+                                                    <i:TextBox
+                                                        Placeholder="Format"
+                                                        Text="{i:Options FileNameFormat, Mode=TwoWay}"/>
+                                                    <Label Content="Start at"/>
+                                                    <i:Int32UpDown
+                                                        Minimum="0"
+                                                        Placeholder="Start at"
+                                                        Text="{i:Options FileNameIndex, Mode=TwoWay}"/>
+                                                    <CheckBox 
+                                                        Content="For all file extensions"
+                                                        IsChecked="{i:Options StartAtForAllFileExtensions, Mode=TwoWay}"/>
+                                                    <Label Content="Increment by"/>
+                                                    <i:Int32UpDown
+                                                        Minimum="1"
+                                                        Placeholder="Increment by"
+                                                        Text="{i:Options FileNameIncrement, Mode=TwoWay}"/>
+                                                </StackPanel>
+                                                <StackPanel
+                                                    Visibility="{i:Options FileNameOption, Converter={StaticResource ValueEqualsParameterVisibilityConverter}, ConverterParameter={x:Static local:FileNameOptions.Replace}}"
+                                                    i:PanelExtensions.Spacing="0,0,0,5"
+                                                    i:PanelExtensions.SpacingExcept="Last">
+                                                    <Label Content="Replace"/>
+                                                    <i:TextBox
+                                                        Placeholder="Replace"
+                                                        Text="{i:Options FileNameReplace, Mode=TwoWay}"/>
+
+                                                    <Label Content="With"/>
+                                                    <i:TextBox
+                                                        Placeholder="Replace with"
+                                                        Text="{i:Options FileNameReplaceWith, Mode=TwoWay}"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                </GroupBox>
-                            </Grid>
-                        </ScrollViewer>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </ScrollViewer>
 
-                        <Button
-                            Grid.Row="2"
-                            Command="{Binding StartCommand}"
-                            Margin="10"
-                            Style="{DynamicResource Button.Green}"
-                            ToolTip="Rename"
-                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
-                            <i:MaskedImage
-                                Source="{i:Image Explorer, Images/Refresh.png}"
-                                SourceColor="White"/>
-                        </Button>
-                        <Button
-                            Grid.Row="3"
-                            Command="{Binding StopCommand}"
-                            Margin="10"
-                            Style="{DynamicResource Button.Red}"
-                            ToolTip="Cancel"
-                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
-                            <i:MaskedImage
-                                Source="{i:Image Explorer, Images/Block.png}"
-                                SourceColor="White"/>
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-            </i:DefaultTemplateSelector>
-        </i:DockView.PanelTemplateSelector>
-    </i:DockView>
+                            <Button
+                                Grid.Row="2"
+                                Command="{Binding StartCommand}"
+                                Margin="10"
+                                Style="{DynamicResource Button.Green}"
+                                ToolTip="Rename"
+                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
+                                <i:MaskedImage
+                                    Source="{i:Image Explorer, Images/Refresh.png}"
+                                    SourceColor="White"/>
+                            </Button>
+                            <Button
+                                Grid.Row="3"
+                                Command="{Binding StopCommand}"
+                                Margin="10"
+                                Style="{DynamicResource Button.Red}"
+                                ToolTip="Cancel"
+                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
+                                <i:MaskedImage
+                                    Source="{i:Image Explorer, Images/Block.png}"
+                                    SourceColor="White"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </i:DefaultTemplateSelector>
+            </i:DockView.PanelTemplateSelector>
+        </i:DockView>
+    </Grid>
 </i:BaseWindow>

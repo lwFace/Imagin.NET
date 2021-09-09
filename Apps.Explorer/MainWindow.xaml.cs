@@ -16,5 +16,10 @@ namespace Explorer
         {
             File.Long.Open(e.Value);
         }
+
+        private void FavoritesBar_PathChanged(object sender, Imagin.Common.Input.EventArgs<string> e)
+        {
+
+        }
     }
 }
