@@ -73,7 +73,11 @@ namespace Imagin.Common.Converters
                 return input.ActualValue;
             }
 
-            return input.ActualParameter == 0 ? Storage.Path.GetFileNameWithoutExtension(input.ActualValue) : input.ActualParameter == 1 ? Storage.Path.GetFileName(input.ActualValue) : throw input.InvalidParameter;
+            return Folder.Long.Exists(input.ActualValue) || input.ActualParameter == 1
+                ? Storage.Path.GetFileName(input.ActualValue)
+                : input.ActualParameter == 0 
+                    ? Storage.Path.GetFileNameWithoutExtension(input.ActualValue)
+                    : throw input.InvalidParameter;
         }
 
         protected override Value<String> ConvertBack(ConverterData<String> input) => Nothing.Do;
@@ -120,6 +124,22 @@ namespace Imagin.Common.Converters
 
         protected override Value<String> ConvertBack(ConverterData<String> input) => Nothing.Do;
     }
+    
+    //.......................................................................
+
+    [ValueConversion(typeof(Object), typeof(String))]
+    public class PluralConverter : Converter<Object, String>
+    {
+        protected override bool Is(object input) => input is ushort || input is short || input is uint || input is int || input is long || input is long;
+
+        protected override Value<String> ConvertTo(ConverterData<Object> input)
+        {
+            var result = input.ActualValue.Int32();
+            return result == 1 ? string.Empty : input.ActualParameter == 0 ? "s" : "S";
+        }
+
+        protected override Value<Object> ConvertBack(ConverterData<String> input) => Nothing.Do;
+    }
 
     //.......................................................................
 
@@ -162,6 +182,10 @@ namespace Imagin.Common.Converters
                 if (input.ActualValue is DateTime?)
                 {
                     var d = input.ActualValue as DateTime?;
+
+                    if (d == null)
+                        return string.Empty;
+
                     result = d.Value > now ? d.Value - now : now - d.Value;
                 }
             }

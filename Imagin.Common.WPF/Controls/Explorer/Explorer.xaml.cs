@@ -22,6 +22,13 @@ namespace Imagin.Common.Controls
 
         public event EventHandler<EventArgs<string>> FileOpened;
 
+        public static DependencyProperty FavoritesProperty = DependencyProperty.Register(nameof(Favorites), typeof(Favorites), typeof(Explorer), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.None));
+        public Favorites Favorites
+        {
+            get => (Favorites)GetValue(FavoritesProperty);
+            set => SetValue(FavoritesProperty, value);
+        }
+
         public static DependencyProperty FileExtensionsProperty = DependencyProperty.Register(nameof(FileExtensions), typeof(IList<string>), typeof(Explorer), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.None));
         public IList<string> FileExtensions
         {

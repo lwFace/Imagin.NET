@@ -174,7 +174,7 @@ namespace Imagin.Common.Controls
             {
                 SetCurrentValue(TypeProperty, Types.Folder);
                 //Multiple images (folder)
-                _ = items.Refresh(input.New);
+                _ = items.RefreshAsync(input.New);
                 timer.Start();
             }
             else SetCurrentValue(TypeProperty, Types.None);

@@ -25,7 +25,8 @@
                         i:PanelExtensions.SpacingExcept="Last">
                         <i:MaskedToggleButton
                             IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
-                            Source="{i:Image Vault, Images/Plus.png}">
+                            Source="{i:Image Vault, Images/Plus.png}"
+                            ToolTip="{i:Loc Add}">
                             <i:MaskedToggleButton.Menu>
                                 <ContextMenu>
                                     <ContextMenu.Resources>
@@ -60,14 +61,14 @@
                             Grid.Column="1"
                             IsClearEnabled="True"
                             IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
-                            Placeholder="Characters"
+                            Placeholder="{i:Loc Characters}"
                             Text="{i:Options GenerateCharacters, Mode=TwoWay}"
                             ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
                         <i:UInt32UpDown
                             Grid.Column="2"
                             IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
                             Minimum="1"
-                            ToolTip="Length"
+                            ToolTip="{i:Loc Length}"
                             Value="{i:Options GenerateLength, Mode=TwoWay}"
                             VerticalAlignment="Center"/>
                     </Grid>
@@ -97,14 +98,14 @@
                     </Grid>
                     <CheckBox 
                         Grid.Row="2" 
-                        Content="Distinct"
+                        Content="{i:Loc Distinct}"
                         IsChecked="{i:Options GenerateDistinct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Button
                         Grid.Row="3"
                         Command="{Binding GenerateCommand}"
                         IsEnabled="{Binding Generating, Converter={StaticResource InverseBooleanConverter}}"
                         Style="{DynamicResource Button.Green}"
-                        ToolTip="Generate">
+                        ToolTip="{i:Loc Generate}">
                         <i:MaskedImage
                             Source="{i:Image Vault, Images/Refresh.png}"
                             SourceColor="White"/>

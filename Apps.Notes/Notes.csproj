@@ -68,8 +68,13 @@
     <Compile Include="Documents\List\Attributes.cs" />
     <Compile Include="Documents\List\List.Line.cs" />
     <Compile Include="Documents\List\List.Lines.cs" />
-    <Compile Include="Documents\List\Values.cs" />
+    <Compile Include="Documents\List\Columns.cs" />
     <Compile Include="Documents\Markdown.cs" />
+    <Compile Include="Lang\Main.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.resx</DependentUpon>
+    </Compile>
     <Compile Include="Panels\Favorites.cs" />
     <Compile Include="Panels\Find.cs" />
     <Compile Include="Documents\List\List.cs" />
@@ -121,6 +126,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Lang\Main.es-ES.resx" />
+    <EmbeddedResource Include="Lang\Main.fr-FR.resx" />
+    <EmbeddedResource Include="Lang\Main.it-IT.resx" />
+    <EmbeddedResource Include="Lang\Main.ja-JP.resx" />
+    <EmbeddedResource Include="Lang\Main.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -160,9 +173,7 @@
   <ItemGroup>
     <Resource Include="Images\Grid.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lang\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Help.png" />
   </ItemGroup>

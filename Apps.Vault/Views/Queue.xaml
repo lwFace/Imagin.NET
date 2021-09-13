@@ -12,17 +12,17 @@
         </DataTemplate.Resources>
         <DataGrid
             BorderThickness="0"
-            CanUserReorderColumns="False"
-            CanUserSortColumns="False"
+            CanUserReorderColumns="True"
+            CanUserSortColumns="True"
             i:DataGridExtensions.DisplayRowNumber="True"
             i:DataGridExtensions.DisplayRowNumberOffset="1"
-            i:ItemsControlExtensions.IsColumnMenuEnabled="False"
+            i:ItemsControlExtensions.IsColumnMenuEnabled="True"
             HeadersVisibility="All"
             ItemsSource="{Binding Queue}"
             SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTemplateColumn
-                    Header="Type"
+                    Header="{i:Loc Type}"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -35,7 +35,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Source"
+                    Header="{i:Loc Source}"
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -48,7 +48,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Destination"
+                    Header="{i:Loc Destination}"
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -61,7 +61,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Size read"
+                    Header="{i:Loc SizeRead}"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -74,7 +74,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Size"
+                    Header="{i:Loc Size}"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -87,7 +87,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Speed"
+                    Header="{i:Loc Speed}"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -100,7 +100,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Time"
+                    Header="{i:Loc Time}"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -113,7 +113,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Time left"
+                    Header="{i:Loc TimeLeft}"
                     Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -133,7 +133,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Progress"
+                    Header="{i:Loc Progress}"
                     Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -122,6 +122,11 @@
                             Visibility="Collapsed" 
                             Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                        <TextBlock 
+                            x:Name="Placeholder"
+                            Text="{Binding (Linq:ComboBoxExtensions.Placeholder), RelativeSource={RelativeSource TemplatedParent}}"
+                            Visibility="Collapsed"/>
+                        
                         <Popup 
                             x:Name="Popup" 
                             AllowsTransparency="True"
@@ -159,6 +164,13 @@
                             <Setter TargetName="TextBox" Property="Visibility" Value="Visible" />
                             <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEditable" Value="False"/>
+                                <Condition Property="SelectedValue" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

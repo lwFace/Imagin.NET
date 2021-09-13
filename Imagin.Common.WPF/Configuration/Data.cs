@@ -9,6 +9,7 @@ using Imagin.Common.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -20,8 +21,12 @@ namespace Imagin.Common.Configuration
     [Serializable]
     public abstract class Data : Base
     {
+        [field: NonSerialized]
+        public event EventHandler<EventArgs<Themes.Types>> ThemeChanged;
+
         Languages language;
         [Category(nameof(Language))]
+        [DisplayName("Imagin.Common.Wpf:Main:Language")]
         public Languages Language
         {
             get => language;
@@ -30,10 +35,31 @@ namespace Imagin.Common.Configuration
 
         Themes.Types theme = Themes.Types.Light;
         [Category(nameof(Theme))]
+        [DisplayName("Imagin.Common.Wpf:Main:Theme")]
         public Themes.Types Theme
         {
             get => theme;
-            set => this.Change(ref theme, value);
+            set
+            {
+                this.Change(ref theme, value);
+                OnThemeChanged(value);
+            }
+        }
+
+        double windowHeight = 720;
+        [Hidden]
+        public double WindowHeight
+        {
+            get => windowHeight;
+            set => this.Change(ref windowHeight, value);
+        }
+
+        double windowWidth = 1200;
+        [Hidden]
+        public double WindowWidth
+        {
+            get => windowWidth;
+            set => this.Change(ref windowWidth, value);
         }
 
         //....................................................................................
@@ -66,6 +92,10 @@ namespace Imagin.Common.Configuration
 
         //....................................................................................
 
+        protected virtual void OnThemeChanged(Themes.Types i) => ThemeChanged?.Invoke(this, new EventArgs<Themes.Types>(i));
+
+        //....................................................................................
+
         public void Save()
         {
             OnSaved();
@@ -76,14 +106,17 @@ namespace Imagin.Common.Configuration
 
         public override void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            base.OnPropertyChanged(propertyName);
             switch (propertyName)
             {
                 case nameof(Language):
                     LocalizeDictionary.Instance.SetCurrentThreadCulture = true;
-                    LocalizeDictionary.Instance.Culture = language.Convert();
+                    LocalizeDictionary.Instance.Culture = new CultureInfo(language.GetAttribute<LanguageAttribute>().Code);
                     break;
+            }
 
+            base.OnPropertyChanged(propertyName);
+            switch (propertyName)
+            {
                 case nameof(Theme):
                     Get.Current<Themes>().Change(Theme);
                     break;
@@ -102,7 +135,7 @@ namespace Imagin.Common.Configuration
 
         bool autoSaveLayout = false;
         [Category(nameof(Layouts))]
-        [DisplayName("Auto save")]
+        [DisplayName("Imagin.Common.Wpf:Main:AutoSave")]
         public bool AutoSaveLayout
         {
             get => autoSaveLayout;
@@ -119,6 +152,7 @@ namespace Imagin.Common.Configuration
 
         string layout = string.Empty;
         [Category(nameof(Layouts))]
+        [DisplayName("Imagin.Common.Wpf:Main:Layout")]
         [StringFormat(StringFormat.File)]
         public virtual string Layout
         {
@@ -130,7 +164,7 @@ namespace Imagin.Common.Configuration
         ICommand openLayoutsFolder;
         [Category(nameof(Layouts))]
         [AlternativeName("...")]
-        [DisplayName("Open folder")]
+        [DisplayName("Imagin.Common.Wpf:Main:OpenFolder")]
         public virtual ICommand OpenLayoutsFolder
         {
             get
@@ -211,7 +245,7 @@ namespace Imagin.Common.Configuration
         ICommand resetLayout;
         [Category(nameof(Layouts))]
         [AlternativeName("...")]
-        [DisplayName("Reset layout")]
+        [DisplayName("Imagin.Common.Wpf:Main:ResetLayout")]
         public virtual ICommand ResetLayout
         {
             get
@@ -225,7 +259,7 @@ namespace Imagin.Common.Configuration
         ICommand saveLayout;
         [Category(nameof(Layouts))]
         [AlternativeName("...")]
-        [DisplayName("Save layout")]
+        [DisplayName("Imagin.Common.Wpf:Main:SaveLayout")]
         public virtual ICommand SaveLayout
         {
             get

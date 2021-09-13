@@ -70,6 +70,24 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessed.
+        /// </summary>
+        internal static string Accessed {
+            get {
+                return ResourceManager.GetString("Accessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A day.
         /// </summary>
         internal static string ADay {
@@ -138,6 +156,15 @@ namespace Imagin.Common.Lang {
         internal static string ASecond {
             get {
                 return ResourceManager.GetString("ASecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto save.
+        /// </summary>
+        internal static string AutoSave {
+            get {
+                return ResourceManager.GetString("AutoSave", resourceCulture);
             }
         }
         
@@ -304,6 +331,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        internal static string Created {
+            get {
+                return ResourceManager.GetString("Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current.
         /// </summary>
         internal static string Current {
@@ -448,6 +484,24 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden.
+        /// </summary>
+        internal static string Hidden {
+            get {
+                return ResourceManager.GetString("Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide.
+        /// </summary>
+        internal static string Hide {
+            get {
+                return ResourceManager.GetString("Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide categories.
         /// </summary>
         internal static string HideCategories {
@@ -502,6 +556,24 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Layout.
+        /// </summary>
+        internal static string Layout {
+            get {
+                return ResourceManager.GetString("Layout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left.
         /// </summary>
         internal static string Left {
@@ -525,6 +597,15 @@ namespace Imagin.Common.Lang {
         internal static string Minutes {
             get {
                 return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified.
+        /// </summary>
+        internal static string Modified {
+            get {
+                return ResourceManager.GetString("Modified", resourceCulture);
             }
         }
         
@@ -610,6 +691,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open folder.
+        /// </summary>
+        internal static string OpenFolder {
+            get {
+                return ResourceManager.GetString("OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string Options {
@@ -646,6 +736,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read only.
+        /// </summary>
+        internal static string ReadOnly {
+            get {
+                return ResourceManager.GetString("ReadOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repeat.
         /// </summary>
         internal static string Repeat {
@@ -664,6 +763,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset layout.
+        /// </summary>
+        internal static string ResetLayout {
+            get {
+                return ResourceManager.GetString("ResetLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retry.
         /// </summary>
         internal static string Retry {
@@ -678,6 +786,15 @@ namespace Imagin.Common.Lang {
         internal static string Right {
             get {
                 return ResourceManager.GetString("Right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save layout.
+        /// </summary>
+        internal static string SaveLayout {
+            get {
+                return ResourceManager.GetString("SaveLayout", resourceCulture);
             }
         }
         
@@ -718,6 +835,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sort.
         /// </summary>
         internal static string Sort {
@@ -750,6 +876,15 @@ namespace Imagin.Common.Lang {
         internal static string Swap {
             get {
                 return ResourceManager.GetString("Swap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        internal static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
         

@@ -7,7 +7,7 @@
     xmlns:i="http://imagin.tech/imagin/common"
     mc:Ignorable="d"
     ResizeMode="NoResize"
-    Title="Solve" 
+    Title="{i:Loc Solve}" 
     SizeToContent="Height"
     WindowStyle="SingleBorderWindow"
     WindowStartupLocation="CenterScreen"

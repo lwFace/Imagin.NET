@@ -26,3 +26,17 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.pdb
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.csprojAssemblyReference.cache
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\fr-FR\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\es-ES\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\fr-FR\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\it-IT\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\bin\Debug\ja-JP\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.Lang.Main.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.Lang.Main.es-ES.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.Lang.Main.fr-FR.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.Lang.Main.it-IT.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\Color.Lang.Main.ja-JP.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\es-ES\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\fr-FR\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\it-IT\Color.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Color\obj\Debug\ja-JP\Color.resources.dll

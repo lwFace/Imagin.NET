@@ -37,6 +37,8 @@ namespace Imagin.Common.Models
 
         public string Name => GetType().Name;
 
+        public virtual bool TitleLocalized => true;
+
         bool titleVisibility = true;
         public virtual bool TitleVisibility
         {

@@ -32,3 +32,17 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.pdb
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\bin\Debug\fr-FR\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\bin\Debug\es-ES\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\bin\Debug\fr-FR\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\bin\Debug\it-IT\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\bin\Debug\ja-JP\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.Lang.Main.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.Lang.Main.es-ES.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.Lang.Main.fr-FR.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.Lang.Main.it-IT.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\Notes.Lang.Main.ja-JP.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\es-ES\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\fr-FR\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\it-IT\Notes.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Notes\obj\Debug\ja-JP\Notes.resources.dll

@@ -2,10 +2,11 @@
 using Imagin.Common;
 using Imagin.Common.Collections;
 using Imagin.Common.Collections.Serialization;
-using Imagin.Common.Configuration;
+using Imagin.Common.Controls;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Math;
+using Imagin.Common.Media;
 using Imagin.Common.Models;
 using System;
 using System.Linq;
@@ -82,6 +83,14 @@ namespace Desktop
                     = size;
 
                 Screen.Add(tile);
+
+                if (tile is ImageTile imageTile)
+                {
+                    string path = null;
+                    ExplorerWindow.Show(out path, "Browse file or folder...", ExplorerWindow.Modes.Open, ImageFormats.Readable.Select(i => i.Extension));
+
+                    imageTile.Path = path;
+                }
             }
 
             View.PART_Grid.Visibility = Visibility.Collapsed;

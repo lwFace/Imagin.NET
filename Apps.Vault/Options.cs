@@ -23,7 +23,8 @@ namespace Vault
     {
         enum Category
         {
-            Generate
+            Generate,
+            Passwords
         }
 
         #region Generate
@@ -38,7 +39,7 @@ namespace Vault
 
         string generateCustomCharacters = string.Empty;
         [Category(Category.Generate)]
-        [DisplayName("Custom characters")]
+        [DisplayName("CustomCharacters")]
         [StringFormat(StringFormat.Tokens, ' ')]
         public string GenerateCustomCharacters
         {
@@ -92,7 +93,7 @@ namespace Vault
 
         string generateFontFamily;
         [Category(Category.Generate)]
-        [DisplayName("Font family")]
+        [DisplayName("FontFamily")]
         public FontFamily GenerateFontFamily
         {
             get
@@ -109,7 +110,7 @@ namespace Vault
 
         double generateFontSize = 16;
         [Category(Category.Generate)]
-        [DisplayName("Font size")]
+        [DisplayName("FontSize")]
         [Range(8.0, 72.0, 1.0)]
         [RangeFormat(RangeFormat.Slider)]
         public double GenerateFontSize
@@ -120,7 +121,7 @@ namespace Vault
 
         HorizontalAlignment generateHorizontalAlignment = HorizontalAlignment.Left;
         [Category(Category.Generate)]
-        [DisplayName("Text alignment (horizontal)")]
+        [DisplayName("TextAlignmentHorizontal")]
         public HorizontalAlignment GenerateHorizontalAlignment
         {
             get => generateHorizontalAlignment;
@@ -129,7 +130,7 @@ namespace Vault
 
         VerticalAlignment generateVerticalAlignment = VerticalAlignment.Top;
         [Category(Category.Generate)]
-        [DisplayName("Text alignment (vertical)")]
+        [DisplayName("TextAlignmentVertical")]
         public VerticalAlignment GenerateVerticalAlignment
         {
             get => generateVerticalAlignment;
@@ -165,7 +166,7 @@ namespace Vault
         #region Passwords
 
         bool encryptPasswords = false;
-        [Category(nameof(Passwords))]
+        [Category(Category.Passwords)]
         [DisplayName("Encrypt")]
         public bool EncryptPasswords
         {
@@ -182,7 +183,7 @@ namespace Vault
         }
 
         Encryption passwordEncryption = new Encryption();
-        [Category(nameof(Passwords))]
+        [Category(Category.Passwords)]
         [DisplayName("Encryption")]
         public Encryption PasswordEncryption
         {
@@ -217,7 +218,7 @@ namespace Vault
         #region Other
 
         bool showInTaskBar = false;
-        [DisplayName("Show in task bar")]
+        [DisplayName("ShowInTaskbar")]
         public bool ShowInTaskBar
         {
             get => showInTaskBar;

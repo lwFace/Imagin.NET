@@ -28,3 +28,17 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\ob
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.csproj.CopyComplete
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\bin\Debug\fr-FR\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\bin\Debug\es-ES\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\bin\Debug\fr-FR\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\bin\Debug\it-IT\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\bin\Debug\ja-JP\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.Lang.Main.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.Lang.Main.es-ES.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.Lang.Main.fr-FR.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.Lang.Main.it-IT.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\Explorer.Lang.Main.ja-JP.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\es-ES\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\fr-FR\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\it-IT\Explorer.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Explorer\obj\Debug\ja-JP\Explorer.resources.dll

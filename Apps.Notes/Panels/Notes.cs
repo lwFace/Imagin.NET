@@ -1,5 +1,7 @@
 ﻿using Imagin.Common;
 using Imagin.Common.Data;
+using Imagin.Common.Globalization.Engine;
+using Imagin.Common.Globalization.Extensions;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Models;
@@ -30,7 +32,9 @@ namespace Notes
             private set => this.Change(ref storageView, value);
         }
 
-        public override string Title => $"Notes ({Storage.Count})";
+        public override string Title => $"{LocExtension.GetLocalizedValue(typeof(string), nameof(Notes), LocalizeDictionary.Instance.SpecificCulture, null)} ({Storage.Count})";
+
+        public override bool TitleLocalized => false;
 
         public NotesPanel() : base(Resources.Uri(nameof(Notes), "Images/File.png"))
         {
@@ -53,6 +57,10 @@ namespace Notes
                 case nameof(Options.Folder):
                     Get.Current<MainViewModel>().Documents.Clear();
                     await Storage.RefreshAsync(Get.Current<Options>().Folder);
+                    break;
+
+                case nameof(Options.Language):
+                    this.Changed(() => Title);
                     break;
 
                 case nameof(Options.SortDirection):

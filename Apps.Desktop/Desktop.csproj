@@ -96,6 +96,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="XAMLMarkupExtensions, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\HeaderView.xaml.cs">
@@ -104,6 +108,11 @@
     <Compile Include="Converters\TileNameConverter.cs" />
     <Compile Include="HeaderAlignments.cs" />
     <Compile Include="HeaderPlacements.cs" />
+    <Compile Include="Lang\Main.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.resx</DependentUpon>
+    </Compile>
     <Compile Include="MainViewModel.cs" />
     <Compile Include="NewTileWindow.xaml.cs">
       <DependentUpon>NewTileWindow.xaml</DependentUpon>
@@ -203,14 +212,22 @@
   <ItemGroup>
     <Resource Include="Images\Trash.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lang\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Info.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Lang\Main.es-ES.resx" />
+    <EmbeddedResource Include="Lang\Main.fr-FR.resx" />
+    <EmbeddedResource Include="Lang\Main.it-IT.resx" />
+    <EmbeddedResource Include="Lang\Main.ja-JP.resx" />
+    <EmbeddedResource Include="Lang\Main.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

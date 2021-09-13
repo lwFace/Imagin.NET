@@ -12,13 +12,6 @@ namespace Imagin.Common.Controls
             set => SetValue(SourceProperty, value);
         }
 
-        public static DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(Note), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public string Text
-        {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
-        }
-
         public Note() => DefaultStyleKey = typeof(Note);
     }
 }

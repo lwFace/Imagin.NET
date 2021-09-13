@@ -1268,7 +1268,7 @@ namespace Imagin.Common.Controls
 
         protected virtual void OnLayoutPathChanged(OldNew<string> input)
         {
-            _ = layouts.Refresh(input.New);
+            _ = layouts.RefreshAsync(input.New);
         }
         
         protected virtual void OnPanelsChanged(OldNew<PanelCollection> input)

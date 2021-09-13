@@ -528,7 +528,7 @@ namespace Paint
         public async Task SaveAs()
         {
             var path = string.Empty;
-            var extensions = SupportedFormats.Writable.Select(i => i.Extension).ToArray();
+            var extensions = ImageFormats.Writable.Select(i => i.Extension).ToArray();
 
             if (ExplorerWindow.Show(out path, "Save...", ExplorerWindow.Modes.SaveFile, extensions))
                 await Save(path);

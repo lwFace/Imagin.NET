@@ -27,7 +27,7 @@ namespace Vault
         void OnSelectedItemsChanged(object sender, EventArgs<IList> e)
         {
             var newSource = e.Value?.First();
-            if (source?.Equals(newSource) != true)
+            if (source.Equals(newSource) != true)
                 Source = newSource;
         }
     }

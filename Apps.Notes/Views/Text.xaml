@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Notes"
     xmlns:i="http://imagin.tech/imagin/common">
+    <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <i:BulletMultiConverter x:Key="BulletMultiConverter"/>
     <i:HasFlagConverter x:Key="HasFlagConverter"/>
     <i:NullConverter x:Key="NullConverter"/>
@@ -11,7 +12,7 @@
     <i:SecondsConverter x:Key="SecondsConverter"/>
     <i:SortDirectionConverter x:Key="SortDirectionConverter"/>
     <i:ToStringConverter x:Key="ToStringConverter"/>
-
+    
     <DataTemplate x:Key="DataTemplate.List">
         <Grid i:GridExtensions.Rows="Auto,*">
             <Grid.Resources>
@@ -142,65 +143,66 @@
                                                             <EventSetter Event="LostFocus" Handler="OnListLostFocus"/>
                                                             <Setter Property="Visibility" Value="Collapsed"/>
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.Decimal}">
+                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Columns.Decimal}">
                                                                     <Setter Property="Visibility" Value="Visible"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </i:LabelBox.Style>
                                                 </i:LabelBox>
-                                                <i:LabelBox
-                                                    FontFamily="{i:Options FontFamily, Mode=OneWay}"
-                                                    FontSize="{i:Options FontSize, Mode=TwoWay}"
-                                                    i:ControlExtensions.FontSizeWheel="True"
-                                                    i:ControlExtensions.FontSizeWheelMaximum="72"
-                                                    i:ControlExtensions.FontSizeWheelMinimum="8"
+                                                <StackPanel 
                                                     HorizontalAlignment="Right"
-                                                    Label="{Binding DateTime, Converter={StaticResource SecondsConverter}, ConverterParameter=1}"
-                                                    Text="{Binding DateTime, Mode=TwoWay, StringFormat='M/d/yyyy h:mm tt', UpdateSourceTrigger=LostFocus}"
-                                                    TextWrapping="Wrap">
-                                                    <i:LabelBox.Style>
-                                                        <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
-                                                            <EventSetter Event="LostFocus" Handler="OnListLostFocus"/>
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.DateTime}">
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </i:LabelBox.Style>
-                                                </i:LabelBox>
-                                                <i:LabelBox 
-                                                    FontFamily="{i:Options FontFamily, Mode=OneWay}"
-                                                    FontSize="{i:Options FontSize, Mode=TwoWay}"
-                                                    i:ControlExtensions.FontSizeWheel="True"
-                                                    i:ControlExtensions.FontSizeWheelMaximum="72"
-                                                    i:ControlExtensions.FontSizeWheelMinimum="8"
-                                                    FontStyle="Italic"
-                                                    HorizontalAlignment="Right"
-                                                    Opacity="0.6"
-                                                    Text="{Binding Data.DateTimeFormat, Mode=TwoWay, Source={StaticResource List}, UpdateSourceTrigger=PropertyChanged}"
-                                                    TextTrimming="CharacterEllipsis">
-                                                    <i:LabelBox.Label>
-                                                        <MultiBinding Converter="{StaticResource DateTimeStringFormatMultiConverter}">
-                                                            <MultiBinding.Bindings>
-                                                                <Binding Path="DateTime"/>
-                                                                <Binding Path="Data.DateTimeFormat" Source="{StaticResource List}"/>
-                                                            </MultiBinding.Bindings>
-                                                        </MultiBinding>
-                                                    </i:LabelBox.Label>
-                                                    <i:LabelBox.Style>
-                                                        <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.DateTime}">
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </i:LabelBox.Style>
-                                                </i:LabelBox>
+                                                    Orientation="Horizontal">
+                                                    <!--
+                                                    <TextBlock 
+                                                        FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                        FontSize="{i:Options FontSize, Mode=TwoWay}"
+                                                        FontStyle="Italic"
+                                                        HorizontalAlignment="Right"
+                                                        Opacity="0.6"
+                                                        TextTrimming="CharacterEllipsis">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding Converter="{StaticResource DateTimeStringFormatMultiConverter}">
+                                                                <MultiBinding.Bindings>
+                                                                    <Binding Path="DateTime"/>
+                                                                    <Binding Path="Data.DateTimeFormat" Source="{StaticResource List}"/>
+                                                                </MultiBinding.Bindings>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="{x:Type TextBlock}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Values.DateTime}">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    -->
+                                                    <i:LabelBox
+                                                        FontFamily="{i:Options FontFamily, Mode=OneWay}"
+                                                        FontSize="{i:Options FontSize, Mode=TwoWay}"
+                                                        i:ControlExtensions.FontSizeWheel="True"
+                                                        i:ControlExtensions.FontSizeWheelMaximum="72"
+                                                        i:ControlExtensions.FontSizeWheelMinimum="8"
+                                                        Label="{Binding DateTime, Converter={StaticResource SecondsConverter}, ConverterParameter=1}"
+                                                        Text="{Binding DateTime, Mode=TwoWay, StringFormat='M/d/yyyy h:mm tt', UpdateSourceTrigger=LostFocus}"
+                                                        TextWrapping="Wrap">
+                                                        <i:LabelBox.Style>
+                                                            <Style TargetType="{x:Type i:LabelBox}" BasedOn="{StaticResource {x:Type i:LabelBox}}">
+                                                                <EventSetter Event="LostFocus" Handler="OnListLostFocus"/>
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Data.Value, Source={StaticResource List}}" Value="{x:Static local:Columns.DateTime}">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </i:LabelBox.Style>
+                                                    </i:LabelBox>
+                                                </StackPanel>
                                             </StackPanel>
                                         </Grid>
                                         <DataTemplate.Triggers>

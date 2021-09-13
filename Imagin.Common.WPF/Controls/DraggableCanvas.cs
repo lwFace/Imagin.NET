@@ -46,9 +46,13 @@ namespace Imagin.Common.Controls
             DependencyObject parent = frameworkElement;
             while (!(parent is FrameworkElement) || !((parent as FrameworkElement).DataContext is ISelectable))
             {
+                if (parent is System.Windows.Controls.TextBox)
+                    return null;
+
                 var nextParent = VisualTreeHelper.GetParent(parent);
                 if (nextParent is Canvas)
                     break;
+
                 parent = nextParent;
             }
             return (parent as FrameworkElement).DataContext as ISelectable;

@@ -3,6 +3,7 @@ using Imagin.Common.Configuration;
 using Imagin.Common.Controls;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
+using Imagin.Common.Media;
 using Imagin.Common.Models;
 using Imagin.Common.Serialization;
 using Imagin.Common.Storage;
@@ -157,7 +158,7 @@ namespace Paint
             if (ActivateDocument(filePath))
                 return;
 
-            if (SupportedFormats.IsReadable(fileExtension))
+            if (ImageFormats.IsReadable(fileExtension))
             {
                 Document document = null;
                 void error() => Dialog.Show("Open", $"The file '{filePath}' is invalid or corrupt.", DialogImage.Error, DialogButtons.Ok);
@@ -232,7 +233,7 @@ namespace Paint
         bool? Save(System.Drawing.Bitmap bitmap)
         {
             var path = string.Empty;
-            if (ExplorerWindow.Show(out path, "Save...", ExplorerWindow.Modes.SaveFile, SupportedFormats.Writable.Select(i => i.Extension)))
+            if (ExplorerWindow.Show(out path, "Save...", ExplorerWindow.Modes.SaveFile, ImageFormats.Writable.Select(i => i.Extension)))
             {
                 if (path?.Length > 0)
                 {
@@ -367,7 +368,7 @@ namespace Paint
                         if (!ActiveDocument.FilePath.NullOrEmpty())
                         {
                             //...and the file extension is writable...
-                            if (SupportedFormats.IsWritable(ActiveDocument.FileExtension))
+                            if (ImageFormats.IsWritable(ActiveDocument.FileExtension))
                             {
                                 //Serialize it!
                                 BinarySerializer.Serialize(ActiveDocument.FilePath, ActiveDocument);

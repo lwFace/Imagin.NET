@@ -30,7 +30,7 @@ namespace Alarm
                 OnFolderPathChanged(value);
             }
         }
-
+        
         double audioVolume = 80;
         [Hidden]
         public double AudioVolume

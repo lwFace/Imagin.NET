@@ -24,13 +24,11 @@
         DataContext="{Data:Ancestor local:Navigator}"
         x:Name="PART_TreeView"
         AllowDrop="True"
-        BorderBrush="#22000000"
-        BorderThickness="0,0,1,0"
+        BorderThickness="0"
         g:DragDrop.DropHandler="{Binding DropHandler}"
         g:DragDrop.IsDropTarget="False"
         Linq:ItemsControlExtensions.CanDragSelect="False"
         ItemsSource="{Binding Items}"
-        Padding="0,0,10,0"
         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <local:TreeView.Resources>
             <HierarchicalDataTemplate DataType="{x:Type Storage:Container}" ItemsSource="{Binding Items}">

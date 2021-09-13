@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:Imagin.Common.Controls"
     xmlns:Common="clr-namespace:Imagin.Common"
     xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:_Converters="clr-namespace:Imagin.Common.Globalization.Converters"
     xmlns:Data="clr-namespace:Imagin.Common.Data"
     xmlns:Linq="clr-namespace:Imagin.Common.Linq"
     xmlns:Markup="clr-namespace:Imagin.Common.Markup"
@@ -18,7 +19,8 @@
     <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <Converters:NullConverter x:Key="NullConverter"/>
     <Converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
-    
+    <_Converters:TranslateConverter x:Key="TranslateConverter"/>
+
     <Style x:Key="{x:Type local:DockView}" TargetType="{x:Type local:DockView}">
         <Setter Property="ActualPanelTemplate">
             <Setter.Value>
@@ -37,31 +39,50 @@
                                     Source="{Binding Icon}"
                                     Visibility="{Binding Icon, Converter={StaticResource ObjectToVisibilityConverter}}"/>
                                 <!-- Why doesn't the correct foreground show? -->
+                                <!--
                                 <ContentControl
                                     Grid.Column="1"
                                     Content="{Binding}"
                                     ContentTemplate="{Data:Ancestor DockView.PanelTitleTemplate, {x:Type local:LayoutRootControl}}"
                                     Margin="0,0,5,0"
                                     Visibility="Collapsed"/>
-                                <TextBlock
-                                    Grid.Column="1"
+                                -->
+                                <TextBlock Grid.Column="1"
                                     Foreground="{DynamicResource Brush.Text}"
-                                    Text="{Binding Title}"
-                                    Margin="0,0,5,0"/>
-                                <local:MaskedButton
-                                    Grid.Column="2"
+                                    Margin="0,0,5,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding TitleLocalized}" Value="True">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                                                <Binding Path="Title"/>
+                                                                <Markup:Options Path="Language"/>
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding TitleLocalized}" Value="False">
+                                                    <Setter Property="Text" Value="{Binding Title}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <local:MaskedButton Grid.Column="2"
                                     Command="{Data:Ancestor DockView.FloatCommand, {x:Type local:LayoutRootControl}}"
                                     CommandParameter="{Binding}"
                                     Margin="0,0,5,0"
                                     Source="{Markup:Image Imagin.Common.WPF, Images/Pin.png}"
-                                    ToolTip="Float"
+                                    ToolTip="{l:Loc Imagin.Common.Wpf:Main:Float}"
                                     Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
-                                <local:MaskedButton
-                                    Grid.Column="3"
+                                <local:MaskedButton Grid.Column="3"
                                     Command="{Data:Ancestor DockView.HidePanelCommand, {x:Type local:LayoutRootControl}}"
                                     CommandParameter="{Binding}"
                                     Source="{Markup:Image Imagin.Common.WPF, Images/X.png}"
-                                    ToolTip="Hide"
+                                    ToolTip="{l:Loc Imagin.Common.Wpf:Main:Hide}"
                                     Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
                             </Grid>
                         </local:LayoutPanelTitleControl>
@@ -118,6 +139,7 @@
                                 SourceColor="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"
                                 SourceHeight="12"
                                 SourceWidth="12"
+                                ToolTip="{l:Loc Imagin.Common.WPF:Main:Close}"
                                 VerticalAlignment="Center"
                                 Visibility="{Binding CanClose, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </Grid>
@@ -187,6 +209,7 @@
                             SourceColor="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"
                             SourceHeight="12"
                             SourceWidth="12"
+                            ToolTip="{l:Loc Imagin.Common.WPF:Main:Hide}"
                             VerticalAlignment="Center"
                             Visibility="{Binding CanHide, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
@@ -225,7 +248,27 @@
         <Setter Property="PanelTitleTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}"/>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TitleLocalized}" Value="True">
+                                        <Setter Property="Text">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                                    <Binding Path="Title"/>
+                                                    <Markup:Options Path="Language"/>
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TitleLocalized}" Value="False">
+                                        <Setter Property="Text" Value="{Binding Title}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

@@ -1,6 +1,7 @@
 ﻿using Alarm.Linq;
 using Imagin.Common;
 using Imagin.Common.Controls;
+using Imagin.Common.Globalization;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Math;
@@ -44,7 +45,7 @@ namespace Alarm
             set => this.Change(ref media, value);
         }
 
-        public bool CanPlay 
+        public bool CanPlay
             => !set && !media.Playing;
 
         public bool CanStop 
@@ -61,7 +62,7 @@ namespace Alarm
             get
             {
                 var result = $"{(MathParser.Difficulties)Get.Current<Options>().MathDifficulty.Int32()}";
-                return result == nameof(MathParser.Difficulties.None) ? "Disable" : result;
+                return result == nameof(MathParser.Difficulties.None) ? "Disabled" : result;
             }
         }
 
@@ -99,11 +100,15 @@ namespace Alarm
             {
                 var next = Next();
                 if (next != null)
-                    return $"Next alarm starts {next.Value.Relative("in")}";
+                    return next.Value.Relative(string.Empty);
 
-                return $"Unable to determine next alarm";
+                return string.Empty;
             }
         }
+
+        //----------------------------------------------------------------
+
+        public bool MissingAudio => !File.Long.Exists(Get.Current<Options>().AudioFilePath);
 
         //----------------------------------------------------------------
 
@@ -120,13 +125,6 @@ namespace Alarm
                     if (!value)
                     {
                         if (!Solve())
-                        {
-                            return;
-                        }
-                    }
-                    if (value)
-                    {
-                        if (!Imagin.Common.Storage.File.Long.Exists(Get.Current<Options>().AudioFilePath))
                         {
                             return;
                         }
@@ -163,6 +161,12 @@ namespace Alarm
 
         ICommand playCommand;
         public ICommand PlayCommand => playCommand = playCommand ?? new RelayCommand(() => media.Play());
+
+        ICommand previousCommand;
+        public ICommand PreviousCommand => previousCommand = previousCommand ?? new RelayCommand(() => { });
+
+        ICommand nextCommand;
+        public ICommand NextCommand => nextCommand = nextCommand ?? new RelayCommand(() => { });
 
         ICommand stopCommand;
         public ICommand StopCommand => stopCommand = stopCommand ?? new RelayCommand(() => media.Stop());
@@ -229,6 +233,8 @@ namespace Alarm
             OnPropertyChanged(nameof(CanPlay));
             OnPropertyChanged(nameof(CanStop));
 
+            this.Changed(() => MissingAudio);
+
             media.Stop();
             alarms.Clear();
 
@@ -249,6 +255,8 @@ namespace Alarm
 
         void OnUpdate(object sender, ElapsedEventArgs e)
         {
+            this.Changed(() => MissingAudio);
+
             if (media.Volume != Get.Current<Options>().AudioVolume)
                 media.Volume = Get.Current<Options>().AudioVolume;
 

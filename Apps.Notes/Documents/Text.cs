@@ -214,7 +214,7 @@ namespace Notes
 
         ICommand saveAsCommand;
         [Category(nameof(Save))]
-        [DisplayName("Save as...")]
+        [DisplayName("SaveAs")]
         [XmlIgnore]
         public ICommand SaveAsCommand
         {

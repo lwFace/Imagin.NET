@@ -194,7 +194,7 @@ namespace Imagin.Common.Controls
         {
             files.Added -= OnFileAdded;
             files.Removed -= OnFileRemoved;
-            _ = files.Refresh(input.New);
+            _ = files.RefreshAsync(input.New);
         }
 
         protected virtual void OnSelectedItemChanged(OldNew<File> input)

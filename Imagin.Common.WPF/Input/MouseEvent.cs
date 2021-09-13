@@ -6,10 +6,9 @@ namespace Imagin.Common.Input
     public enum MouseEvent
     {
         None = 0,
-        Default = 1,
-        DelayedMouseDown = 2,
-        MouseDown = 4,
-        MouseUp = 8,
-        MouseDoubleClick = 16
+        DelayedMouseDown = 1,
+        MouseDown = 2,
+        MouseUp = 4,
+        MouseDoubleClick = 8
     }
 }

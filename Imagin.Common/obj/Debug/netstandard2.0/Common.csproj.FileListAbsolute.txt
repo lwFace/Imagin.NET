@@ -24,3 +24,4 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\ob
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.0\Common.AssemblyInfo.cs
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.0\Imagin.Common.dll
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.0\Imagin.Common.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common\obj\Debug\netstandard2.0\Common.csprojAssemblyReference.cache

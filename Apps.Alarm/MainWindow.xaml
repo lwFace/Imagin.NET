@@ -6,14 +6,13 @@
     i:LocalizeDictionary.DesignCulture="en"
     i:ResxLocalizationProvider.DefaultAssembly="{i:AssemblyName}"
     i:ResxLocalizationProvider.DefaultDictionary="Main"
+    xmlns:Converters="clr-namespace:Imagin.Common.Globalization.Converters;assembly=Imagin.Common.WPF"
     Closing="OnWindowClosing"
     ResizeMode="NoResize"
-    Height="{i:Options WindowHeight, Mode=TwoWay}"
-    Width="{i:Options WindowWidth, Mode=TwoWay}"
     SizeToContent="Height"
-    Title="{i:AssemblyProduct}"    
     TitleIcon="{i:Image Alarm, Images/Clock.png}"
     UseLayoutRounding="True"
+    Width="540"
     WindowStartupLocation="CenterScreen">
     <i:BaseWindow.Buttons>
         <i:WindowButton
@@ -21,49 +20,66 @@
             Content="{i:Image Alarm, Images/Info.png}"
             ContentSize="12,12"
             IsCheckable="False"
-            ToolTip="About"/>
+            ToolTip="{i:Loc About}"/>
         <i:WindowButton
             Content="{i:Image Alarm, Images/Options.png}"
             ContentSize="12,12"
             IsCheckable="True"
             IsChecked="{Binding ViewOptions, Mode=TwoWay}"
-            ToolTip="Options"/>
+            ToolTip="{i:Loc Options}"/>
     </i:BaseWindow.Buttons>
     <i:BaseWindow.Resources>
         <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <i:FileNameConverter x:Key="FileNameConverter"/>
         <i:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <i:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
+
+        <Converters:TranslateConverter x:Key="TranslateConverter"/>
     </i:BaseWindow.Resources>
+    <i:BaseWindow.Title>
+        <MultiBinding Converter="{StaticResource TranslateConverter}">
+            <Binding Source="{i:AssemblyProduct}"/>
+            <i:Options Path="Language"/>
+        </MultiBinding>
+    </i:BaseWindow.Title>
     <Grid>
-        <Grid 
+        <Grid i:GridExtensions.Rows="*,Auto"
             Visibility="{Binding ViewOptions, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid
+            <Grid i:GridExtensions.Rows="Auto,Auto,Auto,Auto"
                 Grid.Row="0"
-                Margin="10"
-                i:GridExtensions.Rows="Auto,Auto,Auto,Auto,Auto">
+                Margin="10">
 
-                <i:Note
-                    Grid.Row="0"
-                    Background="{DynamicResource Brush.Blue}"
-                    Margin="0,0,0,5"
-                    Source="pack://application:,,,/Alarm;component/Images/Music.png"
-                    Text="Currently playing"
-                    Visibility="{Binding Media.Playing, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <i:Note
-                    Grid.Row="1"
-                    Background="{DynamicResource Brush.Orange}"
-                    Margin="0,0,0,5"
-                    Source="pack://application:,,,/Alarm;component/Images/Warning.png"
-                    Text="{Binding NextAlarm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding Set, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <Grid i:GridExtensions.Rows="Auto,Auto,Auto"
+                     i:PanelExtensions.Spacing="0,0,0,5">
+                    <i:Note
+                        Grid.Row="0"
+                        Background="{DynamicResource Brush.Blue}"
+                        Content="{i:Loc CurrentlyPlaying}"
+                        Source="pack://application:,,,/Alarm;component/Images/Music.png"
+                        Visibility="{Binding Media.Playing, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <i:Note
+                        Grid.Row="1"
+                        Background="{DynamicResource Brush.Orange}"
+                        Content="{i:Loc MissingAudio}"
+                        Source="pack://application:,,,/Alarm;component/Images/Warning.png"
+                        Visibility="{Binding MissingAudio, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <i:Note
+                        Grid.Row="2"
+                        Background="{DynamicResource Brush.Green}"
+                        Content="{Binding NextAlarm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        Source="pack://application:,,,/Alarm;component/Images/CheckmarkRound.png"
+                        Visibility="{Binding Set, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <i:Note.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="White">
+                                    <Run Text="{i:Loc NextAlarmStartsIn}"/><Run Text="{Binding Mode=OneWay}"/>
+                                </TextBlock>
+                            </DataTemplate>
+                        </i:Note.ContentTemplate>
+                    </i:Note>
+                </Grid>
 
-                <GroupBox
-                    Grid.Row="2"
+                <GroupBox Grid.Row="1"
                     Margin="0,0,0,10"
                     Padding="10,10,0,10">
                     <GroupBox.Header>
@@ -92,7 +108,7 @@
                                     Orientation="Horizontal">
                                     <TextBlock
                                         Margin="0,0,10,0"
-                                        Text="Set"/>
+                                        Text="{i:Loc Set}"/>
                                     <Label
                                         Content="{Binding Difference, Mode=OneWay}" 
                                         Style="{DynamicResource Label.Accent}"/>
@@ -120,8 +136,8 @@
                             AVisibility="Visible"
                             B="{Binding To}"
                             BVisibility="Visible"
-                            PathStroke="Azure"
-                            PathStrokeThickness="2"/>
+                            PathStroke="Transparent"
+                            PathStrokeThickness="3"/>
 
                         <Grid
                             Grid.Column="1"
@@ -144,8 +160,7 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Grid
-                                        Grid.Row="0">
+                                        <Grid Grid.Row="0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
@@ -159,15 +174,13 @@
                                                 Width="12"/>
                                             <TextBlock
                                             Grid.Column="1"
-                                            Text="Start"/>
+                                            Text="{i:Loc Start}"/>
                                         </Grid>
-                                        <TextBlock
-                                            Grid.Row="1"
+                                        <TextBlock Grid.Row="1"
                                             Margin="0,0,0,10"
                                             Opacity="0.5"
                                             Text="{Binding From, StringFormat='{}{0:dddd, MMM d, yyyy}', Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <i:TimeSpanView
-                                            Grid.Row="2"
+                                        <i:TimeSpanView Grid.Row="2"
                                             Value="{i:Options StartTime, Mode=TwoWay}"/>
                                     </Grid>
                                 </Border>
@@ -183,8 +196,7 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Grid
-                                        Grid.Row="0">
+                                        <Grid Grid.Row="0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
@@ -198,15 +210,13 @@
                                                 Width="12"/>
                                             <TextBlock
                                                 Grid.Column="1"
-                                                Text="End"/>
+                                                Text="{i:Loc End}"/>
                                         </Grid>
-                                        <TextBlock
-                                            Grid.Row="1"
+                                        <TextBlock Grid.Row="1"
                                             Margin="0,0,0,10"
                                             Opacity="0.5"
                                             Text="{Binding To, StringFormat='{}{0:dddd, MMM d, yyyy}', Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <i:TimeSpanView
-                                            Grid.Row="2"
+                                        <i:TimeSpanView Grid.Row="2"
                                             Value="{i:Options EndTime, Mode=TwoWay}"/>
                                     </Grid>
                                 </Border>
@@ -224,21 +234,21 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock
-                            Grid.Column="0"
-                            Margin="0,0,8,0"
-                            Text="Every"/>
+                                Grid.Column="0"
+                                Margin="0,0,8,0"
+                                Text="{i:Loc Every}"/>
                             <Label
-                            Grid.Column="1"
-                            HorizontalAlignment="Center"
-                            Style="{DynamicResource Label.Accent}">
-                                <StackPanel
+                                Grid.Column="1"
                                 HorizontalAlignment="Center"
-                                Orientation="Horizontal">
+                                Style="{DynamicResource Label.Accent}">
+                                <StackPanel
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
                                     <TextBlock 
-                                    Margin="0,0,4,0"
-                                    Text="{i:Options Increment, Mode=OneWay}"/>
+                                        Margin="0,0,4,0"
+                                        Text="{i:Options Increment, Mode=OneWay}"/>
                                     <TextBlock 
-                                    Text="minutes"/>
+                                        Text="{i:Loc Minutes}"/>
                                 </StackPanel>
                             </Label>
                             <Slider
@@ -250,39 +260,83 @@
                                 TickFrequency="5"
                                 Interval="5"
                                 IsSnapToTickEnabled="True"
-                                ToolTip="Increment"
+                                ToolTip="{i:Loc Increment}"
                                 Value="{i:Options Increment, Mode=TwoWay}"
                                 VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </GroupBox>
-                <GroupBox
-                    Grid.Row="3"
+                <GroupBox Grid.Row="2"
                     Margin="0,0,0,10"
                     Padding="10,10,0,10">
                     <GroupBox.Header>
-                        <Grid
-                            i:GridExtensions.Columns="Auto,Auto,Auto,*,Auto">
+                        <StackPanel
+                            Orientation="Horizontal">
                             <TextBlock
-                                Grid.Column="0"
                                 Margin="0,0,5,0"
-                                Text="Audio"/>
+                                Text="{i:Loc Audio}"/>
                             <i:MaskedButton
-                                Grid.Column="1"
                                 Command="{Binding PlayCommand}"
                                 IsEnabled="{Binding CanPlay, Mode=OneWay}"
-                                Margin="0,0,5,0"
                                 Source="pack://application:,,,/Alarm;component/Images/PlayRound.png"
-                                ToolTip="Play"/>
+                                ToolTip="{i:Loc Play}"
+                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
                             <i:MaskedButton
-                                Grid.Column="2"
                                 Command="{Binding StopCommand}"
                                 IsEnabled="{Binding CanStop, Mode=OneWay}"
-                                Margin="0,0,5,0"
                                 Source="pack://application:,,,/Alarm;component/Images/StopRound.png"
-                                ToolTip="Stop"/>
+                                ToolTip="{i:Loc Stop}"
+                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <Grid
+                        IsEnabled="{Binding Set, Converter={StaticResource InverseBooleanConverter}}"
+                        i:PanelExtensions.Spacing="0,0,0,4"
+                        i:PanelExtensions.SpacingExcept="Last">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <i:FileBox Grid.Row="1"
+                            BrowseMode="OpenFolder"
+                            CanBrowse="True"
+                            CanValidate="True"
+                            IconVisibility="Visible"
+                            IsReadOnly="True"
+                            Placeholder="{i:Loc Folder}"
+                            Text="{i:Options AudioFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="{i:Loc Folder}"/>
+
+                        <ComboBox Grid.Row="2"
+                            ItemsSource="{Binding Sounds, Mode=OneWay}"
+                            i:ComboBoxExtensions.Placeholder="{i:Loc File}"
+                            SelectedValue="{i:Options AudioFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="{i:Loc File}"
+                            Visibility="{Binding Sounds.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid i:GridExtensions.Columns="Auto,*">
+                                        <i:Thumbnail
+                                            Grid.Column="0"
+                                            Height="16"
+                                            Margin="0,0,5,0"
+                                            Path="{Binding}"
+                                            Width="16"/>
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="{Binding Converter={StaticResource FileNameConverter}, ConverterParameter=0, Mode=OneWay}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        
+                        <Grid Grid.Row="3"
+                            i:GridExtensions.Columns="*,Auto">
                             <Grid
-                                Grid.Column="3"
+                                Grid.Column="0"
                                 Margin="0,0,5,0">
                                 <Slider
                                     x:Name="PART_Slider"
@@ -294,50 +348,18 @@
                                     TickPlacement="None"
                                     IsSnapToTickEnabled="True"
                                     Value="{i:Options AudioVolume, Mode=TwoWay}"
-                                    ToolTip="Volume"/>
+                                    ToolTip="{i:Loc Volume}"/>
                             </Grid>
-                            <Grid
-                                Grid.Column="4">
-                                <Label
-                                    Margin="5,0,0,0"
-                                    Style="{DynamicResource Label.Accent}">
-                                    <TextBlock
-                                    Text="{Binding Value, ElementName=PART_Slider, StringFormat={}{0:p0}}"/>
-                                </Label>
-                            </Grid>
+                            <i:DoubleUpDown
+                                Grid.Column="1"
+                                Margin="5,0,0,0"
+                                Value="{Binding Value, ElementName=PART_Slider, Mode=TwoWay}"
+                                StringFormat="p0"
+                                ToolTip="{i:Loc Volume}"/>
                         </Grid>
-                    </GroupBox.Header>
-                    <Grid
-                        IsEnabled="{Binding Set, Converter={StaticResource InverseBooleanConverter}}"
-                        i:PanelExtensions.Spacing="0,0,0,4"
-                        i:PanelExtensions.SpacingExcept="Last">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <i:FileBox
-                            Grid.Row="0"
-                            BrowseMode="OpenFolder"
-                            CanBrowse="True"
-                            CanValidate="True"
-                            IsReadOnly="True"
-                            Text="{i:Options AudioFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <ComboBox
-                            Grid.Row="1"
-                            ItemsSource="{Binding Sounds, Mode=OneWay}"
-                            SelectedValue="{i:Options AudioFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock
-                                    Text="{Binding ., Converter={StaticResource FileNameConverter}, ConverterParameter=0}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
                     </Grid>
                 </GroupBox>
-                <GroupBox
-                    Grid.Row="4"
+                <GroupBox Grid.Row="3"
                     IsEnabled="{Binding Set, Converter={StaticResource InverseBooleanConverter}}"
                     Padding="0">
                     <GroupBox.Header>
@@ -346,7 +368,7 @@
                             i:PanelExtensions.Spacing="0,0,5,0"
                             i:PanelExtensions.SpacingExcept="Last">
                             <TextBlock
-                                Text="Math"/>
+                                Text="{i:Loc Math}"/>
                             <Grid>
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -369,7 +391,7 @@
                                 <TextBlock
                                     Foreground="White"
                                     Margin="5,3"
-                                    Text="{Binding MathDifficulty}">
+                                    Text="{Binding MathDifficulty, Converter={StaticResource TranslateConverter}}">
                                 </TextBlock>
                             </Grid>
                         </StackPanel>
@@ -384,7 +406,7 @@
                         IsSnapToTickEnabled="True"
                         Value="{i:Options MathDifficulty, Mode=TwoWay}"
                         VerticalAlignment="Center"
-                        ToolTip="Difficulty">
+                        ToolTip="{i:Loc Difficulty}">
                         <Slider.Style>
                             <Style TargetType="{x:Type Slider}">
                                 <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -562,11 +584,14 @@
                     Command="{Binding SnoozeCommand}"
                     Margin="10,0,10,10"
                     Padding="0,12"
-                    IsEnabled="{Binding Media.Playing, Mode=OneWay}">
-                    <TextBlock
-                        FontFamily="Franklin Gothic Demi"
-                        FontSize="20"
-                        Text="snooze"/>
+                    IsEnabled="{Binding Media.Playing, Mode=OneWay}"
+                    Style="{DynamicResource Button.Green}"
+                    ToolTip="{i:Loc Snooze}">
+                    <i:MaskedImage
+                        Source="{i:Image Alarm, Images/Snooze.png}"
+                        SourceColor="White"
+                        SourceHeight="32"
+                        SourceWidth="32"/>
                 </Button>
             </Grid>
         </Grid>

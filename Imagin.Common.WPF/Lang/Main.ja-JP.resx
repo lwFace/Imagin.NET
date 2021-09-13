@@ -384,4 +384,49 @@
   <data name="Warning" xml:space="preserve">
     <value>警告</value>
   </data>
+  <data name="About" xml:space="preserve">
+    <value>だいたい</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>隠れる</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="AutoSave" xml:space="preserve">
+    <value>自動保存</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="OpenFolder" xml:space="preserve">
+    <value>開いたフォルダ</value>
+  </data>
+  <data name="ResetLayout" xml:space="preserve">
+    <value>レイアウトをリセット</value>
+  </data>
+  <data name="SaveLayout" xml:space="preserve">
+    <value>レイアウトを保存</value>
+  </data>
+  <data name="Accessed" xml:space="preserve">
+    <value>アクセス済み</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>作成した</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>隠れた</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>変更</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>読み取り専用</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
 </root>

@@ -30,3 +30,17 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.pdb
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\bin\x86\Debug\ja-JP\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\bin\x86\Debug\fr-FR\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\bin\x86\Debug\es-ES\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\bin\x86\Debug\fr-FR\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\bin\x86\Debug\it-IT\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\bin\x86\Debug\ja-JP\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.Lang.Main.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.Lang.Main.es-ES.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.Lang.Main.fr-FR.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.Lang.Main.it-IT.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\Alarm.Lang.Main.ja-JP.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\es-ES\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\fr-FR\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\it-IT\Alarm.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Alarm\obj\x86\Debug\ja-JP\Alarm.resources.dll

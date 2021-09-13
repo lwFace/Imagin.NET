@@ -81,7 +81,7 @@ namespace Imagin.Common.Controls
 
             this.Bind(HourProperty, nameof(Value), this, BindingMode.TwoWay, new DefaultConverter<TimeSpan, int>
             (
-                i => i.Hours > 12 ? i.Hours - 12 : i.Hours,
+                i => i.Hours > 12 ? i.Hours - 12 : i.Hours == 0 ? 12 : i.Hours,
                 i => Update(i, Minute, Meridiem)
             ));
             this.Bind(MinuteProperty, nameof(Value), this, BindingMode.TwoWay, new DefaultConverter<TimeSpan, int>

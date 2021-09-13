@@ -6,11 +6,11 @@
     i:LocalizeDictionary.DesignCulture="en"
     i:ResxLocalizationProvider.DefaultAssembly="{i:AssemblyName}"
     i:ResxLocalizationProvider.DefaultDictionary="Main"
+    xmlns:Converters="clr-namespace:Imagin.Common.Globalization.Converters;assembly=Imagin.Common.WPF"
     MinHeight="300"
     MinWidth="600"
     Height="{i:Options WindowHeight, Mode=TwoWay}"
     Width="{i:Options WindowWidth, Mode=TwoWay}"
-    Title="{i:AssemblyProduct}"
     TitleIcon="{i:Image Color, Images/Logo.png}"
     WindowStartupLocation="CenterScreen">
     <i:BaseWindow.Buttons>
@@ -18,20 +18,29 @@
             Command="{Binding AddCommand}"
             Content="{i:Image Color, Images/Plus.png}"
             ContentSize="12,12"
-            ToolTip="Add"/>
+            ToolTip="{i:Loc Add}"/>
         <i:WindowButton
             Command="{Binding AboutCommand}"
             Content="{i:Image Color, Images/Info.png}"
             ContentSize="12,12"
             IsCheckable="False"
-            ToolTip="About"/>
+            ToolTip="{i:Loc About}"/>
         <i:WindowButton
             Content="{i:Image Color, Images/Options.png}"
             ContentSize="12,12"
             IsCheckable="True"
             IsChecked="{Binding OptionsPanel.IsVisible, ElementName=ColorPicker, Mode=TwoWay}"
-            ToolTip="Options"/>
+            ToolTip="{i:Loc Options}"/>
     </i:BaseWindow.Buttons>
+    <i:BaseWindow.Resources>
+        <Converters:TranslateConverter x:Key="TranslateConverter"/>
+    </i:BaseWindow.Resources>
+    <i:BaseWindow.Title>
+        <MultiBinding Converter="{StaticResource TranslateConverter}">
+            <Binding Source="{i:AssemblyProduct}"/>
+            <i:Options Path="Language"/>
+        </MultiBinding>
+    </i:BaseWindow.Title>
     <i:ColorPicker
         x:Name="ColorPicker"
         Documents="{Binding Documents, Mode=TwoWay}"

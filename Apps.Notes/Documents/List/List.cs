@@ -5,7 +5,6 @@ using Imagin.Common.Data;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Text;
-using Imagin.Common.Time;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -23,6 +22,7 @@ namespace Notes
 
         enum Category
         {
+            Column,
             Image,
             View
         }
@@ -73,13 +73,23 @@ namespace Notes
             set => this.Change(ref bullets, value);
         }
 
+        Columns column = Columns.None;
+        [Category(Category.Column)]
+        [DisplayName("Column")]
+        [XmlAttribute]
+        public Columns Value
+        {
+            get => column;
+            set => (this).Change(ref this.column, value);
+        }
+
         [Hidden]
         [XmlIgnore]
         public int Count => Lines.Count;
 
         string dateTimeFormat = "dddd, MMM d, yyyy";
-        [Category("Format")]
-        [DisplayName("Date/time")]
+        [Category(nameof(Category.Column) + " format")]
+        [DisplayName("DateTime")]
         [XmlAttribute]
         public string DateTimeFormat
         {
@@ -88,7 +98,7 @@ namespace Notes
         }
 
         string decimalFormat = "${N2}";
-        [Category("Format")]
+        [Category(nameof(Category.Column) + " format")]
         [DisplayName("Decimal")]
         [XmlAttribute]
         public string DecimalFormat
@@ -136,15 +146,6 @@ namespace Notes
         [Hidden]
         [XmlIgnore]
         public override string Title => $"{Name} ({(attributes.HasFlag(Attributes.Check) ? $"{lines.Where(i => i.Checked).Count()}/" : string.Empty)}{lines.Count}){(IsModified ? "*" : string.Empty)}";
-
-        Values value = Values.None;
-        [Category(nameof(Value))]
-        [XmlAttribute]
-        public Values Value
-        {
-            get => value;
-            set => (this).Change(ref this.value, value);
-        }
 
         /// ........................................................................
 

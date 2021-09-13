@@ -37,7 +37,7 @@ namespace Imagin.Common.Controls
             if (Collection == null)
                 collection = new ItemCollection(Path, new Filter(ItemType.Drive | ItemType.Folder));
 
-            collection?.Refresh(input.New);
+            collection?.RefreshAsync(input.New);
 
             if (Collection == null)
                 SetCurrentValue(CollectionProperty, collection);

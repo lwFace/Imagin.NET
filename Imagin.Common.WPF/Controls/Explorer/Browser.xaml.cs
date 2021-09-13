@@ -120,11 +120,19 @@ namespace Imagin.Common.Controls
             private set => SetValue(LayoutProperty, value);
         }
 
-        public static DependencyProperty LengthProperty = DependencyProperty.Register(nameof(Length), typeof(long), typeof(Browser), new FrameworkPropertyMetadata((long)0, FrameworkPropertyMetadataOptions.None));
+        public static DependencyProperty LengthProperty = DependencyProperty.Register(nameof(Length), typeof(long), typeof(Browser), new FrameworkPropertyMetadata((long)0, FrameworkPropertyMetadataOptions.None, OnLengthChanged));
         public long Length
         {
             get => (long)GetValue(LengthProperty);
             private set => SetValue(LengthProperty, value);
+        }
+        static void OnLengthChanged(DependencyObject i, DependencyPropertyChangedEventArgs e) => (i as Browser).OnLengthChanged(new OldNew<long>(e));
+
+        public static DependencyProperty LengthTextProperty = DependencyProperty.Register(nameof(LengthText), typeof(string), typeof(Browser), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.None));
+        public string LengthText
+        {
+            get => (string)GetValue(LengthTextProperty);
+            private set => SetValue(LengthTextProperty, value);
         }
 
         public static DependencyProperty PathProperty = DependencyProperty.Register(nameof(Path), typeof(string), typeof(Browser), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.None, OnPathChanged, OnPathCoerced));
@@ -175,6 +183,13 @@ namespace Imagin.Common.Controls
         {
             get => (IList<Item>)GetValue(SelectionProperty);
             set => SetValue(SelectionProperty, value);
+        }
+
+        public static DependencyProperty SelectionCountProperty = DependencyProperty.Register(nameof(SelectionCount), typeof(int), typeof(Browser), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.None));
+        public int SelectionCount
+        {
+            get => (int)GetValue(SelectionCountProperty);
+            private set => SetValue(SelectionCountProperty, value);
         }
 
         public static DependencyProperty SelectionLengthProperty = DependencyProperty.Register(nameof(SelectionLength), typeof(long), typeof(Browser), new FrameworkPropertyMetadata((long)0, FrameworkPropertyMetadataOptions.None));
@@ -514,6 +529,14 @@ namespace Imagin.Common.Controls
 
         /// ......................................................................................................................
 
+        protected virtual void OnLengthChanged(OldNew<long> input)
+        {
+            var lengthText = input.New == 1 ? $"1 item" : $"{input.New} items";
+            SetCurrentValue(LengthTextProperty, lengthText);
+        }
+
+        /// ......................................................................................................................
+
         protected virtual void OnPathChanged(OldNew<string> input)
         {
             Refresh();
@@ -545,7 +568,9 @@ namespace Imagin.Common.Controls
             var token = new System.Threading.CancellationTokenSource();
             selectionSizeTokens.Add(token);
 
+            var count = 0;
             long size = 0;
+
             foreach (var i in items)
             {
                 if (i.Type != ItemType.File)
@@ -553,12 +578,16 @@ namespace Imagin.Common.Controls
                     size += await Folder.Long.GetSize(i.Path, token.Token);
                 }
                 else size += i.Size;
+                count++;
             }
 
             selectionSizeTokens.Remove(token);
 
             if (!token.IsCancellationRequested)
+            {
+                SetCurrentValue(SelectionCountProperty, count);
                 SetCurrentValue(SelectionLengthProperty, size);
+            }
         }
 
         /// ......................................................................................................................
@@ -585,7 +614,7 @@ namespace Imagin.Common.Controls
 
         public void Refresh()
         {
-            _ = Items.Refresh(Path);
+            _ = Items.RefreshAsync(Path);
             _ = UpdateLength(Path);
         }
 

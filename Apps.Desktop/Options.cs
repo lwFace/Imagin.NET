@@ -21,7 +21,7 @@ namespace Desktop
 
         string clockDateTimeFormat = "ddd, MMM d, yyyy • h:mm:ss tt";
         [Category(Category.Clock)]
-        [DisplayName("Date/time format")]
+        [DisplayName("DateTimeFormat")]
         public string ClockDateTimeFormat
         {
             get => clockDateTimeFormat;
@@ -30,7 +30,7 @@ namespace Desktop
 
         double itemSize = 64.0;
         [Category(Category.Explorer)]
-        [DisplayName("Item size")]
+        [DisplayName("ItemSize")]
         [Range(8.0, 512.0, 4.0)]
         [RangeFormat(RangeFormat.Slider)]
         public double ItemSize
@@ -41,7 +41,7 @@ namespace Desktop
 
         string noteFontFamily = "Calibri";
         [Category(Category.Note)]
-        [DisplayName("Font family")]
+        [DisplayName("FontFamily")]
         public FontFamily NoteFontFamily
         {
             get => new FontFamily(noteFontFamily);
@@ -50,7 +50,7 @@ namespace Desktop
 
         double noteFontSize = 16.0;
         [Category(Category.Note)]
-        [DisplayName("Font size")]
+        [DisplayName("FontSize")]
         public double NoteFontSize
         {
             get => noteFontSize;
@@ -76,7 +76,7 @@ namespace Desktop
         
         bool slideshowPauseOnMouseOver = true;
         [Category(Category.Slideshow)]
-        [DisplayName("Pause on mouse over")]
+        [DisplayName("PauseOnMouseOver")]
         public bool SlideshowPauseOnMouseOver
         {
             get => slideshowPauseOnMouseOver;
@@ -85,7 +85,7 @@ namespace Desktop
 
         HeaderAlignments tileHeaderAlignment = HeaderAlignments.Center;
         [Category(Category.Tiles)]
-        [DisplayName("Header alignment")]
+        [DisplayName("HeaderAlignment")]
         public HeaderAlignments TileHeaderAlignment
         {
             get => tileHeaderAlignment;
@@ -94,7 +94,7 @@ namespace Desktop
 
         HeaderPlacements tileHeaderPlacement = HeaderPlacements.Top;
         [Category(Category.Tiles)]
-        [DisplayName("Header placement")]
+        [DisplayName("HeaderPlacement")]
         public HeaderPlacements TileHeaderPlacement
         {
             get => tileHeaderPlacement;
@@ -125,7 +125,6 @@ namespace Desktop
 
         bool viewFileExtensions = false;
         [Category(Category.Explorer)]
-        [DisplayName("View file extensions")]
         public bool ViewFileExtensions
         {
             get => viewFileExtensions;
@@ -134,11 +133,26 @@ namespace Desktop
 
         bool viewHiddenItems = false;
         [Category(Category.Explorer)]
-        [DisplayName("View hidden items")]
         public bool ViewHiddenItems
         {
             get => viewHiddenItems;
             set => this.Change(ref viewHiddenItems, value);
+        }
+
+        double optionsWindowHeight = 720;
+        [Hidden]
+        public double OptionsWindowHeight
+        {
+            get => optionsWindowHeight;
+            set => this.Change(ref optionsWindowHeight, value);
+        }
+
+        double optionsWindowWidth = 420;
+        [Hidden]
+        public double OptionsWindowWidth
+        {
+            get => optionsWindowWidth;
+            set => this.Change(ref optionsWindowWidth, value);
         }
 
         public Options() : base() { }

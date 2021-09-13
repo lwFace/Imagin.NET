@@ -6,14 +6,15 @@
     <DataTemplate DataType="{x:Type local:LogPanel}">
         <DataGrid
             BorderThickness="0"
-            CanUserReorderColumns="False"
+            CanUserReorderColumns="True"
             CanUserSortColumns="True"
             i:DataGridExtensions.DisplayRowNumber="True"
             i:DataGridExtensions.DisplayRowNumberOffset="1"
-            i:ItemsControlExtensions.IsColumnMenuEnabled="False"
+            i:ItemsControlExtensions.IsColumnMenuEnabled="True"
             ItemsSource="{Binding Log}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn
+                    Header="{i:Loc Type}"
                     SortMemberPath="Type">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -52,6 +53,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
+                    Header="{i:Loc Path}"
                     SortMemberPath="Path">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -63,7 +65,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Header="Time"
+                    Header="{i:Loc Time}"
                     SortMemberPath="Time">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -80,7 +82,7 @@
                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem
                         Command="{Binding ClearCommand}"
-                        Header="Clear"
+                        Header="{i:Loc Clear}"
                         Icon="pack://application:,,,/Vault;component/Images/X.png"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>

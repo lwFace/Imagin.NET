@@ -384,4 +384,49 @@
   <data name="Warning" xml:space="preserve">
     <value>Avvertimento</value>
   </data>
+  <data name="About" xml:space="preserve">
+    <value>Di</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Nascondere</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="AutoSave" xml:space="preserve">
+    <value>Salvataggio automatico</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Disposizione</value>
+  </data>
+  <data name="OpenFolder" xml:space="preserve">
+    <value>Cartella aperta</value>
+  </data>
+  <data name="ResetLayout" xml:space="preserve">
+    <value>Ripristina layout</value>
+  </data>
+  <data name="SaveLayout" xml:space="preserve">
+    <value>Salva layout</value>
+  </data>
+  <data name="Accessed" xml:space="preserve">
+    <value>Accesso</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Creato</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Nascosto</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modificato</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Sola lettura</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Taglia</value>
+  </data>
 </root>

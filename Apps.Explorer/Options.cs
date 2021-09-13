@@ -40,7 +40,7 @@ namespace Explorer
 
         string consoleFontFamily = "Consolas";
         [Category(nameof(Imagin.Common.Controls.Console))]
-        [DisplayName("Font family")]
+        [DisplayName("FontFamily")]
         public FontFamily ConsoleFontFamily
         {
             get
@@ -57,7 +57,7 @@ namespace Explorer
 
         double consoleFontSize = 16.0;
         [Category(nameof(Imagin.Common.Controls.Console))]
-        [DisplayName("Font size")]
+        [DisplayName("FontSize")]
         [Range(12.0, 48.0, 1.0)]
         [RangeFormat(RangeFormat.Slider)]
         public double ConsoleFontSize
@@ -77,7 +77,7 @@ namespace Explorer
 
         string consoleTextWrap = $"{TextWrapping.NoWrap}";
         [Category(nameof(Imagin.Common.Controls.Console))]
-        [DisplayName("Text wrap")]
+        [DisplayName("TextWrap")]
         public TextWrapping ConsoleTextWrap
         {
             get => (TextWrapping)Enum.Parse(typeof(TextWrapping), consoleTextWrap);
@@ -90,7 +90,7 @@ namespace Explorer
 
         string defaultFolderPath = Folder.Long.Root;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("Default folder path")]
+        [DisplayName("DefaultFolderPath")]
         [StringFormat(StringFormat.FolderPath)]
         public string DefaultFolderPath
         {
@@ -111,7 +111,7 @@ namespace Explorer
 
         ItemProperty groupName = ItemProperty.None;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("Group name")]
+        [DisplayName("GroupName")]
         public ItemProperty GroupName
         {
             get => groupName;
@@ -120,7 +120,7 @@ namespace Explorer
 
         System.ComponentModel.ListSortDirection sortDirection = System.ComponentModel.ListSortDirection.Ascending;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("Sort direction")]
+        [DisplayName("SortDirection")]
         public System.ComponentModel.ListSortDirection SortDirection
         {
             get => sortDirection;
@@ -129,7 +129,7 @@ namespace Explorer
 
         ItemProperty sortName = ItemProperty.Name;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("Sort name")]
+        [DisplayName("SortName")]
         public ItemProperty SortName
         {
             get => sortName;
@@ -147,7 +147,7 @@ namespace Explorer
 
         bool viewFileExtensions = false;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("File extensions")]
+        [DisplayName("FileExtensions")]
         public bool ViewFileExtensions
         {
             get => viewFileExtensions;
@@ -156,7 +156,7 @@ namespace Explorer
 
         bool viewFiles = true;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("View files")]
+        [DisplayName("ViewFiles")]
         public bool ViewFiles
         {
             get => viewFiles;
@@ -165,7 +165,7 @@ namespace Explorer
 
         bool viewHiddenItems = true;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("View hidden items")]
+        [DisplayName("ViewHiddenItems")]
         public bool ViewHiddenItems
         {
             get => viewHiddenItems;
@@ -174,7 +174,7 @@ namespace Explorer
 
         double viewSize = 64.0;
         [Category(nameof(Imagin.Common.Controls.Explorer))]
-        [DisplayName("Item size")]
+        [DisplayName("ItemSize")]
         [Range(8.0, 512.0, 4.0)]
         [RangeFormat(RangeFormat.Slider)]
         public double ViewSize
@@ -200,7 +200,7 @@ namespace Explorer
 
         bool showFavoritesBar = true;
         [Category(Category.Favorites)]
-        [DisplayName("Show bar")]
+        [DisplayName("ShowBar")]
         public bool ShowFavoritesBar
         {
             get => showFavoritesBar;
@@ -358,7 +358,7 @@ namespace Explorer
 
         bool warnBeforeRenaming = true;
         [Category("Warnings")]
-        [DisplayName("Warn before renaming")]
+        [DisplayName("WarnBeforeRenaming")]
         public bool WarnBeforeRenaming
         {
             get => warnBeforeRenaming;

@@ -1,5 +1,6 @@
 ﻿using Imagin.Common.Converters;
 using Imagin.Common.Data;
+using Imagin.Common.Globalization;
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Microsoft.Win32.SafeHandles;
@@ -31,6 +32,7 @@ namespace Imagin.Common.Storage
         }
 
         protected DateTime accessed;
+        [DisplayName(Localizer.Prefix + "Accessed")]
         [ReadOnly]
         public virtual DateTime Accessed
         {
@@ -39,6 +41,7 @@ namespace Imagin.Common.Storage
         }
 
         protected DateTime created;
+        [DisplayName(Localizer.Prefix + "Created")]
         [ReadOnly]
         public virtual DateTime Created
         {
@@ -47,6 +50,7 @@ namespace Imagin.Common.Storage
         }
 
         protected DateTime modified;
+        [DisplayName(Localizer.Prefix + "Modified")]
         [ReadOnly]
         public virtual DateTime Modified
         {
@@ -80,7 +84,7 @@ namespace Imagin.Common.Storage
 
         bool isHidden = false;
         [Category("Attributes")]
-        [DisplayName("Hidden")]
+        [DisplayName(Localizer.Prefix + "Hidden")]
         [ReadOnly]
         public bool IsHidden
         {
@@ -90,7 +94,7 @@ namespace Imagin.Common.Storage
 
         bool isReadOnly = false;
         [Category("Attributes")]
-        [DisplayName("Read only")]
+        [DisplayName(Localizer.Prefix + "ReadOnly")]
         [ReadOnly]
         public bool IsReadOnly
         {
@@ -107,6 +111,7 @@ namespace Imagin.Common.Storage
         }
 
         protected string path;
+        [DisplayName(Localizer.Prefix + "Path")]
         [Featured]
         [ReadOnly]
         public string Path
@@ -124,6 +129,7 @@ namespace Imagin.Common.Storage
         }
 
         protected long size = 0L;
+        [DisplayName(Localizer.Prefix + "Size")]
         [LongFormat(LongFormat.FileSize)]
         [ReadOnly]
         public long Size

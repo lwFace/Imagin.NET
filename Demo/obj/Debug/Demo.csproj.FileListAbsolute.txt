@@ -29,3 +29,4 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Demo\obj\Debug\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Demo\obj\Debug\Demo.csproj.CopyComplete
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Demo\obj\Debug\Demo.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Demo\obj\Debug\Demo.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Demo\bin\Debug\fr-FR\Imagin.Common.WPF.resources.dll

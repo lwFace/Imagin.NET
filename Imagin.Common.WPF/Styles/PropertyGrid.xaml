@@ -6,6 +6,7 @@
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=System"
     xmlns:Controls="clr-namespace:Imagin.Common.Controls"
     xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:_Converters="clr-namespace:Imagin.Common.Globalization.Converters"
     xmlns:Data="clr-namespace:Imagin.Common.Data"
     xmlns:Input="clr-namespace:System.Windows.Input;assembly=System"
     xmlns:Linq="clr-namespace:Imagin.Common.Linq"
@@ -25,6 +26,8 @@
     <Converters:ToStringConverter x:Key="ToStringConverter"/>
     <Converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
     <Converters:ValueEqualsParameterMultiConverter x:Key="ValueEqualsParameterMultiConverter"/>
+
+    <_Converters:TranslateConverter x:Key="TranslateConverter"/>
     
     <Storyboard x:Key="FadeIn">
         <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1.0" Duration="0:0:0.5" AccelerationRatio="0.4" DecelerationRatio="0.4"/>
@@ -217,10 +220,20 @@
                     <TextBlock
                         TextTrimming="CharacterEllipsis"
                         VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                <Binding Path="DisplayName"/>
+                                <Markup:Options Path="Language"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                        <TextBlock.ToolTip>
+                            <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                <Binding Path="DisplayName"/>
+                                <Markup:Options Path="Language"/>
+                            </MultiBinding>
+                        </TextBlock.ToolTip>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                <Setter Property="Text" Value="{Binding DisplayName, Mode=OneWay}"/>
-                                <Setter Property="ToolTip" Value="{Binding DisplayName, Mode=OneWay}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding TemplateType}" Value="{x:Type Input:ICommand}">
                                         <Setter Property="Text" Value=""/>

@@ -73,9 +73,10 @@
     <Compile Include="Collections\Serialization\BinaryWriter.cs" />
     <Compile Include="Common\AssemblyData.cs" />
     <Compile Include="Common\OldNew.cs" />
-    <Compile Include="Common\ProjectData.cs" />
+    <Compile Include="Attributes\ProjectVersion.cs" />
     <Compile Include="Configuration\DataFolders.cs" />
     <Compile Include="Configuration\DataProperties.cs" />
+    <Compile Include="Controls\ColorPicker\ColorPickerOptions.cs" />
     <Compile Include="Controls\ColorPicker\IColorPickerOptions.cs" />
     <Compile Include="Configuration\SingleInstanceException.cs" />
     <Compile Include="Controls\BulletView.xaml.cs">
@@ -133,6 +134,9 @@
     <Compile Include="Controls\PropertyGrid\ModelTypes.cs" />
     <Compile Include="Controls\PropertyGrid\Source.cs" />
     <Compile Include="Controls\PropertyGrid\ValueType.cs" />
+    <Compile Include="Controls\ToolBar\FavoritesBar.xaml.cs">
+      <DependentUpon>FavoritesBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Window\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -172,6 +176,7 @@
     <Compile Include="Globalization\Extensions\BLoc.cs" />
     <Compile Include="Globalization\Extensions\FELoc.cs" />
     <Compile Include="Globalization\Extensions\Loc.cs" />
+    <Compile Include="Globalization\Localizer.cs" />
     <Compile Include="Globalization\Providers\FQAssemblyDictionaryKey.cs" />
     <Compile Include="Globalization\Providers\FullyQualifiedResourceKeyBase.cs" />
     <Compile Include="Globalization\Providers\IInheritingLocalizationProvider.cs" />
@@ -282,6 +287,7 @@
     <Compile Include="Media\Conversion\LogicalModels.cs" />
     <Compile Include="Media\Conversion\VisualModelCollection.cs" />
     <Compile Include="Media\Extensions.cs" />
+    <Compile Include="Media\ImageFormats.cs" />
     <Compile Include="Media\Models\HSM.cs" />
     <Compile Include="Media\Models\HunterLab.cs" />
     <Compile Include="Media\Models\Lab.cs" />
@@ -345,7 +351,6 @@
     <Compile Include="Controls\Explorer\Explorer.xaml.cs">
       <DependentUpon>Explorer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ToolBarOverflowPanel.cs" />
     <Compile Include="Controls\Dialog\Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
@@ -563,6 +568,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\PropertyGrid\PropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ToolBar\FavoritesBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -785,7 +794,7 @@
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Text\Encryption.cs" />
     <Compile Include="Text\SymmetricAlgorithm.cs" />
-    <Compile Include="Common\Resource.cs" />
+    <Compile Include="Common\Resources.cs" />
     <Compile Include="System\Windows\IPoint2D.cs" />
     <Compile Include="System\Windows\IPoint3D.cs" />
     <Compile Include="Common\Themes.cs" />
@@ -1488,6 +1497,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Lang\Main.es-ES.resx" />
+    <EmbeddedResource Include="Lang\Main.fr-FR.resx" />
     <EmbeddedResource Include="Lang\Main.it-IT.resx" />
     <EmbeddedResource Include="Lang\Main.ja-JP.resx" />
     <EmbeddedResource Include="Lang\Main.resx">

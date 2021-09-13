@@ -23,6 +23,8 @@ using System.Windows.Markup;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
+[assembly: ProjectVersion(5, 5)]
+
 [assembly: XmlnsDefinition(AssemblyData.Xml, "Imagin.Common")]
 [assembly: XmlnsDefinition(AssemblyData.Xml, "Imagin.Common.Analytics")]
 [assembly: XmlnsDefinition(AssemblyData.Xml, "Imagin.Common.Collections")]

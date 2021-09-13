@@ -7,10 +7,10 @@
     i:ResxLocalizationProvider.DefaultAssembly="{i:AssemblyName}"
     i:ResxLocalizationProvider.DefaultDictionary="Main"
     xmlns:local="clr-namespace:Notes"
+    xmlns:Converters="clr-namespace:Imagin.Common.Globalization.Converters;assembly=Imagin.Common.WPF"
     Height="{i:Options WindowHeight, Mode=TwoWay}"
     Width="{i:Options WindowWidth, Mode=TwoWay}"
     ResizeMode="CanResizeWithGrip"
-    Title="{i:AssemblyProduct}"
     TitleIcon="{i:Image Notes, Images/File.png}"
     WindowStartupLocation="CenterScreen">
     <i:BaseWindow.Buttons>
@@ -19,13 +19,13 @@
             Content="{i:Image Notes, Images/Info.png}"
             ContentSize="12,12"
             IsCheckable="False"
-            ToolTip="About"/>
+            ToolTip="{i:Loc About}"/>
         <i:WindowButton
             Content="{i:Image Notes, Images/Options.png}"
             ContentSize="12,12"
             IsCheckable="True"
             IsChecked="{i:PanelBinding IsVisible, {x:Type local:OptionsPanel}, Mode=TwoWay}"
-            ToolTip="Options"/>
+            ToolTip="{i:Loc Options}"/>
     </i:BaseWindow.Buttons>
     <i:BaseWindow.InputBindings>
         <KeyBinding 
@@ -36,7 +36,15 @@
     <i:BaseWindow.Resources>
         <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <i:FileNameConverter x:Key="FileNameConverter"/>
+        
+        <Converters:TranslateConverter x:Key="TranslateConverter"/>
     </i:BaseWindow.Resources>
+    <i:BaseWindow.Title>
+        <MultiBinding Converter="{StaticResource TranslateConverter}">
+            <Binding Source="{i:AssemblyProduct}"/>
+            <i:Options Path="Language"/>
+        </MultiBinding>
+    </i:BaseWindow.Title>
     <Grid
         i:GridExtensions.Rows="Auto,Auto,*"
         i:PanelExtensions.Spacing="0,0,0,5"

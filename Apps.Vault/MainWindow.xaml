@@ -7,10 +7,10 @@
     i:ResxLocalizationProvider.DefaultAssembly="{i:AssemblyName}"
     i:ResxLocalizationProvider.DefaultDictionary="Main"
     xmlns:local="clr-namespace:Vault"
+    xmlns:Converters="clr-namespace:Imagin.Common.Globalization.Converters;assembly=Imagin.Common.WPF"
     xmlns:Hardcodet="http://www.hardcodet.net/taskbar"
     Height="{i:Options WindowHeight, Mode=TwoWay}"
     ResizeMode="CanResizeWithGrip"
-    Title="{Binding Title}"
     Width="{i:Options WindowWidth, Mode=TwoWay}"
     WindowState="Normal"
     WindowStartupLocation="CenterScreen">
@@ -20,17 +20,24 @@
             Content="{i:Image Vault, Images/Info.png}"
             ContentSize="12,12"
             IsCheckable="False"
-            ToolTip="About"/>
+            ToolTip="{i:Loc About}"/>
         <i:WindowButton
             Content="{i:Image Vault, Images/Options.png}"
             ContentSize="12,12"
             IsCheckable="True"
             IsChecked="{i:PanelBinding IsVisible, {x:Type local:OptionsPanel}, Mode=TwoWay}"
-            ToolTip="Options"/>
+            ToolTip="{i:Loc Options}"/>
     </i:BaseWindow.Buttons>
     <i:BaseWindow.Resources>
         <i:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:TranslateConverter x:Key="TranslateConverter"/>
     </i:BaseWindow.Resources>
+    <i:BaseWindow.Title>
+        <MultiBinding Converter="{StaticResource TranslateConverter}">
+            <Binding Source="{i:AssemblyProduct}"/>
+            <i:Options Path="Language"/>
+        </MultiBinding>
+    </i:BaseWindow.Title>
     <Grid>
         <Hardcodet:TaskbarIcon
             Visibility="{i:Options ShowInTaskBar, Converter={StaticResource BooleanToVisibilityConverter}}"

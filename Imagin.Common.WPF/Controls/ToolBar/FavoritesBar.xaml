@@ -1,0 +1,79 @@
+﻿<UserControl 
+    x:Class="Imagin.Common.Controls.FavoritesBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq">
+    <Grid>
+        <Grid.Resources>
+            <Data:Reference x:Key="FavoritesBar" Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:FavoritesBar}}}"/>
+            
+            <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <Converters:FileNameConverter x:Key="FileNameConverter"/>
+        </Grid.Resources>
+        <ToolBar Grid.Row="1"
+            Background="Transparent" 
+            BorderThickness="0"
+            DataContext="{Binding Data, Source={StaticResource FavoritesBar}}"
+            ItemsSource="{Binding Favorites, Mode=OneWay}"
+            VerticalAlignment="Center"
+            VirtualizingPanel.IsVirtualizing="True" 
+            VirtualizingPanel.VirtualizationMode="Recycling">
+            <ToolBar.ItemTemplate>
+                <DataTemplate>
+                    <local:Crumb 
+                        AllowDrop="True"
+                        Command="{Binding Data.GoCommand, Source={StaticResource FavoritesBar}}"
+                        CommandParameter="{Binding Path, Mode=OneWay}"
+                        MenuButtonVisibility="{Binding Collection.IsEmpty, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}"
+                        Focusable="False"
+                        Margin="0,0,2,0"
+                        Path="{Binding Path, Mode=OneWay}"
+                        ToolTip="{Binding Path, Mode=OneWay}">
+                        <local:Crumb.Content>
+                            <Grid Linq:GridExtensions.Columns="Auto,Auto">
+                                <local:Thumbnail
+                                    Grid.Column="0"
+                                    Height="16"
+                                    Margin="0,0,5,0"
+                                    Path="{Binding Path}"
+                                    Width="16"/>
+                                <TextBlock 
+                                    Grid.Column="1"
+                                    Text="{Binding Path, Mode=OneWay, Converter={StaticResource FileNameConverter}}"/>
+                            </Grid>
+                        </local:Crumb.Content>
+                        <local:Crumb.Menu>
+                            <ContextMenu ItemsSource="{Binding PlacementTarget.Collection, RelativeSource={RelativeSource Self}}">
+                                <ContextMenu.ItemContainerStyle>
+                                    <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                        <Setter Property="Command" Value="{Binding Data.GoCommand, Source={StaticResource FavoritesBar}}"/>
+                                        <Setter Property="CommandParameter" Value="{Binding Path, Mode=OneWay}"/>
+                                        <Setter Property="Icon" Value="{Binding Mode=OneWay}"/>
+                                        <Setter Property="Linq:MenuItemExtensions.IconTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <local:Thumbnail
+                                                        Height="16"
+                                                        Path="{Binding Path, Mode=OneWay}"
+                                                        Width="16"/>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ContextMenu.ItemContainerStyle>
+                                <ContextMenu.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path, Converter={StaticResource FileNameConverter}}"/>
+                                    </DataTemplate>
+                                </ContextMenu.ItemTemplate>
+                            </ContextMenu>
+                        </local:Crumb.Menu>
+                    </local:Crumb>
+                </DataTemplate>
+            </ToolBar.ItemTemplate>
+        </ToolBar>
+    </Grid>
+</UserControl>

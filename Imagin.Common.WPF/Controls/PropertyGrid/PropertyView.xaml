@@ -5,10 +5,12 @@
     xmlns:Collections="clr-namespace:System.Collections;assembly=mscorlib"
     xmlns:Common="clr-namespace:Imagin.Common;assembly=Imagin.Common"
     xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:_Converters="clr-namespace:Imagin.Common.Globalization.Converters"
     xmlns:Data="clr-namespace:Imagin.Common.Data"
     xmlns:Drawing="clr-namespace:System.Drawing;assembly=System.Drawing"
     xmlns:Input="clr-namespace:System.Windows.Input;assembly=System"
     xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup"
     xmlns:Math="clr-namespace:Imagin.Common.Math;assembly=Imagin.Common"
     xmlns:Media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
     xmlns:_Media="clr-namespace:Imagin.Common.Media;assembly=Imagin.Common"
@@ -47,6 +49,8 @@
         <Converters:UInt16ToDoubleConverter x:Key="UInt16ToDoubleConverter"/>
         <Converters:UInt32ToDoubleConverter x:Key="UInt32ToDoubleConverter"/>
         <Converters:UInt64ToDoubleConverter x:Key="UInt64ToDoubleConverter"/>
+
+        <_Converters:TranslateConverter x:Key="TranslateConverter"/>
     </UserControl.Resources>
     <ContentControl DataContext="{Data:Ancestor {x:Type local:PropertyView}}" Content="{Binding Property}">
         <ContentControl.ContentTemplateSelector>
@@ -746,9 +750,14 @@
                             </DataTemplate.Triggers>
                         </DataTemplate>
                         <DataTemplate x:Key="{x:Type Input:ICommand}">
-                            <Button
-                                Command="{Binding Value}"
-                                Content="{Binding DisplayName}"/>
+                            <Button Command="{Binding Value}">
+                                <Button.Content>
+                                    <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                        <Binding Path="DisplayName"/>
+                                        <Markup:Options Path="Language"/>
+                                    </MultiBinding>
+                                </Button.Content>
+                            </Button>
                         </DataTemplate>
                         <DataTemplate x:Key="{x:Type Collections:IEnumerable}">
                             <ItemsControl ItemsSource="{Binding Value, Converter={StaticResource StringCollectionConverter}}">

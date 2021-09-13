@@ -59,17 +59,14 @@ namespace Imagin.Common.Controls
 
         public async Task<Layout> Apply(string layout, Uri defaultLayout)
         {
-            Console.WriteLine("Layouts.Apply: Start");
             Result<Layout> result = null;
             await Application.Current.Dispatcher.BeginInvoke(() =>
             {
-                Console.WriteLine("await Application.Current.Dispatcher.BeginInvoke...");
-                result = Apply(layout);
-                Console.WriteLine("result = Apply(layout);");
-                result = result ? result : Apply(Resources.Stream(defaultLayout));
-                Console.WriteLine("result = result ? result : Apply(Resources.Stream(defaultLayout));");
+                if (!layout.NullOrEmpty())
+                    result = Apply(layout);
+
+                result = result != null && result ? result : Apply(Resources.Stream(defaultLayout));
             });
-            Console.WriteLine("Layouts.Apply: End");
             return result.Data;
         }
 

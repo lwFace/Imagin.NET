@@ -314,18 +314,12 @@ namespace Imagin.Common.Controls
         {
             ClearPath();
 
-            //Don't draw the path (for now...)
-            if (A > B || A < B || A == B)
-                return;
-
             double? x = null, y = null;
 
             var a = AngleFrom(A);
             var b = AngleFrom(B);
 
             var end = 359;
-            System.Console.WriteLine($"A = {(A.Hour > 11 ? A.Hour - 12 : A.Hour)}, B = {(B.Hour > 11 ? B.Hour - 12 : B.Hour)}");
-            System.Console.WriteLine($"a = {a}, b = {b}");
             for (var i = a.NearestFactor(6); i <= end; i += 6)
             {
                 if (i < b)

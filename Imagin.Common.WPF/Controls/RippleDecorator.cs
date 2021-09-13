@@ -189,7 +189,7 @@ namespace Imagin.Common.Controls
             result.Children.Add(OpacityAnimation);
             result.Children.Add(StrokeThicknessAnimation);
 
-            if (RippleMouseEvent == MouseEvent.Default)
+            if (RippleMouseEvent == MouseEvent.None)
             {
                 result.RepeatBehavior = RepeatBehavior.Forever;
                 Animate();

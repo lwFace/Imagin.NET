@@ -17,21 +17,21 @@
                         BorderBrush="Transparent"
                         ItemsSource="{i:Enumerate {x:Type i:Encoding}}"
                         SelectedValue="{Binding Encoding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="Encoding"/>
+                        ToolTip="{i:Loc Encoding}"/>
                     <ComboBox
                         Grid.Column="1"
                         BorderBrush="Transparent"
                         ItemsSource="{i:Enumerate {x:Type i:SymmetricAlgorithm}}"
                         SelectedValue="{Binding Algorithm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="Algorithm"/>
+                        ToolTip="{i:Loc Algorithm}"/>
                     <i:TextBox
                         Grid.Column="2"
                         BorderThickness="0"
                         MaskCharacters="True"
-                        Placeholder="Password"
+                        Placeholder="{i:Loc Password}"
                         ShowToggleButton="True"
                         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="Password"/>
+                        ToolTip="{i:Loc Password}"/>
                 </Grid>
             </Border>
             <ContentControl
@@ -51,7 +51,7 @@
                                         TextBlock.LineStackingStrategy="BlockLineHeight"
                                         TextBlock.LineHeight="15"
                                         Padding="5,10"
-                                        Placeholder="Encrypt"
+                                        Placeholder="{i:Loc Encrypt}"
                                         Text="{Binding SourceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         TextWrapping="Wrap"
                                         VerticalContentAlignment="Top"
@@ -69,7 +69,7 @@
                                         TextBlock.LineStackingStrategy="BlockLineHeight"
                                         TextBlock.LineHeight="15"
                                         Padding="5,10"
-                                        Placeholder="Decrypt"
+                                        Placeholder="{i:Loc Decrypt}"
                                         Text="{Binding DestinationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         TextWrapping="Wrap"
                                         VerticalContentAlignment="Top"

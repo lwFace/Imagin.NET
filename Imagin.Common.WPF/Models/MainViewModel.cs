@@ -192,7 +192,7 @@ namespace Imagin.Common.Models
             {
                 ActiveDocument = document;
             }
-            else if (content is Panel panel && !ActivePanel.Equals(panel))
+            else if (content is Panel panel && ActivePanel?.Equals(panel) != true)
                 ActivePanel = panel;
 
             ActiveContentChanged?.Invoke(this, new EventArgs<Content>(content));
@@ -212,7 +212,10 @@ namespace Imagin.Common.Models
 
         protected virtual void OnDocumentAdded(Document document) => DocumentAdded?.Invoke(this, new EventArgs<Document>(document));
 
-        protected virtual void OnDocumentClosed(Document document) => DocumentClosed?.Invoke(this, new DocumentClosedEventArgs(document));
+        protected virtual void OnDocumentClosed(Document document)
+        {
+            DocumentClosed?.Invoke(this, new DocumentClosedEventArgs(document));
+        }
 
         ///-------------------------------------------------------------------
 

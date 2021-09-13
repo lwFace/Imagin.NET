@@ -419,3 +419,8 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WP
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\bin\Debug\ja-JP\Imagin.Common.WPF.resources.dll
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\obj\Debug\Imagin.Common.Lang.Main.ja-JP.resources
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\obj\Debug\ja-JP\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\obj\Debug\Controls\ToolBar\FavoritesBar.g.cs
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\obj\Debug\Controls\ToolBar\FavoritesBar.baml
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\bin\Debug\fr-FR\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\obj\Debug\Imagin.Common.Lang.Main.fr-FR.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Imagin.Common.WPF\obj\Debug\fr-FR\Imagin.Common.WPF.resources.dll

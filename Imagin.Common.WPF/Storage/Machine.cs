@@ -624,7 +624,7 @@ namespace Imagin.Common.Storage
             return false;
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------
+        //...............................................................................................
 
         /// <summary>
         /// Copies the given items to the given target path.
@@ -684,23 +684,204 @@ namespace Imagin.Common.Storage
                 Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(i, destination, UIOption.AllDialogs);
         }
 
+        //...............................................................................................
+
         /// <summary>
-        /// Moves the given items to the given target path.
+        /// Gets the final path of the given item if moved to the given folder with the (optional) new name.
         /// </summary>
-        /// <param name="items">The items to move.</param>
-        /// <param name="targetFolderPath">The target path (does not include the name of the moved item).</param>
-        public static Result Move(Item i, string targetFolderPath, string targetFileName)
+        /// <param name="i">The item to move.</param>
+        /// <param name="targetFolderPath">The folder where the item is moved to.</param>
+        /// <param name="targetName">What to rename the item to (optional).</param>
+        /// <returns></returns>
+        static string GetMovedTargetPath(Item i, string targetFolderPath, string targetName)
         {
-            var destination 
-                = targetFileName == null
-                ? i.Path.Replace(Path.GetDirectoryName(i.Path), targetFolderPath)
-                : $@"{targetFolderPath}\{targetFileName}";
+            if (i is Drive)
+                throw new NotSupportedException();
 
-            if (i.Path == destination)
-                return new Error(new InvalidOperationException());
+            string result = null;
 
+            //Various scenarios are addressed differently for files and folders. Further analysis may be necessary to identify potential others.
+            
+            if (i is File)
+            {
+                //Both paths must exist
+                if (!File.Long.Exists(i.Path))
+                    throw new FileNotFoundException(i.Path);
+
+                if (!Folder.Long.Exists(targetFolderPath))
+                    throw new DirectoryNotFoundException(targetFolderPath);
+
+                //The folder path must end with \ when comparing
+                var a = i.Path;
+                var b = targetFolderPath.EndsWith(@"\") ? targetFolderPath : $@"{targetFolderPath}\";
+
+                //Both paths must be lower when comparing
+                a = a.ToLower();
+                b = b.ToLower();
+
+                /*
+                1.  Not okay!
+                    C:\Folder a\Folder b\File x.png
+                    C:\Folder a\Folder b\
+                
+                    Result:
+                    C:\Folder a\Folder b\File x.png
+                */
+
+                var c = Path.GetDirectoryName(a).ToLower();
+                c = c.EndsWith(@"\") ? c : $@"{c}\";
+
+                //If the parent path of <a> (c) equals path <b>
+                if (b == c)
+                {
+                    //If the file isn't getting renamed
+                    if (targetName.NullOrEmpty() || targetName.ToLower() == Path.GetFileName(a).ToLower())
+                        throw new InvalidOperationException();
+                }
+
+                /*
+                1.  Okay!
+                    C:\Folder a\Folder b\File x.png
+                    D:\
+                
+                    Result:
+                    D:\File x.png
+
+                2.  Okay!
+                    C:\Folder a\Folder b\File x.png
+                    C:\Folder a\
+                
+                    Result:
+                    C:\Folder a\File x.png
+                
+                3.  Okay!
+                    C:\Folder a\Folder b\File x.png
+                    C:\Folder a\Folder b\Folder c\
+                
+                    Result:
+                    C:\Folder a\Folder b\Folder c\File x.png
+                */
+
+                //Preserve original casing by using input variables
+                result = $@"{targetFolderPath.TrimEnd('\\')}\{(targetName.NullOrEmpty() ? Path.GetFileName(i.Path) : targetName)}";
+
+                //If a file with that path already exists (to do: Consider overwriting it)
+                if (File.Long.Exists(result))
+                    throw new InvalidOperationException();
+            }
+
+            else if (i is Folder)
+            {
+                //Both paths must exist
+                if (!Folder.Long.Exists(i.Path))
+                    throw new DirectoryNotFoundException(i.Path);
+
+                if (!Folder.Long.Exists(targetFolderPath))
+                    throw new DirectoryNotFoundException(targetFolderPath);
+
+                //Both paths must end with \ when comparing
+                var a = i.Path.EndsWith(@"\") ? i.Path : $@"{i.Path}\";
+                var b = targetFolderPath.EndsWith(@"\") ? targetFolderPath : $@"{targetFolderPath}\";
+
+                //Both paths must be lower when comparing
+                a = a.ToLower();
+                b = b.ToLower();
+
+                /*
+                Path <b> cannot start with path <a>
+
+                1.  Not okay!
+                    C:\Folder a\Folder b\Folder x\
+                    C:\Folder a\Folder b\Folder x\
+                                
+                    Result:
+                    C:\Folder a\Folder b\Folder x\Folder x\
+
+                2.  Not okay!
+                    C:\Folder a\Folder b\Folder x\
+                    C:\Folder a\Folder b\Folder x\Folder c\
+                
+                    Result:
+                    C:\Folder a\Folder b\Folder x\Folder c\Folder x\
+                */
+
+                if (b.StartsWith(a))
+                    throw new InvalidOperationException();
+
+                /*
+
+                Path <b> cannot equal parent path of <a> (unless renaming!)
+
+                3.  Not okay!
+                    C:\Folder a\Folder b\Folder x
+                    C:\Folder a\Folder b
+
+                    Result:
+                    C:\Folder a\Folder b\Folder x
+                */
+
+                var c = Path.GetDirectoryName(a).ToLower();
+                c = c.EndsWith(@"\") ? c : $@"{c}\";
+
+                //If the parent path of <a> equals path <b>
+                if (b == c)
+                {
+                    //If the folder isn't getting renamed
+                    if (targetName.NullOrEmpty() || targetName.ToLower() == Path.GetFileName(a).ToLower())
+                        throw new InvalidOperationException();
+                }
+
+                /*
+                1.  Okay!
+                    C:\Folder a\Folder b\Folder x\
+                    C:\
+                    
+                    Result:
+                    C:\Folder x\
+
+                2.  Okay!
+                    C:\Folder a\Folder b\Folder x\
+                    C:\Folder a\
+                    
+                    Result:
+                    C:\Folder a\Folder x\
+
+                3.  Okay!
+                    C:\Folder a\Folder b\Folder x\
+                    D:\Folder z\
+
+                    Result:
+                    D:\Folder z\Folder x\
+
+                If none of the "Not okay" scenarios apply, an "Okay" scenario is assumed to...
+                */
+
+                //Preserve original casing by using input variables
+                result = $@"{targetFolderPath.TrimEnd('\\')}\{(targetName.NullOrEmpty() ? Path.GetFileName(i.Path) : targetName)}";
+
+                //If a folder with that path already exists (to do: Consider merging contents)
+                if (Folder.Long.Exists(result))
+                    throw new InvalidOperationException();
+            }
+
+            return result;
+        }
+
+        //...............................................................................................
+
+        /// <summary>
+        /// Moves the given item to the given folder with the (optional) new name.
+        /// </summary>
+        /// <param name="i">The item to move.</param>
+        /// <param name="targetFolderPath">TThe folder where the item is moved to.</param>
+        /// <param name="targetName"></param>
+        /// <returns></returns>
+        public static Result Move(Item i, string targetFolderPath, string targetName)
+        {
             try
             {
+                var destination = GetMovedTargetPath(i, targetFolderPath, targetName);
+
                 switch (i.Type)
                 {
                     case ItemType.Drive:
@@ -724,13 +905,18 @@ namespace Imagin.Common.Storage
             }
         }
 
+        /// <summary>
+        /// Moves the given items to the given folder with the (optional) new name.
+        /// </summary>
+        /// <param name="items">The items to move.</param>
+        /// <param name="targetFolderPath">The folder where the item is moved to.</param>
         public static void Move(IEnumerable<Item> items, string targetFolderPath)
         {
             foreach (var i in items)
-            {
                 Move(i, targetFolderPath, null);
-            }
         }
+
+        //...............................................................................................
 
         public static void Recycle(IEnumerable<string> paths, RecycleOption recycleOption = RecycleOption.SendToRecycleBin)
         {
@@ -757,7 +943,7 @@ namespace Imagin.Common.Storage
             catch { }
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------
+        //...............................................................................................
 
         public static Result OpenInWindowsExplorer(string path)
             => File.Long.Open("explorer.exe", path);

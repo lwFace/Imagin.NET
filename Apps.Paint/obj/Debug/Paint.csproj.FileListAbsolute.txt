@@ -62,3 +62,17 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.csproj.CopyComplete
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.exe
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.pdb
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\bin\Debug\fr-FR\Imagin.Common.WPF.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\bin\Debug\es-ES\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\bin\Debug\fr-FR\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\bin\Debug\it-IT\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\bin\Debug\ja-JP\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.Lang.Main.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.Lang.Main.es-ES.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.Lang.Main.fr-FR.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.Lang.Main.it-IT.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Paint.Lang.Main.ja-JP.resources
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\es-ES\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\fr-FR\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\it-IT\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\ja-JP\Paint.resources.dll

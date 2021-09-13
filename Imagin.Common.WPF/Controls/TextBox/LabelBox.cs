@@ -93,10 +93,7 @@ namespace Imagin.Common.Controls
                                 mouseDown = 0;
                                 handle = true;
                             }
-                            else
-                            {
-                                mouseDown++;
-                            }
+                            else mouseDown++;
                             break;
 
                         case MouseEvent.MouseDown:
@@ -105,7 +102,10 @@ namespace Imagin.Common.Controls
                     }
 
                     if (handle)
+                    {
                         OnEdited(true);
+                        e.Handled = true;
+                    }
                 }
             }
         }

@@ -15,9 +15,10 @@
         <Converters:FileSizeConverter x:Key="FileSizeConverter"/>
         <Converters:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
         <Converters:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
+        <Converters:PluralConverter x:Key="PluralConverter"/>
         <Converters:ValueEqualsParameterConverter x:Key="ValueEqualsParameterConverter"/>
         <Converters:ValueEqualsParameterMultiConverter x:Key="ValueEqualsParameterMultiConverter"/>
-
+        
         <Data:Reference x:Key="Browser" Data="{Binding ElementName=PART_Browser}"/>
         <Data:Reference x:Key="Explorer" Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Explorer}}}"/>
     </UserControl.Resources>
@@ -26,6 +27,7 @@
         Linq:GridExtensions.Rows="Auto,*">
         <local:AddressBar
             Grid.Row="0"
+            Favorites="{Binding Favorites, Mode=OneWay}"
             History="{Binding History, Mode=TwoWay}"
             Padding="5"
             Path="{Binding Path}"
@@ -216,6 +218,9 @@
             Linq:GridExtensions.Columns="30*,Auto,70*">
             <local:Navigator
                 Grid.Column="0"
+                BorderBrush="#22000000"
+                BorderThickness="0,0,1,0"
+                Padding="0,0,10,0"
                 Path="{Binding Path, Mode=TwoWay}"
                 Root="{Binding Root, Mode=TwoWay}"
                 ViewFiles="False"
@@ -258,18 +263,16 @@
                         <TextBlock
                             Margin="0,7.5,0,5"
                             Opacity="0.4">
-                            <Run Text="{Binding Items.Count, ElementName=PART_Browser, Mode=OneWay, StringFormat={} {0} item(s)}"/>
-                            <Run Text="▪"/>
-                            <Run Text="{Binding Length, Converter={StaticResource FileSizeConverter}, ElementName=PART_Browser, Mode=OneWay}"/>
+                            <Run Text="{Binding Items.Count, ElementName=PART_Browser, Mode=OneWay, StringFormat={} {0} item}"/><Run Text="{Binding Items.Count, ElementName=PART_Browser, Converter={StaticResource PluralConverter}, Mode=OneWay}"/>
+                            (<Run Text="{Binding Length, Converter={StaticResource FileSizeConverter}, ElementName=PART_Browser, Mode=OneWay}"/>)
                         </TextBlock>
                         <TextBlock
                             HorizontalAlignment="Right"
                             Margin="0,7.5,0,5"
                             Opacity="0.4"
-                            Visibility="{Binding Selection.Count, ElementName=PART_Browser, Converter={StaticResource Int32ToVisibilityConverter}}">
-                            <Run Text="{Binding Selection.Count, ElementName=PART_Browser, Mode=OneWay, StringFormat={} {0} item(s) selected}"/>
-                            <Run Text="▪"/>
-                            <Run Text="{Binding SelectionLength, Converter={StaticResource FileSizeConverter}, ElementName=PART_Browser, Mode=OneWay}"/>
+                            Visibility="{Binding SelectionCount, ElementName=PART_Browser, Converter={StaticResource Int32ToVisibilityConverter}}">
+                            <Run Text="{Binding SelectionCount, ElementName=PART_Browser, Mode=OneWay, StringFormat={} {0} item}"/><Run Text="{Binding SelectionCount, ElementName=PART_Browser, Converter={StaticResource PluralConverter}, Mode=OneWay}"/> <Run Text="selected"/>
+                            (<Run Text="{Binding SelectionLength, Converter={StaticResource FileSizeConverter}, ElementName=PART_Browser, Mode=OneWay}"/>)
                         </TextBlock>
                     </Grid>
                 </Border>

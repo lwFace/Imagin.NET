@@ -1,23 +1,24 @@
 ﻿using Imagin.Common.Linq;
 using Imagin.Common.Storage;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using Imagin.Common.Threading;
 namespace Imagin.Common.Controls
 {
     public partial class Navigator : UserControl
     {
         public Storage.ItemCollection Items { get; private set; } = new Storage.ItemCollection(string.Empty, new Filter());
 
-        public static DependencyProperty RootProperty = DependencyProperty.Register(nameof(Root), typeof(string), typeof(Navigator), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.None, OnRootChanged));
-        public string Root
+        public static DependencyProperty RootProperty = DependencyProperty.Register(nameof(Root), typeof(object), typeof(Navigator), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.None, OnRootChanged));
+        public object Root
         {
-            get => (string)GetValue(RootProperty);
+            get => (object)GetValue(RootProperty);
             set => SetValue(RootProperty, value);
         }
-        static void OnRootChanged(DependencyObject i, DependencyPropertyChangedEventArgs e) => i.As<Navigator>().OnRootChanged(new OldNew<string>(e));
+        static void OnRootChanged(DependencyObject i, DependencyPropertyChangedEventArgs e) => i.As<Navigator>().OnRootChanged(new OldNew(e));
 
         public static DependencyProperty DropHandlerProperty = DependencyProperty.Register(nameof(DropHandler), typeof(ExplorerDropHandler), typeof(Navigator), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.None));
         public ExplorerDropHandler DropHandler
@@ -71,9 +72,10 @@ namespace Imagin.Common.Controls
 
         public Navigator()
         {
-            InitializeComponent();
             SetCurrentValue(DropHandlerProperty, new ExplorerDropHandler(this));
-            SetCurrentValue(RootProperty, Folder.Long.Root);
+            //SetCurrentValue(RootProperty, Folder.Long.Root);
+
+            InitializeComponent();
         }
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace Imagin.Common.Controls
                     if (RefreshOnClick || !item.As<Container>().Items.Any<Item>())
                     {
                         item.As<Container>().Items.Filter = new Filter();
-                        _ = item.As<Container>().Items.Refresh(item.Path);
+                        _ = item.As<Container>().Items.RefreshAsync(item.Path);
                     }
                 }
                 else if (item is File)
@@ -114,7 +116,7 @@ namespace Imagin.Common.Controls
                             if (RefreshOnClick || !item.As<Container>().Items.Any<Item>())
                             {
                                 item.As<Shortcut>().Items.Filter = new Filter();
-                                _ = item.As<Shortcut>().Items.Refresh(result);
+                                _ = item.As<Shortcut>().Items.RefreshAsync(result);
                             }
                         }
                     }
@@ -132,7 +134,53 @@ namespace Imagin.Common.Controls
                 Open();
         }
 
-        protected virtual async void OnRootChanged(OldNew<string> input) => await Items.Refresh(input.New);
+        BackgroundQueue queue = new BackgroundQueue();
+
+        void Update(OldNew input)
+        {
+            if (input.Old is Favorites fa)
+            {
+                fa.Added -= OnItemAdded;
+                fa.Removed -= OnItemRemoved;
+            }
+
+            Items.Clear();
+
+            if (input.New is string i)
+            {
+                Items.Refresh(i);
+            }
+            else if (input.New is Favorites fb)
+            {
+                foreach (var favorite in fb)
+                    Items.Add(new Folder(favorite.Path));
+
+                fb.Added -= OnItemAdded;
+                fb.Added += OnItemAdded;
+
+                fb.Removed -= OnItemRemoved;
+                fb.Removed += OnItemRemoved;
+            }
+        }
+
+        protected virtual void OnRootChanged(OldNew input)
+        {
+            queue.Add(() => Update(input));
+        }
+
+        void OnItemRemoved(object sender, Input.EventArgs<Favorite> e)
+        {
+            for (var i = Items.Count - 1; i >= 0; i--)
+            {
+                if (Items[i].Path == e.Value.Path)
+                    Items.RemoveAt(i);
+            }
+        }
+
+        void OnItemAdded(object sender, Input.EventArgs<Favorite> e)
+        {
+            Items.Add(new Folder(e.Value.Path));
+        }
 
         public virtual void Open()
         {

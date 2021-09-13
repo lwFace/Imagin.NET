@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Desktop"
+    xmlns:Converters="clr-namespace:Imagin.Common.Globalization.Converters;assembly=Imagin.Common.WPF"
     xmlns:Hardcodet="http://www.hardcodet.net/taskbar"
     xmlns:i="http://imagin.tech/imagin/common"
     i:LocalizeDictionary.DesignCulture="en"
@@ -15,7 +16,6 @@
     Padding="0"
     ResizeMode="NoResize"
     ShowInTaskbar="True"
-    Title="{i:AssemblyProduct}"
     WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
@@ -29,7 +29,10 @@
                 x:Key="HasFlagConverter"/>
             <i:ValueEqualsParameterMultiConverter 
                 x:Key="ValueEqualsParameterMultiConverter"/>
-            
+
+            <Converters:TranslateConverter 
+                x:Key="ValueEqualsParameterMultiConverter"/>
+
             <Style x:Key="Style.Thumb" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="Template">
@@ -43,6 +46,57 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <ContextMenu x:Key="ContextMenu.TaskbarIcon">
+                <ContextMenu.Resources>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:Screen}">
+                                <Setter Property="Command" Value="{i:MainViewModel SelectScreenCommand}"/>
+                                <Setter Property="CommandParameter" Value="{Binding}"/>
+                                <Setter Property="HeaderTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <Grid i:GridExtensions.Columns="*,Auto">
+                                                <TextBlock Text="{Binding Index, StringFormat='Screen {0}'}"/>
+                                                <i:MaskedButton
+                                                    Grid.Column="1"
+                                                    Command="{i:MainViewModel RemoveScreenCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="5,0,0,0"
+                                                    Source="{i:Image Desktop, Images/Trash.png}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="i:MenuItemExtensions.GroupName" Value="Screens"/>
+                                <Setter Property="i:MenuItemExtensions.SelectionMode" Value="Single"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContextMenu.Resources>
+                <ContextMenu.ItemsSource>
+                    <CompositeCollection>
+                        <MenuItem Header="Draw"
+                            Command="{Binding DrawCommand}"
+                            Icon="{i:Image Desktop, Images/Pencil.png}"/>
+                        <Separator/>
+                        <CollectionContainer Collection="{i:MainViewModel Screens}"/>
+                        <Separator/>
+                        <MenuItem Header="About"
+                            Click="OnAbout"
+                            Icon="{i:Image Desktop, Images/Info.png}"/>
+                        <MenuItem Header="Options"
+                            Click="OnOptions"
+                            Icon="{i:Image Desktop, Images/Options.png}"/>
+                        <Separator/>
+                        <MenuItem Header="Exit"
+                            Click="OnExit"
+                            Icon="{i:Image Desktop, Images/X.png}"/>
+                    </CompositeCollection>
+                </ContextMenu.ItemsSource>
+            </ContextMenu>
         </ResourceDictionary>
     </Window.Resources>
     <Window.Style>
@@ -82,65 +136,20 @@
             </TaskbarItemInfo.ThumbButtonInfos>
         </TaskbarItemInfo>
     </Window.TaskbarItemInfo>
-    <Grid>
+    <Window.Title>
+        <MultiBinding Converter="{StaticResource TranslateConverter}">
+            <Binding Source="{i:AssemblyProduct}"/>
+            <i:Options Path="Language"/>
+        </MultiBinding>
+    </Window.Title>
+    <Grid x:Name="Grid">
         <Hardcodet:TaskbarIcon
-            Visibility="Visible"
-            ToolTipText="{i:AssemblyProduct}"
+            x:Name="TaskbarIcon"
+            ContextMenu="{StaticResource ContextMenu.TaskbarIcon}"
             IconSource="pack://application:,,,/Desktop;component/Logo.ico"
-            MenuActivation="LeftOrRightClick">
-            <Hardcodet:TaskbarIcon.ContextMenu>
-                <ContextMenu>
-                    <ContextMenu.Resources>
-                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:Screen}">
-                                    <Setter Property="Command" Value="{i:MainViewModel SelectScreenCommand}"/>
-                                    <Setter Property="CommandParameter" Value="{Binding}"/>
-                                    <Setter Property="HeaderTemplate">
-                                        <Setter.Value>
-                                            <DataTemplate>
-                                                <Grid i:GridExtensions.Columns="*,Auto">
-                                                    <TextBlock Text="{Binding Index, StringFormat='Screen {0}'}"/>
-                                                    <i:MaskedButton
-                                                        Grid.Column="1"
-                                                        Command="{i:MainViewModel RemoveScreenCommand}"
-                                                        CommandParameter="{Binding}"
-                                                        Margin="5,0,0,0"
-                                                        Source="{i:Image Desktop, Images/Trash.png}"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="IsCheckable" Value="True"/>
-                                    <Setter Property="i:MenuItemExtensions.GroupName" Value="Screens"/>
-                                    <Setter Property="i:MenuItemExtensions.SelectionMode" Value="Single"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ContextMenu.Resources>
-                    <ContextMenu.ItemsSource>
-                        <CompositeCollection>
-                            <MenuItem Header="Draw"
-                                Command="{Binding DrawCommand}"
-                                Icon="{i:Image Desktop, Images/Pencil.png}"/>
-                            <Separator/>
-                            <CollectionContainer Collection="{i:MainViewModel Screens}"/>
-                            <Separator/>
-                            <MenuItem Header="About"
-                                Click="OnAbout"
-                                Icon="{i:Image Desktop, Images/Info.png}"/>
-                            <MenuItem Header="Options"
-                                Click="OnOptions"
-                                Icon="{i:Image Desktop, Images/Options.png}"/>
-                            <Separator/>
-                            <MenuItem Header="Exit"
-                                Click="OnExit"
-                                Icon="{i:Image Desktop, Images/X.png}"/>
-                        </CompositeCollection>
-                    </ContextMenu.ItemsSource>
-                </ContextMenu>
-            </Hardcodet:TaskbarIcon.ContextMenu>
-        </Hardcodet:TaskbarIcon>
+            MenuActivation="LeftOrRightClick"
+            ToolTipText="{i:AssemblyProduct}"
+            Visibility="Visible"/>
         <Grid>
             <i:TransitionView 
                 Content="{i:MainViewModel Screen}"

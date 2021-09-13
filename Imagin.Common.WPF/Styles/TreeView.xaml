@@ -160,7 +160,6 @@
                                 <Condition Property="IsExpanded" Value="True"/>
                             </MultiTrigger.Conditions>
                             <Setter TargetName="ItemsHost" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="PART_Expander" Property="Visibility" Value="Collapsed"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -168,7 +167,6 @@
                                 <Condition Property="IsExpanded" Value="False"/>
                             </MultiTrigger.Conditions>
                             <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="PART_Expander" Property="Visibility" Value="Collapsed"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

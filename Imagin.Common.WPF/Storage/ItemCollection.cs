@@ -212,13 +212,13 @@ namespace Imagin.Common.Storage
         {
             try
             {
-                watcher.EnableRaisingEvents = false;
-                watcher.Path = Path;
-
                 watcher.Changed -= OnObjectChanged;
                 watcher.Created -= OnObjectCreated;
                 watcher.Deleted -= OnObjectDeleted;
                 watcher.Renamed -= OnObjectRenamed;
+
+                watcher.EnableRaisingEvents = false;
+                watcher.Path = Path;
 
                 watcher.EnableRaisingEvents = true;
                 watcher.Changed += OnObjectChanged;
@@ -238,9 +238,45 @@ namespace Imagin.Common.Storage
 
         #region Public
 
-        public async Task Refresh() => await Refresh(Path);
+        public async Task Refresh() => await RefreshAsync(Path);
 
-        public async Task Refresh(string path)
+        public void Refresh(string path)
+        {
+            if (IsRefreshing)
+            {
+                pending = path;
+                CancelRefresh();
+                return;
+            }
+
+            IsRefreshing = true;
+            Path = path;
+
+            Watch();
+
+            if (0 < automator.Count)
+                automator.Abort();
+
+            if (0 < Count)
+                Clear();
+
+            OnRefreshing();
+            var filter = Filter;
+
+            Refresh(path, filter, null);
+            OnRefreshed();
+
+            IsRefreshing = false;
+
+            if (pending != null)
+            {
+                var p = pending;
+                pending = null;
+                Refresh(p);
+            }
+        }
+
+        public async Task RefreshAsync(string path)
         {
             if (IsRefreshing)
             {
@@ -280,7 +316,7 @@ namespace Imagin.Common.Storage
             {
                 var p = pending;
                 pending = null;
-                await Refresh(p);
+                await RefreshAsync(p);
             }
         }
 

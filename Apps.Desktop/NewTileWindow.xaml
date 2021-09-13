@@ -10,7 +10,7 @@
     mc:Ignorable="d"    
     ResizeMode="NoResize"
     SizeToContent="WidthAndHeight"
-    Title="New tile" 
+    Title="{i:Loc NewTile}" 
     TitleIcon="{i:Image Desktop, Images/Plus.png}"
     WindowStartupLocation="CenterScreen">
     <ItemsControl

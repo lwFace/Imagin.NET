@@ -12,7 +12,6 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.CheckBox.Border}" />
         <Setter Property="BorderThickness" Value="1" /> 
         <Setter Property="ClipToBounds" Value="False" />
-        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text}" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -76,5 +75,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

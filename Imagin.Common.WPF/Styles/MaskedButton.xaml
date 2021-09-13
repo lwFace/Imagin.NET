@@ -16,14 +16,13 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ButtonSize" Value="12,12"/>
         <Setter Property="ButtonSource" Value="pack://application:,,,/Imagin.Common.WPF;component/Images/TriangleDown.png"/>
-        <Setter Property="ContentMargin" Value="5" />
         <Setter Property="Foreground" Value="{DynamicResource Brush.Text}" />
         <Style.Triggers>
             <Trigger Property="MenuButtonVisibility" Value="Visible">
-                <Setter Property="ContentMargin" Value="5,0"/>
+                <Setter Property="ContentMargin" Value="5,4,0,4"/>
             </Trigger>
             <Trigger Property="MenuButtonVisibility" Value="Collapsed">
-                <Setter Property="ContentMargin" Value="5,0,0,0"/>
+                <Setter Property="ContentMargin" Value="5,4"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="#007acc"/>
@@ -35,7 +34,7 @@
                     <Condition Property="MenuButtonVisibility" Value="Visible"/>
                     <Condition Property="Content" Value="{x:Null}"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="ContentMargin" Value="5,0,0,0"/>
+                <Setter Property="ContentMargin" Value="0"/>
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -67,7 +66,6 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Linq:FrameworkElementExtensions.CornerRadius" Value="2"/>
-        <Setter Property="Padding" Value="4" />
         <Style.Triggers>
             <EventTrigger RoutedEvent="local:Crumb.Loaded">
                 <BeginStoryboard Storyboard="{StaticResource FadeInAnimation}"/>

@@ -61,6 +61,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="XAMLMarkupExtensions, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\XAMLMarkupExtensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\AdjustmentEffect.cs" />
@@ -141,6 +145,11 @@
     <Compile Include="Core\HorizontalShift.cs" />
     <Compile Include="Core\SpongeModes.cs" />
     <Compile Include="Core\Transform.cs" />
+    <Compile Include="Lang\Main.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.resx</DependentUpon>
+    </Compile>
     <Compile Include="Layers\.Layers\Path.cs" />
     <Compile Include="Layers\Adjustment.cs" />
     <Compile Include="Layers\Arranger.cs" />
@@ -168,7 +177,6 @@
     <Compile Include="Core\BlendModes.cs" />
     <Compile Include="Core\CursorPosition.cs" />
     <Compile Include="Core\DocumentPreset.cs" />
-    <Compile Include="Core\FileFormat.cs" />
     <Compile Include="Mutations\Mutation.cs" />
     <Compile Include="Layers\.Base layers\RegionShape.cs" />
     <Compile Include="Layers\.Layers\CustomShape.cs" />
@@ -219,7 +227,6 @@
     <Compile Include="Core\Model.cs" />
     <Compile Include="Shapes\CustomShape.cs" />
     <Compile Include="Core\ShapeToolModes.cs" />
-    <Compile Include="Core\SupportedFormats.cs" />
     <Compile Include="Tools\.Tools\EllipseSelection.cs" />
     <Compile Include="Tools\.Tools\ColumnSelection.cs" />
     <Compile Include="Tools\.Tools\PreviewSelection.cs" />
@@ -425,6 +432,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Lang\Main.es-ES.resx" />
+    <EmbeddedResource Include="Lang\Main.fr-FR.resx" />
+    <EmbeddedResource Include="Lang\Main.it-IT.resx" />
+    <EmbeddedResource Include="Lang\Main.ja-JP.resx" />
+    <EmbeddedResource Include="Lang\Main.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -753,7 +768,6 @@
     <Content Include="Effects\Adjustments\Vibrance.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Lang\" />
     <Folder Include="Legacy\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

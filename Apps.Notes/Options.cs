@@ -32,7 +32,7 @@ namespace Notes
 
         bool autoSave = false;
         [Category(Category.Documents)]
-        [DisplayName("Auto save")]
+        [DisplayName("AutoSave")]
         public bool AutoSave
         {
             get => autoSave;
@@ -41,7 +41,7 @@ namespace Notes
 
         bool listDeleteEmptyLines = false;
         [Category(Category.List)]
-        [DisplayName("Delete empty lines")]
+        [DisplayName("DeleteEmptyLines")]
         public bool ListDeleteEmptyLines
         {
             get => listDeleteEmptyLines;
@@ -69,7 +69,7 @@ namespace Notes
 
         bool showFavoritesBar = true;
         [Category(Category.Favorites)]
-        [DisplayName("Show bar")]
+        [DisplayName("ShowBar")]
         public bool ShowFavoritesBar
         {
             get => showFavoritesBar;
@@ -94,7 +94,7 @@ namespace Notes
 
         string fontFamily;
         [Category(Category.Format)]
-        [DisplayName("Font family")]
+        [DisplayName("FontFamily")]
         public FontFamily FontFamily
         {
             get
@@ -111,7 +111,7 @@ namespace Notes
 
         double fontSize = 16;
         [Category(Category.Format)]
-        [DisplayName("Font size")]
+        [DisplayName("FontSize")]
         [Range(8.0, 72.0, 1.0)]
         [RangeFormat(RangeFormat.Slider)]
         public double FontSize
@@ -128,7 +128,7 @@ namespace Notes
             set => this.Change(ref history, value);
         }
 
-        ItemProperty sortName = ItemProperty.Name;
+        ItemProperty sortName = ItemProperty.Modified;
         [Category(Category.Sort)]
         [DisplayName("Name")]
         public ItemProperty SortName
@@ -158,7 +158,7 @@ namespace Notes
 
         string textWrap = $"{TextWrapping.Wrap}";
         [Category(Category.Format)]
-        [DisplayName("Word wrap")]
+        [DisplayName("WordWrap")]
         public TextWrapping TextWrap
         {
             get => (TextWrapping)Enum.Parse(typeof(TextWrapping), textWrap);

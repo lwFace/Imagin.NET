@@ -1,5 +1,7 @@
 ﻿using Imagin.Common;
 using Imagin.Common.Controls;
+using Imagin.Common.Globalization.Engine;
+using Imagin.Common.Globalization.Extensions;
 using Imagin.Common.Input;
 using Imagin.Common.Models;
 using Imagin.Common.Storage;
@@ -16,7 +18,7 @@ namespace Explorer
             {
                 //To do: If Documents.Count == 0, ActiveDocument = null!
                 if (Documents.Count == 0 || ActiveDocument == null)
-                    return nameof(Explorer);
+                    return $"{LocExtension.GetLocalizedValue(typeof(string), nameof(Explorer), LocalizeDictionary.Instance.SpecificCulture, null)}";
 
                 return Machine.FriendlyName(ActiveDocument.Path);
             }
@@ -37,7 +39,20 @@ namespace Explorer
 
         /// ........................................................................
 
-        public MainViewModel() : base() { }
+        public MainViewModel() : base() 
+        {
+            Get.Current<Options>().PropertyChanged += OnOptionsChanged;
+        }
+
+        private void OnOptionsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Options.Language):
+                    this.Changed(() => Title);
+                    break;
+            }
+        }
 
         /// ........................................................................
 
