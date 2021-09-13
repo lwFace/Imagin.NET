@@ -1,4 +1,4 @@
-﻿# Imagin .NET ![](https://img.shields.io/badge/style-5.4-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
+﻿# Imagin .NET ![](https://img.shields.io/badge/style-5.5-blue.svg?style=flat&label=Version) ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) 
 A framework for developing WPF apps.
 
 ## Apps
@@ -155,10 +155,11 @@ XAMLMarkupExtensions | 1.2.2 |
 
 ## Languages
 
-  Language  |  Code  |
-------------|--------|
+  Language  |  *  |
+------------|-----|
 English | en |
 Español | es-ES |
+Français | fr-FR |
 Italiano | it-IT |
 日本 | ja-JP |
 
