@@ -75,10 +75,8 @@ Sync folders and manage passwords.
 
 **Features**
 * Copy, encrypt, or decrypt a folder at one location (the source) to another location (the destination). 
-* Changes are observed in real-time.
-* Include files or folders only, or both.
 * Encrypt/decrypt file/folder names and file content.
-* Log activity.
+* Log changes and observe in real-time.
 * Save and encrypt passwords.
 * Encrypt and decrypt text.
 * Generate random strings of any length and character.
