@@ -137,13 +137,13 @@ XAMLMarkupExtensions | 1.2.2 |
 
 ## Languages
 
-  Language  |
-------------|
-English |
-Español |
-Français |
-Italiano |
-日本 |
+  Language  |  *  |
+------------|-----|
+English | * |
+Español | Spanish |
+Français | French |
+Italiano | Italian |
+日本 | Japanese |
 
 ## Themes
 
