@@ -149,13 +149,13 @@ Italiano |
 
   Theme  |  Preview  |
 ---------|-----------|
-Blaze | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Blaze.png?raw=true" width="256" /> |
-Chocolate | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Chocolate.png?raw=true" width="256" /> |
-Dark | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Dark.png?raw=true" width="256" /> |
-Jungle | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Jungle.png?raw=true" width="256" /> |
-Light | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Light.png?raw=true" width="256" /> |
-Midnight | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Midnight.png?raw=true" width="256" /> |
-Violet | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Violet.png?raw=true" width="256" /> |
+Blaze | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Blaze.png?raw=true" width="64" /> |
+Chocolate | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Chocolate.png?raw=true" width="64" /> |
+Dark | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Dark.png?raw=true" width="64" /> |
+Jungle | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Jungle.png?raw=true" width="64" /> |
+Light | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Light.png?raw=true" width="64" /> |
+Midnight | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Midnight.png?raw=true" width="64" /> |
+Violet | <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Themes/Violet.png?raw=true" width="64" /> |
 
 ## Nuget
 All packages deprecated (8/29/2021).
