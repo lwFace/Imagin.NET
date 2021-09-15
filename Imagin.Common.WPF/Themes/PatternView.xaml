@@ -1,0 +1,143 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Data="clr-namespace:Imagin.Common.Data">
+    <Style x:Key="{x:Type local:PatternView}" TargetType="{x:Type local:PatternView}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="#11000000"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ClosedLineStroke">
+            <Setter.Value>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0" Color="#55008C00"/>
+                    <GradientStop Offset="0.5" Color="#AA008C00"/>
+                    <GradientStop Offset="1" Color="#008C00"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DotBackground">
+            <Setter.Value>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0" Color="#555"/>
+                    <GradientStop Offset="1" Color="#383c40"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DotBorderBrush" Value="#181818"/>
+        <Setter Property="DotBorderThickness" Value="1"/>
+        <Setter Property="DotLength" Value="48"/>
+        <Setter Property="InnerDotBackground">
+            <Setter.Value>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0" Color="#e8e8e8"/>
+                    <GradientStop Offset="0.5" Color="#FFF"/>
+                    <GradientStop Offset="1" Color="#e8e8e8"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="InnerDotConnectedBackground">
+            <Setter.Value>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0" Color="#46b546"/>
+                    <GradientStop Offset="0.5" Color="#73d073"/>
+                    <GradientStop Offset="1" Color="#46b546"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="InnerDotLength" Value="28"/>
+        <Setter Property="LineStroke" Value="10"/>
+        <Setter Property="OpenLineStroke">
+            <Setter.Value>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0" Color="#DDD"/>
+                    <GradientStop Offset="0.25" Color="#E0E0E0"/>
+                    <GradientStop Offset="0.5" Color="#EAEAEA"/>
+                    <GradientStop Offset="1" Color="#F0F0F0"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PatternView}">
+                    <Border 
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Resources>
+                            <Data:Reference x:Key="PatternView" Data="{Binding Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Border.Resources>
+                        <Viewbox>
+                            <Grid>
+                                <ItemsControl
+                                    ItemsSource="{TemplateBinding Lines}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Line
+                                                x:Name="PART_Line"
+                                                Stroke="{Binding Data.ClosedLineStroke, Source={StaticResource PatternView}}"
+                                                StrokeThickness="{Binding Data.LineStroke, Source={StaticResource PatternView}}"
+                                                X1="{Binding X1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                X2="{Binding X2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Y1="{Binding Y1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Y2="{Binding Y2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                                    <Setter TargetName="PART_Line" Property="Stroke" Value="{Binding Data.OpenLineStroke, Source={StaticResource PatternView}}"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                <ItemsControl 
+                                    Height="{TemplateBinding CanvasLength}"
+                                    ItemsSource="{TemplateBinding Dots}"
+                                    Width="{TemplateBinding CanvasLength}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Border 
+                                                    x:Name="PART_Border"
+                                                    Background="{Binding Data.DotBackground, Source={StaticResource PatternView}}"
+                                                    BorderBrush="{Binding Data.DotBorderBrush, Source={StaticResource PatternView}}"
+                                                    BorderThickness="{Binding Data.DotBorderThickness, Source={StaticResource PatternView}}"
+                                                    CornerRadius="999"
+                                                    Height="{Binding Data.DotLength, Source={StaticResource PatternView}}"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Width="{Binding Data.DotLength, Source={StaticResource PatternView}}">
+                                                    <Border 
+                                                        x:Name="PART_InnerBorder"
+                                                        Background="{Binding Data.InnerDotBackground, Source={StaticResource PatternView}}"
+                                                        CornerRadius="999"
+                                                        Height="{Binding Data.InnerDotLength, Source={StaticResource PatternView}}"
+                                                        Width="{Binding Data.InnerDotLength, Source={StaticResource PatternView}}">
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                                    <Setter TargetName="PART_InnerBorder" Property="Background" Value="{Binding Data.InnerDotConnectedBackground, Source={StaticResource PatternView}}"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="3" Rows="3"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

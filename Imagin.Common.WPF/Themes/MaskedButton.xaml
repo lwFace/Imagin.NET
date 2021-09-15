@@ -1,0 +1,67 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters">
+    <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+
+    <Style x:Key="{x:Type local:MaskedButton}" TargetType="{x:Type local:MaskedButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MaskedButton}">
+                    <Border  
+                        x:Name="PART_Border"
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        BorderBrush="{TemplateBinding BorderBrush}"  
+                        Background="{TemplateBinding Background}"
+                        Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <local:MaskedImage
+                                Source="{TemplateBinding Source}"
+                                SourceColor="{TemplateBinding SourceColor}"
+                                SourceHeight="{TemplateBinding SourceHeight}"
+                                SourceWidth="{TemplateBinding SourceWidth}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="{TemplateBinding Source, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+
+                            <ContentPresenter 
+                                Grid.Column="1"
+                                Content="{TemplateBinding Content}" 
+                                Margin="{TemplateBinding ContentMargin}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="{TemplateBinding Content, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+
+                            <local:MaskedImage
+                                Grid.Column="2" 
+                                x:Name="PART_MaskedImage"
+                                Cursor="Hand"
+                                Height="12"
+                                Margin="5"
+                                Source="{TemplateBinding ButtonSource}"
+                                SourceColor="{TemplateBinding SourceColor}"
+                                SourceHeight="{Binding ButtonSize.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                                SourceWidth="{Binding ButtonSize.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                                ToolTip="{TemplateBinding MenuButtonToolTip}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="{TemplateBinding MenuButtonVisibility}"
+                                Width="12"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="Auto" />
+    </Style>
+</ResourceDictionary>

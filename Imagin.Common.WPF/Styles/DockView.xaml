@@ -1,0 +1,341 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:l="clr-namespace:Imagin.Common.Globalization.Extensions" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Common="clr-namespace:Imagin.Common"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:_Converters="clr-namespace:Imagin.Common.Globalization.Converters"
+    xmlns:Data="clr-namespace:Imagin.Common.Data"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq"
+    xmlns:Markup="clr-namespace:Imagin.Common.Markup"
+    xmlns:Models="clr-namespace:Imagin.Common.Models">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/MaskedImage.xaml}"/>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/TabControl.xaml}"/>
+        <ResourceDictionary Source="{Markup:Uri Imagin.Common.WPF, Styles/TextBlock.xaml}"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Converters:NullConverter x:Key="NullConverter"/>
+    <Converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+    <_Converters:TranslateConverter x:Key="TranslateConverter"/>
+
+    <Style x:Key="{x:Type local:DockView}" TargetType="{x:Type local:DockView}">
+        <Setter Property="ActualPanelTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type Models:Panel}">
+                    <Grid Linq:GridExtensions.Rows="Auto,*">
+                        <local:LayoutPanelTitleControl 
+                            Grid.Row="0"
+                            BorderBrush="#11000000"
+                            BorderThickness="0,0,0,1"
+                            Padding="5"
+                            Visibility="{Binding TitleVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid Linq:GridExtensions.Columns="Auto,*,Auto,Auto">
+                                <local:MaskedImage
+                                    Grid.Column="0"
+                                    Margin="0,0,5,0"
+                                    Source="{Binding Icon}"
+                                    Visibility="{Binding Icon, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+                                <!-- Why doesn't the correct foreground show? -->
+                                <!--
+                                <ContentControl
+                                    Grid.Column="1"
+                                    Content="{Binding}"
+                                    ContentTemplate="{Data:Ancestor DockView.PanelTitleTemplate, {x:Type local:LayoutRootControl}}"
+                                    Margin="0,0,5,0"
+                                    Visibility="Collapsed"/>
+                                -->
+                                <TextBlock Grid.Column="1"
+                                    Foreground="{DynamicResource Brush.Text}"
+                                    Margin="0,0,5,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding TitleLocalized}" Value="True">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                                                <Binding Path="Title"/>
+                                                                <Markup:Options Path="Language"/>
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding TitleLocalized}" Value="False">
+                                                    <Setter Property="Text" Value="{Binding Title}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <local:MaskedButton Grid.Column="2"
+                                    Command="{Data:Ancestor DockView.FloatCommand, {x:Type local:LayoutRootControl}}"
+                                    CommandParameter="{Binding}"
+                                    Margin="0,0,5,0"
+                                    Source="{Markup:Image Imagin.Common.WPF, Images/Pin.png}"
+                                    ToolTip="{l:Loc Imagin.Common.Wpf:Main:Float}"
+                                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
+                                <local:MaskedButton Grid.Column="3"
+                                    Command="{Data:Ancestor DockView.HidePanelCommand, {x:Type local:LayoutRootControl}}"
+                                    CommandParameter="{Binding}"
+                                    Source="{Markup:Image Imagin.Common.WPF, Images/X.png}"
+                                    ToolTip="{l:Loc Imagin.Common.Wpf:Main:Hide}"
+                                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
+                            </Grid>
+                        </local:LayoutPanelTitleControl>
+                        <ContentControl 
+                            Grid.Row="1" 
+                            Content="{Binding}" 
+                            ContentTemplate="{Data:Ancestor DockView.PanelTemplate, {x:Type local:LayoutRootControl}}"
+                            ContentTemplateSelector="{Data:Ancestor DockView.PanelTemplateSelector, {x:Type local:LayoutRootControl}}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DocumentHeaderTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type Models:Document}">
+                    <Grid>
+                        <Grid.Resources>
+                            <Data:Reference x:Key="DockView" Data="{Data:Ancestor DockView, {x:Type local:LayoutRootControl}}"/>
+                        </Grid.Resources>
+                        <Grid Linq:GridExtensions.Columns="Auto,Auto">
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="{l:Loc Imagin.Common.WPF:Main:Float}"
+                                        Command="{Binding Data.FloatCommand, Source={StaticResource DockView}}"
+                                        CommandParameter="{Binding}"
+                                        Icon="{Markup:Image Imagin.Common.WPF, Images/Pin.png}"/>
+                                    <MenuItem Header="{l:Loc Imagin.Common.WPF:Main:FloatAll}"
+                                        Command="{Binding Data.FloatAllCommand, Source={StaticResource DockView}}"
+                                        CommandParameter="{Binding}"/>
+                                    <Separator/>
+                                    <MenuItem Header="{l:Loc Imagin.Common.WPF:Main:Close}"
+                                        Command="{Binding Data.CloseDocumentCommand, Source={StaticResource DockView}}"
+                                        CommandParameter="{Binding}"
+                                        Icon="{Markup:Image Imagin.Common.WPF, Images/XRound.png}"/>
+                                    <MenuItem Header="{l:Loc Imagin.Common.WPF:Main:CloseAll}"
+                                        Command="{Binding Data.CloseAllDocumentsCommand, Source={StaticResource DockView}}"/>
+                                    <MenuItem Header="{l:Loc Imagin.Common.WPF:Main:CloseAllButThis}"
+                                        Command="{Binding Data.CloseAllDocumentsButThisCommand, Source={StaticResource DockView}}"
+                                        CommandParameter="{Binding}"/>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+                            <ContentControl
+                                Grid.Column="0"
+                                Content="{Binding}"
+                                ContentTemplate="{Data:Ancestor DockView.DocumentTitleTemplate, {x:Type local:LayoutRootControl}}"
+                                ContentTemplateSelector="{Data:Ancestor DockView.DocumentTitleTemplateSelector, {x:Type local:LayoutRootControl}}"
+                                VerticalAlignment="Center"/>
+                            <local:MaskedButton
+                                Grid.Column="1"
+                                Command="{Data:Ancestor DockView.CloseDocumentCommand, {x:Type local:LayoutRootControl}}"
+                                CommandParameter="{Binding}"
+                                Margin="5,0,0,0"
+                                Source="{Markup:Image Imagin.Common.WPF, Images/XRound.png}"
+                                SourceColor="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"
+                                SourceHeight="12"
+                                SourceWidth="12"
+                                ToolTip="{l:Loc Imagin.Common.WPF:Main:Close}"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding CanClose, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DocumentStyle">
+            <Setter.Value>
+                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                    <Setter Property="Content" Value="{Binding}"/>
+                    <Setter Property="ContentTemplate" Value="{Data:Ancestor DockView.DocumentTemplate, {x:Type local:LayoutRootControl}}"/>
+                    <Setter Property="ContentTemplateSelector" Value="{Data:Ancestor DockView.DocumentTemplateSelector, {x:Type local:LayoutRootControl}}"/>
+                    <Setter Property="ToolTip" Value="{Binding ToolTip}"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                <Condition Binding="{Binding Active, RelativeSource={RelativeSource AncestorType={x:Type local:LayoutDocumentGroupControl}}}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource Brush.TabControl.Border.Active}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border.Active}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                <Condition Binding="{Binding Active, RelativeSource={RelativeSource AncestorType={x:Type local:LayoutDocumentGroupControl}}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource Brush.TabControl.Border}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.TabItem.Foreground}"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DocumentTitleTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FocusManager.IsFocusScope" Value="True"/>
+        <Setter Property="PanelHeaderTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type Models:Panel}">
+                    <Grid Linq:GridExtensions.Columns="Auto,Auto,Auto">
+                        <local:MaskedImage
+                            Margin="0,0,5,0"
+                            Source="{Binding Icon, Converter={StaticResource NullConverter}}"
+                            SourceColor="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding Icon, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+                        <ContentControl
+                            Grid.Column="1"
+                            Content="{Binding}"
+                            ContentTemplate="{Data:Ancestor DockView.PanelTitleTemplate, {x:Type local:LayoutRootControl}}"
+                            ContentTemplateSelector="{Data:Ancestor DockView.PanelTitleTemplateSelector, {x:Type local:LayoutRootControl}}"
+                            VerticalAlignment="Center"/>
+                        <local:MaskedButton
+                            Grid.Column="2"
+                            Command="{Data:Ancestor DockView.HidePanelCommand, {x:Type local:LayoutRootControl}}"
+                            CommandParameter="{Binding}"
+                            Margin="5,0,0,0"
+                            Source="{Markup:Image Imagin.Common.WPF, Images/X.png}"
+                            SourceColor="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"
+                            SourceHeight="12"
+                            SourceWidth="12"
+                            ToolTip="{l:Loc Imagin.Common.WPF:Main:Hide}"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding CanHide, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="PanelStyle">
+            <Setter.Value>
+                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                    <Setter Property="Content" Value="{Binding}"/>
+                    <Setter Property="ContentTemplate" Value="{Data:Ancestor DockView.ActualPanelTemplate, {x:Type local:LayoutRootControl}}"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="ToolTip" Value="{Binding ToolTip}"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                <Condition Binding="{Binding Active, RelativeSource={RelativeSource AncestorType={x:Type local:LayoutPanelGroupControl}}}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource Brush.TabControl.Border.Active}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border.Active}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                <Condition Binding="{Binding Active, RelativeSource={RelativeSource AncestorType={x:Type local:LayoutPanelGroupControl}}}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource Brush.TabControl.Border}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.TabItem.Foreground}"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="PanelTitleTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TitleLocalized}" Value="True">
+                                        <Setter Property="Text">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                                    <Binding Path="Title"/>
+                                                    <Markup:Options Path="Language"/>
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TitleLocalized}" Value="False">
+                                        <Setter Property="Text" Value="{Binding Title}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type local:LayoutDocumentGroupControl}" TargetType="{x:Type local:LayoutDocumentGroupControl}" BasedOn="{StaticResource {x:Type TabControl}}">
+        <Style.Triggers>
+            <Trigger Property="Active" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border.Active}"/>
+            </Trigger>
+            <Trigger Property="Active" Value="False">
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Type local:LayoutPanelGroupControl}" TargetType="{x:Type local:LayoutPanelGroupControl}" BasedOn="{StaticResource {x:Type TabControl}}">
+        <Style.Triggers>
+            <Trigger Property="Active" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border.Active}"/>
+            </Trigger>
+            <Trigger Property="Active" Value="False">
+                <Setter Property="BorderBrush" Value="{DynamicResource Brush.TabControl.Border}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Type local:LayoutRootControl}" TargetType="{x:Type local:LayoutRootControl}">
+        <Setter Property="EmptyMarkerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type local:MaskedImage}" BasedOn="{StaticResource {x:Type local:MaskedImage}}">
+                    <Setter Property="Height" Value="100"/>
+                    <Setter Property="SourceColor" Value="{DynamicResource Brush.DockView.EmptyMarker.SourceColor}"/>
+                    <Setter Property="SourceHeight" Value="100"/>
+                    <Setter Property="SourceWidth" Value="100"/>
+                    <Setter Property="Width" Value="100"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="PrimaryMarkerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type local:MaskedImage}" BasedOn="{StaticResource {x:Type local:MaskedImage}}">
+                    <Setter Property="Background" Value="{DynamicResource Brush.DockView.PrimaryMarker.Background}"/>
+                    <Setter Property="Padding" Value="2.5"/>
+                    <Setter Property="SourceColor" Value="{DynamicResource Brush.DockView.PrimaryMarker.SourceColor}"/>
+                    <Setter Property="SourceHeight" Value="32"/>
+                    <Setter Property="SourceWidth" Value="32"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SecondaryMarkerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type local:MaskedImage}" BasedOn="{StaticResource {x:Type local:MaskedImage}}">
+                    <Setter Property="SourceColor" Value="{DynamicResource Brush.DockView.SecondaryMarker.SourceColor}"/>
+                    <Setter Property="SourceHeight" Value="32"/>
+                    <Setter Property="SourceWidth" Value="32"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SelectionStyle">
+            <Setter.Value>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{DynamicResource Brush.DockView.Selection.Background}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource Brush.DockView.Selection.Border}"/>
+                    <Setter Property="BorderThickness" Value="5"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

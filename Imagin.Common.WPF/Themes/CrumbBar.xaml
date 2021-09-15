@@ -1,0 +1,181 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:g="urn:gong-wpf-dragdrop"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Converters="clr-namespace:Imagin.Common.Converters"
+    xmlns:Data="clr-namespace:Imagin.Common.Data">
+    <Style x:Key="{x:Type local:CrumbBar}" TargetType="{x:Type local:CrumbBar}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CrumbBar}">
+                    <ControlTemplate.Resources>
+                        <Converters:FileNameConverter x:Key="FileNameConverter"/>
+                        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                    </ControlTemplate.Resources>
+                    <Border>
+                        <Border.Resources>
+                            <Data:Reference x:Key="CrumbBar" Data="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Border.Resources>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="15"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <ToggleButton 
+                                x:Name="ToggleButton" 
+                                Grid.ColumnSpan="3" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                ClickMode="Press"
+                                Focusable="False" 
+                                Foreground="{TemplateBinding Foreground}"
+                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                Padding="{TemplateBinding Padding}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="15"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border 
+                                                x:Name="Border" 
+                                                Grid.ColumnSpan="2" 
+                                                Background="{TemplateBinding Background}" 
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                                            <local:MaskedToggleMenu
+                                                Grid.Column="1" 
+                                                x:Name="PART_Button"
+                                                CheckedToolTip="{Binding CheckedToolTip, RelativeSource={RelativeSource AncestorType={x:Type local:CrumbBar}}}"
+                                                HorizontalAlignment="Right" 
+                                                IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Source="pack://application:,,,/Imagin.Common.WPF;component/Images/ArrowDownSmall.png"
+                                                ToolTip="{Binding ToolTip, RelativeSource={RelativeSource AncestorType={x:Type local:CrumbBar}}}"
+                                                VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <local:Thumbnail
+                                x:Name="PART_ThumbnailImage"
+                                Height="20"
+                                Margin="0,0,5,0"
+                                Path="{TemplateBinding Path}"
+                                VerticalAlignment="Center"
+                                Width="20"/>
+                            <ToolBar 
+                                x:Name="PART_ToolBar"
+                                Grid.Column="1"
+                                AllowDrop="True"
+                                g:DragDrop.DropHandler="{TemplateBinding DropHandler}"
+                                g:DragDrop.IsDropTarget="True"
+                                Background="Transparent" 
+                                BorderThickness="0"
+                                ItemsSource="{TemplateBinding Crumbs}"
+                                Tag="{Binding Path, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ToolTip="{Binding Path}"
+                                VirtualizingPanel.IsVirtualizing="True" 
+                                VirtualizingPanel.VirtualizationMode="Recycling" 
+                                VerticalAlignment="Center"
+                                Visibility="{Binding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToolBar.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:Crumb 
+                                            x:Name="PART_Crumb"
+                                            Content="{Binding Mode=OneWay, Converter={StaticResource FileNameConverter}}"
+                                            Command="{Binding Data.SetPathCommand, Source={StaticResource CrumbBar}}"
+                                            CommandParameter="{Binding Mode=OneWay}"
+                                            AllowDrop="True"
+                                            g:DragDrop.DropHandler="{Binding Data.DropHandler, Source={StaticResource CrumbBar}}"
+                                            g:DragDrop.IsDragSource="True"
+                                            g:DragDrop.IsDropTarget="True"
+                                            g:DragDrop.UseDefaultDragAdorner="True"
+                                            MenuButtonVisibility="{Binding Collection.IsEmpty, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=1}"
+                                            Focusable="False"
+                                            Margin="0,0,2,0"
+                                            Path="{Binding Mode=OneWay}"
+                                            ToolTip="{Binding Mode=OneWay}">
+                                            <local:Crumb.Menu>
+                                                <ContextMenu 
+                                                    ItemContainerStyle="{Binding Data.CrumbChildStyle, Source={StaticResource CrumbBar}}"
+                                                    ItemTemplate="{Binding Data.CrumbChildTemplate, Source={StaticResource CrumbBar}}"
+                                                    ItemsSource="{Binding PlacementTarget.Collection, RelativeSource={RelativeSource Self}}"
+                                                    Tag="{Binding Data, Source={StaticResource CrumbBar}}">
+                                                </ContextMenu>
+                                            </local:Crumb.Menu>
+                                        </local:Crumb>
+                                    </DataTemplate>
+                                </ToolBar.ItemTemplate>
+                                <!--
+                                <ToolBar.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="AllowDrop" Value="True"/>
+                                        <Setter Property="g:DragDrop.DropHandler" Value="{Binding Data.DropHandler, Source={StaticResource CrumbBar}}"/>
+                                        <Setter Property="g:DragDrop.IsDragSource" Value="True"/>
+                                        <Setter Property="g:DragDrop.IsDropTarget" Value="True"/>
+                                        <Setter Property="g:DragDrop.UseDefaultDragAdorner" Value="True"/>
+                                    </Style>
+                                </ToolBar.ItemContainerStyle>
+                                -->
+                            </ToolBar>
+                            <local:TextBox
+                                Grid.Column="1"
+                                x:Name="PART_TextBox" 
+                                Background="Transparent" 
+                                BorderThickness="0" 
+                                Focusable="True"
+                                IsClearEnabled="True"
+                                Padding="0"
+                                Placeholder="Path"
+                                SelectAllOnFocus="True"
+                                SelectAllOnTripleClick="True"
+                                Text="{Binding EditableAddress, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Visibility="{TemplateBinding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Popup 
+                                x:Name="Popup" 
+                                Placement="Bottom" 
+                                IsOpen="{TemplateBinding IsDropDownOpen}" 
+                                AllowsTransparency="True"
+                                Focusable="False" 
+                                PopupAnimation="Slide">
+                                <Grid 
+                                    x:Name="DropDown" 
+                                    SnapsToDevicePixels="True"
+                                    MinWidth="{TemplateBinding ActualWidth}" 
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                        x:Name="DropDownBorder" 
+                                        Background="{DynamicResource Brush.ComboBox.DropDown.Background}"
+                                        BorderBrush="{DynamicResource Brush.ComboBox.DropDown.Border}" 
+                                        BorderThickness="1">
+                                        <ScrollViewer 
+                                            Margin="1,2,1,1" 
+                                            SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Path" Value="\">
+                            <Setter TargetName="PART_ThumbnailImage" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

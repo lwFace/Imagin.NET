@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Imagin.Common.Controls"
+    xmlns:Linq="clr-namespace:Imagin.Common.Linq">
+    <Style x:Key="{x:Type local:DragSelection}" TargetType="{x:Type local:DragSelection}">
+        <Setter Property="Background" Value="{DynamicResource Brush.DragSelection.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.DragSelection.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Linq:FrameworkElementExtensions.CornerRadius" Value="1"/>
+    </Style>
+</ResourceDictionary>

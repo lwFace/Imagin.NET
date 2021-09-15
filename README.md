@@ -8,10 +8,10 @@ A framework for developing WPF apps.
 An alarm that repeats every so often.
 
 **Features**
-* Sets a repeating alarm using an interval you specify.
-* Plays a .mp3 or .wav file you specify.
-* Can require a math problem be solved before disabling (or snoozing) the alarm.
-* Can force system volume at a certain level so the alarm is guarenteed to be heard.
+* Set a repeating alarm between a start and end time.
+* Play *.mp3* or *.wav* files.
+* Solve a math problem to disable(or snooze).
+* Force system volume while app is open.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Alarm.png?raw=true" width="512" />
 
@@ -29,11 +29,12 @@ Save and convert colors.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
-Draw tiles on the desktop to display notes, count downs, clocks, images, slideshows, and folders.
+Draw tiles on the desktop.
 
 **Features**
+* Draw tiles to display notes, count downs, clocks, images, slideshows, and folders on the desktop.
 * Resize, move, and customize the background of tiles.
-* Snap tiles to custom lengths.
+* Snap tiles while moving.
 * Create multiple screens.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Desktop.png?raw=true" width="512" />
@@ -54,11 +55,12 @@ Explore file system.
 Make notes and lists.
 
 **Features**
-* Manage a folder of text (.txt) and list (.list) files called "notes".
+* Manage a folder of text (.txt) and list (.list) files.
 * Includes all features of *Notepad*.
-* Lists have *attributes* to display bullets, prices, and dates.
+* Lists have *attributes* to display bullets, images, and checkboxes.
+* Prices or dates can be displayed next to each list item.
 * Lists are saved as XML.
-* Notes are automatically sorted by the latest changes.
+* Notes are automatically sorted by latest changes.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Notes.png?raw=true" width="512" />
 
@@ -67,10 +69,19 @@ Make notes and lists.
 Create and save images.
 
 **Features**
-* Customize brushes to paint by hand.
-* View histograms.
-* Resize and crop.
-* Create and customize filters.
+* Display rulers on the canvas.
+* *Scrubby* zoom.
+* *Ruler*, *Note*, and *Count* tools.
+* Create and save gradients.
+* Import/export selections.
+* Import/export brushes.
+* Import/export custom shapes.
+* Create, edit, and import/export filters.
+* Transform, resize, and crop.
+* Rotate canvas.
+* View and customize appearance of histograms.
+* Remember recently opened files.
+* Capture window or screen. Copy to clipboard, save to a file, or paste in a new layer.
 * Uses *DirectX*.
 
 <img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Paint.png?raw=true" width="512" />
