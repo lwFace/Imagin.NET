@@ -117,7 +117,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -153,7 +153,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="ByteUpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -351,7 +351,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -387,7 +387,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="DecimalUpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -453,7 +453,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -489,7 +489,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="DoubleUpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -810,7 +810,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -846,7 +846,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="Int16UpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -899,7 +899,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -935,7 +935,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="Int32UpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -1016,7 +1016,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -1056,7 +1056,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="Int64UpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -1145,7 +1145,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -1181,7 +1181,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="SingleUpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -1255,7 +1255,7 @@
                                                 <Setter TargetName="PART_TextBox" Property="Placeholder" Value="(multiple values)"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                                <Setter TargetName="PART_TextBox" Property="Placeholder" Value="{Binding DisplayName}"/>
+                                                <Setter TargetName="PART_TextBox" Property="Placeholder" Value="{Binding LocalizedDisplayName}"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                 <Setter TargetName="PART_TextBox" Property="Text" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -1320,7 +1320,7 @@
                                                         <Setter TargetName="FileBox" Property="Placeholder" Value="(multiple values)"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                                        <Setter TargetName="FileBox" Property="Placeholder" Value="{Binding DisplayName}"/>
+                                                        <Setter TargetName="FileBox" Property="Placeholder" Value="{Binding LocalizedDisplayName}"/>
                                                     </DataTrigger>
                                                     <!-- ............................................................................... -->
                                                     <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
@@ -1357,7 +1357,7 @@
                                                         <Setter TargetName="FileBox" Property="Placeholder" Value="(multiple values)"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                                        <Setter TargetName="FileBox" Property="Placeholder" Value="{Binding DisplayName}"/>
+                                                        <Setter TargetName="FileBox" Property="Placeholder" Value="{Binding LocalizedDisplayName}"/>
                                                     </DataTrigger>
                                                     <!-- ............................................................................... -->
                                                     <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
@@ -1396,7 +1396,7 @@
                                                         <Setter TargetName="TextBox" Property="Placeholder" Value="(multiple values)"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                                        <Setter TargetName="TextBox" Property="Placeholder" Value="{Binding DisplayName}"/>
+                                                        <Setter TargetName="TextBox" Property="Placeholder" Value="{Binding LocalizedDisplayName}"/>
                                                     </DataTrigger>
                                                     <!-- ............................................................................... -->
                                                     <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
@@ -1431,7 +1431,7 @@
                                                         <Setter TargetName="TextBox" Property="Placeholder" Value="(multiple values)"/>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsIndeterminate, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                                        <Setter TargetName="TextBox" Property="Placeholder" Value="{Binding DisplayName}"/>
+                                                        <Setter TargetName="TextBox" Property="Placeholder" Value="{Binding LocalizedDisplayName}"/>
                                                     </DataTrigger>
                                                     <!-- ............................................................................... -->
                                                     <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
@@ -1458,7 +1458,7 @@
                                                 <local:TokenView x:Name="TokenView"
                                                     IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                     HorizontalAlignment="Stretch"
-                                                    Placeholder="{Binding DisplayName}"
+                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                     TokenDelimiter="{Binding StringFormatDelimiter}">
                                                 </local:TokenView>
                                                 <DataTemplate.Triggers>
@@ -1748,7 +1748,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -1784,7 +1784,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="UInt32UpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -1857,7 +1857,7 @@
                                                                     Margin="5,0,0,0"
                                                                     Maximum="{Binding Maximum, Mode=OneWay}"
                                                                     Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                    Placeholder="{Binding DisplayName}"
+                                                                    Placeholder="{Binding LocalizedDisplayName}"
                                                                     VerticalAlignment="Center"/>
                                                             </Grid>
                                                             <DataTemplate.Triggers>
@@ -1897,7 +1897,7 @@
                                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
                                                                 Maximum="{Binding Maximum, Mode=OneWay}"
                                                                 Minimum="{Binding Minimum, Mode=OneWay}"
-                                                                Placeholder="{Binding DisplayName}"/>
+                                                                Placeholder="{Binding LocalizedDisplayName}"/>
                                                             <DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                                                     <Setter TargetName="UInt64UpDown" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
@@ -1925,7 +1925,7 @@
                             <local:UriBox x:Name="UriBox"
                                 HorizontalAlignment="Stretch"
                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
-                                Placeholder="{Binding DisplayName}"/>
+                                Placeholder="{Binding LocalizedDisplayName}"/>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding UpdateSourceTrigger}" Value="Default">
                                     <Setter TargetName="UriBox" Property="Value" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Default}"/>

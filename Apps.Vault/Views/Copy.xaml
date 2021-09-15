@@ -23,6 +23,9 @@
                 i:ItemsControlExtensions.AutoSizeColumns="True"
                 i:DataGridExtensions.DisplayRowNumber="True"
                 i:DataGridExtensions.DisplayRowNumberOffset="1"
+                i:ItemsControlExtensions.GroupName="CategoryName"
+                i:ItemsControlExtensions.SortDirection="{i:Options TaskSortDirection}"
+                i:ItemsControlExtensions.SortName="{i:Options TaskSortName}"
                 i:ItemsControlExtensions.IsColumnMenuEnabled="True"
                 i:DataGridExtensions.SelectedItems="{Binding SelectedItems, Mode=OneWayToSource}"
                 HeadersVisibility="All"
@@ -237,6 +240,15 @@
                             Icon="{i:Image Vault, Images/Plus.png}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
+                <DataGrid.GroupStyle>
+                    <GroupStyle HidesIfEmpty="True">
+                        <GroupStyle.Panel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </GroupStyle.Panel>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
             </DataGrid>
         </Grid>
     </DataTemplate>

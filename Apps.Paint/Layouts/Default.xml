@@ -14,7 +14,7 @@
               <LayoutPanel Name="ToolsPanel"/>
             </Panels>
           </Element>
-          <Element xsi:type="LayoutGroup" Orientation="Vertical">
+          <Element xsi:type="LayoutGroup" Orientation="Vertical" Width="80*">
             <Elements>
               <Element xsi:type="LayoutDocumentGroup" Height="70*"/>
               <Element xsi:type="LayoutPanelGroup" Height="30*">
@@ -25,7 +25,7 @@
               </Element>
             </Elements>
           </Element>
-          <Element xsi:type="LayoutGroup" Orientation="Vertical">
+          <Element xsi:type="LayoutGroup" Orientation="Vertical" Width="20*">
             <Elements>
               <Element xsi:type="LayoutPanelGroup" Height="30*">
                 <Panels>

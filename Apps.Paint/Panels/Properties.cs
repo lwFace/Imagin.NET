@@ -17,7 +17,7 @@ namespace Paint
         public PropertiesPanel() : base(Resources.Uri(nameof(Paint), "/Images/Properties.png"))
         {
             Get.Current<MainViewModel>().ActiveDocumentChanged += OnActiveDocumentChanged;
-            Get.Current<MainViewModel>().DocumentClosed += OnDocumentClosed; ;
+            Get.Current<MainViewModel>().DocumentClosed += OnDocumentClosed;
         }
 
         void OnActiveDocumentChanged(object sender, Imagin.Common.Input.EventArgs<Document> e)

@@ -80,8 +80,10 @@
     <Compile Include="Panels\Queue.cs" />
     <Compile Include="Panels\Copy.cs" />
     <Compile Include="Password.cs" />
+    <Compile Include="PasswordSortNames.cs" />
     <Compile Include="Queue.cs" />
     <Compile Include="CopyTask.cs" />
+    <Compile Include="TaskSortNames.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -218,7 +220,9 @@
   <ItemGroup>
     <Resource Include="Images\Binary.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Clock.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Open.png" />
   </ItemGroup>

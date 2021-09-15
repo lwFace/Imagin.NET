@@ -120,10 +120,85 @@
   <data name="About" xml:space="preserve">
     <value>Sur</value>
   </data>
+  <data name="Browser" xml:space="preserve">
+    <value>Navigateur</value>
+  </data>
+  <data name="Brush" xml:space="preserve">
+    <value>Brosser</value>
+  </data>
+  <data name="Capture" xml:space="preserve">
+    <value>Capturer</value>
+  </data>
+  <data name="Channels" xml:space="preserve">
+    <value>Canaux</value>
+  </data>
+  <data name="Character" xml:space="preserve">
+    <value>Personnage</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Couleurs</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Éditer</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Déposer</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filtres</value>
+  </data>
+  <data name="Histogram" xml:space="preserve">
+    <value>Histogramme</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Histoire</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Layer" xml:space="preserve">
+    <value>Couche</value>
+  </data>
+  <data name="Layers" xml:space="preserve">
+    <value>Couches</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Remarques</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
   <data name="Paint" xml:space="preserve">
     <value>Peindre</value>
+  </data>
+  <data name="Paragraph" xml:space="preserve">
+    <value>Paragraphe</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Propriétés</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Sélectionner</value>
+  </data>
+  <data name="Tool" xml:space="preserve">
+    <value>Outil</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Outils</value>
+  </data>
+  <data name="Transform" xml:space="preserve">
+    <value>Transformer</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Vue</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Fenêtre</value>
   </data>
 </root>

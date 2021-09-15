@@ -48,7 +48,7 @@ namespace Imagin.Common.Configuration
 
         double windowHeight = 720;
         [Hidden]
-        public double WindowHeight
+        public virtual double WindowHeight
         {
             get => windowHeight;
             set => this.Change(ref windowHeight, value);
@@ -56,7 +56,7 @@ namespace Imagin.Common.Configuration
 
         double windowWidth = 1200;
         [Hidden]
-        public double WindowWidth
+        public virtual double WindowWidth
         {
             get => windowWidth;
             set => this.Change(ref windowWidth, value);

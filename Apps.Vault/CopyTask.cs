@@ -26,7 +26,7 @@ namespace Vault
     {
         #region Enums
 
-        enum Category
+        enum Categories
         {
             Action,
             Files,
@@ -60,6 +60,22 @@ namespace Vault
         #endregion
 
         #region Properties
+
+        Category category = null;
+        [Featured]
+        public Category Category
+        {
+            get => category;
+            set
+            {
+                this.Change(ref category, value);
+                this.Changed(() => CategoryName);
+            }
+        }
+
+        [Hidden]
+        [XmlIgnore]
+        public string CategoryName => category?.Name ?? "General";
 
         [field: NonSerialized]
         CancellableTask task;
@@ -125,7 +141,7 @@ namespace Vault
 
         [field: NonSerialized]
         bool enable = false;
-        [Category(nameof(Category.Action))]
+        [Category(nameof(Categories.Action))]
         [Description("Whether or not to enable the task.")]
         [Featured]
         [XmlIgnore]
@@ -164,7 +180,7 @@ namespace Vault
         }
 
         string source = string.Empty;
-        [Category(nameof(Category.Location))]
+        [Category(nameof(Categories.Location))]
         [Description("The path to the folder where stuff should be written from.")]
         [Locked]
         [StringFormat(StringFormat.FolderPath)]
@@ -175,7 +191,7 @@ namespace Vault
         }
 
         string destination = string.Empty;
-        [Category(nameof(Category.Location))]
+        [Category(nameof(Categories.Location))]
         [Description("The path to the folder where stuff should be written to.")]
         [Locked]
         [StringFormat(StringFormat.FolderPath)]
@@ -207,7 +223,7 @@ namespace Vault
         }
 
         Converter.Action action = new Converter.Action();
-        [Category(nameof(Category.Action))]
+        [Category(nameof(Categories.Action))]
         [Description("How you want to encrypt or decrypt stuff.")]
         [Locked]
         public Converter.Action Action
@@ -237,7 +253,7 @@ namespace Vault
         }
 
         Attributes folderAttributes = Attributes.All;
-        [Category(nameof(Category.Folders))]
+        [Category(nameof(Categories.Folders))]
         [Description("Folder attributes", "Whether or not to include or exclude folders with the given attributes.")]
         [DisplayName("Attributes")]
         [EnumFormat(EnumFormat.Flags)]
@@ -249,7 +265,7 @@ namespace Vault
         }
 
         Attributes fileAttributes = Attributes.All;
-        [Category(nameof(Category.Files))]
+        [Category(nameof(Categories.Files))]
         [Description("File attributes", "Whether or not to include or exclude files with the given attributes.")]
         [DisplayName("Attributes")]
         [EnumFormat(EnumFormat.Flags)]
@@ -261,7 +277,7 @@ namespace Vault
         }
 
         FileExtensions fileExtensions = new FileExtensions();
-        [Category(nameof(Category.Files))]
+        [Category(nameof(Categories.Files))]
         [Description("File extensions", "The file extensions to include or exclude.")]
         [DisplayName("Extensions")]
         [Locked]
@@ -272,7 +288,7 @@ namespace Vault
         }
 
         OverwriteCondition overwriteFiles = OverwriteCondition.Always;
-        [Category(nameof(Category.Action))]
+        [Category(nameof(Categories.Action))]
         [Description("When files should be overwritten.")]
         [DisplayName("Overwrite files")]
         [Locked]
@@ -283,7 +299,7 @@ namespace Vault
         }
 
         DateTime lastActive = DateTime.Now;
-        [Category(nameof(Category.Status))]
+        [Category(nameof(Categories.Status))]
         [DateTimeFormat(DateTimeFormat.Relative)]
         [Description("When the task was last active.")]
         [DisplayName("Last active")]
@@ -296,7 +312,7 @@ namespace Vault
 
         [field: NonSerialized]
         Statuses status = Statuses.Disabled;
-        [Category(nameof(Category.Status))]
+        [Category(nameof(Categories.Status))]
         [Description("The status of the task.")]
         [ReadOnly]
         [XmlIgnore]

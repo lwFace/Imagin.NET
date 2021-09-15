@@ -2,7 +2,6 @@
 using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Models;
-using System;
 using System.Collections;
 using System.Linq;
 
@@ -27,7 +26,7 @@ namespace Vault
         void OnSelectedItemsChanged(object sender, EventArgs<IList> e)
         {
             var newSource = e.Value?.First();
-            if (source.Equals(newSource) != true)
+            if (source?.Equals(newSource) != true)
                 Source = newSource;
         }
     }

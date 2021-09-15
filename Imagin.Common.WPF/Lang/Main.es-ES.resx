@@ -429,4 +429,7 @@
   <data name="Size" xml:space="preserve">
     <value>Tamaño</value>
   </data>
+  <data name="Path" xml:space="preserve">
+    <value>Sendero</value>
+  </data>
 </root>

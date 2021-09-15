@@ -32,6 +32,7 @@ namespace Vault
 
         void OnSelectedItemsChanged(object sender, EventArgs<IList> e)
         {
+            System.Console.WriteLine("MainViewModel.OnSelectedItemsChanged");
             SelectedItemsChanged?.Invoke(this, e);
         }
 

@@ -240,12 +240,7 @@ namespace Imagin.Common.Converters
             if (input.ActualValue is string || input.ActualValue is Enum)
             {
                 var i = input.ActualValue.ToString();
-                if (input.Parameter != null)
-                {
-                    int length = i.Length;
-                    int.TryParse(input.Parameter.ToString(), out length);
-                    return i.Substring(0, length);
-                }
+                Try.Invoke(() => i = i.Substring(0, input.ActualParameter == 0 ? i.Length : input.ActualParameter));
                 return i;
             }
             return default;

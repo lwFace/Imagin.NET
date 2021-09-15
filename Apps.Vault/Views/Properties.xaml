@@ -10,7 +10,7 @@
         <i:PropertyGrid
             BorderThickness="0"
             GroupVisibility="True"
-            HeaderVisibility="Collapsed"
+            HeaderVisibility="Visible"
             HeadersVisibility="None"
             Source="{Binding Source}">
             <i:PropertyGrid.OverrideTemplates>
@@ -22,10 +22,10 @@
                             <ComboBox
                                 Grid.Column="0"
                                 IsEditable="True"
-                                ItemsSource="{i:Options PasswordCategories}"
+                                ItemsSource="{i:Options Categories}"
                                 SelectedItem="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Text="{Binding Value.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                ToolTip="Category">
+                                ToolTip="{i:Loc Category}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type local:Category}">
                                         <TextBlock Text="{Binding Name}"/>
@@ -34,15 +34,15 @@
                             </ComboBox>
                         <i:MaskedButton
                             Grid.Column="1"
-                            Command="{i:Options AddPasswordCategoryCommand}"
+                            Command="{i:Options AddCategoryCommand}"
                             Source="{i:Image Vault, Images/Plus.png}"
-                            ToolTip="Add"/>
+                            ToolTip="{i:Loc Add}"/>
                         <i:MaskedButton
                             Grid.Column="2"
-                            Command="{i:Options DeletePasswordCategoryCommand}"
+                            Command="{i:Options DeleteCategoryCommand}"
                             CommandParameter="{Binding Value}"
                             Source="{i:Image Vault, Images/Trash.png}"
-                            ToolTip="Delete"/>
+                            ToolTip="{i:Loc Delete}"/>
                     </Grid>
                 </DataTemplate>
             </i:PropertyGrid.OverrideTemplates>

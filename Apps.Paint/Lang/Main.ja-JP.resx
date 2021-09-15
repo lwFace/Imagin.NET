@@ -120,10 +120,85 @@
   <data name="About" xml:space="preserve">
     <value>だいたい</value>
   </data>
+  <data name="Browser" xml:space="preserve">
+    <value>ブラウザ</value>
+  </data>
+  <data name="Brush" xml:space="preserve">
+    <value>みがきます</value>
+  </data>
+  <data name="Capture" xml:space="preserve">
+    <value>捕獲</value>
+  </data>
+  <data name="Channels" xml:space="preserve">
+    <value>チャンネル</value>
+  </data>
+  <data name="Character" xml:space="preserve">
+    <value>キャラクター</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>フィルター</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>フィルタ</value>
+  </data>
+  <data name="Histogram" xml:space="preserve">
+    <value>ヒストグラム</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>歴史</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="Layer" xml:space="preserve">
+    <value>層</value>
+  </data>
+  <data name="Layers" xml:space="preserve">
+    <value>レイヤー</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>ノート</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>オプション</value>
   </data>
   <data name="Paint" xml:space="preserve">
     <value>ペイント</value>
+  </data>
+  <data name="Paragraph" xml:space="preserve">
+    <value>段落</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>選択する</value>
+  </data>
+  <data name="Tool" xml:space="preserve">
+    <value>道具</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>ツール</value>
+  </data>
+  <data name="Transform" xml:space="preserve">
+    <value>変身</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>意見</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>窓</value>
   </data>
 </root>

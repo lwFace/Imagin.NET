@@ -64,7 +64,7 @@
         <Menu 
             Grid.Row="0"
             Margin="0,5,0,0">
-            <MenuItem Header="File">
+            <MenuItem Header="{i:Loc File}">
                 <MenuItem Header="New..."
                     Command="{Binding NewCommand}"
                     InputGestureText="Ctrl + N"/>
@@ -127,7 +127,7 @@
                 <MenuItem Header="Exit"
                     Command="{Binding ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="Edit">
+            <MenuItem Header="{i:Loc Edit}">
                 <MenuItem Header="Undo"
                     Command="{Binding UndoCommand}"
                     InputGestureText="Ctrl + Z"/>
@@ -158,7 +158,7 @@
                     InputGestureText="Delete">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Capture">
+            <MenuItem Header="{i:Loc Capture}">
                 <MenuItem Header="Window"
                     Command="{Binding CaptureWindowCommand}"/>
                 <MenuItem Header="Foreground Window" 
@@ -182,13 +182,13 @@
                     StaysOpenOnClick="True" 
                     i:MenuItemExtensions.GroupName="Capture type"/>
             </MenuItem>
-            <MenuItem Header="Image">
+            <MenuItem Header="{i:Loc Image}">
                 <MenuItem Header="Resize..."
                     Command="{Binding ImageResizeCommand}"/>
                 <MenuItem Header="Rotate..."
                     Command="{Binding ImageRotateCommand}"/>
             </MenuItem>
-            <MenuItem Header="Layer">
+            <MenuItem Header="{i:Loc Layer}">
                 <MenuItem Header="Insert above"
                     Command="{Binding LayersViewModel.InsertAboveCommand}"/>
                 <MenuItem Header="Insert below" 
@@ -229,7 +229,7 @@
                 <MenuItem Header="Duplicate"
                     Command="{Binding LayersViewModel.DuplicateCommand}"/>
             </MenuItem>
-            <MenuItem Header="Filter">
+            <MenuItem Header="{i:Loc Filter}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
                         <Style.Triggers>
@@ -254,7 +254,7 @@
                     </CompositeCollection>
                 </MenuItem.ItemsSource>
             </MenuItem>
-            <MenuItem Header="Transform">
+            <MenuItem Header="{i:Loc Transform}">
                 <MenuItem Header="Rotate" 
                     Command="{Binding RotateTransformCommand}"/>
                 <MenuItem Header="Scale" 
@@ -289,7 +289,7 @@
                 <MenuItem Header="Flip (vertical)" 
                     Command="{Binding FlipVerticalCommand}"/>
             </MenuItem>
-            <MenuItem Header="Select">
+            <MenuItem Header="{i:Loc Select}">
                 <MenuItem Header="All" 
                     InputGestureText="Ctrl + A"
                     Command="{Binding SelectAllCommand}"/>
@@ -306,7 +306,7 @@
                     InputGestureText="Ctrl + D" 
                     Command="{Binding ClearSelectionsCommand}"/>
             </MenuItem>
-            <MenuItem Header="View">
+            <MenuItem Header="{i:Loc View}">
                 <MenuItem Header="Grid lines"
                     IsCheckable="True"
                     IsChecked="{i:Options ViewGridLines, Mode=TwoWay}"/>
@@ -314,7 +314,7 @@
                     IsCheckable="True"
                     IsChecked="{i:Options ViewRulers, Mode=TwoWay}"/>
             </MenuItem>
-            <MenuItem Header="Window" 
+            <MenuItem Header="{i:Loc Window}" 
                 ItemsSource="{Binding Panels}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">

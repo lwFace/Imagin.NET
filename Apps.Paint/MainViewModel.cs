@@ -323,7 +323,7 @@ namespace Paint
             {
                 openCommand = openCommand ?? new RelayCommand(async () =>
                 {
-                    if (ExplorerWindow.Show(out string[] paths, "Open...", ExplorerWindow.Modes.OpenFile, null, null))
+                    if (ExplorerWindow.Show(out string[] paths, "Open...", ExplorerWindow.Modes.OpenFile, ImageFormats.Readable.Select(i => i.Extension), ActiveDocument?.FilePath))
                     {
                         foreach (var i in paths)
                             await OpenFile(i);

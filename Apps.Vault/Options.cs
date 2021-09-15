@@ -24,7 +24,8 @@ namespace Vault
         enum Category
         {
             Generate,
-            Passwords
+            Passwords,
+            Tasks
         }
 
         #region Generate
@@ -145,6 +146,17 @@ namespace Vault
             set => this.Change(ref generateHistory, value);
         }
 
+        int generateHistoryLimit = 20;
+        [Category(Category.Generate)]
+        [DisplayName("History limit")]
+        [Range(0, 64, 1)]
+        [RangeFormat(RangeFormat.Slider)]
+        public int GenerateHistoryLimit
+        {
+            get => generateHistoryLimit;
+            set => this.Change(ref generateHistoryLimit, value);
+        }
+
         uint generateLength = 50;
         [Hidden]
         public uint GenerateLength
@@ -174,12 +186,12 @@ namespace Vault
             set => this.Change(ref encryptPasswords, value);
         }
 
-        ObservableCollection<Vault.Category> passwordCategories = new ObservableCollection<Vault.Category>();
+        ObservableCollection<Vault.Category> categories = new ObservableCollection<Vault.Category>();
         [Hidden]
-        public ObservableCollection<Vault.Category> PasswordCategories
+        public ObservableCollection<Vault.Category> Categories
         {
-            get => passwordCategories;
-            set => this.Change(ref passwordCategories, value);
+            get => categories;
+            set => this.Change(ref categories, value);
         }
 
         Encryption passwordEncryption = new Encryption();
@@ -198,6 +210,42 @@ namespace Vault
         {
             get => passwords;
             set => this.Change(ref passwords, value);
+        }
+
+        PasswordSortNames passwordSortName = PasswordSortNames.Name;
+        [Category(Category.Passwords)]
+        [DisplayName("SortName")]
+        public PasswordSortNames PasswordSortName
+        {
+            get => passwordSortName;
+            set => this.Change(ref passwordSortName, value);
+        }
+
+        SortDirection passwordSortDirection = SortDirection.Ascending;
+        [Category(Category.Passwords)]
+        [DisplayName("SortDirection")]
+        public SortDirection PasswordSortDirection
+        {
+            get => passwordSortDirection;
+            set => this.Change(ref passwordSortDirection, value);
+        }
+
+        TaskSortNames taskSortName = TaskSortNames.LastActive;
+        [Category(Category.Tasks)]
+        [DisplayName("SortName")]
+        public TaskSortNames TaskSortName
+        {
+            get => taskSortName;
+            set => this.Change(ref taskSortName, value);
+        }
+
+        SortDirection taskSortDirection = SortDirection.Descending;
+        [Category(Category.Tasks)]
+        [DisplayName("SortDirection")]
+        public SortDirection TaskSortDirection
+        {
+            get => taskSortDirection;
+            set => this.Change(ref taskSortDirection, value);
         }
 
         #endregion
@@ -242,6 +290,8 @@ namespace Vault
                 Encrypt = encryptPasswords,
                 Encryption = passwordEncryption
             };
+            //Passwords.Added += OnPasswordAdded;
+            //Passwords.Removed += OnPasswordRemoved;
             Passwords.Load();
 
             Tasks = new XmlWriter<CopyTask>(nameof(Tasks), $@"{Get.Current<App>().Data.FolderPath}\Tasks.xml", new Limit(50, Limit.Actions.ClearAndArchive))
@@ -267,29 +317,29 @@ namespace Vault
         }
 
         [field: NonSerialized]
-        ICommand addPasswordCategoryCommand;
+        ICommand addCategoryCommand;
         [Hidden]
-        public ICommand AddPasswordCategoryCommand
+        public ICommand AddCategoryCommand
         {
             get
             {
-                addPasswordCategoryCommand = addPasswordCategoryCommand ?? new RelayCommand(() => passwordCategories.Add(new Vault.Category()), () => true);
-                return addPasswordCategoryCommand;
+                addCategoryCommand = addCategoryCommand ?? new RelayCommand(() => categories.Add(new Vault.Category()), () => true);
+                return addCategoryCommand;
             }
         }
 
         [field: NonSerialized]
-        ICommand deletePasswordCategoryCommand;
+        ICommand deleteCategoryCommand;
         [Hidden]
-        public ICommand DeletePasswordCategoryCommand
+        public ICommand DeleteCategoryCommand
         {
             get
             {
-                deletePasswordCategoryCommand = deletePasswordCategoryCommand ?? new RelayCommand<Vault.Category>(i => passwordCategories.Remove(i), i => i != null);
-                return deletePasswordCategoryCommand;
+                deleteCategoryCommand = deleteCategoryCommand ?? new RelayCommand<Vault.Category>(i => categories.Remove(i), i => i != null);
+                return deleteCategoryCommand;
             }
         }
-
+        
         [field: NonSerialized]
         ICommand deletePasswordCommand;
         [Hidden]
@@ -302,7 +352,7 @@ namespace Vault
                     var result = Dialog.Show("Delete", "Are you sure you want to delete this?", DialogImage.Warning, DialogButtons.YesNo);
                     if (result == 0)
                         Passwords.Remove(i);
-                }, 
+                },
                 i => i != null);
                 return deletePasswordCommand;
             }

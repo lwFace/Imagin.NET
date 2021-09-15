@@ -1,5 +1,6 @@
 ﻿using Imagin.Common;
 using Imagin.Common.Configuration;
+using Imagin.Common.Data;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -101,6 +102,7 @@ namespace Alarm
 
         public void OnFolderPathChanged(string folderPath)
         {
+            Get.Current<MainViewModel>().Media.Stop();
             Get.Current<MainViewModel>().Sounds.Refresh(folderPath);
             OnPropertyChanged(nameof(AudioFilePath));
         }

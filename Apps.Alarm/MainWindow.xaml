@@ -12,8 +12,9 @@
     SizeToContent="Height"
     TitleIcon="{i:Image Alarm, Images/Clock.png}"
     UseLayoutRounding="True"
-    Width="540"
-    WindowStartupLocation="CenterScreen">
+    Width="720"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow">
     <i:BaseWindow.Buttons>
         <i:WindowButton
             Command="{Binding AboutCommand}"

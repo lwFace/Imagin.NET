@@ -1,4 +1,6 @@
 ﻿using Imagin.Common.Data;
+using Imagin.Common.Globalization.Engine;
+using Imagin.Common.Globalization.Extensions;
 using Imagin.Common.Linq;
 using System;
 using System.Collections;
@@ -91,8 +93,14 @@ namespace Imagin.Common.Controls
         public string DisplayName
         {
             get => displayName;
-            set => this.Change(ref displayName, value);
+            set
+            {
+                this.Change(ref displayName, value);
+                this.Changed(() => LocalizedDisplayName);
+            }
         }
+
+        public string LocalizedDisplayName => $"{LocExtension.GetLocalizedValue(typeof(string), displayName, LocalizeDictionary.Instance.SpecificCulture, null)}";
 
         bool featured = false;
         public bool Featured

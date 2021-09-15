@@ -31,7 +31,7 @@
                 x:Key="ValueEqualsParameterMultiConverter"/>
 
             <Converters:TranslateConverter 
-                x:Key="ValueEqualsParameterMultiConverter"/>
+                x:Key="TranslateConverter"/>
 
             <Style x:Key="Style.Thumb" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>

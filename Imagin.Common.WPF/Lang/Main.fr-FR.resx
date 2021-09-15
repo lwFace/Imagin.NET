@@ -429,4 +429,7 @@
   <data name="Size" xml:space="preserve">
     <value>Taille</value>
   </data>
+  <data name="Path" xml:space="preserve">
+    <value>Chemin</value>
+  </data>
 </root>

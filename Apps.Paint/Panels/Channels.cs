@@ -23,7 +23,7 @@ namespace Paint
 
         void OnDocumentChanged(object sender, Imagin.Common.Input.EventArgs<Document> e)
         {
-            Channels = (e.Value as Document).Channels;
+            Channels = (e.Value as Document)?.Channels;
         }
 
         void OnDocumentClosed(object sender, DocumentClosedEventArgs e)

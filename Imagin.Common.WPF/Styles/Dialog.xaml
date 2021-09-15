@@ -1,6 +1,0 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:local="clr-namespace:Imagin.Common.Controls">
-    <Style x:Key="{x:Type local:Dialog}" TargetType="{x:Type local:Dialog}" BasedOn="{StaticResource {x:Type local:BaseWindow}}"/>
-</ResourceDictionary>

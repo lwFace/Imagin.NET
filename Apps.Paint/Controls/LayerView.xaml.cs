@@ -31,7 +31,7 @@ namespace Paint
         }
         protected static void OnDocumentChanged(DependencyObject i, DependencyPropertyChangedEventArgs e) => (i as LayerView).OnDocumentChanged((Document)e.NewValue);
 
-        void OnDocumentChanged(Document input) => layerArranger.Layers = input.Layers;
+        void OnDocumentChanged(Document input) => layerArranger.Layers = input?.Layers;
 
         public static DependencyProperty GridLinesVisibilityProperty = DependencyProperty.Register("GridLinesVisibility", typeof(Visibility), typeof(LayerView), new FrameworkPropertyMetadata(Visibility.Visible, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public Visibility GridLinesVisibility

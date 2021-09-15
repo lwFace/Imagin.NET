@@ -232,6 +232,15 @@ namespace Vault.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to History.
+        /// </summary>
+        internal static string History {
+            get {
+                return ResourceManager.GetString("History", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last active.
         /// </summary>
         internal static string LastActive {
@@ -264,6 +273,15 @@ namespace Vault.Lang {
         internal static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -363,6 +381,24 @@ namespace Vault.Lang {
         internal static string SizeRead {
             get {
                 return ResourceManager.GetString("SizeRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort direction.
+        /// </summary>
+        internal static string SortDirection {
+            get {
+                return ResourceManager.GetString("SortDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort name.
+        /// </summary>
+        internal static string SortName {
+            get {
+                return ResourceManager.GetString("SortName", resourceCulture);
             }
         }
         

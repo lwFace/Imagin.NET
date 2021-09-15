@@ -4,8 +4,6 @@ using Imagin.Common.Input;
 using Imagin.Common.Math;
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace Desktop
 {
@@ -69,13 +67,13 @@ namespace Desktop
             PART_Grid.Visibility = Visibility.Collapsed;
         }
 
-        void OnThemeChanged()
+        void OnThemeChanged(object sender, EventArgs<Themes.Types> e) => OnThemeChanged();
+
+        protected virtual void OnThemeChanged()
         {
             //For some unknown reason, this doesn't change automatically when the theme does.
             TaskbarIcon.ContextMenu.UpdateDefaultStyle();
         }
-
-        void OnThemeChanged(object sender, EventArgs<Themes.Types> e) => OnThemeChanged();
 
         protected override void OnDeactivated(EventArgs e)
         {

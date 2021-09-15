@@ -46,7 +46,7 @@ namespace Vault
 
         void OnSelectedItemsChanged(object sender, Imagin.Common.Input.EventArgs<System.Collections.IList> e)
         {
-            Queue = e.Value.First<CopyTask>()?.Queue;
+            Queue = e.Value?.First<CopyTask>()?.Queue;
         }
     }
 }

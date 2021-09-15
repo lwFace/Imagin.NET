@@ -150,6 +150,7 @@
     <Compile Include="Converters\Multi\PropertyChangedMultiConverter.cs" />
     <Compile Include="Converters\Nothing.cs" />
     <Compile Include="Converters\Single\ColorDocumentConverter.cs" />
+    <Compile Include="Converters\Single\DataGridLengthConverter.cs" />
     <Compile Include="Converters\Single\StringCollectionConverter.cs" />
     <Compile Include="Converters\Single\ToBooleanConverter.cs" />
     <Compile Include="Converters\Single\ToColorConverter.cs" />

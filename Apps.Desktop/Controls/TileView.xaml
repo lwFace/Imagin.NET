@@ -27,12 +27,16 @@
                         <DataTemplate DataType="{x:Type Tiles:ClockTile}">
                             <i:LabelBox
                                 Label="{Binding DateTime}"
-                                Text="{i:Options ClockDateTimeFormat, Mode=TwoWay}"/>
+                                MouseEvent="MouseDown"
+                                Text="{i:Options ClockDateTimeFormat, Mode=TwoWay}"
+                                ToolTip="{Binding Label, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type Tiles:CountDownTile}">
                             <i:LabelBox
+                                MouseEvent="MouseDown"
                                 Placeholder="Title"
-                                Text="{Binding Title, Mode=TwoWay}"/>
+                                Text="{Binding Title, Mode=TwoWay}"
+                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type Tiles:ImageTile}">
                             <i:FileBox 
@@ -43,13 +47,15 @@
                                 Label="{Binding Path, Converter={StaticResource FileNameConverter}}"
                                 Placeholder="File or folder path"
                                 BrowseButtonVisibility="True"
-                                Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                 ToolTip="{Binding Path}"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type Tiles:NoteTile}">
                             <i:LabelBox 
+                                MouseEvent="MouseDown"
                                 Placeholder="Title"
-                                Text="{Binding Title, Mode=TwoWay}"/>
+                                Text="{Binding Title, Mode=TwoWay}"
+                                ToolTip="{Binding Text, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type Tiles:FolderTile}">
                             <i:FileBox 
@@ -60,7 +66,7 @@
                                 IconVisibility="Visible"
                                 Label="{Binding Path, Converter={StaticResource FileNameConverter}}"
                                 Placeholder="Folder path"
-                                Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                 ToolTip="{Binding Path}"/>
                         </DataTemplate>
                     </ContentControl.Resources>
@@ -74,7 +80,9 @@
                                 Grid.Row="0"
                                 Stretch="Uniform" 
                                 StretchDirection="Both">
-                                <i:Clock Margin="5"/>
+                                <i:Clock 
+                                    Margin="5"
+                                    PathStroke="Transparent"/>
                             </Viewbox>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type Tiles:CountDownTile}">
@@ -83,7 +91,9 @@
                                     FontSize="36"
                                     HorizontalAlignment="Center"
                                     Label="{Binding Date, Converter={StaticResource SecondsConverter}, ConverterParameter=1}"
+                                    MouseEvent="MouseDown"
                                     Text="{Binding Date, Mode=TwoWay, StringFormat='M/d/yyyy h:mm tt', UpdateSourceTrigger=LostFocus}"
+                                    ToolTip="{Binding Label, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                     VerticalAlignment="Center"/>
                             </Viewbox>
                         </DataTemplate>

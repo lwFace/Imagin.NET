@@ -79,38 +79,46 @@ namespace Vault
         {
             Generating = true;
 
-            await App.Current.Dispatcher.BeginInvoke(() =>
+            if (Get.Current<Options>().GenerateLength > 0)
             {
-                Get.Current<Options>().GenerateHistory.Add(Get.Current<Options>().GenerateText);
-                Get.Current<Options>().GenerateText = string.Empty;
-            });
+                await App.Current.Dispatcher.BeginInvoke(() => Get.Current<Options>().GenerateText = string.Empty);
 
-            var result = new StringBuilder();
-            var length = (int)Get.Current<Options>().GenerateLength;
+                var result = new StringBuilder();
+                var length = (int)Get.Current<Options>().GenerateLength;
 
-            var characters = Get.Current<Options>().GenerateCharacters;
-            await Task.Run(() => result.Append(Imagin.Common.Random.String(characters, length, length)));
+                var characters = Get.Current<Options>().GenerateCharacters;
+                await Task.Run(() => result.Append(Imagin.Common.Random.String(characters, length, length)));
 
-            await App.Current.Dispatcher.BeginInvoke(() =>
-            {
-                var finalResult = result.ToString();
-                finalResult = Get.Current<Options>().GenerateDistinct ? string.Concat(finalResult.Distinct()) : finalResult;
-                Get.Current<Options>().GenerateText = finalResult;
-            });
+                await App.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    var finalResult = result.ToString();
+                    finalResult = Get.Current<Options>().GenerateDistinct ? string.Concat(finalResult.Distinct()) : finalResult;
+                
+                    Get.Current<Options>().GenerateText = finalResult;
+
+                    if (Get.Current<Options>().GenerateHistoryLimit > 0)
+                    {
+                        if (Get.Current<Options>().GenerateHistory.Count == Get.Current<Options>().GenerateHistoryLimit)
+                            Get.Current<Options>().GenerateHistory.RemoveAt(Get.Current<Options>().GenerateHistoryLimit - 1);
+
+                        Get.Current<Options>().GenerateHistory.Insert(0, finalResult);
+                    }
+                });
+            }
+
             Generating = false;
         }
 
+        ICommand clearHistoryCommand;
+        public ICommand ClearHistoryCommand => clearHistoryCommand = clearHistoryCommand ?? new RelayCommand(() => Get.Current<Options>().GenerateHistory.Clear(), () => Get.Current<Options>().GenerateHistory.Count > 0);
+
         ICommand copyCommand;
         public ICommand CopyCommand => copyCommand = copyCommand ?? new RelayCommand(() => System.Windows.Clipboard.SetText(Get.Current<Options>().GenerateText), () => !Get.Current<Options>().GenerateText.NullOrEmpty());
+        
+        ICommand fillCommand;
+        public ICommand FillCommand => fillCommand = fillCommand ?? new RelayCommand<string>(i => Get.Current<Options>().GenerateText = i, i => !i.NullOrEmpty());
 
         ICommand generateCommand;
-        public ICommand GenerateCommand
-        {
-            get
-            {
-                generateCommand = generateCommand ?? new RelayCommand(() => _ = Generate(), () => true);
-                return generateCommand;
-            }
-        }
+        public ICommand GenerateCommand => generateCommand = generateCommand ?? new RelayCommand(() => _ = Generate(), () => Get.Current<Options>().GenerateLength > 0);
     }
 }
