@@ -18,9 +18,10 @@ An alarm that repeats every so often.
 Save and convert colors.
 
 **Features**
-* A lightweight version of the color picker in *Photoshop*.
-* Introduces several color models nonexistant in most software to visualize colors even further.
-* Enables converting to and from each color model, including hexadecimal and models that can't be visualized like *CMYK* and *XYZ*.
+* Includes 20+ color models.
+* Convert to *hexadecimal*.
+* Create and save color palettes.
+* Supports transparency.
 * Uses *DirectX* to maximize performance.
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
