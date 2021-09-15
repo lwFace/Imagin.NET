@@ -10,12 +10,10 @@ An alarm that repeats every so often.
 **Features**
 * Set a repeating alarm between a start and end time.
 * Play *.mp3* or *.wav* files.
-* Solve a math problem to disable(or snooze).
+* Solve a math problem to disable or snooze.
 * Force system volume while app is open.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Alarm.png?raw=true" width="512" />
-
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="64" /> *Color* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Color.png?raw=true" width="64" /> *Color* ![](https://img.shields.io/badge/style-Testing-yellow.svg?style=flat&label=Build)
 
 Save and convert colors.
 
@@ -24,8 +22,6 @@ Save and convert colors.
 * Introduces several color models nonexistant in most software to visualize colors even further.
 * Enables converting to and from each color model, including hexadecimal and models that can't be visualized like *CMYK* and *XYZ*.
 * Uses *DirectX* to maximize performance.
-
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Color.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Desktop.png?raw=true" width="64" /> *Desktop* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
@@ -37,9 +33,7 @@ Draw tiles on the desktop.
 * Snap tiles while moving.
 * Create multiple screens.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Desktop.png?raw=true" width="512" />
-
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Explorer.png?raw=true" width="64" /> *Explorer* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Explorer.png?raw=true" width="64" /> *Explorer* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Explore file system.
 
@@ -48,8 +42,6 @@ Explore file system.
 * Execute commands using a command-line interface.
 * Rename multiple file names and extensions at once.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Explorer.png?raw=true" width="512" />
-
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Notes.png?raw=true" width="64" /> *Notes* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Make notes and lists.
@@ -57,36 +49,26 @@ Make notes and lists.
 **Features**
 * Manage a folder of text (.txt) and list (.list) files.
 * Includes all features of *Notepad*.
-* Lists have *attributes* to display bullets, images, and checkboxes.
-* Prices or dates can be displayed next to each list item.
 * Lists are saved as XML.
 * Notes are automatically sorted by latest changes.
-
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Notes.png?raw=true" width="512" />
 
 ### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Paint.png?raw=true" width="64" /> *Paint* ![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build)
 
 Create and save images.
 
 **Features**
-* Display rulers on the canvas.
+* 20+ tools.
+* 25+ blending modes.
+* Layers and styles.
+* Create and save filters.
 * *Scrubby* zoom.
-* *Ruler*, *Note*, and *Count* tools.
-* Create and save gradients.
-* Import/export selections.
-* Import/export brushes.
-* Import/export custom shapes.
-* Create, edit, and import/export filters.
 * Transform, resize, and crop.
+* Capture window or screen.
 * Rotate canvas.
-* View and customize appearance of histograms.
-* Remember recently opened files.
-* Capture window or screen. Copy to clipboard, save to a file, or paste in a new layer.
+* Histogram.
 * Uses *DirectX*.
 
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Paint.png?raw=true" width="512" />
-
-### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build)
+### <img align="left" src="https://github.com/imagin-tech/Imagin.NET/blob/master/Logos/Vault.png?raw=true" width="64" /> *Vault* ![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build)
 
 Sync folders and manage passwords.
 
@@ -99,16 +81,6 @@ Sync folders and manage passwords.
 * Save and encrypt passwords.
 * Encrypt and decrypt text.
 * Generate random strings of any length and character.
-
-<img src="https://github.com/imagin-tech/Imagin.NET/blob/master/Screenshots/Vault.png?raw=true" width="512" />
-
-#### Build status
-
-  Status  |  Description  |  Features  |
-----------|---------------|------------|
-![](https://img.shields.io/badge/style-Stable-green.svg?style=flat&label=Build) | Nothing currently known can cause app to crash | Most or all complete |
-![](https://img.shields.io/badge/style-Experimental-yellow.svg?style=flat&label=Build) | Insufficient testing performed to reach meaningful conclusion | Some incomplete or do not exist |
-![](https://img.shields.io/badge/style-Unstable-red.svg?style=flat&label=Build) | Some features can cause app to crash | Most incomplete or do not exist |
 
 ## Projects
 
@@ -166,13 +138,13 @@ XAMLMarkupExtensions | 1.2.2 |
 
 ## Languages
 
-  Language  |  *  |
-------------|-----|
-English | en |
-Español | es-ES |
-Français | fr-FR |
-Italiano | it-IT |
-日本 | ja-JP |
+  Language  |
+------------|
+English |
+Español |
+Français |
+Italiano |
+日本 |
 
 ## Themes
 
