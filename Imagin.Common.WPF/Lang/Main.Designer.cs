@@ -115,6 +115,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alpha.
+        /// </summary>
+        internal static string Alpha {
+            get {
+                return ResourceManager.GetString("Alpha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A minute.
         /// </summary>
         internal static string AMinute {
@@ -304,11 +313,29 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colors.
+        /// </summary>
+        internal static string Colors {
+            get {
+                return ResourceManager.GetString("Colors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command.
         /// </summary>
         internal static string Command {
             get {
                 return ResourceManager.GetString("Command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Component.
+        /// </summary>
+        internal static string Component {
+            get {
+                return ResourceManager.GetString("Component", resourceCulture);
             }
         }
         
@@ -709,6 +736,15 @@ namespace Imagin.Common.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Panels.
+        /// </summary>
+        internal static string Panels {
+            get {
+                return ResourceManager.GetString("Panels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string Password {
@@ -741,6 +777,15 @@ namespace Imagin.Common.Lang {
         internal static string Previous {
             get {
                 return ResourceManager.GetString("Previous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        internal static string Properties {
+            get {
+                return ResourceManager.GetString("Properties", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using Imagin.Common.Input;
+﻿using Imagin.Common.Globalization;
+using Imagin.Common.Input;
 using Imagin.Common.Linq;
 using Imagin.Common.Media;
 using Imagin.Common.Models;
@@ -10,7 +11,7 @@ namespace Imagin.Common.Controls
 {
     public class ColorsPanel : Panel
     {
-        public override string Title => "Colors";
+        public override string Title => Localizer.Prefix + "Colors";
 
         Palette palette = null;
         public Palette Palette

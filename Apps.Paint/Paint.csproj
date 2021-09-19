@@ -169,6 +169,7 @@
     <Compile Include="Panels\Brush.cs" />
     <Compile Include="Panels\Character.cs" />
     <Compile Include="Panels\Browser.cs" />
+    <Compile Include="Panels\Color.cs" />
     <Compile Include="Panels\Filter.cs" />
     <Compile Include="Panels\Options.cs" />
     <Compile Include="Panels\Paragraph.cs" />
@@ -343,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Color.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="Views\Filter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -391,10 +396,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Color.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Filters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -413,7 +414,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Panels\Color.cs" />
     <Compile Include="Panels\Tools.cs" />
     <Compile Include="Panels\Layers.cs" />
     <Compile Include="Panels\Filters.cs" />

@@ -60,7 +60,7 @@ namespace Explorer
 
     public class RenamePanel : Panel
     {
-        public ExplorerDocument ActiveDocument => Get.Current<MainViewModel>().ActiveDocument;
+        public ExplorerDocument ActiveDocument { get; private set; }
 
         //............................................................................
 
@@ -152,13 +152,16 @@ namespace Explorer
 
         void OnActiveDocumentChanged(object sender, EventArgs<ExplorerDocument> e)
         {
-            foreach (ExplorerDocument i in Get.Current<MainViewModel>().Documents)
-                i.PathChanged -= OnPathChanged;
+            if (ActiveDocument != null)
+                ActiveDocument.PathChanged -= OnPathChanged;
 
-            e.Value.PathChanged += OnPathChanged;
-
-            if (!renaming)
-                Path = e.Value.Path;
+            ActiveDocument = e.Value;
+            if (ActiveDocument != null)
+            {
+                ActiveDocument.PathChanged += OnPathChanged;
+                if (!renaming)
+                    Path = ActiveDocument.Path;
+            }
         }
 
         void OnPathChanged(ExplorerDocument sender)

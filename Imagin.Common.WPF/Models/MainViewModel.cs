@@ -214,6 +214,9 @@ namespace Imagin.Common.Models
 
         protected virtual void OnDocumentClosed(Document document)
         {
+            if (Documents.Count == 0)
+                ActiveDocument = null;
+
             DocumentClosed?.Invoke(this, new DocumentClosedEventArgs(document));
         }
 

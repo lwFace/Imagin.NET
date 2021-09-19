@@ -1,4 +1,5 @@
 ﻿using Imagin.Common.Analytics;
+using Imagin.Common.Globalization;
 using Imagin.Common.Linq;
 using Imagin.Common.Models;
 using Imagin.Common.Serialization;
@@ -18,6 +19,7 @@ namespace Imagin.Common.Controls
         public string FilePath { get; private set; }
 
         [Category(nameof(Window))]
+        [DisplayName(Localizer.Prefix + "Panels")]
         public PanelCollection Panels => default;
 
         internal Dictionary<string, bool> PanelVisibility { get; private set; }

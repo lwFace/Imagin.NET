@@ -10,7 +10,7 @@ namespace Explorer
     {
         public override string Title => "Properties";
 
-        //---------------------------------------------------------------------
+        //..............................................................
 
         ExplorerDocument ActiveDocument;
 
@@ -21,65 +21,56 @@ namespace Explorer
             set => this.Change(ref item, value);
         }
 
-        //---------------------------------------------------------------------
+        //..............................................................
 
         public PropertiesPanel() : base(Resources.Uri(nameof(Explorer), "/Images/Properties.png"))
         {
             Get.Current<MainViewModel>().ActiveDocumentChanged += OnActiveDocumentChanged;
-            Get.Current<MainViewModel>().DocumentClosed += OnDocumentClosed;
         }
 
-        //---------------------------------------------------------------------
+        //..............................................................
 
-        void OnActiveDocumentChanged(ExplorerDocument sender)
+        void Refresh(ExplorerDocument document)
         {
-            Refresh(sender.Selection?.FirstOrDefault() ?? new Folder(sender.Path));
+            Refresh(document.Selection?.FirstOrDefault() ?? new Folder(document.Path));
         }
 
         void OnActiveDocumentChanged(object sender, EventArgs<ExplorerDocument> e)
         {
             if (ActiveDocument != null)
-                Unsubscribe(ActiveDocument);
+            {
+                ActiveDocument.PathChanged -= Refresh;
+                ActiveDocument.SelectionChanged -= Refresh;
+            }
 
             ActiveDocument = e.Value;
-            if (ActiveDocument is ConsoleDocument a)
+
+            if (ActiveDocument == null)
             {
-                Refresh(new Folder(a.Path));
+                Item i = null;
+                Refresh(i);
                 return;
             }
 
-            ActiveDocument.PathChanged += OnActiveDocumentChanged;
-            ActiveDocument.SelectionChanged += OnActiveDocumentChanged;
-            OnActiveDocumentChanged(ActiveDocument);
-        }
-
-        void OnDocumentClosed(object sender, DocumentClosedEventArgs e)
-        {
-            if (Get.Current<MainViewModel>().Documents.Count == 0)
+            if (ActiveDocument is ConsoleDocument a)
             {
-                if (ActiveDocument != null)
-                {
-                    Unsubscribe(ActiveDocument);
-                    ActiveDocument = null;
-                }
-                Refresh(null);
+                Refresh(new Folder(a.Path));
             }
+            else if (ActiveDocument is ExplorerDocument b)
+            {
+                Refresh(b);
+            }
+
+            ActiveDocument.PathChanged += Refresh;
+            ActiveDocument.SelectionChanged += Refresh;
         }
 
-        //---------------------------------------------------------------------
+        //..............................................................
 
         void Refresh(Item item)
         {
             _ = item?.RefreshAsync();
             Item = item;
-        }
-
-        //---------------------------------------------------------------------
-
-        void Unsubscribe(ExplorerDocument document)
-        {
-            ActiveDocument.PathChanged -= OnActiveDocumentChanged;
-            ActiveDocument.SelectionChanged -= OnActiveDocumentChanged;
         }
     }
 }

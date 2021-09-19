@@ -207,6 +207,8 @@ namespace Imagin.Common.Media.Models
 
         public sealed class H : VisualComponent<HSP>, IComponentA
         {
+            public override DoubleConverter DisplayValueConverter => new DoubleConverter(i => i, i => i.Round());
+
             public override ComponentType Type => ComponentType.Static;
 
             public override string Label => "H";
@@ -225,6 +227,8 @@ namespace Imagin.Common.Media.Models
 
         public sealed class P : VisualComponent<HSP>, IComponentC
         {
+            public override DoubleConverter DisplayValueConverter => new DoubleConverter(i => i, i => i.Round());
+
             public override string Label => "P";
 
             public override ComponentUnit Unit => ComponentUnit.None;

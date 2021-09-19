@@ -4,6 +4,7 @@
     xmlns:local="clr-namespace:Paint"
     xmlns:i="http://imagin.tech/imagin/common" >
     <DataTemplate DataType="{x:Type local:ColorPanel}">
+        <!--
         <DataTemplate.Resources>
             <i:ObjectToTypeConverter x:Key="ObjectToTypeConverter"/>
             <i:ToStringConverter x:Key="ToStringConverter"/>
@@ -53,5 +54,6 @@
                 </ContextMenu>
             </i:ColorPicker.ContextMenu>
         </i:ColorPicker>
+        -->
     </DataTemplate>
 </ResourceDictionary>

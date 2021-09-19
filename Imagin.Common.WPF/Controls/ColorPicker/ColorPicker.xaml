@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:Imagin.Common.Controls"
     xmlns:Common="clr-namespace:Imagin.Common" 
     xmlns:Converters="clr-namespace:Imagin.Common.Converters" 
+    xmlns:_Converters="clr-namespace:Imagin.Common.Globalization.Converters" 
     xmlns:Data="clr-namespace:Imagin.Common.Data" 
     xmlns:Linq="clr-namespace:Imagin.Common.Linq" 
     xmlns:Markup="clr-namespace:Imagin.Common.Markup" 
@@ -17,7 +18,9 @@
         <Converters:ColorDocumentConverter x:Key="ColorDocumentConverter"/>
         <Converters:ColorToHexadecimalConverter x:Key="ColorToHexadecimalConverter"/>
         <Converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter"/>
-    </UserControl.Resources>
+
+        <_Converters:TranslateConverter x:Key="TranslateConverter"/>
+    </UserControl.Resources> 
     <Grid DataContext="{Data:Ancestor {x:Type local:ColorPicker}}">
         <Grid.Resources>
             <Data:Reference x:Key="ColorPicker" Data="{Binding}"/>
@@ -242,9 +245,15 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate DataType="{x:Type Models:Panel}">
                                                 <CheckBox 
-                                                    Content="{Binding Title}"
                                                     IsChecked="{Binding IsVisible, Mode=TwoWay}"
-                                                    Margin="0,0,0,5"/>
+                                                    Margin="0,0,0,5">
+                                                    <CheckBox.Content>
+                                                        <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                                            <Binding Path="Title"/>
+                                                            <Markup:Options Path="Language"/>
+                                                        </MultiBinding>
+                                                    </CheckBox.Content>
+                                                </CheckBox>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>

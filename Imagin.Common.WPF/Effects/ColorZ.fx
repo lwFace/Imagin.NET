@@ -4,6 +4,12 @@ float Model : register(C0);
 float Component : register(C1);
 float4 Color : register(C2);
 
+//-------------------------------------------------------------------------------------------
+
+static const float pi = 3.14159265;
+
+//-------------------------------------------------------------------------------------------
+
 float Coerce(float input, float maximum, float minimum = 0)
 {
 	return max(min(maximum, input), minimum);
@@ -37,8 +43,8 @@ float3 Maximums(float model)
 {
 	float3 result = { 0, 0, 0 };
 	
-	//RGB; HSM; TSL; YES
-	if (model == 0 || model == 5 || model == 8 || model == 10)
+	//RGB
+	if (model == 0)
 	{
 	    result[0] = 1;
 	    result[1] = 1;
@@ -78,44 +84,12 @@ float3 Maximums(float model)
         return result;
 	}
 	//HSP
-	else if (model == 6)
+	else if (model == 5)
 	{
 	    result[0] = 359;
 	    result[1] = 100;
 	    result[2] = 255;
 	}
-	
-	//HWB
-	else if (model == 7)
-	{
-	    result[0] = 359;
-	    result[1] = 100;
-	    result[2] = 100;
-	}
-	
-	//YCoCg
-	else if (model == 9)
-	{
-	    result[0] = 1;
-	    result[1] = 0.5;
-	    result[2] = 0.5;
-	}
-	
-	//YIQ
-	else if (model == 11)
-	{
-	    result[0] = 1;
-	    result[1] = 0.5957;
-	    result[2] = 0.5226;
-	}
-	
-	//YUV
-	else if (model == 12)
-	{
-	    result[0] = 1;
-	    result[1] = .436;
-	    result[2] = .615;
-	}           
     return result;
 }
 
@@ -123,34 +97,13 @@ float3 Minimums(float model)
 {
 	float3 result = { 0, 0, 0 };
 	
-	//RGB, HCG, HSB, HSI, HSL, HSM, HSP, HWB, TSL || YES (respectively!)
-	if (model <= 8 || model == 10)
+	//RGB, HCG, HSB, HSI, HSL, HSP
+	if (model <= 5)
 	{
 	    result[0] = 0;
 	    result[1] = 0;
 	    result[2] = 0;
 	}		
-	//YCoCg
-	else if (model == 9)
-	{
-        result[0] = 0;
-        result[1] = -0.5;
-        result[2] = -0.5;
-	}
-	//YIQ
-	else if (model == 11)
-	{
-        result[0] = 0;
-        result[1] = -0.5957;
-        result[2] = -0.5226;
-	}
-	//YUV
-	else if (model == 12)
-	{
-        result[0] = 0;
-        result[1] = -.436;
-        result[2] = -.615;
-	}
     return result;
 }
 
@@ -391,35 +344,6 @@ float3 FromHSL(float3 input)
 	return result;
 }
 
-float3 FromHSM(float3 input)
-{	
-	float3 result = { 0, 0, 0 };
-
-	float x = cos(input[0]);
-	float w = sqrt(41.0) * input[1] * x;
-	
-	float a = .0, b = .0, c = .0;
-	
-	a = 3.0 / 41.0 * input[1] * x;
-	b = input[2];
-	c = 4.0 / 861.0 * sqrt(861.0 * pow(input[1], 2) * (1.0 - pow(x, 2)));
-	
-	result[0] =  a + b - c;
-
-	a = w;
-	b = 23.0 * input[2];
-	c = 19.0 * result[0];
-	
-	result[1] = (a + b - c) / 4.0;
-
-	a = 11 * result[0];
-	b = 9.0 * input[2];
-	c = w;
-		
-	result[2] = (a - b - c) / 2.0;
-	return result;
-}
-
 float3 FromHSP(float3 input)
 {
 	float3 result = { 0, 0, 0 };
@@ -547,155 +471,6 @@ float3 FromHSP(float3 input)
 	return result;
 }
 
-float3 FromHWB(float3 input)
-{
-	float3 result = { 0, 0, 0 };
-	
-	float h = input[0] / 360, wh = input[1] / 100, bl = input[2] / 100;
-	float ratio = wh + bl;
-	
-	float i = 0;
-	float v = 0, f = 0, n = 0;
-	float r = 0, g = 0, b = 0;
-	
-	//wh + bl cant be > 1
-	if (ratio > 1)
-	{
-	    wh /= ratio;
-	    bl /= ratio;
-	}
-	
-	i = floor(6 * h);
-	v = 1 - bl;
-	f = 6 * h - i;
-	
-	//If it is even...
-	if (i % 2 == 0)
-	{
-	    f = 1 - f;
-	}
-	
-	//Linear interpolation
-	n = wh + f * (v - wh);
-	
-	if (i == 1)
-	{
-	    r = n; g = v; b = wh;
-	}
-	else if (i == 2)
-	{
-	    r = wh; g = v; b = n;
-	}
-	else if (i == 3)
-	{
-	    r = wh; g = n; b = v;
-	}
-	else if (i == 4)
-	{
-	    r = n; g = wh; b = v;
-	}
-	else if (i == 5)
-	{
-	    r = v; g = wh; b = n;
-	}
-	else
-	{
-		r = v; g = n; b = wh;
-	}
-	
-	result[0] = r;
-	result[1] = g;
-	result[2] = b;
-	return result;
-}
-
-float3 FromTSL(float3 input)
-{          
-  	float3 result = { 0, 0, 0 };
-	float T = input[0], S = input[1], L = input[2];
-
-    float x = -1 * (1.0 / tan(2.0 * 3.14 * T));
-
-    float r_ = .0;
-    float g_ = .0;
-
-    if (T > .5)
-    {
-        g_ = -1 * sqrt(5.0 / (9.0 * (pow(x, 2) + 1.0)));
-    }
-    else if (T < .5)
-    {
-        g_ = sqrt(5.0 / (9.0 * (pow(x, 2) + 1.0)));
-    }
-    else if (T == 0)
-    {
-        g_ = 0;
-    }
-
-    if (T == 0)
-    {
-        r_ = abs(sqrt(5.0) / 3.0 * S);
-    }
-    else
-    {
-        r_ = x * g_;
-    }
-
-    float r = r_ + 1.0 / 3.0;
-    float g = g_ + 1.0 / 3.0;
-
-    float k = L / (.185 * r + .473 * g + .114);
-
-    result[0] = k * r;
-    result[1] = k * g;
-    result[2] = k * (1.0 - r - g);
-    return result;
-}
-
-float3 FromYCoCg(float3 input)
-{
-	float3 result = { 0, 0, 0 };
-	float ycg = input[0] - input[2];
-	result[0] = ycg + input[1];
-	result[1] = input[0] + input[2];
-	result[2] = ycg - input[1];
-	return result;
-}
-
-float3 FromYES(float3 input)
-{     
-	float3 result = { 0, 0, 0 };
-	result[0] = input[0] * 1 + input[1] * 1.431 + input[2] * 0.126;
-	result[1] = input[0] * 1 + input[1] * -0.569 + input[2] * 0.126;
-	result[2] = input[0] * 1 + input[1] * 0.431 + input[2] * -1.874;
-	return result;
-}
-
-float3 FromYIQ(float3 input)
-{            
-	float r = 0, g = 0, b = 0;
-
-    r = (input[0] * 1.0) + (input[1] * 0.956) + (input[2] * 0.621);
-    g = (input[0] * 1.0) + (input[1] * -0.272) + (input[2] * -0.647);
-    b = (input[0] * 1.0) + (input[1] * -1.108) + (input[2] * 1.705);
-
-	r = Coerce(r, 1);
-	g = Coerce(g, 1);
-	b = Coerce(b, 1);
-	
-	float3 result = { r, g, b };
-	return result;	
-}
-
-float3 FromYUV(float3 input)
-{
-	float3 result;
-	result[0] = input[0] + 1.140 * input[2];
-	result[1] = input[0] - 0.395 * input[1] - 0.581 * input[2];
-	result[2] = input[0] + 2.032 * input[1];
-	return result;
-}
-
 //-------------------------------------------------------------------------------------------
 
 float3 From(float3 input)
@@ -727,45 +502,10 @@ float3 From(float3 input)
 	{
 	    result = FromHSL(input);
 	}
-	//HSM
+	//HSP
 	else if (Model == 5)
 	{
-	    result = FromHSM(input);
-	}
-	//HSP
-	else if (Model == 6)
-	{
 	    result = FromHSP(input);
-	}
-	//HWB
-	else if (Model == 7)
-	{
-	    result = FromHWB(input);
-	}
-	//TSL
-	else if (Model == 8)
-	{
-	    result = FromTSL(input);
-	}
-	//YCoCg
-	else if (Model == 9)
-	{
-	    result = FromYCoCg(input);
-	}
-	//YES
-	else if (Model == 10)
-	{
-	    result = FromYES(input);
-	}
-	//YIQ
-	else if (Model == 11)
-	{
-	    result = FromYIQ(input);
-	}
-	//YUV
-	else if (Model == 12)
-	{
-	    result = FromYUV(input);
 	}
 	return result;
 }
@@ -847,8 +587,6 @@ float3 RGB_HSB(float3 input)
 	float3 result = { _h, _s * 100, _b * 100 };
 	return result;
 }
-
-const float pi = 3.14159265;
 
 float3 RGB_HSI(float3 input)
 {
@@ -984,50 +722,6 @@ float3 RGB_HSP(float3 input)
     return result;
 }
 
-float3 RGB_HWB(float3 input)
-{
-	float r = input[0], g = input[1], b = input[2];
-	
-	float _h = 0; //Get HSL.Hue of input
-	float _w = 1 / 255 * min(r, min(g, b));
-	float _b = 1 - 1 / 255 * max(r, max(g, b));
-	
-	float3 result = { _h, _w * 100, _b * 100 };
-	return result;
-}
-
-float3 RGB_YCoCg(float3 input)
-{
-    float y  =     0.25 * input[0] + 0.5 * input[1] + 0.25 * input[2];
-    float co =    -0.25 * input[0] + 0.5 * input[1] - 0.25 * input[2];
-    float cg =     0.5  * input[0] - 0.5 * input[2];
-	float3 result = { y, co, cg };
-	return result;
-}
-
-float3 RGB_YIQ(float3 input)
-{
-	float y = (input[0] * 0.299) + (input[1] * 0.587) + (input[2] * 0.114);
-	
-	float i = 0, q = 0;
-	if (input[0] != input[1] || input[1] != input[2])
-	{
-	    i = (input[0] * 0.596) + (input[1] * -0.275) + (input[2] * -0.321);
-	    q = (input[0] * 0.212) + (input[1] * -0.528) + (input[2] * 0.311);
-	}
-	float3 result = { y, i, q };
-	return result;
-}
-
-float3 RGB_YUV(float3 input)
-{
-	float y = 0.299   * input[0] + 0.587  * input[1] + 0.114 * input[2];
-	float u = -0.147  * input[0] - 0.289  * input[1] + 0.436 * input[2];
-	float v = 0.615   * input[0] - 0.515  * input[1] - 0.100 * input[2];
-	float3 result = { y, u, v };
-	return result;
-}
-
 //-------------------------------------------------------------------------------------------
 
 float3 FromRGB(float3 input)
@@ -1062,30 +756,11 @@ float3 FromRGB(float3 input)
 	//HSP
 	else if (Model == 5)
 	{
-	    result = RGB_HSP(input);
-	}
-	//HWB
-	else if (Model == 6)
-	{
-	    result = RGB_HWB(input);
-	}
-	//YCoCg
-	else if (Model == 7)
-	{
-	    result = RGB_YCoCg(input);
-	}
-	//YIQ
-	else if (Model == 8)
-	{
-	    result = RGB_YIQ(input);
-	}
-	//YUV
-	else if (Model == 9)
-	{
-	    result = RGB_YUV(input);
+		result = RGB_HSP(input);
 	}
 	return result;
 }
+
 //-------------------------------------------------------------------------------------------
 
 float2 XY()
@@ -1135,16 +810,19 @@ float4 main(float2 uv : TEXCOORD) : COLOR
 	float c = Component;
 	float m = Model;
 	
-    //0 RGB
-    //1 HCG
-    //2 HSB
-    //3 HSI
-    //4 HSL
-    //5 HSP
-    //6 HWB
-    //7 YCoCg
-    //8 YIQ
-    //9 YUV
+	//0 RGB
+	//1 HCG
+	//2 HSB
+	//3 HSI
+	//4 HSL
+	//5 HSM
+	//6 HSP
+	//7 HWB
+	//8 TSL
+	//9 YCoCg
+	//10 YES
+	//11 YIQ
+	//12 YUV
 
 	float3 output;
 	float3 input;

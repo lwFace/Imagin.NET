@@ -26,7 +26,7 @@ namespace Imagin.Common.Configuration
 
         Languages language;
         [Category(nameof(Language))]
-        [DisplayName("Imagin.Common.Wpf:Main:Language")]
+        [DisplayName(Localizer.Prefix + "Language")]
         public Languages Language
         {
             get => language;
@@ -35,7 +35,7 @@ namespace Imagin.Common.Configuration
 
         Themes.Types theme = Themes.Types.Light;
         [Category(nameof(Theme))]
-        [DisplayName("Imagin.Common.Wpf:Main:Theme")]
+        [DisplayName(Localizer.Prefix + "Theme")]
         public Themes.Types Theme
         {
             get => theme;
@@ -135,7 +135,7 @@ namespace Imagin.Common.Configuration
 
         bool autoSaveLayout = false;
         [Category(nameof(Layouts))]
-        [DisplayName("Imagin.Common.Wpf:Main:AutoSave")]
+        [DisplayName(Localizer.Prefix + "AutoSave")]
         public bool AutoSaveLayout
         {
             get => autoSaveLayout;
@@ -152,7 +152,7 @@ namespace Imagin.Common.Configuration
 
         string layout = string.Empty;
         [Category(nameof(Layouts))]
-        [DisplayName("Imagin.Common.Wpf:Main:Layout")]
+        [DisplayName(Localizer.Prefix + "Layout")]
         [StringFormat(StringFormat.File)]
         public virtual string Layout
         {
@@ -164,7 +164,7 @@ namespace Imagin.Common.Configuration
         ICommand openLayoutsFolder;
         [Category(nameof(Layouts))]
         [AlternativeName("...")]
-        [DisplayName("Imagin.Common.Wpf:Main:OpenFolder")]
+        [DisplayName(Localizer.Prefix + "OpenFolder")]
         public virtual ICommand OpenLayoutsFolder
         {
             get
@@ -175,6 +175,7 @@ namespace Imagin.Common.Configuration
         }
 
         [Category(nameof(Window))]
+        [DisplayName(Localizer.Prefix + "Panels")]
         public PanelCollection Panels => Get.Where<IDockViewModel>().Panels;
 
         //....................................................................................
@@ -245,7 +246,7 @@ namespace Imagin.Common.Configuration
         ICommand resetLayout;
         [Category(nameof(Layouts))]
         [AlternativeName("...")]
-        [DisplayName("Imagin.Common.Wpf:Main:ResetLayout")]
+        [DisplayName(Localizer.Prefix + "ResetLayout")]
         public virtual ICommand ResetLayout
         {
             get
@@ -259,7 +260,7 @@ namespace Imagin.Common.Configuration
         ICommand saveLayout;
         [Category(nameof(Layouts))]
         [AlternativeName("...")]
-        [DisplayName("Imagin.Common.Wpf:Main:SaveLayout")]
+        [DisplayName(Localizer.Prefix + "SaveLayout")]
         public virtual ICommand SaveLayout
         {
             get

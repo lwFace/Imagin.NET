@@ -326,7 +326,14 @@
                 </MenuItem.ItemContainerStyle>
                 <MenuItem.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Title, Mode=OneWay}"/>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource TranslateConverter}">
+                                    <Binding Path="Title" Mode="OneWay"/>
+                                    <i:Options Path="Language"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </DataTemplate>
                 </MenuItem.ItemTemplate>
             </MenuItem>

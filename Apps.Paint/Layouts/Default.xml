@@ -29,11 +29,11 @@
             <Elements>
               <Element xsi:type="LayoutPanelGroup" Height="30*">
                 <Panels>
-                  <LayoutPanel IsSelected="true" Name="BrushPanel"/>
+                  <LayoutPanel IsSelected="true" Name="ColorPanel"/>
+                  <LayoutPanel Name="ColorsPanel"/>
+                  <LayoutPanel Name="BrushPanel"/>
                   <LayoutPanel Name="CharacterPanel"/>
                   <LayoutPanel Name="ParagraphPanel"/>
-                  <LayoutPanel Name="ColorPanel"/>
-                  <LayoutPanel Name="ColorsPanel"/>
                   <LayoutPanel Name="HistogramPanel"/>
                 </Panels>
               </Element>

@@ -50,7 +50,6 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Tool.baml
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Tools.baml
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Layers.baml
-C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Color.baml
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Filters.baml
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Document.baml
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Windows\ResizeWindow.baml
@@ -76,3 +75,4 @@ C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\D
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\fr-FR\Paint.resources.dll
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\it-IT\Paint.resources.dll
 C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\ja-JP\Paint.resources.dll
+C:\Users\james\OneDrive\Development\Software\Library\Imagin.NET\Apps.Paint\obj\Debug\Views\Color.baml

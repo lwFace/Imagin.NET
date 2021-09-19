@@ -1,10 +1,11 @@
-﻿using Imagin.Common.Models;
+﻿using Imagin.Common.Globalization;
+using Imagin.Common.Models;
 
 namespace Imagin.Common.Controls
 {
     public class ComponentPanel : Panel
     {
-        public override string Title => "Component";
+        public override string Title => Localizer.Prefix + "Component";
 
         public override bool TitleVisibility => false;
 

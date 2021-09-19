@@ -432,4 +432,19 @@
   <data name="Path" xml:space="preserve">
     <value>Chemin</value>
   </data>
+  <data name="Alpha" xml:space="preserve">
+    <value>Alpha</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Couleurs</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>Composant</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Propriétés</value>
+  </data>
+  <data name="Panels" xml:space="preserve">
+    <value>Panneaux</value>
+  </data>
 </root>

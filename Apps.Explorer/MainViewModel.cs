@@ -16,8 +16,7 @@ namespace Explorer
         {
             get
             {
-                //To do: If Documents.Count == 0, ActiveDocument = null!
-                if (Documents.Count == 0 || ActiveDocument == null)
+                if (ActiveDocument == null)
                     return $"{LocExtension.GetLocalizedValue(typeof(string), nameof(Explorer), LocalizeDictionary.Instance.SpecificCulture, null)}";
 
                 return Machine.FriendlyName(ActiveDocument.Path);
@@ -59,12 +58,6 @@ namespace Explorer
         protected override void OnActiveDocumentChanged(ExplorerDocument i)
         {
             base.OnActiveDocumentChanged(i);
-            this.Changed(() => Title);
-        }
-
-        protected override void OnDocumentClosed(ExplorerDocument document)
-        {
-            base.OnDocumentClosed(document);
             this.Changed(() => Title);
         }
 

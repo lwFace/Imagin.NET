@@ -432,4 +432,19 @@
   <data name="Path" xml:space="preserve">
     <value>道</value>
   </data>
+  <data name="Alpha" xml:space="preserve">
+    <value>アルファ</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>成分</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
+  <data name="Panels" xml:space="preserve">
+    <value>パネル</value>
+  </data>
 </root>

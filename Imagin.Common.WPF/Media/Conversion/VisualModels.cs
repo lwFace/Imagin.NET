@@ -10,13 +10,6 @@ namespace Imagin.Common.Media
         HSB,
         HSI,
         HSL,
-        HSM,
-        HSP,
-        HWB,
-        TSL,
-        YCoCg,
-        YES,
-        YIQ,
-        YUV
+        HSP
     }
 }

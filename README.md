@@ -18,7 +18,7 @@ An alarm that repeats every so often.
 Save and convert colors.
 
 **Features**
-* Includes 20+ color models.
+* Includes 7 color models.
 * Convert to *hexadecimal*.
 * Create and save color palettes.
 * Supports transparency.
@@ -139,7 +139,7 @@ XAMLMarkupExtensions | 1.2.2 |
 
   Language  |  *  |
 ------------|-----|
-English | * |
+English | - |
 Español | Spanish |
 Français | French |
 Italiano | Italian |
